@@ -1,9 +1,17 @@
 *{box-sizing:border-box}
-:root{color-scheme:light;
-  --bg:#f2fbf9; --panel:#ffffff; --ink:#0f2a2e; --muted:#5a7a7d; --line:#d6ece8;
-  --accent:#0d9488; --accent2:#10b981; --accent3:#0891b2;
-  --ok:#16a34a; --bad:#dc2626; --warn:#d97706;
-  --code-bg:#0b1f24; --code-ink:#d7f0ea;}
+:root{
+  color-scheme:light;
+  /* Aligned with the roniam.dev design system (engine/styles.css in the dojo
+     repo). Rule: raw hues for fills, borders and gradients; the -ink variants
+     for anything that carries text. The previous accent was #0d9488, which is
+     3.74:1 on white and failed WCAG AA as body text. */
+  --bg:#f6f6fa; --panel:#ffffff; --ink:#191530; --muted:#5b5872; --line:#e4e4f0;
+  --accent:#6d28d9;   /* violet-ink: 7.10:1 as text, and as a fill under white text */
+  --accent2:#0d9488;  /* raw teal: decorative only, one border and one gradient stop */
+  --accent3:#9f1239;  /* rose-ink: used as text and as a dashed border */
+  --ok:#16a34a; --bad:#dc2626; --warn:#92400e;
+  --code-bg:#0f172a; --code-ink:#e2e8f0;
+}
 html,body{margin:0;height:100%}
 body{font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column}
 a{color:var(--accent)}
@@ -16,7 +24,7 @@ header .tip{font-size:12px;color:var(--muted);max-width:640px}
 .belt .strip i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
 #layout{display:flex;flex:1;min-height:0}
 nav{width:264px;min-width:264px;background:var(--panel);border-right:1px solid var(--line);overflow-y:auto;padding:12px}
-.trackDivider{margin:12px 4px 6px;padding:6px 9px;font-size:10.5px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:#0b7d72;background:#d6f2ec;border-radius:7px}
+.trackDivider{margin:12px 4px 6px;padding:6px 9px;font-size:10.5px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--accent);background:#ede9fe;border-radius:7px}
 .streamHd{font-weight:700;padding:8px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:6px}
 .lessonLink{display:flex;gap:7px;align-items:center;padding:7px 9px;margin-left:8px;border-radius:7px;cursor:pointer;font-size:12.5px;color:var(--muted)}
 .lessonLink:hover{background:#e6f6f2;color:var(--ink)}
@@ -127,7 +135,7 @@ button:disabled{opacity:.5;cursor:default}
 .pyFig{display:block;max-width:100%;margin:10px 0;border-radius:8px;background:#fff;border:1px solid var(--line)}
 .spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
-#tutorFab{position:fixed;right:20px;bottom:20px;background:var(--accent);color:#fff;padding:11px 16px;border-radius:24px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(13,148,136,.35);z-index:40}
+#tutorFab{position:fixed;right:20px;bottom:20px;background:var(--accent);color:#fff;padding:11px 16px;border-radius:24px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(109,40,217,.35);z-index:40}
 #tutorPanel{position:fixed;right:20px;bottom:20px;width:380px;max-width:calc(100vw - 40px);height:520px;max-height:calc(100vh - 40px);background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.18);display:flex;flex-direction:column;z-index:41}
 #tutorPanel.hidden,#tutorFab.hidden{display:none}
 .tpHd{padding:12px 14px;font-weight:700;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}

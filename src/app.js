@@ -191,55 +191,55 @@ function renderHome(){
   <h1 class="lessonTitle" style="font-size:30px">Welcome to <span style="color:var(--accent)">MLDojo</span> 🧠</h1>
   <div class="lessonBody">
   <p style="font-size:16px"><b>This course takes you from absolute zero to genuinely understanding
-  machine learning and AI</b> — the way a university would teach it, but hands-on, self-paced,
+  machine learning and AI</b>, the way a university would teach it, but hands-on, self-paced,
   and with every concept grounded in what it is actually <i>for</i>.</p>
 
   <div class="ground"><span class="gTag">⏳ An honest promise</span>
-  <p><b>This will take time to master — and that is the point.</b> MLDojo is not a "become an
+  <p><b>This will take time to master, and that is the point.</b> MLDojo is not a "become an
   ML expert in 30 days" shortcut. It offers the opposite: <b>depth and rigor that rivals
   college studies</b>. We are confident that, although it does not grant a degree, if you
   complete this course you will be able to understand and work in machine learning and AI at
-  the level of someone who studied it in college — because you will have covered the same
+  the level of someone who studied it in college, because you will have covered the same
   foundations, done the math, and written the code yourself.</p></div>
 
-  <div class="hardidea">🧮 <b>Fair warning: this course is math-heavy — it has to be.</b>
-  Machine learning <i>is</i> mathematics — linear algebra, calculus, logarithms, and
+  <div class="hardidea">🧮 <b>Fair warning: this course is math-heavy, it has to be.</b>
+  Machine learning <i>is</i> mathematics, linear algebra, calculus, logarithms, and
   probability are not prerequisites you rush past, they are the subject itself. So we teach
   them properly, from zero, with the same grounding-first care as everything else: every
   formula arrives only after the plain-English reason it exists. You do not need to love math
-  today. You need to be willing to do it — and by the end, the equations that once looked like
+  today. You need to be willing to do it, and by the end, the equations that once looked like
   hieroglyphs will read like sentences.</div>
 
   <h3>What this course aims to provide</h3>
   <p>A complete path: <b>Python programming</b>, <b>linear algebra</b>, <b>calculus</b>, and
   <b>probability &amp; statistics</b> from first principles (the Foundations Track), then
-  classic machine learning, deep learning, and LLMs — each tier standing on the one before it.
+  classic machine learning, deep learning, and LLMs, each tier standing on the one before it.
   Nothing is assumed; nothing important is skipped.</p>
 
   <h3>How it does it</h3>
-  <p><b>Grounding before math.</b> Every concept starts with a real-world example — what it
-  does and what it is used for — before any formula. No more "what the hell is an eigenvector
+  <p><b>Grounding before math.</b> Every concept starts with a real-world example, what it
+  does and what it is used for, before any formula. No more "what the hell is an eigenvector
   for?"</p>
   <p><b>You write real code, immediately.</b> Real Python runs in your browser on every
-  lesson, graded on real output. You do not watch ML — you do it.</p>
+  lesson, graded on real output. You do not watch ML, you do it.</p>
   <p><b>Fancy names get demystified.</b> A "Support Vector Machine" is a line that separates
   two groups. "Regression" is a historical accident that means "predict a number." Every term
-  is explained in plain English before it is used — and the plain version is always
+  is explained in plain English before it is used, and the plain version is always
   <i>correct</i>, followed by the precise, exam-surviving definition.</p>
   <p><b>Depth on demand.</b> Every lesson checks your understanding with quizzes and
   exercises, offers progressive hints and full solutions, a tutor you can ask anything, and
   a Dive Deeper path down to graduate-level treatment when you want it.</p>
 
-  <h3>Where this leads — said honestly</h3>
+  <h3>Where this leads: said honestly</h3>
   <p>Completing MLDojo means you can understand, build, and deploy real ML systems, and hold
   your own with people who studied this in college. It is <b>preparation, not a credential</b>:
-  it will make you thrive in a job interview, an ML team, or a degree program — but it is not
+  it will make you thrive in a job interview, an ML team, or a degree program, but it is not
   itself a degree, and where a door needs one (some résumé filters, formal admissions
   prerequisites), we will always tell you plainly instead of overselling.</p>
 
   <p style="margin-top:20px">
   <button class="primary" style="font-size:15px;padding:12px 22px" onclick="openLesson(0,0)">
-  ${done>0?'▶ Continue training — '+done+'/'+total+' lessons done':'▶ Begin: Python from Zero'}</button></p>
+  ${done>0?'▶ Continue training, '+done+'/'+total+' lessons done':'▶ Begin: Python from Zero'}</button></p>
   </div>`;
   renderNav();
 }
@@ -270,7 +270,7 @@ function openLesson(si,li){
   const prev=siblingLesson(si,li,-1),next=siblingLesson(si,li,1);
   const nextTitle=next?STREAMS[next.si].lessons[next.li].title:'';
   const prereqUnmet=s.requires&&!store.lesson(s.requires).done;
-  const prereqBanner=prereqUnmet?`<div class="hardidea" style="border-color:#e2a03f;background:#fff4e0">🔒 <b>Prerequisite:</b> this stream assumes you've completed <b>${esc(s.requiresName||'the earlier stream')}</b> first — it teaches the Python and the primitives (like what a <i>dimension</i> is) that this lesson builds on. You can look around, but you'll get the most out of it after finishing the prerequisite.</div>`:'';
+  const prereqBanner=prereqUnmet?`<div class="hardidea" style="border-color:#e2a03f;background:#fff4e0">🔒 <b>Prerequisite:</b> this stream assumes you've completed <b>${esc(s.requiresName||'the earlier stream')}</b> first, it teaches the Python and the primitives (like what a <i>dimension</i> is) that this lesson builds on. You can look around, but you'll get the most out of it after finishing the prerequisite.</div>`:'';
   m.innerHTML=`
     <div class="crumb">${s.icon} ${esc(s.title)} · Lesson ${li+1} of ${s.lessons.length}</div>
     ${prereqBanner}
@@ -335,13 +335,13 @@ function pickQuiz(qi,oi){
 /* ------------------------------ homework ------------------------------ */
 function renderHomework(hw){
   return `<div class="homework">
-    <div class="hwHd">📝 Homework — reinforce it on your own</div>
-    <p class="hwIntro">${hw.intro||'Work these on paper or in your own Python — then reveal the full step-by-step solution to check yourself. Not graded; pure practice.'}</p>
+    <div class="hwHd">📝 Homework, reinforce it on your own</div>
+    <p class="hwIntro">${hw.intro||'Work these on paper or in your own Python, then reveal the full step-by-step solution to check yourself. Not graded; pure practice.'}</p>
     <ol class="hwList">${hw.problems.map(p=>`<li>
       <div class="hwQ">${p.q}</div>
       <details class="hwSol"><summary>Show step-by-step solution</summary><div class="hwBody">${p.solution}</div></details>
     </li>`).join('')}</ol>
-    <div class="hwTry">💻 <b>Try it in Python</b> — open the <button class="linklike" onclick="renderPlayground()">Python Playground</button> and experiment with these ideas in real code to get comfortable. ${hw.tryIt||'Type them in, tweak the numbers, and see what changes.'}</div>
+    <div class="hwTry">💻 <b>Try it in Python</b>, open the <button class="linklike" onclick="renderPlayground()">Python Playground</button> and experiment with these ideas in real code to get comfortable. ${hw.tryIt||'Type them in, tweak the numbers, and see what changes.'}</div>
   </div>`;
 }
 
@@ -361,7 +361,7 @@ function pyFeatures(code){
 function renderExercise(l){
   const e=lessonExs(l)[0];const sid=l.id;const saved=store.lesson(sid);
   const feats=pyFeatures(e.starter+'\n'+e.solution);
-  const advBadge=feats.length?`<span class="badge adv" title="This exercise uses intermediate Python (${feats.join(', ')}) — all taught in the Python stream. Stuck on the syntax? Revisit those lessons or ask the tutor.">⚡ intermediate Python: ${feats.join(', ')}</span>`:'';
+  const advBadge=feats.length?`<span class="badge adv" title="This exercise uses intermediate Python (${feats.join(', ')}), all taught in the Python stream. Stuck on the syntax? Revisit those lessons or ask the tutor.">⚡ intermediate Python: ${feats.join(', ')}</span>`:'';
   return `<div class="exercise">
     <div class="exHd"><span class="badge${saved.done?' done':''}">EXERCISE${saved.done?' · ✓':''}</span> ${esc(e.title)}${advBadge}</div>
     <div class="prompt">${e.prompt}</div>
@@ -374,10 +374,10 @@ function renderExercise(l){
     </div>
     <div class="ioPanel">
       <div class="ioTabs"><div class="ioTab active" id="tab-tests">Test results</div><div class="ioTab" id="tab-console">Console</div></div>
-      <div class="ioBody" id="io-tests"><span style="color:var(--muted);font-size:12.5px">No runs yet — hit ▶ Run &amp; check. The first run loads Python in your browser (a few seconds).</span></div>
+      <div class="ioBody" id="io-tests"><span style="color:var(--muted);font-size:12.5px">No runs yet, hit ▶ Run &amp; check. The first run loads Python in your browser (a few seconds).</span></div>
       <div class="ioBody" id="io-console" style="display:none"><span class="cLine dim">— program output appears here —</span></div>
     </div>
-    <div class="doneBanner" id="doneBanner">✅ Lesson complete — nice work!</div>
+    <div class="doneBanner" id="doneBanner">✅ Lesson complete, nice work!</div>
     <div class="solution" id="solBox" hidden><div class="codeSample">${esc(e.solution)}</div></div>
   </div>`;
 }
@@ -422,7 +422,7 @@ async function runExercise(l){
       setTab('console');
     }else{
       const passed=r.results.filter(t=>t.pass).length;
-      tests.innerHTML=r.results.map(t=>`<div class="tcase ${t.pass?'ok':'bad'}">${t.pass?'✔':'✘'} ${esc(t.d)}${t.err?' — '+esc(t.err):''}</div>`).join('')+
+      tests.innerHTML=r.results.map(t=>`<div class="tcase ${t.pass?'ok':'bad'}">${t.pass?'✔':'✘'} ${esc(t.d)}${t.err?', '+esc(t.err):''}</div>`).join('')+
         `<div class="aiBox">Passed ${passed} / ${r.results.length} checks.</div>`;
       setTab('tests');
       if(passed===r.results.length){markComplete(l);}
@@ -437,7 +437,7 @@ function markComplete(l){
   const sid=l.id;
   if(!store.lesson(sid).done){store.patch(sid,{done:true,completedAt:Date.now()});
     const banner=document.getElementById('doneBanner');if(banner)banner.style.display='block';
-    toast('✅ Lesson complete — '+doneCount()+'/'+totalLessons());
+    toast('✅ Lesson complete, '+doneCount()+'/'+totalLessons());
     refreshBelt();renderNav();
   }
 }
@@ -458,29 +458,29 @@ function renderSetupGuide(){
   document.getElementById('main').innerHTML=`
   <h1 class="lessonTitle">🛠 Set up Python for ML on your own machine</h1>
   <div class="lessonBody">
-  <p><b>You do not need any of this to take the course</b> — everything in MLDojo runs right
+  <p><b>You do not need any of this to take the course</b>: everything in MLDojo runs right
   here in your browser. But when you want to experiment further on your own computer (bigger
   datasets, longer experiments, real projects), this is the standard professional setup,
   step by step. Allow 15–30 minutes.</p>
 
-  <h3>Step 1 — Install Python</h3>
+  <h3>Step 1: Install Python</h3>
   <p><b>macOS:</b> download the latest Python 3 installer from
   <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads ↗</a>
   and run it (or, if you use Homebrew: <code>brew install python</code>).<br>
-  <b>Windows:</b> download from the same page and run the installer — and <b>check the box
+  <b>Windows:</b> download from the same page and run the installer, and <b>check the box
   "Add python.exe to PATH"</b> on the first screen (missing that is the #1 setup problem on
   Windows).<br>
   <b>Linux (Ubuntu/Debian):</b> <code>sudo apt install python3 python3-pip python3-venv</code>.</p>
 
-  <h3>Step 2 — Verify it works</h3>
+  <h3>Step 2: Verify it works</h3>
   <p>Open a terminal (macOS: Terminal app; Windows: "PowerShell"; Linux: you know where it is)
   and run:</p>
   <div class="codeSample">python3 --version     # macOS / Linux
 python --version      # Windows</div>
   <p>You want <b>Python 3.10 or newer</b>. If the command is not found, the installer did not
-  land on your PATH — on Windows, re-run it and tick the PATH box.</p>
+  land on your PATH, on Windows, re-run it and tick the PATH box.</p>
 
-  <h3>Step 3 — Make a project folder with a virtual environment</h3>
+  <h3>Step 3: Make a project folder with a virtual environment</h3>
   <p>Remember install-vs-import from the imports lesson? Real projects keep their installed
   packages in a per-project <b>virtual environment</b>, so projects never fight over versions:</p>
   <div class="codeSample">mkdir my-ml-lab
@@ -490,16 +490,16 @@ python3 -m venv .venv
 # activate it (do this every time you work in the project):
 source .venv/bin/activate       # macOS / Linux
 .venv\\Scripts\\activate          # Windows (PowerShell)</div>
-  <p>Your prompt gains a <code>(.venv)</code> prefix — that means pip now installs into this
+  <p>Your prompt gains a <code>(.venv)</code> prefix, that means pip now installs into this
   project only. <code>deactivate</code> leaves it.</p>
 
-  <h3>Step 4 — Install the ML toolkit</h3>
+  <h3>Step 4: Install the ML toolkit</h3>
   <div class="codeSample">pip install numpy pandas matplotlib scikit-learn jupyter</div>
   <p>That is the exact toolkit this course teaches: arrays, tables, plots, classic ML, and
-  the notebook environment — the same libraries the browser has been fetching for you
+  the notebook environment, the same libraries the browser has been fetching for you
   automatically.</p>
 
-  <h3>Step 5 — Run your first script</h3>
+  <h3>Step 5: Run your first script</h3>
   <p>Create a file <code>hello_ml.py</code> (any text editor) containing:</p>
   <div class="codeSample">import numpy as np
 
@@ -507,20 +507,20 @@ v = np.array([3, 4])
 print("length of", v, "is", np.linalg.norm(v))</div>
   <p>Then run it from the terminal:</p>
   <div class="codeSample">python hello_ml.py</div>
-  <p>If it prints <code>length of [3 4] is 5.0</code> — congratulations, your machine is an ML
+  <p>If it prints <code>length of [3 4] is 5.0</code>, congratulations, your machine is an ML
   workstation.</p>
 
-  <h3>Step 6 (recommended) — a real editor and notebooks</h3>
+  <h3>Step 6 (recommended): a real editor and notebooks</h3>
   <p>Install <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VS Code ↗</a>
   with its Python extension (it will find your .venv automatically). And try
-  <b>Jupyter</b> — the notebook workflow ML practitioners live in, where code, output, and
+  <b>Jupyter</b>, the notebook workflow ML practitioners live in, where code, output, and
   plots interleave like they do in MLDojo lessons:</p>
   <div class="codeSample">jupyter notebook      # opens in your browser; make a new Python 3 notebook</div>
 
   <h3>If something goes wrong</h3>
   <p>The two classics: <code>command not found</code> → Python is not on your PATH (re-run the
   installer / restart the terminal); <code>ModuleNotFoundError</code> → you installed into a
-  different environment than you are running — check for the <code>(.venv)</code> prefix.
+  different environment than you are running, check for the <code>(.venv)</code> prefix.
   Paste any error into the <b>Ask the Tutor</b> panel and it will help you debug it.</p>
 
   <p style="margin-top:18px"><button class="primary" onclick="openLesson(0,0)">← Back to the course</button></p>
@@ -529,7 +529,7 @@ print("length of", v, "is", np.linalg.norm(v))</div>
 }
 
 /* ------------------------------ playground ------------------------------ */
-const PLAY_DEFAULT=`# Your Python scratchpad — write anything and hit Run (or Cmd/Ctrl+Enter).
+const PLAY_DEFAULT=`# Your Python scratchpad, write anything and hit Run (or Cmd/Ctrl+Enter).
 # Imports like numpy are fetched automatically on first use.
 
 import numpy as np
@@ -544,7 +544,7 @@ function renderPlayground(){
   cur={si:-2,li:-1};
   document.getElementById('main').innerHTML=`
     <h1 class="lessonTitle">🐍 Python Playground</h1>
-    <p class="lessonBody" style="margin-bottom:12px">A free coding space — real Python in your browser, no rules, no grading.
+    <p class="lessonBody" style="margin-bottom:12px">A free coding space, real Python in your browser, no rules, no grading.
     Test an idea from a lesson, or just explore. Imports (numpy, pandas, …) are downloaded automatically the first time you use them.
     Your code is saved between visits.</p>
     ${editorHTML()}
@@ -570,7 +570,7 @@ async function runPlayground(){
   const status=msg=>{const el=document.getElementById('pyStatus');if(el)el.textContent=msg;};
   try{
     const r=await runPython(code,[],[],status);
-    let h=r.stdout?r.stdout.split('\n').map(x=>`<div class="cLine">${esc(x)}</div>`).join(''):'<span class="cLine dim">(no output — use print() to see results)</span>';
+    let h=r.stdout?r.stdout.split('\n').map(x=>`<div class="cLine">${esc(x)}</div>`).join(''):'<span class="cLine dim">(no output, use print() to see results)</span>';
     if(r.figure)h+=`<img class="pyFig" src="data:image/png;base64,${r.figure}" alt="your plot">`;
     if(!r.ok)h+=`<div class="cLine err">${esc(r.error)}</div>`;
     out.innerHTML=h;
@@ -581,7 +581,7 @@ async function runPlayground(){
 /* ------------------------------ feedback ------------------------------ */
 function sendFeedback(id,kind,label){
   const d=store.get();d.__feedback=d.__feedback||[];d.__feedback.push({id,kind,at:Date.now()});store.set(d);
-  document.getElementById('fbNote').textContent=' — thanks! ('+label+' noted)';
+  document.getElementById('fbNote').textContent=', thanks! ('+label+' noted)';
 }
 
 /* ------------------------------ tutor / dive deeper ------------------------------ */
@@ -589,7 +589,7 @@ function lessonContext(l){return `LESSON: ${l.title}\n\n${stripHtml(l.body).slic
 function stripHtml(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent||'';}
 function tutorLog(cls,html){const log=document.getElementById('tutorLog');const div=document.createElement('div');div.className='tMsg '+cls;div.innerHTML=html;log.appendChild(div);log.scrollTop=log.scrollHeight;return div;}
 async function askClaudeSafe(prompt){
-  if(!(window.cowork&&window.cowork.askClaude))throw new Error('The AI tutor is available in the Cowork/desktop app. (In a plain browser preview it is disabled, but everything else — including running Python — works.)');
+  if(!(window.cowork&&window.cowork.askClaude))throw new Error('The AI tutor is available in the Cowork/desktop app. (In a plain browser preview it is disabled, but everything else, including running Python, works.)');
   return await window.cowork.askClaude(prompt,[]);
 }
 async function sendTutor(){
@@ -616,7 +616,7 @@ async function diveDeeperAsk(l){
   const note=document.createElement('div');note.style.marginTop='10px';note.innerHTML='<span class="spin"></span>Asking the tutor for a deeper, Bishop-level walkthrough…';
   box.appendChild(note);
   try{
-    const a=await askClaudeSafe(`You are MLDojo's tutor. Give a rigorous but plain-English "dive deeper" on the core math of this lesson, at roughly the level of Bishop's Pattern Recognition and Machine Learning — but explained so a motivated beginner follows every step. Ground each formula in what it does. Lesson:\n\n${lessonContext(l)}`);
+    const a=await askClaudeSafe(`You are MLDojo's tutor. Give a rigorous but plain-English "dive deeper" on the core math of this lesson, at roughly the level of Bishop's Pattern Recognition and Machine Learning, but explained so a motivated beginner follows every step. Ground each formula in what it does. Lesson:\n\n${lessonContext(l)}`);
     note.innerHTML='<b>📖 Deeper (tutor):</b><br>'+esc(String(a));
   }catch(e){note.innerHTML=esc(e.message);}
 }
