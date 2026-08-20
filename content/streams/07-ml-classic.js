@@ -127,7 +127,7 @@ print(preds, mse, base_pred, base_mse, beats_baseline)
  body:`
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p><b>Linear regression</b> is the "hello world" of ML: fit the best straight line through your
-data, then use it to predict. It is where <i>all</i> the foundations finally click together —
+data, then use it to predict. It is where <i>all</i> the foundations finally click together:
 the line is a dot product (linear algebra), the error is MSE (probability/loss), and finding
 the best weights is gradient descent (calculus). You are about to train a real model with
 nothing but what you already know.</p></div>
@@ -249,7 +249,7 @@ takes the same linear score <code>w·x + b</code> as before, then squashes it th
 network's output layer.</p></div>
 
 <h3>Score → probability → decision</h3>
-<p><b>Step 1, score:</b> <code>z = w·x + b</code>, exactly the linear model. <b>Step 2 —
+<p><b>Step 1, score:</b> <code>z = w·x + b</code>, exactly the linear model. <b>Step 2,
 probability:</b> <code>p = sigmoid(z) = 1 / (1 + e^(−z))</code>, the S-curve (from the
 functions lesson) maps any score into (0, 1). A big positive score → near 1; big negative →
 near 0; zero → exactly 0.5. <b>Step 3, decision:</b> predict class 1 (spam) if
@@ -338,5 +338,166 @@ print([round(p, 3) for p in probs], preds, accuracy)
     solution:`Score: <code>z = 2·4 − 6 = 2</code>. Probability: <code>sigmoid(2) = 1/(1+e^(−2)) ≈ 1/(1+0.135) ≈ <b>0.88</b></code>. Since 0.88 ≥ 0.5, predict <b>SPAM</b>. The boundary is where <code>z = 0</code>: <code>2x − 6 = 0 → x = 3</code>, so 4 words (above 3) is spam, as expected.`},
    {q:`<b>2. (Concept)</b> Why squash the linear score through a sigmoid instead of just using the raw score w·x + b to classify?`,
     solution:`The raw linear score can be any number, −4, 7.2, 100, which is meaningless as a probability and makes "how confident?" impossible to read. The <b>sigmoid maps any score into (0, 1)</b>, giving a genuine probability you can threshold and interpret ("88% spam"). It also gives a smooth, differentiable output so the model can be trained by gradient descent, and pairs with the cross-entropy (log) loss to punish confident-but-wrong predictions. A bare line does none of that.`}
+ ]}}
+,
+
+{id:'mlparadigms',
+ title:'Supervised, unsupervised, and the rest of the map',
+ body:`
+<div class="ground"><span class="gTag">🎯 The first question to ask about any ML problem</span>
+<p>Before choosing an algorithm, work out which kind of problem you have. Almost every mistake in
+applied machine learning starts with getting this wrong, usually by assuming labels exist when
+they do not, or by treating a labeling exercise as a modeling one.</p></div>
+
+<h3>The distinction, in one line</h3>
+<p><b>Supervised learning has an answer key. Unsupervised learning does not.</b> That is the
+entire difference, and everything else follows from it.</p>
+<div class="mathblock">supervised:    data is (x, y) pairs        learn  f: x &rarr; y
+unsupervised:  data is x alone            learn  structure in p(x)</div>
+
+<h3>Supervised learning</h3>
+<p>You have inputs and the correct outputs, and you want a function mapping one to the other.
+Two flavors, distinguished only by what <code>y</code> is.</p>
+<p><b>Regression</b> predicts a number: a price, a temperature, a duration. Error is naturally
+measured as a distance, so squared error is the default, which (as the probability stream shows)
+is a Gaussian noise assumption.</p>
+<p><b>Classification</b> predicts a category: spam or not, which of ten digits. Error is
+naturally measured by probability assigned to the truth, so cross-entropy is the default.</p>
+<div class="worked"><b>The test that settles it.</b> Ask whether the numbers you are predicting
+have meaningful arithmetic. Predicting house price: 300k is halfway between 200k and 400k, so
+regression. Predicting which of three doctors saw a patient, coded 1, 2, 3: doctor 2 is not
+halfway between doctors 1 and 3, so classification. Coding categories as integers and running
+regression on them is a common and quiet error.</div>
+
+<h3>Unsupervised learning</h3>
+<p>No labels. You are asking what structure exists in the data itself, which means there is no
+single right answer and no accuracy to report. That is the hard part, not the algorithms.</p>
+<p><b>Clustering</b> groups similar points: k-means, Gaussian mixtures, hierarchical,
+DBSCAN. <b>Dimensionality reduction</b> finds a smaller set of coordinates that keeps most of
+the information: PCA, t-SNE, UMAP, autoencoders. <b>Density estimation</b> models
+<code>p(x)</code> itself, which gives you anomaly detection for free, since an anomaly is a point
+in a low-density region. <b>Association</b> finds items that co-occur.</p>
+<div class="hardidea">🧠 <b>Why unsupervised results are so easy to over-trust.</b> Run k-means
+with k=4 on data with no cluster structure whatsoever and it returns four clusters, confidently,
+with tidy boundaries. The algorithm has no way to report that there was nothing there. Every
+clustering method partitions whatever you hand it. Validating unsupervised output requires
+something outside the algorithm: a downstream task it should improve, a stability check across
+resamples, or a human who knows the domain. A silhouette score is a description of the partition,
+not evidence that the partition is real.</div>
+
+<h3>The middle ground, which is where most real work sits</h3>
+<p><b>Semi-supervised</b>: a few labeled examples and many unlabeled ones. This is the ordinary
+situation, because collecting <code>x</code> is cheap and labeling it is not.</p>
+<p><b>Self-supervised</b>: invent labels from the data. Hide a word and predict it; mask a patch
+of an image and reconstruct it; take two crops of the same photo and require their
+representations to agree. Formally supervised, since there is a target, but it costs no
+annotation, and it is how essentially every large modern model is pre-trained. This is the single
+most consequential idea on this page.</p>
+<p><b>Reinforcement learning</b>: no answer key, only a reward that arrives later, often long
+after the actions that earned it. Different enough to be its own field.</p>
+
+<h3>Choosing, and the honest order to do it in</h3>
+<p>Start from the question, not the method. Do you have labels? If yes and you want a number,
+regression; a category, classification. If no, ask whether you want groups, fewer dimensions, or
+a notion of "unusual", and pick accordingly. If you have a few labels and lots of raw data, look
+for a pre-trained model before you consider training anything from scratch, because
+self-supervised pre-training has already paid for most of what you need.</p>
+<div class="demystify"><b>A framing that saves time.</b> Supervised learning is interpolation
+inside a labeled region. Unsupervised learning is a description of a dataset. Neither is a claim
+about cause. If your question is "what will happen if we change X", no algorithm on this page
+answers it, and reaching for one is how organizations end up confidently acting on a
+correlation.</div>
+`,
+ quiz:{title:'Quick check, paradigms',questions:[
+   {q:'The defining difference between supervised and unsupervised learning is:',
+    options:['Whether the training data includes target labels','Whether the model is linear or nonlinear','Whether the data is numeric or categorical','Whether the dataset is large or small'],answer:0,
+    why:'Supervised has an answer key. Everything else about the two follows from that one fact.'},
+   {q:'Self-supervised learning is best described as:',
+    options:['Clustering applied before a supervised model runs','Supervised learning on labels derived from the data','Training without any objective function at all','Reinforcement learning with a delayed reward'],answer:1,
+    why:'Mask a word and predict it. There is a target, so it is supervised, but nobody annotated anything.'},
+   {q:'Running k-means on data with no real cluster structure will:',
+    options:['Fail to converge within the iteration limit','Return a single cluster containing everything','Return k clusters and report no problem','Raise an error about insufficient separation'],answer:2,
+    why:'Clustering partitions whatever it is given. Validation has to come from outside the algorithm.'}
+ ]}},
+
+{id:'mlsmall',
+ title:'Working with small datasets, and how to know if a model is any good',
+ body:`
+<div class="ground"><span class="gTag">🎯 The situation most people are actually in</span>
+<p>Papers use a million examples. Most real problems have a few hundred rows and no budget for
+more. Small data is not a lesser version of the same task, it changes which methods are
+appropriate and how you are allowed to measure success.</p></div>
+
+<h3>Why small data is specifically a variance problem</h3>
+<p>From the bias-variance lesson: expected error is
+<code>bias&sup2; + variance + noise</code>. With few rows the fitted model swings substantially
+depending on which rows you happened to get, so <b>variance dominates</b>. That single fact
+determines the entire strategy: with small data you should be willing to accept extra bias to buy
+a reduction in variance.</p>
+<p>It also explains something people find counterintuitive: on a few hundred rows of tabular
+data, logistic regression or gradient-boosted trees routinely beat a neural network. The network
+has lower bias and far higher variance, and at that sample size the trade goes the wrong way.</p>
+
+<h3>What actually works, in order of effect</h3>
+<p><b>Transfer learning.</b> Start from a model trained on something large and related, and
+fine-tune. Somebody else paid the variance cost on millions of examples. For images, text and
+audio this is now the default and it is not close.</p>
+<p><b>Data augmentation.</b> Manufacture new examples from the ones you have, using
+transformations that preserve the label. Flips, crops and color shifts for images; synonym
+replacement and back-translation for text; time shifts and noise for audio. Every augmentation is
+you telling the model an invariance you know about, which is information the data did not
+contain.</p>
+<p><b>Simpler models and stronger regularization.</b> Deliberately accept bias. This is the
+correct move, not a compromise.</p>
+<p><b>Feature engineering.</b> Out of fashion and highly effective when <code>n</code> is small.
+A feature encoding domain knowledge is information you did not have to learn, and learning is
+exactly what you cannot afford.</p>
+<p><b>Ensembling.</b> Average several models. Averaging reduces variance almost by construction,
+which is why bagging exists.</p>
+<p><b>An informative prior.</b> The Bayesian version of all of the above, and the most explicit:
+you are stating what you believed before the data arrived, and small data is precisely when that
+belief still matters.</p>
+<p><b>Collecting more data.</b> Worth pricing honestly. Error falls as
+<code>1/&radic;n</code>, so going from 100 to 400 rows halves your error. That is often cheaper
+than a month of modeling.</p>
+
+<h3>Measuring performance when you cannot spare a test set</h3>
+<p>With 200 rows, holding back 40 leaves you both a worse model and a noisy estimate.
+<b>K-fold cross-validation</b> solves this: split into <code>k</code> folds, train on
+<code>k-1</code> and evaluate on the held-out one, rotate, and average.</p>
+<div class="mathblock">CV error = (1/k) &Sigma;<sub>i=1..k</sub> error on fold i</div>
+<p>Every row is used for evaluation exactly once and for training <code>k-1</code> times. With
+<code>k = n</code> this is <b>leave-one-out</b>, nearly unbiased and high variance and expensive.
+<code>k = 5</code> or <code>10</code> is the usual compromise.</p>
+<div class="hardidea">🧠 <b>The mistake that invalidates the whole estimate.</b> Any step that
+looks at the labels must happen <b>inside</b> the fold, not before it. Selecting features by
+correlation with the target on the full dataset, then cross-validating, leaks the test folds into
+the selection and produces optimistic numbers that will not survive deployment. The same applies
+to scaling, imputation and target encoding. If it learned anything from <code>y</code>, it goes
+in the pipeline, and the pipeline goes inside the loop.</div>
+<div class="worked"><b>Stratify when classes are imbalanced.</b> With 200 rows and 20 positives,
+a random 5-fold split can easily give one fold with 1 positive and another with 7. Stratified
+folds preserve the class ratio in each, so the estimates are comparable. With imbalance this
+severe, also stop reporting accuracy: predicting the majority class always gives 90% here, and
+means nothing. Report precision, recall and the confusion matrix.</div>
+
+<h3>The habit that matters most</h3>
+<p>With small data, the difference between a good result and a self-deception is usually not the
+model. It is whether you tuned repeatedly against the same split until something scored well. Do
+that twenty times and you have fitted the validation set with your own choices. Keep a final set
+you look at once, and if you cannot afford one, at least count how many decisions you made
+against your cross-validation score and treat the last number with a proportionate amount of
+suspicion.</p>
+`,
+ quiz:{title:'Quick check, small data',questions:[
+   {q:'Small datasets are dominated by which error term?',
+    options:['Bias, since simpler models must be used','Variance, since the fit swings with the sample','Irreducible noise in the measurements','All three contribute about equally'],answer:1,
+    why:'Few rows means a different sample gives a noticeably different model. That is variance by definition.'},
+   {q:'Feature selection based on correlation with the target should be done:',
+    options:['Inside each cross-validation fold','Once on the full dataset beforehand','After the model has been fitted','Only when the dataset is large'],answer:0,
+    why:'Doing it beforehand leaks the held-out labels into the selection and inflates every score that follows.'},
+   {q:'With 200 rows and 20 positives, reporting accuracy is misleading because:',
+    options:['Accuracy is undefined for imbalanced data','Cross-validation cannot be used at all','Predicting the majority class already scores 90%','The folds will not contain any positives'],answer:2,
+    why:'A model that learns nothing scores 90%. Precision, recall and the confusion matrix are informative here.'}
  ]}}
 ]});
