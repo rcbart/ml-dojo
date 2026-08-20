@@ -188,7 +188,7 @@ function renderHome(){
   cur={si:-1,li:-1};
   const total=totalLessons(),done=doneCount();
   document.getElementById('main').innerHTML=`
-  <h1 class="lessonTitle" style="font-size:30px">Welcome to <span style="color:var(--accent)">MLDojo</span> 🧠</h1>
+  <h1 class="lessonTitle" style="font-size:30px">Welcome to <span style="color:var(--accent)">MLDojo</span></h1>
   <div class="lessonBody">
   <p style="font-size:16px"><b>This course takes you from absolute zero to genuinely understanding
   machine learning and AI</b>, the way a university would teach it, but hands-on, self-paced,
@@ -246,9 +246,9 @@ function renderHome(){
 function renderNav(){
   const nav=document.getElementById('nav');
   let lastTrack=null;
-  nav.innerHTML=`<div class="lessonLink${cur.si===-1?' active':''}" onclick="renderHome()" style="font-weight:700">🏠 Welcome &amp; mission</div>
-  <div class="lessonLink${cur.si===-2?' active':''}" onclick="renderPlayground()" style="font-weight:700">🐍 Python Playground</div>
-  <div class="lessonLink${cur.si===-3?' active':''}" onclick="renderSetupGuide()" style="font-weight:700">🛠 Python on your machine</div>`+STREAMS.map((s,si)=>{
+  nav.innerHTML=`<div class="lessonLink${cur.si===-1?' active':''}" onclick="renderHome()" style="font-weight:700">${ico('\u{1F3E0}')} Welcome &amp; mission</div>
+  <div class="lessonLink${cur.si===-2?' active':''}" onclick="renderPlayground()" style="font-weight:700">${ico('\u{1F40D}')} Python Playground</div>
+  <div class="lessonLink${cur.si===-3?' active':''}" onclick="renderSetupGuide()" style="font-weight:700">${ico('\u{1F6E0}')} Python on your machine</div>`+STREAMS.map((s,si)=>{
     let divider='';
     if(s.track&&s.track!==lastTrack){divider=`<div class="trackDivider">${esc(s.track)}</div>`;lastTrack=s.track;}
     const links=s.lessons.map((l,li)=>{
@@ -256,7 +256,7 @@ function renderNav(){
       const active=(si===cur.si&&li===cur.li);
       return `<div class="lessonLink${active?' active':''}" onclick="openLesson(${si},${li})">${done?'✅':'○'} ${esc(l.title)}</div>`;
     }).join('');
-    return `${divider}<div class="streamHd">${s.icon} ${esc(s.title)}</div>${links}`;
+    return `${divider}<div class="streamHd">${ico(s.icon)} ${esc(s.title)}</div>${links}`;
   }).join('');
 }
 
@@ -272,7 +272,7 @@ function openLesson(si,li){
   const prereqUnmet=s.requires&&!store.lesson(s.requires).done;
   const prereqBanner=prereqUnmet?`<div class="hardidea" style="border-color:#e2a03f;background:#fff4e0">🔒 <b>Prerequisite:</b> this stream assumes you've completed <b>${esc(s.requiresName||'the earlier stream')}</b> first, it teaches the Python and the primitives (like what a <i>dimension</i> is) that this lesson builds on. You can look around, but you'll get the most out of it after finishing the prerequisite.</div>`:'';
   m.innerHTML=`
-    <div class="crumb">${s.icon} ${esc(s.title)} · Lesson ${li+1} of ${s.lessons.length}</div>
+    <div class="crumb">${ico(s.icon)} ${esc(s.title)} · Lesson ${li+1} of ${s.lessons.length}</div>
     ${prereqBanner}
     <h1 class="lessonTitle">${esc(l.title)}${done?' <span class="badge done">✓ COMPLETED</span>':''}</h1>
     <div class="lessonBody">${l.body}</div>
@@ -456,7 +456,7 @@ function nextStep(l){
 function renderSetupGuide(){
   cur={si:-3,li:-1};
   document.getElementById('main').innerHTML=`
-  <h1 class="lessonTitle">🛠 Set up Python for ML on your own machine</h1>
+  <h1 class="lessonTitle">${ico('\u{1F6E0}')} Set up Python for ML on your own machine</h1>
   <div class="lessonBody">
   <p><b>You do not need any of this to take the course</b>: everything in MLDojo runs right
   here in your browser. But when you want to experiment further on your own computer (bigger
@@ -543,7 +543,7 @@ for i in range(3):
 function renderPlayground(){
   cur={si:-2,li:-1};
   document.getElementById('main').innerHTML=`
-    <h1 class="lessonTitle">🐍 Python Playground</h1>
+    <h1 class="lessonTitle">${ico('\u{1F40D}')} Python Playground</h1>
     <p class="lessonBody" style="margin-bottom:12px">A free coding space, real Python in your browser, no rules, no grading.
     Test an idea from a lesson, or just explore. Imports (numpy, pandas, …) are downloaded automatically the first time you use them.
     Your code is saved between visits.</p>

@@ -1,4 +1,9 @@
 *{box-sizing:border-box}
+.mark{display:inline-block;width:17px;height:17px;border-radius:5px;
+  vertical-align:-.15em;margin-right:2px;
+  background:linear-gradient(100deg,#f59e0b,#f43f5e 48%,#8b5cf6)}
+.ic{width:1em;height:1em;vertical-align:-.12em;color:var(--accent);opacity:.9;
+  display:inline-block;flex:0 0 auto}
 :root{
   color-scheme:light;
   /* Aligned with the roniam.dev design system (engine/styles.css in the dojo
