@@ -78,13 +78,13 @@ algebra. When you see a formula with no bias, look for the constant input.</div>
  docs:[['McCulloch & Pitts, the 1943 paper that started the vocabulary','https://www.cs.cmu.edu/~./epxing/Class/10715/reading/McCulloch.and.Pitts.pdf']],
  quiz:{title:'Quick check, one neuron',questions:[
    {q:'A single artificial neuron computes:',
-    options:['A weighted sum of its inputs, plus a bias','A random value adjusted by feedback','The average of all of its inputs','A simulation of a biological cell'],answer:0,
+    options:['A weighted sum of its inputs, plus a bias','A random value adjusted by feedback','The average of all of its inputs','A simulation of a biological cell'],answer:0,whyWrong:['','Nothing about a neuron is random once it is trained. The weights are fixed numbers applied the same way every time.','An average weights every input equally. A neuron learns a different weight for each one, which is where the information lives.','The biological framing is where the name came from. What it computes is arithmetic, not chemistry.'],
     why:'Multiply each input by its weight, add them up, add the bias. That is the entire computation.'},
    {q:'What does training a network actually change?',
-    options:['The programming language it runs in','The order the inputs arrive in','The number of inputs it accepts','The values stored in its weights and biases'],answer:3,
+    options:['The programming language it runs in','The order the inputs arrive in','The number of inputs it accepts','The values stored in its weights and biases'],answer:3,whyWrong:['The language is a choice you made before training, and nothing about it changes.','Input order is a property of your data pipeline. Training never touches it.','The input count is fixed by the architecture. Changing it would mean a different network.',''],
     why:'The structure stays fixed. Training searches for good numbers to put in the weights and biases.'},
    {q:'The bias term exists so that:',
-    options:['Weights are kept small enough to be stable','The network runs faster on a GPU','Errors are spread evenly across inputs','The output can be nonzero when all inputs are zero'],answer:3,
+    options:['Weights are kept small enough to be stable','The network runs faster on a GPU','Errors are spread evenly across inputs','The output can be nonzero when all inputs are zero'],answer:3,whyWrong:['That is regularisation, which is a separate mechanism entirely.','The bias adds one number per neuron and has no bearing on hardware speed.','Nothing spreads error evenly. The bias is one more learned parameter, not an error-handling device.',''],
     why:'Without a bias the model is forced through the origin, which is rarely where the truth sits.'}
  ]}},
 
@@ -162,13 +162,13 @@ blocks that completely. This is the real reason smooth activations had to be inv
  docs:[['Rosenblatt 1958, the original perceptron paper','https://psycnet.apa.org/record/1959-09865-001']],
  quiz:{title:'Quick check, the perceptron',questions:[
    {q:'What did the perceptron add that a plain neuron did not have?',
-    options:['More inputs than a single neuron','A second layer of processing','The ability to output any real number','A way to update its own weights from mistakes'],answer:3,
+    options:['More inputs than a single neuron','A second layer of processing','The ability to output any real number','A way to update its own weights from mistakes'],answer:3,whyWrong:['Input count is a matter of how you wire it. Both take as many inputs as you give them.','The perceptron is still a single layer, and that was exactly its limitation.','The perceptron outputs a threshold, so its range narrowed rather than widened.',''],
     why:'Rosenblatt contributed the learning rule. The weighted sum already existed.'},
    {q:'In the update rule, why is each weight scaled by its input?',
-    options:['To make the arithmetic faster to compute','To stop the weights from becoming negative','So inputs that contributed more get corrected more','To keep all the weights the same size'],answer:2,
+    options:['To make the arithmetic faster to compute','To stop the weights from becoming negative','So inputs that contributed more get corrected more','To keep all the weights the same size'],answer:2,whyWrong:['The multiply costs the same either way. The scaling is about credit, not speed.','Weights are allowed to be negative, and they need to be for the model to express anything useful.','','Keeping the weights uniform would defeat the purpose. Different inputs matter by different amounts.'],
     why:'An input of zero cannot have caused the error, so it earns no correction. A large input earns a large one.'},
    {q:'The convergence guarantee holds only when:',
-    options:['All of the inputs have been normalized first','The learning rate is set above one','A straight line can separate the two classes','The data has fewer than a thousand rows'],answer:2,
+    options:['All of the inputs have been normalized first','The learning rate is set above one','A straight line can separate the two classes','The data has fewer than a thousand rows'],answer:2,whyWrong:['Normalisation helps in practice, and it is not what the theorem requires.','Any positive learning rate works for the guarantee. The rate affects speed, not whether it terminates.','','Dataset size is irrelevant. Separability is the condition.'],
     why:'Linear separability is the condition. Without it the rule never settles.'}
  ]}},
 
@@ -251,13 +251,13 @@ suffices.</div>
  docs:[['Minsky & Papert, Perceptrons (1969), the book that paused the field','https://mitpress.mit.edu/9780262534772/perceptrons/']],
  quiz:{title:'Quick check, XOR',questions:[
    {q:'A single perceptron cannot learn XOR because:',
-    options:['The dataset is too small to train on','No straight line separates the two classes','The inputs are binary rather than continuous','The learning rate cannot be tuned low enough'],answer:1,
+    options:['The dataset is too small to train on','No straight line separates the two classes','The inputs are binary rather than continuous','The learning rate cannot be tuned low enough'],answer:1,whyWrong:['XOR has four rows, which is all of them. Nothing is missing.','','Binary inputs are fine. The continuous version of XOR is equally impossible for one perceptron.','No learning rate helps. The boundary the model can draw is the wrong shape at any rate.'],
     why:'The two positive cases sit at opposite corners, and so do the two negative cases. No line divides them.'},
    {q:'What stopped researchers from simply stacking layers in 1969?',
-    options:['Stacked layers were proven to be no more powerful','The mathematics of stacking had not been described','There was no way to train the neurons in the middle','Computers of the era could not store the weights'],answer:2,
+    options:['Stacked layers were proven to be no more powerful','The mathematics of stacking had not been described','There was no way to train the neurons in the middle','Computers of the era could not store the weights'],answer:2,whyWrong:['Stacking was understood to be more powerful in principle. Training was the obstacle.','Composing layers was straightforward to describe. Assigning blame to the middle ones was not.','','The networks of the era were small enough to store without difficulty.'],
     why:'Credit assignment was the blocker. Nothing tells a hidden neuron what its correct output should have been.'},
    {q:'What does adding a hidden layer buy you?',
-    options:['Fewer weights to store and update','Guaranteed accuracy on unseen examples','Faster convergence on the same class of problems','Boundaries built from several pieces rather than one line'],answer:3,
+    options:['Fewer weights to store and update','Guaranteed accuracy on unseen examples','Faster convergence on the same class of problems','Boundaries built from several pieces rather than one line'],answer:3,whyWrong:['It adds weights rather than removing them, sometimes a great many.','Nothing guarantees accuracy on unseen data. A hidden layer makes overfitting easier, not harder.','Convergence often gets slower. What changes is which problems are solvable at all.',''],
     why:'Depth buys shape. Several simple boundaries combine into a complicated one.'}
  ]}},
 
@@ -337,13 +337,13 @@ It is about what is affordable.</div>
  docs:[['A visual, click-through introduction to layers','https://playground.tensorflow.org/']],
  quiz:{title:'Quick check, layers',questions:[
    {q:'A layer is called "hidden" because:',
-    options:['Nothing outside the network observes its values','Its weights are encrypted during training','It only activates for certain inputs','It is optional and can be removed safely'],answer:0,
+    options:['Nothing outside the network observes its values','Its weights are encrypted during training','It only activates for certain inputs','It is optional and can be removed safely'],answer:0,whyWrong:['','Nothing is encrypted. The weights sit in memory as ordinary numbers.','It activates for every input. Whether the output is nonzero is a separate matter.','Removing it takes you back to a linear model, which is the thing the hidden layer was added to escape.'],
     why:'You see the inputs and the final output. What the middle layers produce is internal, and unlabeled.'},
    {q:'A dense layer of 100 neurons fed by 784 inputs holds how many weights?',
-    options:['884, one per value involved','78,400, one per connection','784, one per input value','100, one per neuron'],answer:1,
+    options:['884, one per value involved','78,400, one per connection','784, one per input value','100, one per neuron'],answer:1,whyWrong:['That is 784 plus 100, which counts values rather than connections.','','One weight per input describes a single neuron, not a hundred of them.','One per neuron is the bias count, and the biases are separate from the weights.'],
     why:'Every neuron connects to every input, so it is 784 × 100, plus 100 biases on top.'},
    {q:'The main practical argument for depth over width is:',
-    options:['Deep networks are guaranteed to be more accurate','Wide layers cannot be computed on a GPU','Later layers can reuse what earlier layers found','Only deep networks can represent nonlinear functions'],answer:2,
+    options:['Deep networks are guaranteed to be more accurate','Wide layers cannot be computed on a GPU','Later layers can reuse what earlier layers found','Only deep networks can represent nonlinear functions'],answer:2,whyWrong:['There is no such guarantee. Depth helps on structured problems and can hurt elsewhere.','A wide layer is one large matrix multiply, which is precisely what a GPU is best at.','','A single hidden layer is already a universal approximator. Depth is about efficiency, not possibility.'],
     why:'Composition. Edges become eyes become faces, and each stage builds on the last instead of starting over.'}
  ]}}
 ,
@@ -444,13 +444,13 @@ factor cancels top and bottom.</div>
  docs:[['A gallery of activation functions with their shapes','https://mlu-explain.github.io/']],
  quiz:{title:'Quick check, activations',questions:[
    {q:'Removing the activation functions from a deep network would:',
-    options:['Improve accuracy while costing more memory','Make it equivalent to a single linear layer','Make training slower but still possible','Leave the network unchanged in practice'],answer:1,
+    options:['Improve accuracy while costing more memory','Make it equivalent to a single linear layer','Make training slower but still possible','Leave the network unchanged in practice'],answer:1,whyWrong:['Accuracy would collapse to whatever a linear model can manage, which is usually far less.','','Speed is not the issue. The model becomes strictly less expressive.','It changes a great deal. Composing linear maps gives you one linear map.'],
     why:'A weighted sum of weighted sums is a weighted sum. Every layer folds into one line.'},
    {q:'ReLU became the default mainly because:',
-    options:['It does not flatten out for positive values','It keeps every output between zero and one','It has a longer history than the alternatives','It is the smoothest option available'],answer:0,
+    options:['It does not flatten out for positive values','It keeps every output between zero and one','It has a longer history than the alternatives','It is the smoothest option available'],answer:0,whyWrong:['','That is sigmoid, and the flattening at both ends is exactly the problem ReLU avoids.','Sigmoid and tanh are the older functions. ReLU won on behaviour, not seniority.','ReLU has a kink at zero and is not smooth there. Smoothness was not what mattered.'],
     why:'No saturation on the positive side, plus it is trivially cheap. That combination made deep training practical.'},
    {q:'A "dying ReLU" is a neuron that:',
-    options:['Grows its weights without any upper bound','Outputs zero for all inputs and stops learning','Alternates between two outputs forever','Loses precision as the network gets deeper'],answer:1,
+    options:['Grows its weights without any upper bound','Outputs zero for all inputs and stops learning','Alternates between two outputs forever','Loses precision as the network gets deeper'],answer:1,whyWrong:['Unbounded weight growth is a different failure, and it usually shows as divergence rather than silence.','','Nothing oscillates. The neuron simply stops responding to anything.','Precision loss is a numerical issue, unrelated to the ReLU cutoff.'],
     why:'Stuck in the flat region, it has no slope to learn from, so it can never come back.'}
  ]}},
 
@@ -546,13 +546,13 @@ training works, it is why deep training is fragile.</div>
  docs:[['Rumelhart, Hinton & Williams 1986','https://www.nature.com/articles/323533a0'],['3Blue1Brown, backpropagation visually','https://www.3blue1brown.com/topics/neural-networks']],
  quiz:{title:'Quick check, backpropagation',questions:[
    {q:'Backpropagation solves which problem?',
-    options:['Working out how much each weight contributed to the error','Choosing how many layers a network needs','Storing the training data efficiently in memory','Deciding which activation function to use'],answer:0,
+    options:['Working out how much each weight contributed to the error','Choosing how many layers a network needs','Storing the training data efficiently in memory','Deciding which activation function to use'],answer:0,whyWrong:['','Layer count is a design choice you make before training starts.','Storage is a data-pipeline concern. Backpropagation computes gradients.','Activation choice is another design decision, not something the algorithm determines.'],
     why:'Credit assignment. It computes a share of the blame for every weight, including hidden ones.'},
    {q:'Why does the algorithm run backward from the output?',
-    options:['Because the output layer holds the largest weights','Because forward passes are too slow to repeat','Because the inputs are not known until the end','So each layer can reuse the sensitivity passed down to it'],answer:3,
+    options:['Because the output layer holds the largest weights','Because forward passes are too slow to repeat','Because the inputs are not known until the end','So each layer can reuse the sensitivity passed down to it'],answer:3,whyWrong:['Weight magnitudes vary by layer and have nothing to do with the direction of the sweep.','The forward pass runs once. It is the per-weight sensitivity that would be expensive to recompute.','The inputs are known first. It is the error that is only known at the end.',''],
     why:'Working backward lets every layer reuse the summary from the layer above, so one pass covers the whole network.'},
    {q:'What did the 1986 paper demonstrate that mattered most?',
-    options:['That hidden layers learn useful features unprompted','That the chain rule applies to composed functions','That networks converge faster than decision trees','That deeper networks always beat shallow ones'],answer:0,
+    options:['That hidden layers learn useful features unprompted','That the chain rule applies to composed functions','That networks converge faster than decision trees','That deeper networks always beat shallow ones'],answer:0,whyWrong:['','The chain rule was centuries old. Applying it to learned internal representations was the news.','No such comparison was the point, and decision trees were a separate line of work.','Depth was not shown to always win, and it often does not.'],
     why:'Nobody labels the hidden layers. Useful intermediate representations emerge from minimizing the loss.'}
  ]}},
 
@@ -654,13 +654,13 @@ matrix.</div>
  docs:[['An interactive look at optimizers on the same landscape','https://distill.pub/2017/momentum/']],
  quiz:{title:'Quick check, gradient descent',questions:[
    {q:'A learning rate that is too large typically causes:',
-    options:['The gradients to become exactly zero','The loss to rise instead of falling','Memory use to grow with each epoch','Training to converge to a worse minimum quietly'],answer:1,
+    options:['The gradients to become exactly zero','The loss to rise instead of falling','Memory use to grow with each epoch','Training to converge to a worse minimum quietly'],answer:1,whyWrong:['Gradients going to zero is the vanishing-gradient failure, which comes from saturation rather than step size.','','Memory use is set by the architecture and the batch size, not by the learning rate.','Quietly settling into a worse minimum is what too small a rate can do. Too large is usually loud.'],
     why:'You overshoot the valley and land higher up, then overshoot again. The loss diverges.'},
    {q:'Stochastic gradient descent uses a small batch because:',
-    options:['The full dataset rarely fits in memory at all','Small batches give a more accurate gradient','Full-dataset steps are far too slow to iterate','It reduces the number of weights to update'],answer:2,
+    options:['The full dataset rarely fits in memory at all','Small batches give a more accurate gradient','Full-dataset steps are far too slow to iterate','It reduces the number of weights to update'],answer:2,whyWrong:['Memory is often fine. The real cost is one update per full pass, which is far too few updates.','A small batch gives a noisier gradient, not a more accurate one. The noise is the price you pay.','','Every weight is updated either way. Batch size changes how the gradient is estimated.'],
     why:'One step per full pass is unusable. Batches trade some accuracy in the direction for far more steps.'},
    {q:'In very high dimensional weight spaces, the more common obstacle is:',
-    options:['Weights overflowing their numeric range','Saddle points, downhill some ways and uphill others','Gradients pointing in random directions','Local minima in every direction at once'],answer:1,
+    options:['Weights overflowing their numeric range','Saddle points, downhill some ways and uphill others','Gradients pointing in random directions','Local minima in every direction at once'],answer:1,whyWrong:['Overflow is a numerical problem addressed by scaling, and it is not a feature of the landscape.','','Gradients point downhill by construction. The randomness comes from the batch, not the geometry.','A true local minimum needs every direction to be uphill, and in a million dimensions that is very unlikely.'],
     why:'A true local minimum needs every direction to curve upward, which is vanishingly unlikely with millions of weights.'}
  ]}},
 
@@ -750,13 +750,13 @@ dropout</b>, so that test time needs no adjustment at all.</div>
  docs:[['Dropout, the original paper','https://jmlr.org/papers/v15/srivastava14a.html']],
  quiz:{title:'Quick check, overfitting',questions:[
    {q:'The clearest signal of overfitting is:',
-    options:['Accuracy fluctuates between batches','Both losses stay high and stop moving','Training loss falls while validation loss rises','The gradients become smaller each epoch'],answer:2,
+    options:['Accuracy fluctuates between batches','Both losses stay high and stop moving','Training loss falls while validation loss rises','The gradients become smaller each epoch'],answer:2,whyWrong:['Batch-to-batch fluctuation is ordinary noise from stochastic gradients.','Both staying high is underfitting, which is the opposite problem.','','Shrinking gradients usually mean you are approaching a minimum, which is not in itself a warning.'],
     why:'The gap opening between the two is the signature. Both stuck high is underfitting instead.'},
    {q:'Dropout helps because the network:',
-    options:['Converges before it has time to memorize','Trains on fewer examples per epoch','Cannot depend on any single neuron being present','Uses less memory during the backward pass'],answer:2,
+    options:['Converges before it has time to memorize','Trains on fewer examples per epoch','Cannot depend on any single neuron being present','Uses less memory during the backward pass'],answer:2,whyWrong:['Dropout usually slows convergence rather than cutting it short.','Every example is still used. What gets dropped are units, not rows.','','Memory use is essentially unchanged, and it is not why dropout helps.'],
     why:'Forcing redundancy spreads the representation out, and spread-out representations generalize better.'},
    {q:'Why keep a separate test set as well as a validation set?',
-    options:['Because validation data is used up during training','Because two estimates are averaged for accuracy','To measure how fast the model runs in production','To check the model on data no choice was tuned against'],answer:3,
+    options:['Because validation data is used up during training','Because two estimates are averaged for accuracy','To measure how fast the model runs in production','To check the model on data no choice was tuned against'],answer:3,whyWrong:['Validation data is reusable. What gets used up is its independence, which is why a test set exists.','Nothing is averaged. They measure different things at different points in the process.','Speed is measured with a benchmark, not with held-out data.',''],
     why:'Once you have tuned repeatedly against the validation set, its score is optimistic. The test set stays untouched.'}
  ]}}
 ,
@@ -852,13 +852,13 @@ convolution exists.</div>
  docs:[['A visual guide to convolution arithmetic','https://github.com/vdumoulin/conv_arithmetic']],
  quiz:{title:'Quick check, convolution',questions:[
    {q:'A convolution kernel is:',
-    options:['A rule for choosing which pixels to discard','A small grid of weights applied across the whole image','A layer that reduces the number of channels','A compressed copy of the input image'],answer:1,
+    options:['A rule for choosing which pixels to discard','A small grid of weights applied across the whole image','A layer that reduces the number of channels','A compressed copy of the input image'],answer:1,whyWrong:['Discarding pixels is what striding and pooling do. The kernel computes, it does not select.','','Channel reduction is a 1x1 convolution or a pooling layer. The kernel itself is just weights.','Nothing is copied. The kernel is learned and is far smaller than the image.'],
     why:'A small grid of numbers, slid over every position, multiplied and summed. The numbers are learned.'},
    {q:'Weight sharing encodes which assumption about images?',
-    options:['Images are square more often than not','Neighboring pixels usually have similar values','A pattern means the same thing anywhere it appears','Color matters less than brightness does'],answer:2,
+    options:['Images are square more often than not','Neighboring pixels usually have similar values','A pattern means the same thing anywhere it appears','Color matters less than brightness does'],answer:2,whyWrong:['Aspect ratio has nothing to do with it. Weight sharing works on any shape.','That is a smoothness assumption, and it is what makes small kernels sensible rather than what sharing encodes.','','Colour and brightness are both just channels. Sharing says nothing about their relative importance.'],
     why:'Translation invariance. The same detector is reused at every position because position should not change what a pattern is.'},
    {q:'A 3x3 kernel over 3 channels producing 64 outputs has how many parameters?',
-    options:['9, since the kernel is shared','1,792, including one bias per output','576, ignoring the bias terms','192, one per kernel position'],answer:1,
+    options:['9, since the kernel is shared','1,792, including one bias per output','576, ignoring the bias terms','192, one per kernel position'],answer:1,whyWrong:['Nine counts one channel of one kernel. There are three input channels and sixty-four kernels.','','576 is 3x3x64, which forgets the three input channels and the biases.','That counts a fraction of the connections. The total is 3x3x3x64 weights plus 64 biases.'],
     why:'(3 × 3 × 3 + 1) × 64. Independent of image size, which is the whole saving.'}
  ]}},
 
@@ -929,13 +929,13 @@ scale mattered.</div>
  docs:[['LeCun et al., LeNet-5 (1998)','http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf'],['AlexNet (2012)','https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks']],
  quiz:{title:'Quick check, CNNs',questions:[
    {q:'Flattening an image before a dense layer destroys:',
-    options:['The brightness range of the original image','The ability to use backpropagation','The color information in the channels','The information about which pixels were adjacent'],answer:3,
+    options:['The brightness range of the original image','The ability to use backpropagation','The color information in the channels','The information about which pixels were adjacent'],answer:3,whyWrong:['The brightness values survive exactly. What is lost is where each one sat.','Backpropagation works fine through a flatten. It is a reshape, not a barrier.','The colour channels survive too. They just end up in a long unstructured row.',''],
     why:'A dense layer sees an unordered list. Any consistent shuffle of the pixels would train equally well.'},
    {q:'Max pooling mainly buys you:',
-    options:['More precise localization of each feature','A larger number of learnable parameters','Tolerance to small shifts, and less computation','Protection against vanishing gradients'],answer:2,
+    options:['More precise localization of each feature','A larger number of learnable parameters','Tolerance to small shifts, and less computation','Protection against vanishing gradients'],answer:2,whyWrong:['Precision goes the other way. Pooling deliberately blurs where a feature was.','Max pooling has no parameters at all.','','Vanishing gradients are addressed by activation choice, normalisation and residual paths.'],
     why:'It deliberately forgets exactly where in a small region a feature was, which is what makes it shift tolerant.'},
    {q:'Two stacked 3x3 convolutions are usually preferred to one 5x5 because they:',
-    options:['Use fewer parameters and add a nonlinearity','Avoid the need for any padding at the edges','Cover a larger region of the input image','Can be computed in a single GPU pass'],answer:0,
+    options:['Use fewer parameters and add a nonlinearity','Avoid the need for any padding at the edges','Cover a larger region of the input image','Can be computed in a single GPU pass'],answer:0,whyWrong:['','Both need padding if you want to keep the spatial size.','Two 3x3 layers reach exactly the same 5x5 receptive field, which is what makes the comparison fair.','They are two separate layers and cannot be fused into one without changing the arithmetic.'],
     why:'Same 5×5 receptive field, 18 parameters instead of 25, and a ReLU in the middle.'}
  ]}},
 
@@ -1002,13 +1002,13 @@ architecture, which is the next lesson.</p>
  docs:[['Karpathy, the unreasonable effectiveness of RNNs','https://karpathy.github.io/2015/05/21/rnn-effectiveness/']],
  quiz:{title:'Quick check, RNNs',questions:[
    {q:'The hidden state in an RNN is:',
-    options:['A copy of the most recent input value','The gradient accumulated so far in training','A summary of the past, carried to the next step','The output before the activation is applied'],answer:2,
+    options:['A copy of the most recent input value','The gradient accumulated so far in training','A summary of the past, carried to the next step','The output before the activation is applied'],answer:2,whyWrong:['A copy of the input carries no memory. The whole point is that it accumulates.','Gradients are a training-time quantity. The hidden state exists at inference too.','','The pre-activation value is an intermediate inside one step, not the thing carried between steps.'],
     why:'It is the notepad. Everything the network still needs from earlier in the sequence has to be in it.'},
    {q:'Why does an RNN reuse the same weight matrices at every timestep?',
-    options:['Because timesteps are processed in parallel','To keep the hidden state from growing too large','To reduce the memory needed during training','So it can process sequences of any length'],answer:3,
+    options:['Because timesteps are processed in parallel','To keep the hidden state from growing too large','To reduce the memory needed during training','So it can process sequences of any length'],answer:3,whyWrong:['Timesteps are processed in sequence, which is precisely the RNN\'s weakness.','Sharing weights does not bound the hidden state. Saturating activations are what do that.','It does save memory, and the reason it is done is that a sequence has no fixed length to give separate weights to.',''],
     why:'Per-step weights could not generalize past the longest sequence seen in training.'},
    {q:'Vanishing gradients in an RNN come from:',
-    options:['The activation function saturating at both ends','Repeatedly multiplying by the same matrix','Too many parameters for the data available','The loss being summed rather than averaged'],answer:1,
+    options:['The activation function saturating at both ends','Repeatedly multiplying by the same matrix','Too many parameters for the data available','The loss being summed rather than averaged'],answer:1,whyWrong:['Saturation contributes, and it is the compounding across many steps that turns small into vanishing.','','Too many parameters causes overfitting. Vanishing gradients happen in small RNNs too.','Summing rather than averaging rescales the loss by a constant, which cannot cause exponential decay.'],
     why:'A repeated product of factors below one decays geometrically. Saturating tanh makes it worse but the product is the cause.'}
  ]}}
 ,
@@ -1079,13 +1079,13 @@ literature is that the difference is small.</p>
  docs:[['Hochreiter & Schmidhuber, Long Short-Term Memory (1997)','https://www.bioinf.jku.at/publications/older/2604.pdf'],['Olah, Understanding LSTM Networks','https://colah.github.io/posts/2015-08-Understanding-LSTMs/']],
  quiz:{title:'Quick check, gating',questions:[
    {q:'The LSTM cell state helps because the gradient through it is:',
-    options:['Scaled by the forget gate rather than a matrix','Clipped whenever it exceeds a threshold','Multiplied by a learned weight matrix each step','Recomputed from scratch at every timestep'],answer:0,
+    options:['Scaled by the forget gate rather than a matrix','Clipped whenever it exceeds a threshold','Multiplied by a learned weight matrix each step','Recomputed from scratch at every timestep'],answer:0,whyWrong:['','Clipping is a separate trick for exploding gradients, applied by the optimiser.','A matrix multiply at every step is exactly what the plain RNN does and what the cell state avoids.','The cell state persists across steps. Recomputing it would destroy the memory.'],
     why:'∂Cₜ/∂Cₜ₋₁ = fₜ. With the gate near 1 the gradient passes through almost unchanged.'},
    {q:'Gates use a sigmoid rather than tanh because:',
-    options:['Sigmoid outputs between 0 and 1, like a valve','Sigmoid avoids saturating at its extremes','Sigmoid is cheaper to compute than tanh','Sigmoid has a larger maximum derivative'],answer:0,
+    options:['Sigmoid outputs between 0 and 1, like a valve','Sigmoid avoids saturating at its extremes','Sigmoid is cheaper to compute than tanh','Sigmoid has a larger maximum derivative'],answer:0,whyWrong:['','Sigmoid does saturate at both ends. Here that is tolerable, because a gate wants to reach fully open or fully shut.','The cost difference is negligible, and it is not why the choice was made.','Tanh has the larger maximum derivative, 1 against sigmoid\'s 0.25.'],
     why:'A gate needs a fraction to let through. Zero blocks, one passes, and sigmoid produces exactly that range.'},
    {q:'Residual connections in very deep networks share which idea with LSTM gates?',
-    options:['Randomly dropping units during training','Reducing the total parameter count','Normalizing activations between layers','Creating a near-identity path for the gradient'],answer:3,
+    options:['Randomly dropping units during training','Reducing the total parameter count','Normalizing activations between layers','Creating a near-identity path for the gradient'],answer:3,whyWrong:['That is dropout, a regularisation technique with a different purpose.','Both add parameters rather than removing them, and gates add several matrices.','Normalisation is what batch and layer norm do, and it is a separate mechanism.',''],
     why:'y = F(x) + x has derivative 1 through the addition, so gradient always has a clear route back.'}
  ]}},
 
@@ -1155,13 +1155,13 @@ language models, and a large research literature exists purely to soften it.</p>
  docs:[['Vaswani et al., Attention Is All You Need (2017)','https://arxiv.org/abs/1706.03762'],['The Illustrated Transformer','https://jalammar.github.io/illustrated-transformer/']],
  quiz:{title:'Quick check, attention',questions:[
    {q:'Attention removes which limitation of an RNN?',
-    options:['Forcing the past through one fixed-size state','Needing gradients to flow backward in time','Requiring the same weights at every timestep','Being unable to process variable-length input'],answer:0,
+    options:['Forcing the past through one fixed-size state','Needing gradients to flow backward in time','Requiring the same weights at every timestep','Being unable to process variable-length input'],answer:0,whyWrong:['','Attention still trains by backpropagation. The gradients simply travel a shorter path.','A transformer also reuses the same weights at every position, which is what makes it a sequence model.','RNNs handle variable length well. It is long-range dependence they struggle with.'],
     why:'Every position stays directly reachable, so nothing has to be compressed into a single summary vector.'},
    {q:'Scores are divided by the square root of the key dimension because otherwise:',
-    options:['Negative scores would dominate the average','Softmax saturates and the gradient disappears','The values would be scaled inconsistently','The weights would fail to sum to exactly one'],answer:1,
+    options:['Negative scores would dominate the average','Softmax saturates and the gradient disappears','The values would be scaled inconsistently','The weights would fail to sum to exactly one'],answer:1,whyWrong:['Softmax handles negative scores without difficulty. Scale is the problem, not sign.','','The values are untouched. The division applies to the scores, before softmax.','Softmax always sums to one, at any scale. What changes is how sharply peaked it is.'],
     why:'Dot products grow like √d, pushing softmax nearly one-hot, where it has almost no gradient left.'},
    {q:'Self-attention costs O(n²) because:',
-    options:['Each layer is applied twice per position','Softmax must be computed over all layers','The keys and values are stored twice over','Every position is compared against every position'],answer:3,
+    options:['Each layer is applied twice per position','Softmax must be computed over all layers','The keys and values are stored twice over','Every position is compared against every position'],answer:3,whyWrong:['Each layer is applied once. Depth multiplies the cost linearly, not quadratically.','Softmax runs over positions within a layer, not across layers.','Keys and values are stored once each. The quadratic term is the score matrix.',''],
     why:'The score grid is n×n. Doubling the context quadruples the compute and the memory.'}
  ]}},
 
@@ -1223,13 +1223,13 @@ just work better, it removed the reason you could not spend more compute.</div>
  docs:[['Attention Is All You Need (2017)','https://arxiv.org/abs/1706.03762'],['The Annotated Transformer, line by line in code','https://nlp.seas.harvard.edu/annotated-transformer/']],
  quiz:{title:'Quick check, transformers',questions:[
    {q:'Positional encodings are needed because attention:',
-    options:['Cannot handle sequences longer than training','Produces the same result regardless of order','Requires inputs to have unit variance','Loses precision over very long sequences'],answer:1,
+    options:['Cannot handle sequences longer than training','Produces the same result regardless of order','Requires inputs to have unit variance','Loses precision over very long sequences'],answer:1,whyWrong:['Length generalisation is a real limitation, and it is a consequence of how positions are encoded rather than the reason they exist.','','Variance is handled by the normalisation layers. Position is a separate matter.','Nothing loses precision. Attention is simply blind to order without help.'],
     why:'A weighted average is permutation invariant, so word order carries no information without an explicit signal.'},
    {q:'Most of a transformer block’s parameters live in:',
-    options:['The position-wise feed-forward network','The layer normalization parameters','The positional encoding table','The multi-head attention projections'],answer:0,
+    options:['The position-wise feed-forward network','The layer normalization parameters','The positional encoding table','The multi-head attention projections'],answer:0,whyWrong:['','Layer norm holds two parameters per feature, which is negligible.','The positional table is one row per position, and it is often not learned at all.','The attention projections are large, and the feed-forward network is typically about twice their size.'],
     why:'Roughly two thirds. The feed-forward layer is typically four times the model width and is easy to overlook.'},
    {q:'Causal masking works by:',
-    options:['Removing later tokens from the input entirely','Setting future scores to negative infinity','Reversing the order of the input sequence','Training on shuffled copies of the text'],answer:1,
+    options:['Removing later tokens from the input entirely','Setting future scores to negative infinity','Reversing the order of the input sequence','Training on shuffled copies of the text'],answer:1,whyWrong:['The tokens stay in the input. Removing them would break the parallel computation the architecture exists for.','','Reversing the sequence changes what is predicted, not what may be attended to.','Shuffling would destroy the language, and it has nothing to do with causality.'],
     why:'After softmax those weights become zero, so a position cannot attend to anything that comes after it.'}
  ]}},
 
@@ -1299,13 +1299,13 @@ position.</div>
  docs:[['Geirhos et al., Shortcut Learning in Deep Neural Networks','https://arxiv.org/abs/2004.07780'],['Guo et al., On Calibration of Modern Neural Networks','https://arxiv.org/abs/1706.04599']],
  quiz:{title:'Quick check, limits',questions:[
    {q:'A network given an input unlike anything in training will:',
-    options:['Report low confidence for that prediction','Refuse to produce an output at all','Fall back to the most common class seen','Return a confident answer with no warning'],answer:3,
+    options:['Report low confidence for that prediction','Refuse to produce an output at all','Fall back to the most common class seen','Return a confident answer with no warning'],answer:3,whyWrong:['Confidence is usually high rather than low, which is the failure being described.','There is no refusal mechanism. A forward pass always produces numbers.','There is no fallback. The network computes whatever its weights compute.',''],
     why:'Nothing in the output distinguishes interpolation from extrapolation. Softmax always returns a probability.'},
    {q:'Shortcut learning usually escapes detection because:',
-    options:['Training loss stays higher than expected','The shortcut disappears after enough epochs','It only appears in very large models','The validation set shares the same bias'],answer:3,
+    options:['Training loss stays higher than expected','The shortcut disappears after enough epochs','It only appears in very large models','The validation set shares the same bias'],answer:3,whyWrong:['Training loss looks excellent, which is part of why the problem hides.','The shortcut persists for as long as it works. Nothing removes it.','Small models take shortcuts too, often more readily.',''],
     why:'Validation comes from the same collection process, so the spurious cue is present there too.'},
    {q:'Modern classifiers are typically:',
-    options:['Underconfident on classes seen rarely','Accurate only on balanced datasets','Overconfident relative to their real accuracy','Well calibrated once softmax is applied'],answer:2,
+    options:['Underconfident on classes seen rarely','Accurate only on balanced datasets','Overconfident relative to their real accuracy','Well calibrated once softmax is applied'],answer:2,whyWrong:['The bias runs the other way. Rare classes get confident predictions as well.','They are accurate on imbalanced data too, and calibration is a separate property from accuracy.','','Softmax produces numbers that look like probabilities without being calibrated ones. Temperature scaling exists for exactly this.'],
     why:'Predictions made at 99 percent confidence are right noticeably less than 99 percent of the time.'}
  ]}}
 ]});

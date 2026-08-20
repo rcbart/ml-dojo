@@ -46,13 +46,13 @@ which function and which search.</div>`,
  docs:[['scikit-learn (an intro to machine learning)','https://scikit-learn.org/stable/tutorial/basic/tutorial.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The core loop of a classic ML model is:',
-    options:['fit (learn from labelled examples) → predict (guess on new data) → evaluate (measure the error)','Compile, link, execute','Guess randomly forever','Download, install, run'],answer:0,
+    options:['fit on labelled examples, predict on new data, evaluate the error','Compile the model, link its dependencies, then execute it on the data','Guess at random, and keep guessing until the answers happen to be right','Download a model, install its weights, and run it on your own data'],answer:0,whyWrong:['','That is the build cycle for a compiled program. Nothing in it learns from data.','Guessing is where an untrained model starts. The loop is what moves it away from that.','That is how you obtain a tool, not how a model learns.'],
     why:'Fit tunes the weights on training data; predict applies them to new data; evaluate measures how wrong, ideally on unseen data.'},
    {q:'In prediction = w · feature + b, the weight w is:',
-    options:['The number of features','The error','How much the feature counts toward the prediction, its sign is the direction, its size the strength','Always 1'],answer:2,
+    options:['The number of features the model was given to work with','The error between the prediction and the true value','How much that feature counts toward the prediction','Always 1, so that every feature contributes on equal terms'],answer:2,whyWrong:['The feature count is a property of your data. Each feature gets its own weight.','The error is the gap between the prediction and the truth. The weight is what you adjust to shrink it.','','A weight fixed at 1 would leave the model unable to learn anything.'],
     why:'Weights (= parameters = coefficients) are the knobs training tunes. "+18k per bedroom" is a weight. b is the baseline (bias/intercept).'},
    {q:'Predicting a house PRICE is regression; predicting SPAM/not-spam is:',
-    options:['Clustering','Not machine learning','Classification, the answer is a category, not a number','Also regression'],answer:2,
+    options:['Clustering, since the messages are grouped by similarity','Not machine learning, since the answer is a yes or a no','Classification, since the answer is a category','Also regression, since the model outputs a spam score'],answer:2,whyWrong:['Clustering groups unlabelled data. Here you have labels saying which messages were spam.','It is a textbook supervised problem, and one of the first ever solved commercially.','','Regression predicts a number. Spam or not is a category with no ordering and no arithmetic.'],
     why:'Regression predicts a continuous number; classification predicts a category. Same fit/predict loop, different answer type and error measure.'}
  ]},
  exs:[{title:'Be the model: predict, then measure the error',
@@ -161,13 +161,13 @@ from-scratch version is how you <i>understand</i> what that one line does.</p></
  docs:[['scikit-learn (LinearRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Linear regression finds its weights by:',
-    options:['Random guessing','Gradient descent (or the closed-form normal equations), nudging w and b downhill on the MSE loss','Trying every possible line','Sorting the data'],answer:1,
+    options:['Guessing values at random and keeping whichever happens to fit best','Gradient descent, or the closed-form normal equations','Enumerating every possible line and scoring each of them in turn','Sorting the data so the best-fitting line can be read off directly'],answer:1,whyWrong:['Random guessing never converges. The whole method is that each step is informed by the slope.','','There are infinitely many lines. You cannot enumerate them.','Sorting rearranges the data and leaves the weights untouched.'],
     why:'The line has two knobs; training walks them down the loss surface (gradient descent) or solves the normal equations directly.'},
    {q:'The gradient ∂Loss/∂w for MSE is (2/n)·Σ(errorᵢ·xᵢ). What is errorᵢ?',
-    options:['The learning rate','The true label yᵢ','The prediction minus the actual: (w·xᵢ + b) − yᵢ','Always zero'],answer:2,
+    options:['The learning rate, which scales the size of each step','The true label yᵢ, the value the model was aiming for','The prediction minus the actual, (w·xᵢ + b) − yᵢ','Always zero, once the model has been fitted properly'],answer:2,whyWrong:['The learning rate is a setting you choose. The error is measured from the data.','The true label is one half of the error. The error is what is left after subtracting the prediction from it.','','If the error were always zero there would be nothing left to learn.'],
     why:'Error is prediction − actual. Multiplying it by xᵢ and averaging gives the slope of the loss in the w-direction, the nudge.'},
    {q:'If after training the loss stops decreasing, it means:',
-    options:['The line has settled near the bottom of the loss bowl, the best-fit weights','There is no data','The code crashed','The learning rate is 0'],answer:0,
+    options:['The weights have settled near the bottom of the loss bowl','There is no data left for the model to learn anything further from','The training loop crashed and stopped updating the loss','The learning rate has decayed to zero and no steps are being taken'],answer:0,whyWrong:['','With no data there would be no loss to compute in the first place.','A crash stops the program. A flat loss curve is the program working and finishing its job.','A learning rate of zero would leave the loss flat from step one, not after it had come down.'],
     why:'A flat loss means the gradient is ~0, you are at the minimum, the best line the model can draw.'}
  ]},
  exs:[{title:'Train a linear regression by gradient descent',
@@ -272,13 +272,13 @@ met in the logarithms stream.)</div>`,
  docs:[['scikit-learn (LogisticRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Logistic regression turns the linear score w·x + b into a class by:',
-    options:['Passing it through the sigmoid to get a probability in (0,1), then thresholding at 0.5','Sorting the scores','Rounding it to the nearest integer','Taking its absolute value'],answer:0,
+    options:['Passing it through the sigmoid, then thresholding the probability at 0.5','Sorting the scores and splitting them at the halfway point','Rounding the score to the nearest whole number','Taking the absolute value and comparing it against a threshold'],answer:0,whyWrong:['','Sorting the scores says which example is most likely, not whether any of them cross the line.','Rounding a raw score gives an arbitrary integer with no probabilistic meaning.','Absolute value throws away the sign, which is exactly the information that decides the class.'],
     why:'Score → sigmoid → probability → decision. The sigmoid keeps the output a valid probability; 0.5 is the usual cut.'},
    {q:'Despite its name, logistic regression performs:',
-    options:['Classification (predicting a category), the "regression" in the name is misleading','Clustering','Sorting','Regression (predicting a number)'],answer:0,
+    options:['Classification, since it predicts a category rather than a number','Clustering, since it groups similar examples together','Sorting, since it ranks examples by their score','Regression, since it predicts a continuous quantity'],answer:0,whyWrong:['','Clustering has no labels. Logistic regression is trained on them.','Nothing is sorted. It produces a probability per example.','It produces a probability, and the decision it hands you is a category rather than a quantity.'],
     why:'It predicts a category via a probability. The name is a historical quirk; it is a classifier.'},
    {q:'The decision boundary of logistic regression sits where:',
-    options:['x = 0 always','the score z = w·x + b crosses 0, i.e. the probability = 0.5','the data ends','the largest feature is'],answer:1,
+    options:['At x = 0, wherever the input happens to be zero','Where the score z = w·x + b crosses zero, so the probability is 0.5','At the edge of the region the training data covers','At the largest value taken by the strongest feature'],answer:1,whyWrong:['x = 0 is a point in the input space and has nothing to do with where the score crosses zero.','','The boundary is defined by the weights and extends across the whole space, wherever the data happens to stop.','The largest feature value is a property of the data, not of the model.'],
     why:'sigmoid(0) = 0.5, so the class flips exactly where the linear score is zero, that is the boundary.'}
  ]},
  exs:[{title:'Build a spam classifier with logistic regression',
@@ -410,13 +410,13 @@ correlation.</div>
 `,
  quiz:{title:'Quick check, paradigms',questions:[
    {q:'The defining difference between supervised and unsupervised learning is:',
-    options:['Whether the dataset is large or small','Whether the model is linear or nonlinear','Whether the training data includes target labels','Whether the data is numeric or categorical'],answer:2,
+    options:['Whether the dataset is large or small','Whether the model is linear or nonlinear','Whether the training data includes target labels','Whether the data is numeric or categorical'],answer:2,whyWrong:['Size affects how well either one works. It does not decide which one you are doing.','Both supervised and unsupervised methods come in linear and nonlinear forms.','','Both handle numeric and categorical data. The distinction is about targets, not feature types.'],
     why:'Supervised has an answer key. Everything else about the two follows from that one fact.'},
    {q:'Self-supervised learning is best described as:',
-    options:['Reinforcement learning with a delayed reward','Clustering applied before a supervised model runs','Supervised learning on labels derived from the data','Training without any objective function at all'],answer:2,
+    options:['Reinforcement learning with a delayed reward','Clustering applied before a supervised model runs','Supervised learning on labels derived from the data','Training without any objective function at all'],answer:2,whyWrong:['There is no reward and no environment. The labels come from the data itself.','That is a preprocessing pipeline, and the labels would still have to come from somewhere.','','There is very much an objective. Predicting the hidden word is the objective.'],
     why:'Mask a word and predict it. There is a target, so it is supervised, but nobody annotated anything.'},
    {q:'Running k-means on data with no real cluster structure will:',
-    options:['Return a single cluster containing everything','Raise an error about insufficient separation','Return k clusters and report no problem','Fail to converge within the iteration limit'],answer:2,
+    options:['Return a single cluster containing everything','Raise an error about insufficient separation','Return k clusters and report no problem','Fail to converge within the iteration limit'],answer:2,whyWrong:['It returns exactly the k you asked for, split however the geometry allows.','There is no such check. The algorithm has no notion of whether the structure is real.','','It converges reliably, and converging is not the same as finding something meaningful.'],
     why:'Clustering partitions whatever it is given. Validation has to come from outside the algorithm.'}
  ]}},
 
@@ -491,13 +491,13 @@ suspicion.</p>
 `,
  quiz:{title:'Quick check, small data',questions:[
    {q:'Small datasets are dominated by which error term?',
-    options:['Irreducible noise in the measurements','All three contribute about equally','Variance, since the fit swings with the sample','Bias, since simpler models must be used'],answer:2,
+    options:['Irreducible noise in the measurements','All three contribute about equally','Variance, since the fit swings with the sample','Bias, since simpler models must be used'],answer:2,whyWrong:['Irreducible noise is fixed by the problem and does not grow as the sample shrinks.','They do not. Variance is the term a small sample inflates.','','Simpler models are the response to the problem, not the source of it.'],
     why:'Few rows means a different sample gives a noticeably different model. That is variance by definition.'},
    {q:'Feature selection based on correlation with the target should be done:',
-    options:['Only when the dataset is large','Once on the full dataset beforehand','After the model has been fitted','Inside each cross-validation fold'],answer:3,
+    options:['Only when the dataset is large','Once on the full dataset beforehand','After the model has been fitted','Inside each cross-validation fold'],answer:3,whyWrong:['Size does not change the argument. Selecting on the full data leaks the answer at any size.','That is the leak. The held-out fold has already influenced which features you kept.','By then the selection has already decided what the model saw. It has to happen inside the fold.',''],
     why:'Doing it beforehand leaks the held-out labels into the selection and inflates every score that follows.'},
    {q:'With 200 rows and 20 positives, reporting accuracy is misleading because:',
-    options:['Predicting the majority class already scores 90%','The folds will not contain any positives','Accuracy is undefined for imbalanced data','Cross-validation cannot be used at all'],answer:0,
+    options:['Predicting the majority class already scores 90%','The folds will not contain any positives','Accuracy is undefined for imbalanced data','Cross-validation cannot be used at all'],answer:0,whyWrong:['','Stratified folds keep the positives distributed. That is a separate concern, and a solvable one.','Accuracy is perfectly well defined here. It is just uninformative.','Cross-validation works fine. It is the metric that is wrong, not the protocol.'],
     why:'A model that learns nothing scores 90%. Precision, recall and the confusion matrix are informative here.'}
  ]}}
 ,
@@ -608,13 +608,13 @@ problem is easy. A great deal of effort is spent beating a linear model that was
 `,
  quiz:{title:'Quick check, classifiers',questions:[
    {q:'k-NN requires feature scaling because:',
-    options:['Scaling reduces the number of neighbours needed','Distances are dominated by large-scale features','The vote would otherwise be tied too often','Training would take too long without it'],answer:1,
+    options:['Scaling reduces the number of neighbours needed','Distances are dominated by large-scale features','The vote would otherwise be tied too often','Training would take too long without it'],answer:1,whyWrong:['k is a setting you choose, and scaling does not change how many neighbours you need.','','Ties are handled by choosing an odd k or by a tie-break rule. Scaling addresses something else.','There is no training phase to speed up. k-NN stores the data and does the work at query time.'],
     why:'A feature in dollars swamps one in years. Distance has no idea the units differ.'},
    {q:'Random forests and gradient boosting differ mainly in that:',
-    options:['Forests use shallow trees, boosting uses deep ones','Forests reduce variance, boosting reduces bias','Only boosting can handle categorical features','Forests require the data to be scaled first'],answer:1,
+    options:['Forests use shallow trees, boosting uses deep ones','Forests reduce variance, boosting reduces bias','Only boosting can handle categorical features','Forests require the data to be scaled first'],answer:1,whyWrong:['It is usually the reverse. Forests grow deep trees and boosting grows shallow ones.','','Both handle categorical features, depending on the implementation rather than the family.','Neither needs scaling. Trees split on thresholds, which are scale-invariant.'],
     why:'Averaging deep decorrelated trees cuts variance; sequentially fitting residuals with shallow trees cuts bias.'},
    {q:'The kernel trick works because the SVM dual depends on data only through:',
-    options:['The distances to the decision boundary','The number of features in the input','The class labels of the support vectors','Inner products between pairs of points'],answer:3,
+    options:['The distances to the decision boundary','The number of features in the input','The class labels of the support vectors','Inner products between pairs of points'],answer:3,whyWrong:['Distances to the boundary are what the margin measures, and they come out of the solution rather than going into it.','The feature count is precisely what the trick lets you ignore, since the space may be infinite-dimensional.','The labels appear in the dual as coefficients, and they are not what the kernel replaces.',''],
     why:'Replace each inner product with K(xᵢ,xⱼ) and you work in a higher space without ever computing coordinates there.'}
  ]}},
 
@@ -693,13 +693,13 @@ income wearing a disguise.</div>
 `,
  quiz:{title:'Quick check, clustering',questions:[
    {q:'k-means cannot find elongated clusters because:',
-    options:['It requires k to be known beforehand','It assigns each point to exactly one cluster','Its objective is squared distance to a center','It converges before reaching them'],answer:2,
+    options:['It requires k to be known beforehand','It assigns each point to exactly one cluster','Its objective is squared distance to a center','It converges before reaching them'],answer:2,whyWrong:['Needing k in advance is a real inconvenience, and it has nothing to do with cluster shape.','Hard assignment is what separates it from a GMM, and a GMM with round components has the same shape limitation.','','It converges to a genuine local optimum of its own objective. The objective is the problem.'],
     why:'Minimizing ‖x − μ‖² makes round, equally sized groups the only thing the objective rewards.'},
    {q:'DBSCAN differs from k-means most importantly by:',
-    options:['Guaranteeing the global optimum is found','Producing soft rather than hard assignments','Finding arbitrary shapes and labeling noise','Running faster on very large datasets'],answer:2,
+    options:['Guaranteeing the global optimum is found','Producing soft rather than hard assignments','Finding arbitrary shapes and labeling noise','Running faster on very large datasets'],answer:2,whyWrong:['Neither guarantees a global optimum. DBSCAN is deterministic given its parameters, which is a different thing.','DBSCAN assigns hard labels. Soft assignment is what a GMM gives you.','','It is often slower, and speed is not why people reach for it.'],
     why:'Density-connected regions can be any shape, and points in no dense region are explicitly outliers.'},
    {q:'A high silhouette score tells you:',
-    options:['The data was properly scaled beforehand','The partition is compact and well separated','The clusters correspond to something real','The correct k has definitely been found'],answer:1,
+    options:['The data was properly scaled beforehand','The partition is compact and well separated','The clusters correspond to something real','The correct k has definitely been found'],answer:1,whyWrong:['Scaling affects the distances the score is computed from, and the score itself cannot tell you whether you did it.','','Nothing about the geometry says the clusters mean anything. That takes domain knowledge.','It is one signal among several for choosing k, and it can peak at a k that is not the true one.'],
     why:'It measures the geometry of the partition against the assumptions that produced it. Reality needs outside evidence.'}
  ]}}
 ,
@@ -810,13 +810,13 @@ problem requires extrapolation, no amount of boosting will help.</p>
 `,
  quiz:{title:'Quick check, regression',questions:[
    {q:'Ridge regression makes XᵀX invertible because it:',
-    options:['Uses gradient descent instead of a closed form','Adds λI, lifting every eigenvalue','Removes the correlated features first','Standardizes the features beforehand'],answer:1,
+    options:['Uses gradient descent instead of a closed form','Adds λI, lifting every eigenvalue','Removes the correlated features first','Standardizes the features beforehand'],answer:1,whyWrong:['Ridge has a closed form too. The penalty is what makes the matrix invertible, not the solver.','','Nothing is removed. Ridge keeps every feature and shrinks their coefficients.','Standardising makes the penalty fair across features, and it does not fix a singular matrix.'],
     why:'(XᵀX + λI)⁻¹. The regularization and the numerical conditioning fix are literally the same operation.'},
    {q:'Lasso produces exactly-zero coefficients because:',
-    options:['Its constraint region has corners on the axes','Its penalty grows faster than L2 does','It uses absolute error rather than squared error','It removes features before fitting begins'],answer:0,
+    options:['Its constraint region has corners on the axes','Its penalty grows faster than L2 does','It uses absolute error rather than squared error','It removes features before fitting begins'],answer:0,whyWrong:['','L2 grows faster for large coefficients, since it is squared. L1 wins here on the shape of its constraint region.','The loss is still squared error. It is the penalty that uses absolute values.','Selection happens as a consequence of fitting, not before it begins.'],
     why:'The diamond’s corners lie on the axes, so the contours very often first touch where a coordinate is zero.'},
    {q:'Gradient-boosted trees cannot extrapolate because:',
-    options:['Boosting stops once residuals are small','They overfit before reaching the boundary','Each leaf returns a constant learned from data','Their loss is only defined on training data'],answer:2,
+    options:['Boosting stops once residuals are small','They overfit before reaching the boundary','Each leaf returns a constant learned from data','Their loss is only defined on training data'],answer:2,whyWrong:['Boosting stops when you tell it to, and small residuals inside the data range say nothing about outside it.','Overfitting is a separate risk. Even a perfectly fitted ensemble is flat beyond the data.','','The loss is defined anywhere. It is the prediction that cannot leave the range of the leaf values.'],
     why:'The surface is piecewise constant. Outside the training range you get the nearest leaf’s value, unchanged forever.'}
  ]}}
 ]});
