@@ -42,13 +42,13 @@ costumes.</div>`,
  docs:[['Rate of change and slope (Khan Academy)','https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs']],
  quiz:{title:'Quick check',questions:[
    {q:'The slope of a straight line is:',
-    options:['Its height','Rise over run, the change in output divided by the change in input','Its length','Always 1'],answer:1,
+    options:['Its length','Always 1','Its height','Rise over run, the change in output divided by the change in input'],answer:3,
     why:'Slope = (change in y)/(change in x): how fast the output rises per step of input. For a line it is the same everywhere.'},
    {q:'The average rate of change of f between a and b is:',
-    options:['f(a) + f(b)','(f(b) - f(a)) / (b - a), the slope of the line joining the two points','The maximum of f','f(b) times f(a)'],answer:1,
+    options:['(f(b) - f(a)) / (b - a), the slope of the line joining the two points','The maximum of f','f(b) times f(a)','f(a) + f(b)'],answer:0,
     why:'It is the secant slope: total change in output over the interval, divided by the width of the interval.'},
    {q:'Why can algebra alone not give the rate of change at a SINGLE point?',
-    options:['Points have no rate','Plugging one point into (f(a)-f(a))/(a-a) gives 0/0, which is undefined, you need the limit idea to resolve it','Rates only exist for lines','It can, easily'],answer:1,
+    options:['It can, easily','Points have no rate','Rates only exist for lines','Plugging one point into (f(a)-f(a))/(a-a) gives 0/0, which is undefined, you need the limit idea to resolve it'],answer:3,
     why:'One point makes the run zero → 0/0. Watching the average rate as the interval shrinks (a limit) is the way through, the next lesson.'}
  ]},
  exs:[{title:'Average rate of change, and watch it home in',
@@ -151,13 +151,13 @@ close and look.</div>`,
  docs:[['Limits (an intuitive introduction (Khan Academy))','https://www.khanacademy.org/math/ap-calculus-ab/ab-limits-new']],
  quiz:{title:'Quick check',questions:[
    {q:'lim (x→1) of (x²−1)/(x−1) = 2 means:',
-    options:['g(1) equals 2','As x gets arbitrarily close to 1, g(x) gets arbitrarily close to 2, even though g(1) itself is undefined (0/0)','2 is the largest value of g','g never reaches 2'],answer:1,
+    options:['As x gets arbitrarily close to 1, g(x) gets arbitrarily close to 2, even though g(1) itself is undefined (0/0)','g(1) equals 2','2 is the largest value of g','g never reaches 2'],answer:0,
     why:'A limit is the value approached, not necessarily attained. The function has a hole at x=1, yet the limit there is a definite 2.'},
    {q:'How is a derivative connected to limits?',
-    options:['It is not','The derivative IS the limit of the average rate (f(a+h)−f(a))/h as h approaches 0','Derivatives replace limits','Limits are only for straight lines'],answer:1,
+    options:['Limits are only for straight lines','It is not','The derivative IS the limit of the average rate (f(a+h)−f(a))/h as h approaches 0','Derivatives replace limits'],answer:2,
     why:'You cannot set h=0 (that is 0/0), but the ratio approaches a definite value as h shrinks, that limit is the instantaneous slope.'},
    {q:'A function is "continuous" at a point when:',
-    options:['It is a straight line','Its limit there equals its actual value, no hole, no jump','It never changes','It has a maximum there'],answer:1,
+    options:['Its limit there equals its actual value, no hole, no jump','It never changes','It has a maximum there','It is a straight line'],answer:0,
     why:'Continuity = the value you approach matches the value you land on. Smooth, continuous losses are the pleasant ones to optimize.'}
  ]},
  exs:[{title:'Estimate a limit the way a computer does, get close and look',
@@ -249,7 +249,7 @@ knob, does the error go up or down, and how fast?"</i>, and that question IS the
 
 h = 0.0001                       # a tiny nudge
 slope = (f(3 + h) - f(3)) / h    # rise over run
-# ≈ 6.0001 — the slope at x=3 is about 6</div>
+# ≈ 6.0001 - the slope at x=3 is about 6</div>
 <p>This is the <b>numerical derivative</b>: nudge the input by a hair, measure how the output
 moved, divide. The calculus you learned in school (the rule "the derivative of x² is 2x")
 is just the <i>exact shortcut</i> for what the nudge test measures, at <code>x=3</code>,
@@ -284,13 +284,13 @@ to the true value, which is why your measured 6.0001 was a hair off 6.</div>`,
  docs:[['3Blue1Brown (The Essence of Calculus)','https://www.3blue1brown.com/topics/calculus']],
  quiz:{title:'Quick check',questions:[
    {q:'In plain words, the derivative of a function at a point is:',
-    options:['The function value there','How much the output moves when you nudge the input a tiny bit, the slope','The largest value the function reaches','The area under the curve'],answer:1,
+    options:['The function value there','The largest value the function reaches','The area under the curve','How much the output moves when you nudge the input a tiny bit, the slope'],answer:3,
     why:'Derivative = sensitivity = slope. The nudge test (f(x+h) − f(x)) / h measures exactly that.'},
    {q:'The error\u0027s derivative with respect to a knob is positive. To reduce the error you should:',
-    options:['Turn the knob up','Turn the knob down','Leave the knob alone','Reset the knob to zero'],answer:1,
+    options:['Leave the knob alone','Reset the knob to zero','Turn the knob down','Turn the knob up'],answer:2,
     why:'Positive slope means increasing the knob increases the error, so step the other way. This is the heart of learning.'},
    {q:'The school rule "derivative of x² is 2x" relates to the nudge test how?',
-    options:['They are unrelated','The rule is the exact shortcut for what the nudge test measures approximately','The nudge test is more accurate','The rule only works for x=3'],answer:1,
+    options:['The rule is the exact shortcut for what the nudge test measures approximately','They are unrelated','The nudge test is more accurate','The rule only works for x=3'],answer:0,
     why:'Analytic rules give exactly what the numerical nudge approaches as h shrinks. Same quantity, two routes.'}
  ]},
  exs:[{title:'Measure slopes with the nudge test',
@@ -364,7 +364,7 @@ homework. We teach only the rules ML actually uses; we deliberately skip the res
 course (see the boundary note below).</p></div>
 
 <h3>The power rule and its friends</h3>
-<div class="codeSample">Power rule:      d/dx xⁿ  = n · xⁿ⁻¹        e.g.  x²  → 2x,   x³ → 3x²
+<div class="codeSample">Power rule:      d/dx xⁿ  = n · xⁿ⁻¹        e.g.  x²  → 2x, x³ → 3x²
 Constant:        d/dx c   = 0               a flat line has slope 0
 Constant × f:    d/dx c·f = c · f'          pull constants straight out
 Sum rule:        d/dx (f + g) = f' + g'     differentiate term by term</div>
@@ -385,7 +385,7 @@ lesson next (it is the engine of backprop), but it is one of these rules. With i
 derivatives that power machine learning:</p>
 <div class="codeSample">d/dx eˣ    = eˣ            the exponential is its own derivative (!)
 d/dx ln x  = 1/x
-d/dx σ(x)  = σ(x)·(1 − σ(x))     the SIGMOID derivative — used in every backprop pass</div>
+d/dx σ(x)  = σ(x)·(1 − σ(x))     the SIGMOID derivative, used in every backprop pass</div>
 <p>That last one is famous: the sigmoid's slope is <code>σ(x)(1−σ(x))</code>, a tidy result you
 get by applying the chain rule to <code>1/(1+e⁻ˣ)</code>. Every neural network that uses a
 sigmoid computes exactly this during training. You will verify it in the exercise.</p>
@@ -401,13 +401,13 @@ machine does, not to grind them out yourself.</div>`,
  docs:[['Derivative rules (Khan Academy)','https://www.khanacademy.org/math/ap-calculus-ab/ab-differentiation-1-new'],['Derivative of the sigmoid (worked)','https://en.wikipedia.org/wiki/Logistic_function#Derivative']],
  quiz:{title:'Quick check',questions:[
    {q:'By the power rule, the derivative of 3x² + 2x + 5 is:',
-    options:['6x³ + 2','6x + 2','3x + 2','x² + x'],answer:1,
+    options:['x² + x','6x + 2','6x³ + 2','3x + 2'],answer:1,
     why:'Power rule term by term: 3·(2x) + 2·(1) + 0 = 6x + 2. Constants differentiate to 0; constant multiples pull out.'},
    {q:'The product rule for d/dx [f·g] is:',
-    options:["f'·g'","f'·g + f·g', derivative of first times second, plus first times derivative of second","f·g","f' + g'"],answer:1,
+    options:["f'·g'","f·g","f'·g + f·g', derivative of first times second, plus first times derivative of second","f' + g'"],answer:2,
     why:'The derivative of a product is NOT the product of derivatives. It is the cross pattern f\u0027g + fg\u0027.'},
    {q:'The derivative of the sigmoid σ(x) is:',
-    options:['σ(x)','σ(x)·(1 − σ(x)), the tidy result used in every backprop pass','1/x','eˣ'],answer:1,
+    options:['1/x','σ(x)·(1 − σ(x)), the tidy result used in every backprop pass','eˣ','σ(x)'],answer:1,
     why:'σ\u0027(x) = σ(x)(1−σ(x)), obtained via the chain rule on 1/(1+e⁻ˣ). It is why sigmoid gradients are cheap to compute.'}
  ]},
  exs:[{title:'Apply the rules, and check them against the nudge test',
@@ -565,16 +565,16 @@ overshoot the valley and bounce out. In the exercise you'll watch <code>x = 8</c
 </svg>
 <div class="figCap"><b>Gradient descent.</b> The curve is the error as you change one weight, a bowl. At any point the <b>gradient is the slope</b> (dashed line): it points <i>uphill</i>, so each step moves the weight the opposite way (orange arrows), walking down to the minimum. The step size is the learning rate.</div></div>
 <div class="codeSample">x = 8.0                      # start anywhere
-lr = 0.1                     # learning rate — stride length
+lr = 0.1                     # learning rate - stride length
 for step in range(100):
     slope = derivative(f, x) # feel the hill
     x = x - lr * slope       # step AGAINST the slope
-# x ends near 3.0 — the bottom, discovered not looked up</div>
+# x ends near 3.0 - the bottom, discovered not looked up</div>
 
 <div class="demystify"><b>Demystify "gradient":</b> when there are many knobs, you measure one
 slope per knob and stack them into a vector: THAT vector is the gradient. "Gradient descent"
 = "measure all the slopes, step every knob against its slope, at once." With one knob, the
-gradient IS the derivative. Nothing fancier is happening in a 100-billion-parameter model —
+gradient IS the derivative. Nothing fancier is happening in a 100-billion-parameter model,
 just this loop, with more knobs.</div>
 
 <div class="hardidea">🧠 <b>Honest caveat (convexity, previewed).</b> Walking downhill finds
@@ -585,13 +585,13 @@ bottom, guaranteed arrival.</div>`,
  docs:[['Gradient descent, visually (3Blue1Brown)','https://www.3blue1brown.com/lessons/gradient-descent']],
  quiz:{title:'Quick check',questions:[
    {q:'Gradient descent updates a knob with x = x − lr·slope. Why the minus sign?',
-    options:['Tradition','To step AGAINST the slope, downhill, so the error shrinks','To keep x positive','Because slopes are always negative'],answer:1,
+    options:['To keep x positive','Because slopes are always negative','To step AGAINST the slope, downhill, so the error shrinks','Tradition'],answer:2,
     why:'The slope points uphill; subtracting it steps downhill. That single minus sign is what makes it "descent."'},
    {q:'The learning rate controls:',
-    options:['How many knobs the model has','The stride length of each downhill step','The final answer','The number of data points'],answer:1,
+    options:['How many knobs the model has','The final answer','The number of data points','The stride length of each downhill step'],answer:3,
     why:'Too small = crawling; too large = overshooting and bouncing. Choosing it well is a real practical skill.'},
    {q:'For a bowl-shaped (convex) error like (x−3)², gradient descent:',
-    options:['Might get stuck anywhere','Is guaranteed to settle at the single bottom','Only works if you start at x=0','Needs a neural network'],answer:1,
+    options:['Only works if you start at x=0','Is guaranteed to settle at the single bottom','Needs a neural network','Might get stuck anywhere'],answer:1,
     why:'One bowl, one bottom: convexity is exactly the guarantee that downhill leads to THE minimum, not just A minimum.'}
  ]},
  exs:[{title:'Find the bottom by feel: implement gradient descent',
@@ -700,7 +700,7 @@ streams just met.</div>`,
     options:['A single number','The vector of all partial derivatives, pointing toward steepest INCREASE','Always zero','The second derivative'],answer:1,
     why:'Stack each knob\u0027s slope into a vector: the full downhill map. Descent steps against it.'},
    {q:'Why does stepping AGAINST the gradient reduce the error fastest?',
-    options:['Convention','The change in f ≈ ∇f · step, most negative when the step opposes the gradient (cosine −1)','Because errors are always positive','It does not; any direction works equally'],answer:1,
+    options:['The change in f ≈ ∇f · step, most negative when the step opposes the gradient (cosine −1)','It does not; any direction works equally','Convention','Because errors are always positive'],answer:0,
     why:'The dot-product argument: alignment maximizes increase, opposition maximizes decrease. Linear algebra meets calculus.'}
  ]},
  exs:[{title:'Two knobs, one gradient, and a perfect step',
@@ -779,7 +779,7 @@ print(dw, db, f_before, f_after)
  body:`
 <div class="ground"><span class="gTag">🎯 What it does, and why it changed history</span>
 <p>Models are <b>chains</b>: data flows through step after step (multiply by weights → squash
-→ multiply again → … → error). To train, you need each knob's effect on the final error —
+→ multiply again → … → error). To train, you need each knob's effect on the final error,
 but the knob sits many steps upstream. The <b>chain rule</b> is the law that carries
 sensitivity through a chain: <i>if A affects B and B affects C, then A's effect on C is the
 two effects multiplied</i>. Applied backwards through a network, layer by layer, it is called
@@ -810,13 +810,13 @@ Blame, distributed by multiplication, that is the whole algorithm.</div>`,
  docs:[['3Blue1Brown, backpropagation, intuitively','https://www.3blue1brown.com/lessons/backpropagation'],['Rumelhart, Hinton & Williams (1986), the backprop paper','https://www.nature.com/articles/323533a0']],
  quiz:{title:'Quick check',questions:[
    {q:'h(x) = g(f(x)). The chain rule says h′(x) equals:',
-    options:['g′(x) + f′(x)','g′(f(x)) · f′(x), outer slope where the inner left you, times inner slope','g(f′(x))','f′(g(x))'],answer:1,
+    options:['g′(f(x)) · f′(x), outer slope where the inner left you, times inner slope','g′(x) + f′(x)','g(f′(x))','f′(g(x))'],answer:0,
     why:'Sensitivities multiply through a chain, and the outer slope must be evaluated at the inner function\u0027s output.'},
    {q:'Why is backpropagation cheap even with a billion weights?',
-    options:['GPUs make everything free','One backward sweep REUSES the shared downstream slopes for all weights, no per-weight re-run of the network','It only trains a few weights','It skips the chain rule'],answer:1,
+    options:['It skips the chain rule','GPUs make everything free','It only trains a few weights','One backward sweep REUSES the shared downstream slopes for all weights, no per-weight re-run of the network'],answer:3,
     why:'The naive alternative (nudge each weight, re-run) costs a forward pass per weight. Backprop shares the work: ~two passes total.'},
    {q:'Historically, an efficient chain-rule algorithm for deep nets mattered because:',
-    options:['It made networks smaller','Without it, hidden-layer weights could not be blamed efficiently, a key reason neural nets stalled before 1986','It removed the need for data','It proved networks always converge'],answer:1,
+    options:['It proved networks always converge','It made networks smaller','It removed the need for data','Without it, hidden-layer weights could not be blamed efficiently, a key reason neural nets stalled before 1986'],answer:3,
     why:'No efficient blame-assignment → no deep training. The 1986 backprop paper (with earlier roots) is what unlocked everything after.'}
  ]},
  exs:[{title:'Verify the chain rule numerically, your first backward pass',
@@ -847,7 +847,7 @@ x = 2.0
 # 1) Inner slope: f at x
 inner =
 
-# 2) Outer slope: g at f(x)  — note WHERE it is evaluated
+# 2) Outer slope: g at f(x)  - note WHERE it is evaluated
 outer =
 
 # 3) The chain rule prediction: multiply
@@ -876,7 +876,7 @@ x = 2.0
 # 1) Inner slope: f at x
 inner = derivative(f, x)
 
-# 2) Outer slope: g at f(x)  — note WHERE it is evaluated
+# 2) Outer slope: g at f(x)  - note WHERE it is evaluated
 outer = derivative(g, f(x))
 
 # 3) The chain rule prediction: multiply
@@ -897,5 +897,299 @@ print(inner, outer, chain, direct)
      'inner = derivative(f, 2.0). outer = derivative(g, f(2.0)), evaluated at 4, where the inner function left you.',
      'chain = inner * outer. That multiplication IS the chain rule.',
      'direct = derivative(h, 2.0). When it matches chain (~12), you have verified the law backprop is built on.'
+   ]}]}
+,
+
+{id:'ca5',
+ title:'Advanced: Lagrange multipliers, optimising when you are not allowed to go everywhere',
+ body:`
+<div class="ground"><span class="gTag">🎯 What it does</span>
+<p>Gradient descent finds the lowest point on a surface when you are free to walk anywhere you
+like. Almost no real problem is like that. You want the best answer <b>subject to a rule you
+are not allowed to break</b>: the probabilities have to add up to one, the direction vector has
+to have length one, the fence is only forty metres long. A <b>Lagrange multiplier</b> is the
+device that turns "optimise this, but obey that" back into an ordinary set-the-derivative-to-zero
+problem. You have already used it three times in this dojo without being told.</p></div>
+
+<h3>The fence</h3>
+<p>You have forty metres of fencing and you want to enclose the largest possible rectangular
+field. Call the sides <code>x</code> and <code>y</code>. You want to maximise the area
+<code>xy</code>.</p>
+<p>Try it without the rule and the question is silly: the area <code>xy</code> has no maximum
+at all, make both sides enormous and the area grows forever. Setting the derivative to zero
+finds nothing, because the surface never levels off. <b>The rule is what makes the problem
+have an answer.</b> The rule here is that the perimeter is fixed:</p>
+<div class="mathblock">maximise&nbsp;&nbsp; f(x, y) = xy
+subject to&nbsp;&nbsp; g(x, y) = 2x + 2y = 40</div>
+<p>For this small case you can cheat. Rearrange the rule to <code>y = 20 &minus; x</code>, push
+it into the area, and you have a one-variable problem: <code>A(x) = x(20 &minus; x)</code>,
+whose derivative <code>20 &minus; 2x</code> is zero at <code>x = 10</code>. A ten-by-ten
+square, area 100. Correct, and completely useless as a general method.</p>
+<p>It is useless because it depended on being able to solve the rule for one variable and
+substitute. Try that when the rule is
+<code>u<sub>1</sub>&sup2; + u<sub>2</sub>&sup2; + &hellip; + u<sub>D</sub>&sup2; = 1</code> in
+five hundred dimensions, which is the rule PCA works under. There is no variable to solve for.
+You need a method that never eliminates anything.</p>
+
+<h3>The picture that explains the whole thing</h3>
+<p>Draw the contour lines of the thing you are maximising, the way a map draws lines of equal
+height. Every point on one contour has the same area. Now draw the constraint as a line or a
+curve across that map: those are the points you are actually allowed to stand on.</p>
+<p>Walk along the constraint. As long as your path <b>crosses</b> contour lines, you are still
+climbing or descending, so you cannot be at the best point yet, one more step in the same
+direction improves things. The only place you can stop is where the constraint stops crossing
+contours and instead <b>just touches one</b>. At the optimum the constraint curve is
+<b>tangent</b> to a contour of f.</p>
+<div class="figure"><svg viewBox="0 0 460 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Contour lines of the area function with a straight constraint line touching one contour at a single tangent point">
+  <line x1="45" y1="20" x2="45" y2="220" stroke="#5a5872" stroke-width="1.5"/>
+  <line x1="45" y1="220" x2="425" y2="220" stroke="#5a5872" stroke-width="1.5"/>
+  <text x="20" y="130" font-size="12" fill="#5a5872" transform="rotate(-90 20 130)">y</text>
+  <text x="235" y="248" font-size="12" fill="#5a5872" text-anchor="middle">x</text>
+  <g fill="none" stroke="#a78bfa" stroke-width="1.8">
+    <path d="M 70 205 Q 150 195 190 120 Q 200 70 205 40"/>
+    <path d="M 95 210 Q 200 200 250 130 Q 268 80 275 45"/>
+    <path d="M 130 212 Q 260 205 315 140 Q 340 90 350 50"/>
+  </g>
+  <text x="212" y="36" font-size="11" fill="#6d28d9">area = 60</text>
+  <text x="282" y="41" font-size="11" fill="#6d28d9">area = 100</text>
+  <text x="356" y="46" font-size="11" fill="#6d28d9">area = 140</text>
+  <line x1="60" y1="60" x2="370" y2="215" stroke="#0f766e" stroke-width="2.5"/>
+  <text x="72" y="52" font-size="11" fill="#0f766e">2x + 2y = 40 (the rule)</text>
+  <circle cx="205" cy="133" r="6" fill="#e2711d"/>
+  <text x="150" y="105" font-size="11" fill="#e2711d">tangent: the best allowed point</text>
+</svg><div class="figCap">Crossing a contour means you can still improve by sliding along the rule. Only where the rule touches a contour, without crossing it, are you stuck. That is the optimum.</div></div>
+
+<h3>Tangency, written as an equation</h3>
+<p>Now turn the picture into algebra using something you already know. The gradient
+<code>&nabla;f</code> points straight uphill, which means it is <b>perpendicular to the contour
+line</b> through that point. The same is true of <code>&nabla;g</code> and the constraint curve.
+If the two curves are tangent, they share the same tangent direction, so their two
+perpendiculars must point along the same line. They need not be the same length, and one may
+point the opposite way, but they are parallel. Two parallel vectors are multiples of each
+other:</p>
+<div class="mathblock">&nabla;f(x) = &lambda; &nabla;g(x)</div>
+<p>That single scalar <code>&lambda;</code> is the Lagrange multiplier. It exists purely to
+absorb the difference in length between the two gradients, and it is the whole trick.</p>
+
+<h3>The Lagrangian</h3>
+<p>Rather than carry the parallel condition and the constraint around as two separate facts,
+fold them into one function:</p>
+<div class="mathblock">L(x, &lambda;) = f(x) &minus; &lambda;&thinsp;(g(x) &minus; c)</div>
+<p>Now treat <code>&lambda;</code> as one more variable and set every partial derivative of
+<code>L</code> to zero, exactly as you would for an unconstrained problem:</p>
+<div class="mathblock">&part;L/&part;x = &nabla;f &minus; &lambda;&nabla;g = 0&nbsp;&nbsp;&rarr;&nbsp;&nbsp; the tangency condition
+&part;L/&part;&lambda; = &minus;(g(x) &minus; c) = 0&nbsp;&nbsp;&rarr;&nbsp;&nbsp; the constraint itself</div>
+<p>That is the payoff. Differentiating with respect to the multiplier hands the constraint back
+to you for free, so a constrained problem in <code>D</code> variables becomes an unconstrained
+stationary-point problem in <code>D + 1</code> variables. Nothing was eliminated, nothing had to
+be solved for, and the method does not care whether <code>D</code> is two or two thousand.</p>
+
+<div class="worked"><b>The fence, done properly.</b>
+<p>With <code>f = xy</code> and <code>g = 2x + 2y</code>:</p>
+<div class="mathblock">L = xy &minus; &lambda;(2x + 2y &minus; 40)
+&part;L/&part;x = y &minus; 2&lambda; = 0&nbsp;&nbsp;&rarr;&nbsp;&nbsp; y = 2&lambda;
+&part;L/&part;y = x &minus; 2&lambda; = 0&nbsp;&nbsp;&rarr;&nbsp;&nbsp; x = 2&lambda;
+&part;L/&part;&lambda; = &minus;(2x + 2y &minus; 40) = 0&nbsp;&nbsp;&rarr;&nbsp;&nbsp; x + y = 20</div>
+<p>The first two lines give <code>x = y</code> immediately, which is the real content of the
+answer: the best rectangle is a square, and you learned that from the structure of the
+equations rather than from grinding through a substitution. The third line then gives
+<code>x = y = 10</code>, area 100, and <code>&lambda; = 5</code>.</p></div>
+
+<h3>The multiplier is not scaffolding, it means something</h3>
+<p>It is tempting to treat <code>&lambda;</code> as a bookkeeping variable you throw away once
+you have <code>x</code>. It is not. <code>&lambda;</code> is the answer to a question you did
+not ask: <b>how much better could you do if the rule were relaxed by one unit?</b></p>
+<p>Check it on the fence. With perimeter <code>P</code> the same working gives
+<code>x = y = P/4</code> and best area <code>A*(P) = P&sup2;/16</code>. Differentiate that with
+respect to the budget: <code>dA*/dP = P/8</code>, which at <code>P = 40</code> is
+<b>5</b>. That is exactly the <code>&lambda;</code> that fell out of the equations. One extra
+metre of fence is worth five extra square metres of field.</p>
+<div class="mathblock">dF*/dc = &lambda;</div>
+<p>Economists call this the <b>shadow price</b> of the constraint, and it is often the number
+you actually wanted. A <code>&lambda;</code> near zero says the rule is barely costing you
+anything and is not worth negotiating. A large <code>&lambda;</code> says the rule is the thing
+holding you back.</p>
+
+<h3>Several rules at once</h3>
+<p>Nothing changes structurally. With constraints
+<code>g<sub>1</sub> = 0, &hellip;, g<sub>M</sub> = 0</code> you get one multiplier each, and the
+gradient of f must be a combination of the constraint gradients rather than parallel to a single
+one:</p>
+<div class="mathblock">&nabla;f = &Sigma;<sub>m=1..M</sub> &lambda;<sub>m</sub> &nabla;g<sub>m</sub>&nbsp;&nbsp;&nbsp;&nbsp; L(x, &lambda;) = f(x) &minus; &Sigma;<sub>m</sub> &lambda;<sub>m</sub>(g<sub>m</sub>(x) &minus; c<sub>m</sub>)</div>
+<p>The reading is the same one as before. The constraint gradients span the directions you are
+forbidden to move in. If <code>&nabla;f</code> lies entirely inside that forbidden span, every
+direction you are still allowed to move in is flat, and you are stuck. If any part of
+<code>&nabla;f</code> sticks out of it, that leftover part is a legal direction that improves f,
+and you should take it.</p>
+
+<h3>Where you have already used this</h3>
+<div class="demystify">
+<p><b>PCA.</b> In the Gaussians and PCA lesson you maximised the variance
+<code>u<sup>T</sup>&Sigma;u</code> along a direction <code>u</code>, subject to
+<code>u<sup>T</sup>u = 1</code>, because without the length rule you could inflate the variance
+forever just by making <code>u</code> longer. Form
+<code>L = u<sup>T</sup>&Sigma;u &minus; &lambda;(u<sup>T</sup>u &minus; 1)</code> and set the
+derivative to zero:</p>
+<div class="mathblock">2&Sigma;u &minus; 2&lambda;u = 0&nbsp;&nbsp;&rarr;&nbsp;&nbsp; &Sigma;u = &lambda;u</div>
+<p>The eigenvector equation is not something PCA assumes, it is what the constrained optimum
+forces. Left-multiply by <code>u<sup>T</sup></code> and you get
+<code>u<sup>T</sup>&Sigma;u = &lambda;</code>: the multiplier <b>is</b> the variance captured by
+that component. The shadow-price reading again, and the reason components are ranked by
+eigenvalue.</p>
+<p><b>GMM mixing coefficients.</b> In the EM lesson the <code>&pi;<sub>k</sub></code> update
+needed the rule <code>&Sigma;<sub>k</sub> &pi;<sub>k</sub> = 1</code>. Maximise
+<code>&Sigma;<sub>k</sub> N<sub>k</sub> ln &pi;<sub>k</sub></code> under it:</p>
+<div class="mathblock">L = &Sigma;<sub>k</sub> N<sub>k</sub> ln &pi;<sub>k</sub> + &lambda;(&Sigma;<sub>k</sub> &pi;<sub>k</sub> &minus; 1)
+&part;L/&part;&pi;<sub>k</sub> = N<sub>k</sub>/&pi;<sub>k</sub> + &lambda; = 0&nbsp;&nbsp;&rarr;&nbsp;&nbsp; &pi;<sub>k</sub> = &minus;N<sub>k</sub>/&lambda;
+sum over k:&nbsp; 1 = &minus;N/&lambda;&nbsp;&nbsp;&rarr;&nbsp;&nbsp; &lambda; = &minus;N&nbsp;&nbsp;&rarr;&nbsp;&nbsp; &pi;<sub>k</sub> = N<sub>k</sub>/N</div>
+<p>The "obvious" answer, the fraction of responsibility each component picked up, is derived
+rather than assumed.</p>
+<p><b>Why the Gaussian keeps appearing.</b> Ask which distribution has the largest entropy
+given a fixed mean and a fixed variance. That is three constraints, the two moments plus the
+requirement that the density integrates to one, so three multipliers. Solve it and the answer
+is the Gaussian. The bell curve is not a convention, it is the maximum-entropy answer to a
+constrained optimisation, and Lagrange multipliers are how you find it.</p></div>
+
+<h3>Inequalities, and the KKT conditions</h3>
+<p>Real rules are often one-sided. Not "spend exactly the budget" but "do not exceed it". Write
+the rule as <code>g(x) &ge; 0</code> and maximise f over the region where that holds.</p>
+<p>There are now exactly two things that can happen at the optimum, and separating them is the
+entire idea:</p>
+<ul>
+<li><b>The rule is inactive.</b> The best point is strictly inside the allowed region, so the
+boundary never came into play. The problem was effectively unconstrained,
+<code>&nabla;f = 0</code>, and the multiplier is <code>&lambda; = 0</code>: relaxing a rule you
+were not pressed against buys you nothing.</li>
+<li><b>The rule is active.</b> The best point sits on the boundary, held there because f keeps
+increasing in the forbidden direction. This behaves like an equality constraint, with one extra
+requirement: the gradient must point <i>outward</i>, otherwise you would have moved inward and
+improved. That fixes the sign, <code>&lambda; &gt; 0</code>.</li>
+</ul>
+<p>In both cases the product <code>&lambda; g(x)</code> is zero, because one factor or the other
+is. Collect the conditions and you have the <b>Karush-Kuhn-Tucker</b> conditions:</p>
+<div class="mathblock">g(x) &ge; 0&nbsp;&nbsp;&nbsp;&nbsp;&lambda; &ge; 0&nbsp;&nbsp;&nbsp;&nbsp;&lambda;&thinsp;g(x) = 0&nbsp;&nbsp;&nbsp;&nbsp;&nabla;f + &lambda;&nabla;g = 0</div>
+<p>The third one is called <b>complementary slackness</b>, and it is doing real work rather than
+tidying up. It says every constraint is either tight or irrelevant, and the multiplier tells you
+which. That is the mechanism behind support vector machines: fit a maximum-margin boundary under
+one inequality per training point, and complementary slackness forces
+<code>&lambda;<sub>n</sub> = 0</code> for every point that is comfortably on the right side. The
+handful of points left with <code>&lambda;<sub>n</sub> &gt; 0</code> are the ones sitting on the
+margin. They are called the <b>support vectors</b>, and the model depends on nothing else. Delete
+every other training point and you get the identical boundary.</p>
+
+<h3>The statement, properly</h3>
+<p>Let <code>f</code> and <code>g<sub>1..M</sub></code> be continuously differentiable. If
+<code>x*</code> is a local optimum of <code>f</code> on the set
+<code>{x : g<sub>m</sub>(x) = 0}</code>, <b>and</b> the constraint gradients
+<code>&nabla;g<sub>1</sub>(x*), &hellip;, &nabla;g<sub>M</sub>(x*)</code> are linearly
+independent, then there exist unique multipliers
+<code>&lambda;<sub>1..M</sub></code> such that
+<code>&nabla;f(x*) = &Sigma;<sub>m</sub> &lambda;<sub>m</sub>&nabla;g<sub>m</sub>(x*)</code>.</p>
+<p>Three parts of that deserve attention.</p>
+<p>The linear-independence requirement is the <b>constraint qualification</b>. It is what rules
+out degenerate geometry such as a constraint curve with a cusp at the optimum, where the surface
+has no well-defined tangent direction for a gradient to be parallel to. Without it the theorem
+is false, and the classic counterexample is minimising <code>x</code> subject to
+<code>x&sup3; = 0</code>, where <code>&nabla;g = 3x&sup2;</code> vanishes at the solution and no
+multiplier can exist.</p>
+<p>The conditions are <b>necessary, not sufficient</b>. Stationary points of the Lagrangian
+include constrained maxima, constrained minima, and saddles, exactly as
+<code>f&prime;(x) = 0</code> does in one dimension. To classify them you look at second-order
+behaviour restricted to the tangent space of the constraint, which is what the bordered Hessian
+computes.</p>
+<p>Finally, <code>(x*, &lambda;*)</code> is a <b>saddle point</b> of <code>L</code>, not a
+minimum of it. <code>L</code> is minimised over <code>x</code> and maximised over
+<code>&lambda;</code>. This matters the moment you try to solve one numerically: running plain
+gradient descent on <code>L</code> in both variables diverges, which is why constrained solvers
+use gradient descent-ascent, augmented Lagrangian methods, or the dual formulation
+<code>max<sub>&lambda;&ge;0</sub> min<sub>x</sub> L(x, &lambda;)</code>. That dual is where the
+SVM kernel trick lives, because the dual objective touches the data only through inner
+products.</p>
+
+<div class="hardidea">🧠 <b>The sign convention will trip you up, and it does not matter.</b>
+Some texts write <code>L = f &minus; &lambda;g</code>, others <code>L = f + &lambda;g</code>.
+For an equality constraint the two are identical up to replacing <code>&lambda;</code> with
+<code>&minus;&lambda;</code>, and since the sign of <code>&lambda;</code> is unconstrained there,
+nothing is lost. For an <i>inequality</i> constraint the sign is real content, because
+<code>&lambda; &ge; 0</code> is one of the KKT conditions. Fix your convention at the top of the
+derivation, state which side the inequality points, and check the sign of the multiplier you get
+against the shadow-price reading: if relaxing the rule should help, <code>&lambda;</code> should
+come out positive.</div>
+
+<div class="notebox">📌 <b>What to take away.</b> Tangency is the idea, everything else is
+notation. At a constrained optimum the objective's gradient has no component you are still
+allowed to move along, which forces it into the span of the constraint gradients. The multiplier
+measures how badly the rule is binding, so it doubles as a sensitivity. And the whole apparatus
+reduces "optimise subject to" back to "set the derivative to zero", which is the only trick
+calculus really has.</div>
+`,
+ docs:[['Khan Academy: Lagrange multipliers, the geometric intuition','https://www.khanacademy.org/math/multivariable-calculus/applications-of-multivariable-derivatives/constrained-optimization/a/lagrange-multipliers-single-constraint'],
+       ['Bishop, Pattern Recognition and Machine Learning, Appendix E','https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/']],
+ quiz:{title:'Quick check, constrained optimisation',questions:[
+   {q:'At a constrained optimum, why must the gradients of f and g be parallel?',
+    options:['Because any non-parallel part of ∇f would be a legal direction along the constraint that still improves f',
+             'Because parallel gradients are what guarantee the stationary point is a maximum rather than a minimum',
+             'Because the constraint surface is flat wherever an optimum can occur',
+             'Because both gradients are always unit vectors once the constraint is normalised'],answer:0,
+    why:'Tangency is the whole idea. Any component of ∇f lying along the constraint is a direction you are still allowed to take, so you cannot be at the best point yet.'},
+   {q:'What does the value of the multiplier λ tell you?',
+    options:[
+             'How much the optimal value would improve if the constraint were relaxed by one unit','How many iterations a numerical solver will need to converge on the answer',
+             'How far the constrained optimum sits from the unconstrained one in input space',
+             'How strongly the objective curves near the optimum, in the manner of a second derivative'],answer:0,
+    why:'dF*/dc = λ, the shadow price. In the fence, λ = 5 means one extra metre of fencing buys five extra square metres.'},
+   {q:'PCA ends up solving Σu = λu because:',
+    options:[
+             'Maximising uᵀΣu subject to uᵀu = 1 has exactly that as its stationary condition',
+             'Eigen-decomposition is the numerically cheapest way to factor a covariance matrix',
+             'The covariance matrix must be inverted, and eigenvectors make the inverse stable','Eigenvectors of a symmetric matrix happen to be mutually orthogonal'],answer:0,
+    why:'Differentiate L = uᵀΣu − λ(uᵀu − 1) and the eigenvector equation falls out. Left-multiplying by uᵀ then shows λ is the captured variance.'},
+   {q:'Complementary slackness (λ g(x) = 0) says that:',
+    options:['Every constraint in the problem must be active at the solution point',
+             'The multipliers must sum to one across all of the inequality constraints',
+             'The objective and the constraint have to be measured in the same units',
+             'Each constraint is either tight, or carries a zero multiplier and is irrelevant'],answer:3,
+    why:'That is exactly why an SVM depends only on its support vectors. Every point comfortably on the right side of the margin gets λ = 0.'}
+ ]},
+ exs:[{title:'Confirm that λ really is the shadow price',
+   lang:'python',
+   prompt:`For the fence problem, the constrained optimum under perimeter <code>P</code> is
+   <code>x = y = P/4</code> with area <code>A*(P) = P&sup2;/16</code>, and the Lagrange
+   multiplier is <code>&lambda; = x/2</code>.<br><br>
+   At <code>P = 40</code>, compute three things and store them under these names:
+   <code>lam</code>, the multiplier from the stationarity equations;
+   <code>sensitivity</code>, the numerical derivative of <code>A*</code> with respect to
+   <code>P</code>; and <code>area</code>, the best area itself. If the theory holds,
+   <code>lam</code> and <code>sensitivity</code> agree.`,
+   starter:`def best_area(P):
+    """Largest rectangle area for a given perimeter P."""
+    return (P / 4) ** 2
+
+P = 40.0
+
+# 1) The multiplier, straight from the stationarity equations: x = y = P/4, lam = x/2
+x = P / 4
+lam = 0.0
+
+# 2) The sensitivity, measured numerically: how much does the best area move
+#    when the budget moves by a hair?
+h = 1e-6
+sensitivity = 0.0
+
+# 3) The best area at this budget
+area = 0.0
+
+print(lam, sensitivity, area)
+`,
+   tests:[
+     {d:'the multiplier from the equations is 5',expr:'abs(lam - 5) < 1e-6'},
+     {d:'the best area at P = 40 is 100',expr:'abs(area - 100) < 1e-6'},
+     {d:'the measured sensitivity dA*/dP is about 5',expr:'abs(sensitivity - 5) < 1e-3'},
+     {d:'the multiplier and the sensitivity are the same number, which is the point of the exercise',expr:'abs(lam - sensitivity) < 1e-3'}
+   ],
+   hints:[
+     'lam = x / 2, and x is already computed for you as P / 4.',
+     'sensitivity = (best_area(P + h) - best_area(P)) / h, the same numerical derivative you used in the earlier lessons.',
+     'area = best_area(P). If lam and sensitivity both land on 5, you have just verified dF*/dc = λ by measurement.'
    ]}]}
 ]});

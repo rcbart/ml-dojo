@@ -1,0 +1,8 @@
+# Built output. `node build.js` regenerates dist/index.html from src/ and
+# content/streams/, so it is not worth versioning here. The copy that gets
+# published lives in the dojo repo at ml-dojo/dist/index.html.
+dist/
+
+__pycache__/
+*.pyc
+.DS_Store

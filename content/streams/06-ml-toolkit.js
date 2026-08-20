@@ -4,8 +4,8 @@ STREAMS.push({icon:'🧰',track:'Scientific Python (after the math)',title:'The 
  body:`
 <div class="ground"><span class="gTag">🎯 The honest story</span>
 <p>Let's correct a myth before it takes root: <b>"ML is written in Python" is only half
-true.</b> Python is where ML solutions are <b>prototyped, designed, and orchestrated</b> —
-where you express ideas, wire pipelines, and explore data. But the actual number-crunching —
+true.</b> Python is where ML solutions are <b>prototyped, designed, and orchestrated</b>,
+where you express ideas, wire pipelines, and explore data. But the actual number-crunching,
 the millions of matrix multiplies, would be hopelessly slow in pure Python. The real work
 runs in <b>highly optimized compiled code</b>: C and C++ inside NumPy and scikit-learn,
 CUDA kernels on GPUs inside PyTorch, Fortran-descended linear-algebra libraries (BLAS/LAPACK)
@@ -21,7 +21,7 @@ thin steering layer over a compiled engine</i>. That is also why loops over arra
 cardinal sin, every trip back into the Python interpreter abandons the engine.</p>
 
 <h3>And in production?</h3>
-<p>The same honesty applies at the far end: serious production systems often go further —
+<p>The same honesty applies at the far end: serious production systems often go further,
 inference servers in C++ or Rust, models exported to optimized runtimes (ONNX, TensorRT),
 specialized hardware. The pattern to internalize: <b>design and validate in Python, execute
 in whatever the computation demands.</b> Knowing this makes you better at both, you will
@@ -43,13 +43,13 @@ now.</div>`,
  docs:[['Why NumPy is fast (NumPy docs)','https://numpy.org/doc/stable/user/whatisnumpy.html#why-is-numpy-fast']],
  quiz:{title:'Quick check',questions:[
    {q:'The most accurate description of the role of Python in ML is:',
-    options:['All ML computation happens in Python','Python is the prototyping/design/orchestration layer; the heavy computation runs in optimized compiled code (C/C++/CUDA) that Python directs','Python is only used for teaching','Python is being replaced entirely'],answer:1,
+    options:['Python is only used for teaching','Python is the prototyping/design/orchestration layer; the heavy computation runs in optimized compiled code (C/C++/CUDA) that Python directs','Python is being replaced entirely','All ML computation happens in Python'],answer:1,
     why:'Control room vs engine room. NumPy, sklearn, and PyTorch are Python interfaces over compiled, parallel kernels.'},
    {q:'Why is looping over array elements in Python the cardinal performance sin?',
     options:['Loops are forbidden syntax','Each element-wise trip through the interpreter abandons the compiled engine; one vectorized call keeps all the work on the fast path','It uses too much memory','It only matters on GPUs'],answer:1,
     why:'The interpreter is slow per operation; the kernels are fast per million operations. Vectorizing is how you stay in the engine room.'},
    {q:'In serious production ML systems:',
-    options:['Everything stays in Python end to end','Models are often exported to optimized runtimes or re-implemented (C++/Rust/TensorRT) for the computational demands of serving','Python is never involved','Production is the same as prototyping'],answer:1,
+    options:['Python is never involved','Production is the same as prototyping','Models are often exported to optimized runtimes or re-implemented (C++/Rust/TensorRT) for the computational demands of serving','Everything stays in Python end to end'],answer:2,
     why:'Design and validate in Python; execute in whatever the computation demands. Knowing both halves is the professional picture.'}
  ]},
  exs:[{title:'Measure the engine room: pure Python vs the compiled kernel',
@@ -151,7 +151,7 @@ df = pd.DataFrame({
 })
 df["age"].mean()                  # aggregate a column        (capstone: sum/len)
 df[df["city"] == "London"]        # filter rows by condition  (capstone: comprehension)
-df.groupby("city")["age"].mean()  # split into groups, aggregate each — the new superpower</div>
+df.groupby("city")["age"].mean()  # split into groups, aggregate each - the new superpower</div>
 <p>Filtering uses exactly the boolean-mask idea from NumPy, <code>df["city"] == "London"</code>
 is a mask; indexing with it keeps the True rows. <b>groupby</b> is the one genuinely new move:
 split the table by a key, apply an aggregate per group, get one row per group. "Average age
@@ -164,13 +164,13 @@ arrays for speed. Nothing more frightening than a spreadsheet with an API.</div>
  docs:[['10 minutes to pandas','https://pandas.pydata.org/docs/user_guide/10min.html']],
  quiz:{title:'Quick check',questions:[
    {q:'df[df["age"] > 40] is:',
-    options:['A syntax error','Boolean-mask filtering, the NumPy idea, applied to labelled rows','A groupby','A file operation'],answer:1,
+    options:['A file operation','A syntax error','Boolean-mask filtering, the NumPy idea, applied to labelled rows','A groupby'],answer:2,
     why:'The comparison builds a True/False mask per row; indexing keeps the True rows. Same concept as NumPy, now with column names.'},
    {q:'df.groupby("city")["age"].mean() computes:',
-    options:['The overall mean age','One mean age PER city, split by key, aggregate per group','The number of cities','The oldest person'],answer:1,
+    options:['The number of cities','The oldest person','The overall mean age','One mean age PER city, split by key, aggregate per group'],answer:3,
     why:'Groupby = split-apply-combine: one row per group with its aggregate. Most reporting questions have this shape.'},
    {q:'Under the hood, a DataFrame stores its columns as:',
-    options:['Python lists of dictionaries','NumPy arrays, so pandas operations run in the compiled engine room','Text files','SQL tables'],answer:1,
+    options:['SQL tables','Python lists of dictionaries','NumPy arrays, so pandas operations run in the compiled engine room','Text files'],answer:2,
     why:'pandas is a labelled interface over NumPy storage, which is why vectorized pandas is fast and row-by-row loops over a DataFrame are slow.'}
  ]},
  exs:[{title:'Filter, aggregate, group, the real tool this time',
@@ -255,8 +255,8 @@ running in the engine room (compiled solvers underneath).</p></div>
 <div class="codeSample">from sklearn.linear_model import LinearRegression
 model = LinearRegression()
 model.fit(X, y)          # learn: internally solves least squares
-model.coef_              # the learned slope(s)  — your w[1] from the normal equations
-model.intercept_         # the learned intercept — your w[0]
+model.coef_              # the learned slope(s)  - your w[1] from the normal equations
+model.intercept_         # the learned intercept - your w[0]
 model.predict([[5.0]])   # use the model on new data</div>
 <p>Every scikit-learn model, trees, SVMs, clustering, speaks this same fit/predict dialect,
 which is why the ML track can move fast: learn a concept, ground it, then wield it through an
@@ -271,10 +271,10 @@ says "train," picture the bowl and the walk downhill, never an incantation.</div
  docs:[['scikit-learn (getting started)','https://scikit-learn.org/stable/getting_started.html']],
  quiz:{title:'Quick check',questions:[
    {q:'model.fit(X, y) on a LinearRegression does what, in terms you already know?',
-    options:['Something proprietary and unknowable','Solves the least-squares problem, the normal equations you implemented in the linear algebra stream','Downloads a pretrained model','Sorts the data'],answer:1,
+    options:['Solves the least-squares problem, the normal equations you implemented in the linear algebra stream','Downloads a pretrained model','Sorts the data','Something proprietary and unknowable'],answer:0,
     why:'The library packages the exact math you did by hand: minimize squared error, residual perpendicular to features.'},
    {q:'The trailing underscore in coef_ and intercept_ signals:',
-    options:['A typo','"Learned from data, exists only after .fit()", the sklearn naming idiom','A private variable you must not read','A deprecated feature'],answer:1,
+    options:['A private variable you must not read','A deprecated feature','A typo','"Learned from data, exists only after .fit()", the sklearn naming idiom'],answer:3,
     why:'Parameters estimated by fitting get the underscore; settings you chose (hyperparameters) do not. A tiny convention that reads whole codebases.'},
    {q:'Why does every sklearn model sharing fit/predict matter for learning ML?',
     options:['It does not matter','One interface, many models: each new concept in the ML track plugs into a dialect you already speak','It makes all models identical inside','It removes the need to understand concepts'],answer:1,
@@ -364,8 +364,8 @@ your plots render <b>directly below your code</b>, exactly like a real notebook.
 <h3>The 90% you will actually use</h3>
 <div class="codeSample">import matplotlib.pyplot as plt     # THE conventional alias
 
-plt.scatter(x, y)                   # points — data as it really is
-plt.plot(x, line_y, color="red")    # a line — e.g. your model's fit
+plt.scatter(x, y)                   # points - data as it really is
+plt.plot(x, line_y, color="red")    # a line - e.g. your model's fit
 plt.xlabel("size (100m²)")          # ALWAYS label your axes
 plt.ylabel("price (100k)")
 plt.title("Housing: data vs fitted line")</div>
@@ -376,19 +376,19 @@ training curves. The labels are not decoration; an unlabeled plot is a bug in pr
 work.</p>
 
 <div class="demystify"><b>Demystify "the figure":</b> matplotlib holds an invisible canvas
-(the <i>figure</i>) that your commands draw onto; <code>show()</code>, or MLDojo's runner —
+(the <i>figure</i>) that your commands draw onto; <code>show()</code>, or MLDojo's runner,
 renders it when you are done. That is why calls stack: scatter, then plot, then labels all
 land on the same canvas until it is displayed.</div>`,
  docs:[['matplotlib, quick start','https://matplotlib.org/stable/users/explain/quick_start.html'],['Anscombe quartet, why plotting matters','https://en.wikipedia.org/wiki/Anscombe%27s_quartet']],
  quiz:{title:'Quick check',questions:[
    {q:'Why plot data when you already have its mean, variance, and correlation?',
-    options:['Plots are just prettier','Summary statistics hide structure, completely different datasets can share identical summaries (Anscombe); a plot exposes shape, outliers, clusters','You should not; numbers suffice','Only for presentations'],answer:1,
+    options:['Only for presentations','Summary statistics hide structure, completely different datasets can share identical summaries (Anscombe); a plot exposes shape, outliers, clusters','Plots are just prettier','You should not; numbers suffice'],answer:1,
     why:'The quartet is the canonical proof: same stats, wildly different data. Looking is not optional in real ML work.'},
    {q:'plt.scatter vs plt.plot:',
-    options:['They are identical','scatter draws individual data points; plot draws connected lines (fits, trends, curves)','plot is 3-D only','scatter is deprecated'],answer:1,
+    options:['scatter is deprecated','scatter draws individual data points; plot draws connected lines (fits, trends, curves)','They are identical','plot is 3-D only'],answer:1,
     why:'Points for raw data, lines for models and trends, overlaying both is the classic "did my fit capture the data?" picture.'},
    {q:'The conventional import for matplotlib is:',
-    options:['import matplotlib','import matplotlib.pyplot as plt, the alias every ML codebase uses','from matplotlib import *','import pyplot'],answer:1,
+    options:['import matplotlib','from matplotlib import *','import pyplot','import matplotlib.pyplot as plt, the alias every ML codebase uses'],answer:3,
     why:'Like np and pd, plt is a universal convention, reading ML code anywhere assumes you know it.'}
  ]},
  exs:[{title:'Plot the housing data and your fitted line, and see it render',

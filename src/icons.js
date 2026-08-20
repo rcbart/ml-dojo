@@ -13,6 +13,7 @@ const ICON_MAP = {
   '\u{1F3B2}':'i-atom',      // die, probability
   '\u{1F9F0}':'i-flask',     // toolbox
   '\u{1F916}':'i-cpu',       // robot, classic ML
+  '\u{1F579}':'i-cycle',     // joystick, reinforcement learning
   '✍':'i-book',         // writing hand, notation
   // shared with the other dojos, so a stream can move between them
   '\u{1F511}':'i-key','\u{1F512}':'i-lock','\u{1F513}':'i-lock','\u{1F6E1}':'i-shield',

@@ -46,13 +46,13 @@ which function and which search.</div>`,
  docs:[['scikit-learn (an intro to machine learning)','https://scikit-learn.org/stable/tutorial/basic/tutorial.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The core loop of a classic ML model is:',
-    options:['Download, install, run','fit (learn from labelled examples) → predict (guess on new data) → evaluate (measure the error)','Compile, link, execute','Guess randomly forever'],answer:1,
+    options:['fit (learn from labelled examples) → predict (guess on new data) → evaluate (measure the error)','Compile, link, execute','Guess randomly forever','Download, install, run'],answer:0,
     why:'Fit tunes the weights on training data; predict applies them to new data; evaluate measures how wrong, ideally on unseen data.'},
    {q:'In prediction = w · feature + b, the weight w is:',
-    options:['The number of features','How much the feature counts toward the prediction, its sign is the direction, its size the strength','The error','Always 1'],answer:1,
+    options:['The number of features','The error','How much the feature counts toward the prediction, its sign is the direction, its size the strength','Always 1'],answer:2,
     why:'Weights (= parameters = coefficients) are the knobs training tunes. "+18k per bedroom" is a weight. b is the baseline (bias/intercept).'},
    {q:'Predicting a house PRICE is regression; predicting SPAM/not-spam is:',
-    options:['Also regression','Classification, the answer is a category, not a number','Clustering','Not machine learning'],answer:1,
+    options:['Clustering','Not machine learning','Classification, the answer is a category, not a number','Also regression'],answer:2,
     why:'Regression predicts a continuous number; classification predicts a category. Same fit/predict loop, different answer type and error measure.'}
  ]},
  exs:[{title:'Be the model: predict, then measure the error',
@@ -161,13 +161,13 @@ from-scratch version is how you <i>understand</i> what that one line does.</p></
  docs:[['scikit-learn (LinearRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Linear regression finds its weights by:',
-    options:['Trying every possible line','Gradient descent (or the closed-form normal equations), nudging w and b downhill on the MSE loss','Sorting the data','Random guessing'],answer:1,
+    options:['Random guessing','Gradient descent (or the closed-form normal equations), nudging w and b downhill on the MSE loss','Trying every possible line','Sorting the data'],answer:1,
     why:'The line has two knobs; training walks them down the loss surface (gradient descent) or solves the normal equations directly.'},
    {q:'The gradient ∂Loss/∂w for MSE is (2/n)·Σ(errorᵢ·xᵢ). What is errorᵢ?',
-    options:['The true label yᵢ','The prediction minus the actual: (w·xᵢ + b) − yᵢ','Always zero','The learning rate'],answer:1,
+    options:['The learning rate','The true label yᵢ','The prediction minus the actual: (w·xᵢ + b) − yᵢ','Always zero'],answer:2,
     why:'Error is prediction − actual. Multiplying it by xᵢ and averaging gives the slope of the loss in the w-direction, the nudge.'},
    {q:'If after training the loss stops decreasing, it means:',
-    options:['The code crashed','The line has settled near the bottom of the loss bowl, the best-fit weights','The learning rate is 0','There is no data'],answer:1,
+    options:['The line has settled near the bottom of the loss bowl, the best-fit weights','There is no data','The code crashed','The learning rate is 0'],answer:0,
     why:'A flat loss means the gradient is ~0, you are at the minimum, the best line the model can draw.'}
  ]},
  exs:[{title:'Train a linear regression by gradient descent',
@@ -272,10 +272,10 @@ met in the logarithms stream.)</div>`,
  docs:[['scikit-learn (LogisticRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Logistic regression turns the linear score w·x + b into a class by:',
-    options:['Rounding it to the nearest integer','Passing it through the sigmoid to get a probability in (0,1), then thresholding at 0.5','Taking its absolute value','Sorting the scores'],answer:1,
+    options:['Passing it through the sigmoid to get a probability in (0,1), then thresholding at 0.5','Sorting the scores','Rounding it to the nearest integer','Taking its absolute value'],answer:0,
     why:'Score → sigmoid → probability → decision. The sigmoid keeps the output a valid probability; 0.5 is the usual cut.'},
    {q:'Despite its name, logistic regression performs:',
-    options:['Regression (predicting a number)','Classification (predicting a category), the "regression" in the name is misleading','Clustering','Sorting'],answer:1,
+    options:['Classification (predicting a category), the "regression" in the name is misleading','Clustering','Sorting','Regression (predicting a number)'],answer:0,
     why:'It predicts a category via a probability. The name is a historical quirk; it is a classifier.'},
    {q:'The decision boundary of logistic regression sits where:',
     options:['x = 0 always','the score z = w·x + b crosses 0, i.e. the probability = 0.5','the data ends','the largest feature is'],answer:1,
@@ -410,13 +410,13 @@ correlation.</div>
 `,
  quiz:{title:'Quick check, paradigms',questions:[
    {q:'The defining difference between supervised and unsupervised learning is:',
-    options:['Whether the training data includes target labels','Whether the model is linear or nonlinear','Whether the data is numeric or categorical','Whether the dataset is large or small'],answer:0,
+    options:['Whether the dataset is large or small','Whether the model is linear or nonlinear','Whether the training data includes target labels','Whether the data is numeric or categorical'],answer:2,
     why:'Supervised has an answer key. Everything else about the two follows from that one fact.'},
    {q:'Self-supervised learning is best described as:',
-    options:['Clustering applied before a supervised model runs','Supervised learning on labels derived from the data','Training without any objective function at all','Reinforcement learning with a delayed reward'],answer:1,
+    options:['Reinforcement learning with a delayed reward','Clustering applied before a supervised model runs','Supervised learning on labels derived from the data','Training without any objective function at all'],answer:2,
     why:'Mask a word and predict it. There is a target, so it is supervised, but nobody annotated anything.'},
    {q:'Running k-means on data with no real cluster structure will:',
-    options:['Fail to converge within the iteration limit','Return a single cluster containing everything','Return k clusters and report no problem','Raise an error about insufficient separation'],answer:2,
+    options:['Return a single cluster containing everything','Raise an error about insufficient separation','Return k clusters and report no problem','Fail to converge within the iteration limit'],answer:2,
     why:'Clustering partitions whatever it is given. Validation has to come from outside the algorithm.'}
  ]}},
 
@@ -491,13 +491,332 @@ suspicion.</p>
 `,
  quiz:{title:'Quick check, small data',questions:[
    {q:'Small datasets are dominated by which error term?',
-    options:['Bias, since simpler models must be used','Variance, since the fit swings with the sample','Irreducible noise in the measurements','All three contribute about equally'],answer:1,
+    options:['Irreducible noise in the measurements','All three contribute about equally','Variance, since the fit swings with the sample','Bias, since simpler models must be used'],answer:2,
     why:'Few rows means a different sample gives a noticeably different model. That is variance by definition.'},
    {q:'Feature selection based on correlation with the target should be done:',
-    options:['Inside each cross-validation fold','Once on the full dataset beforehand','After the model has been fitted','Only when the dataset is large'],answer:0,
+    options:['Only when the dataset is large','Once on the full dataset beforehand','After the model has been fitted','Inside each cross-validation fold'],answer:3,
     why:'Doing it beforehand leaks the held-out labels into the selection and inflates every score that follows.'},
    {q:'With 200 rows and 20 positives, reporting accuracy is misleading because:',
-    options:['Accuracy is undefined for imbalanced data','Cross-validation cannot be used at all','Predicting the majority class already scores 90%','The folds will not contain any positives'],answer:2,
+    options:['Predicting the majority class already scores 90%','The folds will not contain any positives','Accuracy is undefined for imbalanced data','Cross-validation cannot be used at all'],answer:0,
     why:'A model that learns nothing scores 90%. Precision, recall and the confusion matrix are informative here.'}
+ ]}}
+,
+
+{id:'mlzoo',
+ title:'The classifier zoo: six ways to draw a boundary',
+ body:`
+<div class="ground"><span class="gTag">🎯 Every classifier is a different bet about what boundaries look like</span>
+<p>You have met logistic regression. There are half a dozen other families in common use, and
+they differ in one respect that matters more than any other: <b>what shape of decision boundary
+they are willing to draw</b>. Choose by matching that shape to your problem, not by reputation.</p></div>
+
+<h3>1. k-nearest neighbours: no model at all</h3>
+<p>To classify a new point, find the <code>k</code> closest training points and take a vote. That
+is the entire algorithm. There is no training phase, which is why it is called
+<b>lazy</b>: the training set <i>is</i> the model.</p>
+<div class="mathblock">y&#770;(x) = majority vote over the k nearest x<sub>i</sub>, by some distance d(x, x<sub>i</sub>)</div>
+<p><code>k</code> controls the bias-variance trade directly. <code>k = 1</code> gives a boundary
+that wraps around every single point, which is maximum variance and zero bias. Large
+<code>k</code> smooths the boundary toward the majority class, which is the opposite.</p>
+<div class="demystify"><b>k-NN is not k-means, and the names cause real confusion.</b> k-NN is
+<b>supervised</b> classification, where <code>k</code> is how many neighbours vote. k-means is
+<b>unsupervised</b> clustering, where <code>k</code> is how many clusters exist. They share a
+letter and nothing else.</div>
+<div class="hardidea">🧠 <b>Why k-NN collapses in high dimensions.</b> In <code>d</code>
+dimensions, the volume of a unit ball shrinks toward zero as <code>d</code> grows, so almost all
+of a cube's volume sits in its corners. The practical consequence is that the distance to your
+nearest neighbour and the distance to your farthest become nearly equal, so "nearest" stops
+meaning anything. This is the <b>curse of dimensionality</b>, and it hits every distance-based
+method. Beyond about 20 informative dimensions, k-NN needs dimensionality reduction first, or a
+different method entirely.</div>
+<p>Also note that distance is unit-dependent, so a feature measured in dollars will dominate one
+measured in years. <b>Always scale features before any distance-based method.</b> This is the
+most common way k-NN silently fails.</p>
+
+<h3>2. Naive Bayes: assume independence and apply Bayes</h3>
+<div class="mathblock">p(y=c | x) &prop; p(y=c) &Pi;<sub>d</sub> p(x<sub>d</sub> | y=c)</div>
+<p>The product is the "naive" part: it assumes features are conditionally independent given the
+class. That is almost always false. In text, "New" and "York" are anything but independent.</p>
+<p>It works anyway, and there is a reason. Classification only needs the <b>argmax</b> to be
+right, not the probabilities. Dependence between features distorts the magnitudes badly while
+often leaving the ordering intact. So naive Bayes is frequently a good classifier and almost
+always a poorly calibrated probability estimator, and you should not use its outputs as
+confidences.</p>
+<p>Fast, needs little data, and still a sensible baseline for text.</p>
+
+<h3>3. Decision trees: axis-aligned splits</h3>
+<p>Repeatedly ask a question of one feature, split, recurse. The boundary is a staircase of
+axis-aligned cuts. Trees choose each split by maximizing purity, most commonly with Gini
+impurity or entropy:</p>
+<div class="mathblock">Gini(S) = 1 - &Sigma;<sub>c</sub> p<sub>c</sub>&sup2;         Entropy(S) = -&Sigma;<sub>c</sub> p<sub>c</sub> log p<sub>c</sub>
+
+gain = impurity(parent) - &Sigma;<sub>children</sub> (n<sub>child</sub>/n<sub>parent</sub>) impurity(child)</div>
+<div class="worked"><b>Worked.</b> A node with 40 of class A and 10 of class B has
+<code>Gini = 1 - (0.8&sup2; + 0.2&sup2;) = 0.32</code>. A split producing (30,0) and (10,10) gives
+children with Gini 0 and 0.5, weighted: <code>(30/50)(0) + (20/50)(0.5) = 0.20</code>. Gain is
+<code>0.12</code>, so the split is worth making.</div>
+<p>Trees need no scaling, handle mixed feature types, and are readable. Left unrestricted they
+also memorize the training set perfectly, which is maximum variance. Alone they are rarely the
+right answer; in an ensemble they are often the best one.</p>
+
+<h3>4 and 5. Random forests and gradient boosting: two ways to use many trees</h3>
+<p>The two differ in what they are fixing, and it maps exactly onto the bias-variance
+decomposition.</p>
+<p><b>Random forest</b> grows many deep trees, each on a bootstrap resample and each considering
+only a random subset of features per split, then averages them. Deep trees are low bias and high
+variance; averaging many decorrelated ones cuts the variance. The random feature subset exists
+purely to decorrelate them, since averaging near-identical trees would achieve nothing.</p>
+<p><b>Gradient boosting</b> grows shallow trees <b>in sequence</b>, each fitted to the residual
+errors of everything before it. Shallow trees are high bias and low variance; adding them one at
+a time drives the bias down.</p>
+<div class="mathblock">F<sub>m</sub>(x) = F<sub>m-1</sub>(x) + &nu; h<sub>m</sub>(x), h<sub>m</sub> fitted to the negative gradient of the loss</div>
+<p>The <code>&nu;</code> is a learning rate, usually 0.01 to 0.1, and shrinking it while adding
+more trees is what keeps boosting from overfitting. Note the shape of that update: it is gradient
+descent, but stepping in the space of functions rather than the space of parameters.</p>
+<p>Forests parallelize and are hard to misuse. Boosting usually wins on tabular data and needs
+tuning. On small-to-medium tabular problems, gradient boosting is still the method to beat, and
+neural networks usually do not.</p>
+
+<h3>6. Support vector machines: the widest possible gap</h3>
+<p>Among all boundaries that separate the classes, choose the one with the largest <b>margin</b>,
+the widest empty corridor between the two sides. Only the points on the edge of that corridor
+matter, and they are the <b>support vectors</b>.</p>
+<div class="mathblock">minimize  &frac12;||w||&sup2; + C&Sigma;&xi;<sub>i</sub>   subject to   t<sub>i</sub>(w<sup>T</sup>x<sub>i</sub>+b) &ge; 1 - &xi;<sub>i</sub>, &xi;<sub>i</sub> &ge; 0</div>
+<p>The <code>&xi;</code> are slack variables allowing some violations, and <code>C</code> sets how
+much you tolerate. Small <code>C</code> means a wide margin and more mistakes allowed.</p>
+<div class="hardidea">🧠 <b>The kernel trick, in one paragraph.</b> Solve the dual form and the
+data appears only as inner products <code>x<sub>i</sub><sup>T</sup>x<sub>j</sub></code>. So
+replace every inner product with a function <code>K(x<sub>i</sub>, x<sub>j</sub>)</code> that
+equals the inner product in some higher-dimensional space, and you get a boundary that is linear
+there and curved here, <b>without ever computing the coordinates in that space</b>. The RBF
+kernel <code>K = exp(-&gamma;||x<sub>i</sub>-x<sub>j</sub>||&sup2;)</code> corresponds to an
+infinite-dimensional space. You never construct it, you only ever evaluate the kernel. That is
+the trick, and it is one of the most elegant ideas in the field.</div>
+<p>SVMs were dominant before deep learning and remain strong when <code>n</code> is small and
+<code>d</code> is large, text being the classic case. They scale badly past a few tens of
+thousands of rows.</p>
+
+<h3>Choosing, honestly</h3>
+<div class="mathblock">tabular, any size        &rarr; gradient boosting first, random forest as the safe default
+text, small data         &rarr; naive Bayes or linear SVM
+few features, need speed &rarr; logistic regression, and it is interpretable
+small n, large d         &rarr; SVM
+images, audio, language  &rarr; a pre-trained neural network, not this list
+need to explain it       &rarr; a shallow tree or logistic regression</div>
+<p>Start with logistic regression. It gives you a baseline in minutes and tells you whether the
+problem is easy. A great deal of effort is spent beating a linear model that was never tried.</p>
+`,
+ quiz:{title:'Quick check, classifiers',questions:[
+   {q:'k-NN requires feature scaling because:',
+    options:['Scaling reduces the number of neighbours needed','Distances are dominated by large-scale features','The vote would otherwise be tied too often','Training would take too long without it'],answer:1,
+    why:'A feature in dollars swamps one in years. Distance has no idea the units differ.'},
+   {q:'Random forests and gradient boosting differ mainly in that:',
+    options:['Forests use shallow trees, boosting uses deep ones','Forests reduce variance, boosting reduces bias','Only boosting can handle categorical features','Forests require the data to be scaled first'],answer:1,
+    why:'Averaging deep decorrelated trees cuts variance; sequentially fitting residuals with shallow trees cuts bias.'},
+   {q:'The kernel trick works because the SVM dual depends on data only through:',
+    options:['The distances to the decision boundary','The number of features in the input','The class labels of the support vectors','Inner products between pairs of points'],answer:3,
+    why:'Replace each inner product with K(xᵢ,xⱼ) and you work in a higher space without ever computing coordinates there.'}
+ ]}},
+
+{id:'mlcluster',
+ title:'Cluster analysis: four methods and the question none of them answer',
+ body:`
+<div class="ground"><span class="gTag">🎯 Grouping without an answer key, and why that is harder than it sounds</span>
+<p>Clustering has no accuracy to report, because there is nothing to be accurate against. That
+makes the choice of method, and the validation of the result, far more consequential than in
+supervised work.</p></div>
+
+<h3>1. k-means: round clusters, hard assignment</h3>
+<p>Pick <code>k</code> centers. Assign every point to its nearest. Move each center to the mean
+of its points. Repeat. It minimizes</p>
+<div class="mathblock">J = &Sigma;<sub>n</sub> &Sigma;<sub>k</sub> r<sub>nk</sub> ||x<sub>n</sub> - &mu;<sub>k</sub>||&sup2;, r<sub>nk</sub> &isin; {0,1}</div>
+<p>The two steps are coordinate descent on that objective: fixing centers and optimizing
+assignments gives "nearest center", and fixing assignments and optimizing centers gives "the
+mean". Each step lowers <code>J</code>, so it converges, and only to a local optimum, so use
+<code>k-means++</code> initialization and several restarts.</p>
+<p>Because the objective is squared Euclidean distance to a center, <b>k-means can only find
+round clusters of roughly equal size</b>. Give it two elongated parallel bands and it will cut
+them across the middle rather than along their length. That is not a bug, it is the objective.</p>
+
+<h3>2. Gaussian mixtures: elliptical clusters, soft assignment</h3>
+<p>Covered in depth in the probability stream. A GMM replaces "nearest center" with "posterior
+probability of each component", and replaces the shared spherical shape with a learned
+<code>&Sigma;<sub>k</sub></code> per component. That buys you elongated, tilted clusters of
+different sizes, and honest fractional membership for ambiguous points.</p>
+<div class="mathblock">k-means  =  GMM with  &Sigma;<sub>k</sub> = &sigma;&sup2;I (shared), equal &pi;<sub>k</sub>, hard responsibilities</div>
+<p>Fitted by EM. Costs more, needs more data per cluster because there are more parameters, and
+can collapse onto a single point if the covariances are not regularized.</p>
+
+<h3>3. Hierarchical clustering: no k required</h3>
+<p>Start with every point as its own cluster, repeatedly merge the two closest, and record the
+order. The result is a <b>dendrogram</b>, a tree you can cut at any height to get any number of
+clusters. You do not have to choose <code>k</code> in advance, which is its main appeal.</p>
+<p>The "closest" needs defining, and the choice changes the result substantially. <b>Single
+linkage</b> uses the closest pair of points, which chains clusters together along thin bridges.
+<b>Complete linkage</b> uses the farthest pair and produces compact clusters. <b>Ward linkage</b>
+merges whichever pair increases total within-cluster variance least, and behaves most like
+k-means. Cost is <code>O(n&sup2;)</code> or worse, so it is for thousands of points, not
+millions.</p>
+
+<h3>4. DBSCAN: density, arbitrary shapes, and an outlier category</h3>
+<p>Define a neighbourhood radius <code>&epsilon;</code> and a minimum count
+<code>minPts</code>. A point with at least <code>minPts</code> neighbours within
+<code>&epsilon;</code> is a <b>core point</b>; core points that are close together form a cluster;
+points near a cluster but not core join its edge; anything else is labeled <b>noise</b>.</p>
+<p>Three properties follow, and they are exactly what k-means lacks. It finds clusters of
+<b>arbitrary shape</b>, including crescents and rings. It does not need <code>k</code>. And it
+explicitly labels outliers rather than forcing them into a cluster. The cost is that it struggles
+when clusters have very different densities, since one <code>&epsilon;</code> has to suit all of
+them.</p>
+
+<h3>Choosing k, and why every method for it is a heuristic</h3>
+<p><b>The elbow method</b> plots within-cluster sum of squares against <code>k</code> and looks
+for the bend. It always decreases, so there is no optimum to find, only a judgement call about
+where the returns diminish.</p>
+<p><b>Silhouette score</b> compares each point's average distance to its own cluster against its
+distance to the nearest other cluster:</p>
+<div class="mathblock">s(i) = (b(i) - a(i)) / max(a(i), b(i)), s &isin; [-1, 1]</div>
+<p><b>BIC or AIC</b> apply to GMMs, since a GMM has a likelihood, and penalize parameter count.
+This is the closest thing to a principled answer available.</p>
+<div class="hardidea">🧠 <b>The honest position on validation.</b> Every internal measure above
+scores how well the partition matches the assumptions of the method that produced it. Silhouette
+rewards compact round clusters, so it will prefer k-means output on data with elongated groups,
+even when the elongated grouping is the true one. No internal score can tell you whether the
+clusters correspond to anything real. Only three things can: a downstream task that improves, a
+stability check showing the same structure across resamples, or a domain expert recognizing the
+groups. If none of those is available, report the clustering as a description of the dataset and
+not as a discovery.</div>
+<div class="worked"><b>Before any of this, scale your features.</b> All four methods rest on
+distance. On unscaled data with income in the tens of thousands and age in the tens, every
+distance is essentially the income difference and the clustering is a one-dimensional split on
+income wearing a disguise.</div>
+`,
+ quiz:{title:'Quick check, clustering',questions:[
+   {q:'k-means cannot find elongated clusters because:',
+    options:['It requires k to be known beforehand','It assigns each point to exactly one cluster','Its objective is squared distance to a center','It converges before reaching them'],answer:2,
+    why:'Minimizing ‖x − μ‖² makes round, equally sized groups the only thing the objective rewards.'},
+   {q:'DBSCAN differs from k-means most importantly by:',
+    options:['Guaranteeing the global optimum is found','Producing soft rather than hard assignments','Finding arbitrary shapes and labeling noise','Running faster on very large datasets'],answer:2,
+    why:'Density-connected regions can be any shape, and points in no dense region are explicitly outliers.'},
+   {q:'A high silhouette score tells you:',
+    options:['The data was properly scaled beforehand','The partition is compact and well separated','The clusters correspond to something real','The correct k has definitely been found'],answer:1,
+    why:'It measures the geometry of the partition against the assumptions that produced it. Reality needs outside evidence.'}
+ ]}}
+,
+
+{id:'mlreg',
+ title:'Regression beyond the straight line',
+ body:`
+<div class="ground"><span class="gTag">🎯 Same loop, seven different bets about the shape of the answer</span>
+<p>Linear regression fits a straight line by minimizing squared error. Every variant below changes
+exactly one of three things: the <b>shape</b> it is allowed to fit, the <b>penalty</b> applied to
+the coefficients, or the <b>loss</b> used to measure being wrong. Knowing which of the three has
+been changed is how you keep them straight.</p></div>
+
+<h3>The starting point</h3>
+<div class="mathblock">y&#770; = w<sup>T</sup>x + b, minimize  &Sigma;<sub>n</sub>(y<sub>n</sub> - y&#770;<sub>n</sub>)&sup2;
+
+closed form:  w = (X<sup>T</sup>X)<sup>-1</sup>X<sup>T</sup>y</div>
+<p>That closed form, the <b>normal equations</b>, exists because squared error is quadratic in
+<code>w</code>, so setting the derivative to zero gives a linear system. Almost nothing else in
+machine learning has this luxury, which is why linear regression is the one model you can solve
+exactly rather than iterate toward.</p>
+<div class="demystify"><b>When the closed form fails.</b> If two features are perfectly
+correlated, <code>X<sup>T</sup>X</code> is singular and cannot be inverted, so there is no unique
+answer. Near-collinearity is worse in practice than exact collinearity, because the inverse
+exists but is enormous, giving wild coefficients that flip sign with a small change in the data.
+Ridge regression fixes exactly this, and the fix falls out of its algebra below.</div>
+
+<h3>1. Polynomial regression: change the shape, keep the machinery</h3>
+<p>Add <code>x&sup2;, x&sup3;</code> and so on as extra features, then fit a linear model to
+them. The curve is nonlinear in <code>x</code> and still <b>linear in the parameters</b>, which
+is what "linear model" actually means, and why all the same mathematics applies.</p>
+<p>Degree is a bias-variance dial. Degree 1 underfits a curve; degree 15 on 20 points will pass
+through nearly all of them and oscillate violently between them. This is the standard
+demonstration of overfitting and it is worth plotting once yourself.</p>
+
+<h3>2, 3 and 4. Ridge, lasso and elastic net: change the penalty</h3>
+<div class="mathblock">ridge (L2):  &Sigma;(y-y&#770;)&sup2; + &lambda;&Sigma;w<sub>j</sub>&sup2;        w = (X<sup>T</sup>X + &lambda;I)<sup>-1</sup>X<sup>T</sup>y
+
+lasso (L1):  &Sigma;(y-y&#770;)&sup2; + &lambda;&Sigma;|w<sub>j</sub>|      no closed form
+
+elastic net: &Sigma;(y-y&#770;)&sup2; + &lambda;<sub>1</sub>&Sigma;|w<sub>j</sub>| + &lambda;<sub>2</sub>&Sigma;w<sub>j</sub><sup>2</sup></div>
+<p>Look at the ridge solution: the penalty adds <code>&lambda;I</code> to
+<code>X<sup>T</sup>X</code> before inverting, which lifts every eigenvalue by
+<code>&lambda;</code> and makes a near-singular matrix invertible. The regularization and the
+numerical fix are the same act.</p>
+<div class="hardidea">🧠 <b>Why lasso zeroes coefficients and ridge does not.</b> Picture the
+constraint region. L2 is a circle, L1 is a diamond with corners on the axes. The optimum sits
+where the elliptical contours of the squared-error loss first touch that region, and a diamond's
+corners stick out, so contact very often happens exactly at a corner, where one coordinate is
+zero. A circle has no corners, so contact almost never lands on an axis. The gradient view says
+the same: L1's pull toward zero is a constant <code>&lambda;&middot;sign(w)</code> regardless of
+size, so it can drive a small weight all the way to zero, while L2's pull is proportional and
+fades as the weight shrinks.</div>
+<p>So lasso does feature selection and ridge does not. Elastic net is for correlated groups of
+features, where lasso arbitrarily keeps one and discards the rest, while elastic net keeps or
+drops them together.</p>
+<div class="worked"><b>Choosing λ.</b> Cross-validation, always, and never on the training error,
+which is monotonic in λ and will always pick zero. Standardize the features first: the penalty
+sums coefficients, and a coefficient's size depends on its feature's units, so without scaling
+you are penalizing the choice of unit rather than the coefficient.</div>
+
+<h3>5. Logistic regression, which is classification wearing the name</h3>
+<p>It appears here only to place it. It fits <code>p = &sigma;(w<sup>T</sup>x + b)</code> and
+minimizes cross-entropy, not squared error. It is a member of the same family, the
+<b>generalized linear models</b>, where a linear predictor is passed through a link function
+chosen to match the type of the target.</p>
+
+<h3>6. Poisson and other GLMs: change the loss to match the target</h3>
+<p>Predicting counts with ordinary least squares is a common error. Counts cannot be negative,
+their variance grows with their mean, and squared error assumes Gaussian noise with constant
+variance. Poisson regression assumes what is actually true of counts:</p>
+<div class="mathblock">log &lambda; = w<sup>T</sup>x        loss = &Sigma;( &lambda;<sub>n</sub> - y<sub>n</sub> log &lambda;<sub>n</sub> )</div>
+<p>The log link guarantees a positive prediction, and the loss is the negative Poisson
+log-likelihood. Same idea, different assumption: gamma regression for positive skewed continuous
+outcomes, binomial for proportions.</p>
+
+<h3>7. Quantile and robust regression: change what "wrong" means</h3>
+<p>Squared error assumes Gaussian noise, so a single extreme outlier can dominate the fit,
+because the penalty grows with the square of the error. Two alternatives:</p>
+<div class="mathblock">absolute error (L1):  &Sigma;|y - y&#770;|          fits the median, Laplace noise
+Huber:                squared for small errors, linear beyond a threshold &delta;
+quantile (pinball):   asymmetric, fits the &tau;-th quantile rather than a center</div>
+<p>Quantile regression is the one people underuse. Fitting the 10th and 90th percentiles gives
+you a prediction <b>interval</b> rather than a point, which is often what a decision actually
+needs. Predicting that delivery takes four days is less useful than predicting it takes between
+two and nine.</p>
+
+<h3>8. Tree-based and kernel regression: abandon the linear form</h3>
+<p>Random forest and gradient boosting regressors predict a number at each leaf, and produce a
+piecewise-constant surface. They handle interactions and nonlinearity with no feature engineering
+and cannot extrapolate at all: outside the range of the training data they return the nearest
+leaf's constant, forever. <b>Support vector regression</b> fits a tube of width
+<code>&epsilon;</code> and penalizes only points outside it, and with a kernel gives smooth
+nonlinear fits.</p>
+
+<h3>How to choose</h3>
+<div class="mathblock">continuous target, few features    &rarr; linear, then ridge
+many features, some irrelevant     &rarr; lasso or elastic net
+correlated feature groups          &rarr; elastic net
+counts                             &rarr; Poisson
+outliers present                   &rarr; Huber or absolute error
+you need an interval, not a number &rarr; quantile regression
+tabular with interactions          &rarr; gradient boosting
+need to extrapolate beyond the data &rarr; a linear model, and only a linear model</div>
+<p>That last line is the one people forget. Trees are usually the strongest tabular method and
+they are structurally incapable of predicting outside the range they were trained on. If your
+problem requires extrapolation, no amount of boosting will help.</p>
+`,
+ quiz:{title:'Quick check, regression',questions:[
+   {q:'Ridge regression makes XᵀX invertible because it:',
+    options:['Uses gradient descent instead of a closed form','Adds λI, lifting every eigenvalue','Removes the correlated features first','Standardizes the features beforehand'],answer:1,
+    why:'(XᵀX + λI)⁻¹. The regularization and the numerical conditioning fix are literally the same operation.'},
+   {q:'Lasso produces exactly-zero coefficients because:',
+    options:['Its constraint region has corners on the axes','Its penalty grows faster than L2 does','It uses absolute error rather than squared error','It removes features before fitting begins'],answer:0,
+    why:'The diamond’s corners lie on the axes, so the contours very often first touch where a coordinate is zero.'},
+   {q:'Gradient-boosted trees cannot extrapolate because:',
+    options:['Boosting stops once residuals are small','They overfit before reaching the boundary','Each leaf returns a constant learned from data','Their loss is only defined on training data'],answer:2,
+    why:'The surface is piecewise constant. Outside the training range you get the nearest leaf’s value, unchanged forever.'}
  ]}}
 ]});

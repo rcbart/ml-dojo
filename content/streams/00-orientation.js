@@ -55,7 +55,7 @@ actuals     = [200, 140, 300]
 # the error (residual) for each: prediction - actual
 residuals = [-20, 10, 10]          # off by 20 low, 10 high, 10 high
 
-# one number for "how wrong overall" — Mean Squared Error
+# one number for "how wrong overall" - Mean Squared Error
 # average of the squared residuals:
 # (400 + 100 + 100) / 3 = 200.0   ← this is the loss training shrinks</div>
 <p>You do not need to write that yet, the Python stream teaches you how. For now, just hold
@@ -63,16 +63,16 @@ the idea: <b>error is how wrong; loss is how wrong overall; training makes it sm
  docs:[['A visual, non-technical intro to ML','https://mlu-explain.github.io/']],
  quiz:{title:'Quick check, the vocabulary',questions:[
    {q:'In machine learning, the "error" of a prediction is:',
-    options:['A bug that crashes the program mid-run','The gap between the prediction and the truth','A missing or corrupted data file','The time the program takes to run'],answer:1,
+    options:['The time the program takes to run','The gap between the prediction and the truth','A bug that crashes the program mid-run','A missing or corrupted data file'],answer:1,
     why:'Error = prediction minus reality. For one example it is the residual; averaged and squared across all of them it becomes the loss (MSE).'},
    {q:'When a later math lesson says "gradient descent reduces the error," it means:',
-    options:['It fixes bugs in your code','It turns the model\u2019s knobs to shrink the loss','It hides the error messages from you','It makes the program run much faster'],answer:1,
+    options:['It hides the error messages from you','It makes the program run much faster','It fixes bugs in your code','It turns the model\u2019s knobs to shrink the loss'],answer:3,
     why:'"Reduce the error" = shrink the model error (loss) by adjusting the parameters. That is what training is.'},
    {q:'A "loss" or "cost" function is:',
-    options:['The price you paid for the software licence','A single score of how wrong the model is','A particular kind of program crash or exception','The number of input features in the dataset'],answer:1,
+    options:['A single score of how wrong the model is','The number of input features in the dataset','The price you paid for the software licence','A particular kind of program crash or exception'],answer:0,
     why:'Loss = cost = objective: a single score of overall wrongness. MSE is the most common example.'},
    {q:'A program with no bugs at all:',
-    options:['Must therefore have zero model error','Can still have large model error anyway','Cannot be trained on any data','Will never produce any predictions'],answer:1,
+    options:['Can still have large model error anyway','Must therefore have zero model error','Cannot be trained on any data','Will never produce any predictions'],answer:0,
     why:'Working code and an accurate model are separate things. The math streams always mean model error; "read the error" means the program kind.'}
  ]}}
 ]});

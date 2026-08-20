@@ -3,7 +3,7 @@ STREAMS.push({icon:'📐',track:'Foundations Track',title:'Linear Algebra for ML
  title:'Fundamentals: why matrices? A dataset IS a matrix',
  body:`
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>You already know a vector: an ordered list of numbers. A <b>matrix</b> is the next step up —
+<p>You already know a vector: an ordered list of numbers. A <b>matrix</b> is the next step up,
 a <b>grid</b> of numbers, rows × columns. And here is the reason ML cares, before any math:
 <b>a dataset is literally a matrix</b>. Each <b>row</b> is one example (one house, one patient),
 each <b>column</b> is one feature (size, age, price). Three houses described by two numbers
@@ -22,9 +22,9 @@ a number: multiply every cell. Both are exactly what you'd guess. In NumPy:</p>
 <div class="codeSample">import numpy as np
 A = np.array([[1, 2],
               [3, 4]])
-A + A        # [[2, 4], [6, 8]]     — cell by cell
-2 * A        # [[2, 4], [6, 8]]     — every cell doubled
-A.shape      # (2, 2)               — rows, columns</div>
+A + A        # [[2, 4], [6, 8]]     - cell by cell
+2 * A        # [[2, 4], [6, 8]]     - every cell doubled
+A.shape      # (2, 2)               - rows, columns</div>
 <p><code>.shape</code> tells you the dimensions, <code>(rows, columns)</code>. A dataset of
 150 examples with 4 features has shape <code>(150, 4)</code>. When an error says "shapes don't
 match," it's telling you the grids can't line up, the most common bug in all of ML code.</p>
@@ -56,10 +56,10 @@ across this stream; refer back anytime):
     options:['(5, 200)','(200, 5)','(200, 200)','(5, 5)'],answer:1,
     why:'Rows = examples (200 patients), columns = features (5 measurements): shape (200, 5).'},
    {q:'Adding two matrices of the same shape works by:',
-    options:['Multiplying rows by columns','Adding matching cells, position by position','Joining them side by side','It is not allowed'],answer:1,
+    options:['It is not allowed','Multiplying rows by columns','Joining them side by side','Adding matching cells, position by position'],answer:3,
     why:'Addition is cell-by-cell (element-wise). That is why the shapes must match exactly.'},
    {q:'Why does ML use matrix operations instead of Python loops?',
-    options:['Loops are forbidden in Python','One matrix operation applies the same work to all rows at once, massively faster, and what GPUs are built for','Matrices use less memory than lists','It is just tradition'],answer:1,
+    options:['One matrix operation applies the same work to all rows at once, massively faster, and what GPUs are built for','It is just tradition','Loops are forbidden in Python','Matrices use less memory than lists'],answer:0,
     why:'Vectorized matrix operations do in one hardware-accelerated step what a loop does row by row.'}
  ]},
  exs:[{title:'Your dataset as a matrix (pure Python)',
@@ -169,7 +169,7 @@ shape), and is a completely different operation from the matrix multiplication
 <code>A @ B</code> you meet next lesson. Same words, one dimension higher.</p>
 
 <h3>The transpose: flip a matrix over its diagonal</h3>
-<div class="codeSample">A  = [[1, 2, 3],          Aᵀ = [[1, 4],
+<div class="codeSample">A  = [[1, 2, 3], Aᵀ = [[1, 4],
       [4, 5, 6]]                [2, 5],
    (2 rows, 3 cols)             [3, 6]]   (3 rows, 2 cols)</div>
 <p>The <b>transpose</b> <code>Aᵀ</code> (in NumPy, <code>A.T</code>) turns rows into columns and
@@ -188,13 +188,13 @@ numbers are wrong, check whether you wanted <code>*</code> or <code>@</code>.</d
  docs:[['NumPy (array operations)','https://numpy.org/doc/stable/user/absolute_beginners.html#basic-array-operations']],
  quiz:{title:'Quick check',questions:[
    {q:'[1, 2, 3] + [4, 5, 6] (as vectors) gives:',
-    options:['[1,2,3,4,5,6] (joined)','[5, 7, 9], add matching entries','32','[4, 10, 18]'],answer:1,
+    options:['[1,2,3,4,5,6] (joined)','32','[4, 10, 18]','[5, 7, 9], add matching entries'],answer:3,
     why:'Vector addition is entry-by-entry (same length required). Joining lists is a different, non-math operation.'},
    {q:'In NumPy, a * b (for two equal-length arrays) computes:',
-    options:['The dot product (a single number)','Element-wise multiplication, each entry times its partner, keeping a vector','Matrix multiplication','An error'],answer:1,
+    options:['An error','Element-wise multiplication, each entry times its partner, keeping a vector','The dot product (a single number)','Matrix multiplication'],answer:1,
     why:'* is ALWAYS element-wise in NumPy. The dot product is a @ b or np.dot(a, b). Confusing the two is the classic bug.'},
    {q:'The difference between element-wise multiply and the dot product is:',
-    options:['They are the same','The dot product also SUMS the products into one number; element-wise keeps a vector','Element-wise only works on matrices','The dot product flips the vector'],answer:1,
+    options:['The dot product also SUMS the products into one number; element-wise keeps a vector','Element-wise only works on matrices','The dot product flips the vector','They are the same'],answer:0,
     why:'[1,2]*[3,4] = [3,8] (element-wise, a vector); [1,2]·[3,4] = 3+8 = 11 (dot, one number). The sum is the whole difference.'}
  ]},
  exs:[{title:'Every basic operation, once (pure Python)',
@@ -291,8 +291,8 @@ print(Asum, A3, BT)
    {q:`<b>3. (On your computer)</b> In the Playground, create <code>a</code> and <code>b</code> from problem 2 as NumPy arrays and confirm <code>a * b</code> and <code>a @ b</code> give what you computed. Why do they differ?`,
     solution:`<div class="codeSample">import numpy as np
 a = np.array([1, 0, 2]); b = np.array([3, 4, 1])
-print(a * b)   # [3 0 2]  — element-wise (NumPy's * is ALWAYS element-wise)
-print(a @ b)   # 5        — dot product (multiply then sum)</div>
+print(a * b)   # [3 0 2]  - element-wise (NumPy's * is ALWAYS element-wise)
+print(a @ b)   # 5        - dot product (multiply then sum)</div>
     They differ because <code>*</code> stops at "multiply matching entries," while
     <code>@</code> takes the extra step of summing them into one number. Reaching for
     <code>*</code> when you meant <code>@</code> is the classic NumPy bug.`}
@@ -378,13 +378,13 @@ whole operation.</div>`,
  docs:[['NumPy (matmul (@))','https://numpy.org/doc/stable/reference/generated/numpy.matmul.html']],
  quiz:{title:'Quick check',questions:[
    {q:'In C = A @ B, each cell of C is:',
-    options:['The product of matching cells of A and B','The dot product of a row of A with a column of B','The sum of a row of A','Always 0 or 1'],answer:1,
+    options:['The sum of a row of A','The dot product of a row of A with a column of B','Always 0 or 1','The product of matching cells of A and B'],answer:1,
     why:'That is the whole rule, batched dot products. It is also why inner shapes must match.'},
    {q:'X is 3×2 (3 houses, 2 features) and w has 2 weights. X @ w gives:',
-    options:['A 2×3 matrix','3 numbers, one prediction per house','2 numbers, one per feature','An error'],answer:1,
+    options:['A 2×3 matrix','2 numbers, one per feature','3 numbers, one prediction per house','An error'],answer:2,
     why:'(3×2) @ (2,) → 3 values: each house\u0027s dot product with the weights. Scoring a dataset IS this multiply.'},
    {q:'The identity matrix I is special because:',
-    options:['It doubles every value','I @ v = v, it changes nothing, like multiplying by 1','It sorts the matrix','It only works on 2×2 matrices'],answer:1,
+    options:['I @ v = v, it changes nothing, like multiplying by 1','It doubles every value','It sorts the matrix','It only works on 2×2 matrices'],answer:0,
     why:'1s on the diagonal, 0s elsewhere: the do-nothing transformation, and the reference point for defining inverses (A @ A⁻¹ = I).'}
  ]},
  exs:[{title:'Predict every house at once (matrix × vector, by hand)',
@@ -515,13 +515,13 @@ network needs a nonlinearity between them to bend space at all (calculus/functio
  docs:[['3Blue1Brown (linear transformations & matrices)','https://www.3blue1brown.com/lessons/linear-transformations']],
  quiz:{title:'Quick check',questions:[
    {q:'What does it mean that "a matrix transforms space"?',
-    options:['It stores space in memory','It takes each point (as a vector) and moves it to a new location, reshaping the whole plane at once','It measures the size of space','It deletes points'],answer:1,
+    options:['It measures the size of space','It takes each point (as a vector) and moves it to a new location, reshaping the whole plane at once','It deletes points','It stores space in memory'],answer:1,
     why:'A @ v moves the point v somewhere new; doing this to every point stretches/rotates/shears/flips all of space. That is the transformation.'},
    {q:'The columns of a 2×2 matrix tell you:',
-    options:['Its determinant','Where the basis vectors [1,0] and [0,1] land after the transformation','How many rows it has','Its inverse'],answer:1,
+    options:['Its inverse','Where the basis vectors [1,0] and [0,1] land after the transformation','Its determinant','How many rows it has'],answer:1,
     why:'Column 1 = image of [1,0], column 2 = image of [0,1]. Those two landing spots define the entire transformation.'},
    {q:'If a matrix squashes 2-D space flat onto a single line, then:',
-    options:['Its determinant is huge','Area collapses to 0 (determinant 0), information is lost, and the transformation cannot be reversed (no inverse)','It becomes the identity','Nothing special happens'],answer:1,
+    options:['Nothing special happens','Its determinant is huge','Area collapses to 0 (determinant 0), information is lost, and the transformation cannot be reversed (no inverse)','It becomes the identity'],answer:2,
     why:'Flattening a dimension destroys information, you cannot un-flatten it. That is the geometric reason det=0 matrices have no inverse.'}
  ]},
  exs:[{title:'Watch a matrix move the basis vectors',
@@ -621,8 +621,8 @@ is the complete toolkit for that.</p></div>
 <div class="mathblock">L2 norm:  ‖v‖ = √(3² + 4²) = √(9 + 16) = √25 = 5
 L1 norm:  |3| + |4| = 7</div>
 Same vector, two rulers, two lengths.</div>
-<p><b>Why ML cares, in plain English:</b> a norm is how a model measures "how big" something is
-— <i>how big is this error?</i> and <i>how big are these weights?</i> Penalizing large weights
+<p><b>Why ML cares, in plain English:</b> a norm is how a model measures "how big" something is,
+<i>how big is this error?</i> and <i>how big are these weights?</i> Penalizing large weights
 (so the model stays simple) is just penalizing their norm, that is exactly what L2 and L1
 <b>regularization</b> do, and it is the same L2-vs-L1 pair you met as MSE vs MAE.</p>
 
@@ -648,7 +648,7 @@ that number and <b>divides out both lengths</b>, so only <i>direction</i> is lef
 <div class="worked"><b>✍️ Worked by hand.</b> Take <code>a = [1, 2]</code> and
 <code>b = [2, 4]</code> (b points the exact same way as a, just longer):
 <div class="mathblock">dot:   a · b = (1)(2) + (2)(4) = 2 + 8 = 10
-norms: ‖a‖ = √(1+4) = √5 ,  ‖b‖ = √(4+16) = √20
+norms: ‖a‖ = √(1+4) = √5 , ‖b‖ = √(4+16) = √20
 cosine = 10 / (√5 · √20) = 10 / √100 = 10 / 10 = 1.0</div>
 A cosine of <b>1.0</b> means "identical direction", correct, since b is just 2×a. If b were
 <code>[−2, −4]</code> (opposite way) it would be −1; at right angles, 0.</div>
@@ -667,13 +667,13 @@ decision, not a formality.</div>`,
  docs:[['NumPy (linalg.norm)','https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The distance between two data points a and b, as vectors, is:',
-    options:['a · b','The norm of their difference, ‖a − b‖','Their average','The number of matching entries'],answer:1,
+    options:['Their average','The number of matching entries','The norm of their difference, ‖a − b‖','a · b'],answer:2,
     why:'Subtract, then measure the length of the gap. Nearest-neighbor methods are exactly this.'},
    {q:'Cosine similarity divides the dot product by both lengths. What does that buy?',
-    options:['Faster computation','Only DIRECTION matters, two users with the same taste match even if one rates 10× more movies','It guarantees a positive answer','Nothing; it equals the dot product'],answer:1,
+    options:['It guarantees a positive answer','Nothing; it equals the dot product','Faster computation','Only DIRECTION matters, two users with the same taste match even if one rates 10× more movies'],answer:3,
     why:'Dividing out the lengths removes magnitude, leaving the angle, pure "same taste?" with 1 = identical direction.'},
    {q:'The L1 norm of [3, −4] and the L2 norm of [3, −4] are:',
-    options:['7 and 5','5 and 7','1 and 25','Both 7'],answer:0,
+    options:['5 and 7','7 and 5','1 and 25','Both 7'],answer:1,
     why:'L1 = |3| + |−4| = 7 (city-block). L2 = √(9+16) = 5 (straight line). Two rulers, two answers.'}
  ]},
  exs:[{title:'Build a tiny recommender: who is closest to Alice?',
@@ -793,7 +793,7 @@ determinant is the fingerprint of that.</div>
 
 <h3>What the number MEANS: area scaling</h3>
 <p>Picture the unit square (corners at the origin, area 1). Feed its corners through a matrix
-and it becomes a parallelogram. <b>The determinant is the area of that parallelogram</b> —
+and it becomes a parallelogram. <b>The determinant is the area of that parallelogram</b>,
 i.e. the factor by which the matrix scales <i>every</i> area.</p>
 <div class="worked"><b>✍️ Worked, the stretch matrix.</b> <code>D = [[3, 0], [0, 2]]</code>
 stretches x by 3 and y by 2.
@@ -807,7 +807,7 @@ dimension is lost, and (next lesson) that is precisely why the matrix has no inv
 image), and its size is still the area factor.</p></div>
 
 <h3>Where it is used in the real world (and in ML)</h3>
-<p>Beyond a school exercise, the determinant earns its keep: (1) <b>Can it be reversed?</b> —
+<p>Beyond a school exercise, the determinant earns its keep: (1) <b>Can it be reversed?</b>,
 <code>det ≠ 0</code> means the transformation preserves area (no dimension crushed), so it can be
 <i>undone</i>; <code>det = 0</code> means it flattened space and cannot be reversed. "Can be
 undone" has a name, <b>invertible</b>, which the next two lessons build in full. This is the
@@ -820,7 +820,7 @@ distribution, densities rescale by the determinant of the transformation (the "J
 determinant"); this is the engine behind change-of-variables in statistics and
 <b>normalizing flows</b> in modern generative ML. One number, all of these jobs.</p>
 
-<div class="demystify"><b>Demystify "determinant":</b> the name comes from its original job —
+<div class="demystify"><b>Demystify "determinant":</b> the name comes from its original job,
 it <i>determines</i> whether a system of equations has a unique solution (yes ⟺ det ≠ 0). Do
 not memorize the bigger-matrix formulas; understand the meaning (area/volume scaling; zero =
 collapsed = non-invertible) and let <code>np.linalg.det</code> crunch the arithmetic. For 3×3
@@ -828,13 +828,13 @@ and up it is more work by hand, but the <i>meaning</i> is identical, a volume-sc
  docs:[['Determinant (the geometric meaning (3Blue1Brown))','https://www.3blue1brown.com/lessons/determinant'],['np.linalg.det','https://numpy.org/doc/stable/reference/generated/numpy.linalg.det.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The determinant of [[3, 1], [2, 4]] is:',
-    options:['14','10, main diagonal (3·4) minus anti-diagonal (1·2) = 12 − 2','5','12'],answer:1,
+    options:['5','12','14','10, main diagonal (3·4) minus anti-diagonal (1·2) = 12 − 2'],answer:3,
     why:'2×2 determinant is ad − bc = (3)(4) − (1)(2) = 12 − 2 = 10.'},
    {q:'Geometrically, a determinant of 6 means the matrix:',
-    options:['Has 6 rows','Scales every area (or volume) by a factor of 6','Adds 6 to each entry','Has 6 as an entry'],answer:1,
+    options:['Has 6 as an entry','Has 6 rows','Scales every area (or volume) by a factor of 6','Adds 6 to each entry'],answer:2,
     why:'The determinant is the area/volume scaling factor of the transformation, the unit square becomes a shape of area 6.'},
    {q:'A determinant of 0 tells you the matrix:',
-    options:['Is very large','Collapses space onto a lower dimension, so it is singular (no inverse), often because rows/columns are redundant','Is the identity','Doubles everything'],answer:1,
+    options:['Collapses space onto a lower dimension, so it is singular (no inverse), often because rows/columns are redundant','Doubles everything','Is very large','Is the identity'],answer:0,
     why:'Zero area scaling = a dimension is crushed flat = not invertible. It is the fingerprint of dependent rows/columns.'}
  ]},
  exs:[{title:'Determinants by hand (the ad − bc rule)',
@@ -918,7 +918,7 @@ Step 3, divide by det (2):
    A⁻¹ = (1/2)·|  2  −3 | = |  1.0  −1.5 |
               | −2   4 |   | −1.0   2.0 |</div>
 Check it undoes A (multiply them, one entry at a time):
-<div class="mathblock">A @ A⁻¹ , row1·col1 = [4,3]·[1,−1] = 4 − 3 = 1
+<div class="mathblock">A @ A⁻¹:  row1·col1 = [4,3]·[1,−1] = 4 − 3 = 1
           row1·col2 = [4,3]·[−1.5, 2] = −6 + 6 = 0
           row2·col1 = [2,2]·[1,−1] = 2 − 2 = 0
           row2·col2 = [2,2]·[−1.5, 2] = −3 + 4 = 1
@@ -950,13 +950,13 @@ un-squashed. That is the whole reason det = 0 ⇔ no inverse.</div>`,
  docs:[['NumPy (linalg.solve)','https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The defining property of the inverse A⁻¹ is:',
-    options:['A⁻¹ has negative entries','A @ A⁻¹ = I, applying then un-applying lands on "do nothing"','A⁻¹ is A flipped upside down','Every matrix has one'],answer:1,
+    options:['A @ A⁻¹ = I, applying then un-applying lands on "do nothing"','A⁻¹ is A flipped upside down','Every matrix has one','A⁻¹ has negative entries'],answer:0,
     why:'Inverse = undo, and "undone" means the identity: the do-nothing matrix from lesson 2.'},
    {q:'A dataset accidentally contains height-in-cm AND height-in-metres as two columns. Exact solving breaks because:',
-    options:['The numbers are too big','The matrix is singular, one column is a multiple of the other, so information is redundant and the transformation cannot be undone','Python forbids duplicate columns','Heights are always Gaussian'],answer:1,
+    options:['The matrix is singular, one column is a multiple of the other, so information is redundant and the transformation cannot be undone','Heights are always Gaussian','The numbers are too big','Python forbids duplicate columns'],answer:0,
     why:'Redundant columns squash a dimension flat (det = 0). Real "singular matrix" errors usually mean exactly this.'},
    {q:'Why prefer np.linalg.solve(A, b) over np.linalg.inv(A) @ b?',
-    options:['solve is more accurate and faster, computing an explicit inverse is wasteful','inv does not exist in NumPy','They give unrelated answers','solve works on strings'],answer:0,
+    options:['They give unrelated answers','solve works on strings','solve is more accurate and faster, computing an explicit inverse is wasteful','inv does not exist in NumPy'],answer:2,
     why:'A real-practice habit: solvers avoid explicitly forming the inverse, which is slower and numerically worse.'}
  ]},
  exs:[{title:'Invert a 2×2 by hand and recover a model',
@@ -1052,7 +1052,7 @@ plane (any point = so much right + so much up); a single vector spans only the l
 it.</p>
 
 <h3>Independence: does a new feature add anything?</h3>
-<p>Vectors are <b>linearly independent</b> when none of them can be built from the others —
+<p>Vectors are <b>linearly independent</b> when none of them can be built from the others,
 each genuinely adds a new direction. <code>[1,2]</code> and <code>[2,4]</code> are
 <i>dependent</i>: the second is just twice the first, adds nothing, and their span is still
 one line. Sound familiar? That is precisely the duplicated-feature disease from the inverse
@@ -1074,19 +1074,19 @@ is why they matter to models.</div>`,
  docs:[['3Blue1Brown (span and basis)','https://www.3blue1brown.com/lessons/span']],
  quiz:{title:'Quick check',questions:[
    {q:'The span of the vectors [1,0] and [0,1] is:',
-    options:['Just those two points','The entire 2D plane, any point is some amount right plus some amount up','A single line','Empty'],answer:1,
+    options:['A single line','The entire 2D plane, any point is some amount right plus some amount up','Empty','Just those two points'],answer:1,
     why:'Every 2D point is a linear combination c₁·[1,0] + c₂·[0,1]. Two independent directions span the plane.'},
    {q:'[1,2] and [2,4] are linearly dependent. Practically, this means:',
-    options:['They are both long','The second adds NO new direction, like a duplicated feature, the span is still just one line','They are perpendicular','They span the plane'],answer:1,
+    options:['They span the plane','They are both long','The second adds NO new direction, like a duplicated feature, the span is still just one line','They are perpendicular'],answer:2,
     why:'[2,4] = 2·[1,2]: redundant information. Rank 1, singular matrix, "add a feature that says nothing new."'},
    {q:'If the true relationship lies OUTSIDE the span of your features, then:',
-    options:['More training epochs will fix it','No linear model on those features can reach it, you need new/better features','The learning rate is wrong','The data is corrupted'],answer:1,
+    options:['The data is corrupted','More training epochs will fix it','No linear model on those features can reach it, you need new/better features','The learning rate is wrong'],answer:2,
     why:'A model can only combine what it is given. Expressiveness is set by the span, which is why feature engineering matters.'}
  ]},
  exs:[{title:'Recipes, redundancy, and reach (pure Python)',
    lang:'python',
    prompt:`Basis vectors <code>b1 = [1, 0]</code> and <code>b2 = [1, 1]</code>; target
-   <code>t = [3, 5]</code>. Writing <code>t = c1·b1 + c2·b2</code> gives two equations —
+   <code>t = [3, 5]</code>. Writing <code>t = c1·b1 + c2·b2</code> gives two equations,
    solve them by hand:
    <ol>
    <li><code>c2</code>, from the 2nd coordinate: <code>c1·0 + c2·1 = 5</code>, so c2 = 5,</li>
@@ -1215,7 +1215,7 @@ you: your columns are secretly redundant, go find the duplicated information.</d
     options:['It has only positive entries','Its determinant is non-zero (equivalently: full rank, independent columns, a unique solution to Ax=b)','It is large enough','It is symmetric'],answer:1,
     why:'One fact, five equivalent tests: det≠0 ⟺ full rank ⟺ independent columns ⟺ unique solution ⟺ no information lost.'},
    {q:'You add "price in euros" to a model that already has "price in dollars" (euros = 1.1 × dollars). The normal equations break because:',
-    options:['The numbers get too big','The two columns are dependent, so XᵀX is singular (no inverse), collinear features have no unique solution','Euros are not supported','Regression cannot use money'],answer:1,
+    options:['Regression cannot use money','The numbers get too big','The two columns are dependent, so XᵀX is singular (no inverse), collinear features have no unique solution','Euros are not supported'],answer:2,
     why:'Redundant/collinear columns make XᵀX rank-deficient and non-invertible. This is THE classic real-world regression failure.'},
    {q:'How does ridge regression, (XᵀX + λI)⁻¹, help numerically?',
     options:['It deletes features','The + λI nudge restores full rank, guaranteeing the matrix is invertible even when XᵀX alone is singular','It makes the data bigger','It has no effect on invertibility'],answer:1,
@@ -1325,10 +1325,10 @@ compromise: find the <code>w</code> whose predictions are <i>as close as possibl
 linear regression; you are about to fit your first real model with pure linear algebra.</p></div>
 
 <h3>The transpose, and the one formula</h3>
-<p>The <b>transpose</b> <code>Xᵀ</code> (in NumPy, <code>X.T</code>) flips rows and columns —
+<p>The <b>transpose</b> <code>Xᵀ</code> (in NumPy, <code>X.T</code>) flips rows and columns,
 bookkeeping that lets shapes line up. With it, the least-squares answer is one line, the
 <b>normal equations</b>: <code>w = (XᵀX)⁻¹ Xᵀ y</code>. You already own every piece:
-transpose, matrix multiply, inverse. Assembled, they fit a regression model in closed form —
+transpose, matrix multiply, inverse. Assembled, they fit a regression model in closed form,
 no iteration, no library, no magic.</p>
 
 <h3>The geometry: a shadow</h3>
@@ -1346,13 +1346,13 @@ sense once someone tells you which meaning of normal is intended.</div>`,
  docs:[['Least squares, the geometric picture (3Blue1Brown-style)','https://textbooks.math.gatech.edu/ila/least-squares.html']],
  quiz:{title:'Quick check',questions:[
    {q:'With 1,000 noisy data points and 2 weights, X @ w = y has:',
-    options:['Exactly one exact solution','Usually NO exact solution, least squares finds the closest achievable predictions instead','Infinitely many exact solutions','No meaning'],answer:1,
+    options:['Infinitely many exact solutions','No meaning','Usually NO exact solution, least squares finds the closest achievable predictions instead','Exactly one exact solution'],answer:2,
     why:'More equations than knobs + noise = nothing fits perfectly. Least squares minimizes the squared miss, regression itself.'},
    {q:'The least-squares solution leaves a residual (error) that is:',
-    options:['Zero','Perpendicular to the features, the shadow geometry, Xᵀ(y − Xw) = 0','Always positive','Equal to y'],answer:1,
+    options:['Zero','Always positive','Equal to y','Perpendicular to the features, the shadow geometry, Xᵀ(y − Xw) = 0'],answer:3,
     why:'Projection drops a perpendicular. That orthogonality is the definition of "closest reachable point" and the content of the normal equations.'},
    {q:'"Normal" in "normal equations" refers to:',
-    options:['The normal distribution','Perpendicular, the residual is normal (at right angles) to the feature directions','Ordinary, as in not special','Normalization of the data'],answer:1,
+    options:['Normalization of the data','Perpendicular, the residual is normal (at right angles) to the feature directions','The normal distribution','Ordinary, as in not special'],answer:1,
     why:'A geometry word, not a statistics word. The equations enforce perpendicularity of the leftover error.'}
  ]},
  exs:[{title:'Fit a regression line by the normal equations (pure Python)',
@@ -1472,13 +1472,13 @@ one-number-per-direction problems. That is the trick, the whole trick.</div>`,
  docs:[['3Blue1Brown (eigenvectors & eigenvalues)','https://www.3blue1brown.com/lessons/eigenvalues'],['PCA explained visually','https://setosa.io/ev/principal-component-analysis/']],
  quiz:{title:'Quick check',questions:[
    {q:'v is an eigenvector of A with eigenvalue λ means:',
-    options:['A @ v = 0 always','A @ v = λ·v, the matrix only stretches v, it cannot turn it','v is the largest row of A','λ is negative'],answer:1,
+    options:['A @ v = 0 always','v is the largest row of A','λ is negative','A @ v = λ·v, the matrix only stretches v, it cannot turn it'],answer:3,
     why:'The one-line definition: along v, the transformation is pure scaling by λ. The spinning globe axis.'},
    {q:'PCA finds the main axes of a dataset by computing:',
-    options:['The mean of each column','The eigenvectors of the covariance matrix, the directions of maximum variance','The inverse of the data','A random projection'],answer:1,
+    options:['A random projection','The eigenvectors of the covariance matrix, the directions of maximum variance','The mean of each column','The inverse of the data'],answer:1,
     why:'Covariance packages the spread; its eigenvectors are the natural axes, eigenvalues the variance along each.'},
    {q:'Google PageRank, eigenfaces, and vibration modes are all applications of:',
-    options:['The determinant','Eigenvectors, the characteristic directions of a matrix','Cosine similarity','The L1 norm'],answer:1,
+    options:['The determinant','Cosine similarity','Eigenvectors, the characteristic directions of a matrix','The L1 norm'],answer:2,
     why:'One object, everywhere: the direction a system keeps returning to, the axis data stretches along, the mode a bridge rings at.'}
  ]},
  exs:[{title:'Find the eigenvalues of a 2×2 by hand (PCA in miniature)',
@@ -1565,8 +1565,8 @@ ratings table from that ONE shared factor. One pair of small vectors → one ful
 <h3>Rank: how many factors are really in there?</h3>
 <p>The <b>rank</b> of a matrix is how many independent directions it actually contains, how
 many outer products you'd need to build it. A matrix built from one factor has rank 1, no
-matter how big it looks. (Recognize this? The singular matrix of lesson 4 was "rank-deficient"
-— duplicated information IS low rank. Same idea, now with its proper name.)</p>
+matter how big it looks. (Recognize this? The singular matrix of lesson 4 was "rank-deficient",
+duplicated information IS low rank. Same idea, now with its proper name.)</p>
 
 <h3>SVD: the universal factor-finder</h3>
 <p>The <b>Singular Value Decomposition</b> takes ANY matrix and rewrites it as a sum of
@@ -1584,13 +1584,13 @@ matrix apart into its ranked ingredients: that is the whole thing.</div>`,
  docs:[['NumPy (linalg.svd)','https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html'],['LoRA: Low-Rank Adaptation (the paper)','https://arxiv.org/abs/2106.09685']],
  quiz:{title:'Quick check',questions:[
    {q:'The outer product of a length-3 vector and a length-2 vector is:',
-    options:['A single number','A 3×2 matrix containing every pairwise product uᵢ·vⱼ','A length-5 vector','Undefined'],answer:1,
+    options:['A single number','A length-5 vector','A 3×2 matrix containing every pairwise product uᵢ·vⱼ','Undefined'],answer:2,
     why:'Dot collapses, outer expands: every combination of entries, arranged as a grid. One factor → a full table.'},
    {q:'A huge ratings matrix built entirely from ONE taste factor (one outer product) has rank:',
-    options:['Equal to its number of rows','1, size is not information; rank counts independent directions','0','Equal to its number of columns'],answer:1,
+    options:['0','Equal to its number of columns','1, size is not information; rank counts independent directions','Equal to its number of rows'],answer:2,
     why:'Rank counts how many rank-1 pieces you need. One factor = rank 1, even at Netflix scale.'},
    {q:'SVD is useful in ML because it:',
-    options:['Makes matrices larger','Rewrites any matrix as importance-ranked rank-1 pieces, enabling compression and factor discovery','Only works on square matrices','Replaces gradient descent'],answer:1,
+    options:['Makes matrices larger','Only works on square matrices','Replaces gradient descent','Rewrites any matrix as importance-ranked rank-1 pieces, enabling compression and factor discovery'],answer:3,
     why:'Keep the strongest pieces, drop the weak: recommenders, PCA, denoising, and the low-rank idea behind LoRA.'}
  ]},
  exs:[{title:'Build a rank-1 matrix with the outer product (by hand)',

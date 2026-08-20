@@ -36,13 +36,13 @@ one rule true.</div>`,
  docs:[['Exponent rules (a refresher)','https://www.mathsisfun.com/algebra/exponent-laws.html']],
  quiz:{title:'Quick check',questions:[
    {q:'2² · 2³ equals:',
-    options:['2⁶ = 64','2⁵ = 32, multiplying powers ADDS the exponents','2⁻¹','4⁵'],answer:1,
+    options:['4⁵','2⁶ = 64','2⁻¹','2⁵ = 32, multiplying powers ADDS the exponents'],answer:3,
     why:'xᵃ·xᵇ = xᵃ⁺ᵇ, so 2²·2³ = 2⁵ = 32. This add-when-you-multiply rule is exactly what logs mirror.'},
    {q:'A negative exponent, like 2⁻¹, means:',
-    options:['A negative number','The reciprocal: 1/2¹ = 0.5','Subtraction','An error'],answer:1,
+    options:['The reciprocal: 1/2¹ = 0.5','Subtraction','An error','A negative number'],answer:0,
     why:'x⁻ⁿ = 1/xⁿ. Negative exponents flip to the denominator; they are not negative numbers.'},
    {q:'x^(1/2) is another way of writing:',
-    options:['x divided by 2','the square root of x','x times 0.5','2ˣ'],answer:1,
+    options:['the square root of x','x divided by 2','x times 0.5','2ˣ'],answer:0,
     why:'A fractional exponent is a root: x^(1/2) = √x. This falls out of keeping the exponent rules consistent.'}
  ]},
  exs:[{title:'Exponent arithmetic and the rules',
@@ -93,7 +93,7 @@ print(cube, recip, root, rule_holds)
 <p>Logarithms scare people only because no one says the one-sentence version:
 <b>a logarithm is an exponent.</b> Exponentiation asks "what is 10 to the power 3?" (answer:
 1000). A logarithm asks the <i>same question backwards</i>: "10 to <b>what power</b> gives
-1000?" (answer: 3). So <code>log10(1000) = 3</code>. That is the whole definition —
+1000?" (answer: 3). So <code>log10(1000) = 3</code>. That is the whole definition,
 <code>log_b(x)</code> is <b>the power you raise b to, to get x</b>. If you can read
 <code>2³ = 8</code>, you can read <code>log2(8) = 3</code>; they are the same fact, viewed
 from two ends.</p></div>
@@ -136,13 +136,13 @@ unrecognizably small or large, <code>exp</code> is the way back.</p></div>
  docs:[['Logarithms (a visual intro (Better Explained))','https://betterexplained.com/articles/using-logs-in-the-real-world/']],
  quiz:{title:'Quick check',questions:[
    {q:'log10(1000) equals 3 because:',
-    options:['1000 divided by 3','3 is the power you raise 10 to, to get 1000 (10 cubed = 1000)','1000 minus 997','It is a coincidence'],answer:1,
+    options:['1000 minus 997','It is a coincidence','3 is the power you raise 10 to, to get 1000 (10 cubed = 1000)','1000 divided by 3'],answer:2,
     why:'A logarithm IS an exponent asked backwards: log_b(x) = the power of b that produces x. 10^3 = 1000, so log10(1000) = 3.'},
    {q:'The property log(a * b) = log(a) + log(b) means:',
-    options:['Logs are additive by luck','A logarithm converts multiplication into addition, the single most useful thing about logs','Logs only work on whole numbers','a and b must be equal'],answer:1,
+    options:['A logarithm converts multiplication into addition, the single most useful thing about logs','Logs only work on whole numbers','a and b must be equal','Logs are additive by luck'],answer:0,
     why:'Turning products into sums is the core superpower, the basis of slide rules and of log-likelihood in ML.'},
    {q:'In Python, math.log(x) (no base given) computes:',
-    options:['log base 10','The natural log, ln, base e ≈ 2.718, the base ML uses everywhere','log base 2','The number of digits'],answer:1,
+    options:['The number of digits','log base 10','log base 2','The natural log, ln, base e ≈ 2.718, the base ML uses everywhere'],answer:3,
     why:'Plain math.log is ln. math.log10 and math.log2 exist for the other bases; ML almost always means ln.'}
  ]},
  exs:[{title:'Logs are exponents, prove the properties',
@@ -245,13 +245,13 @@ differentiable, and information-meaningful, all at once. That is why the log is 
  docs:[['Log-likelihood and why we use it (StatQuest)','https://www.youtube.com/watch?v=Dn6b9fCIUpM']],
  quiz:{title:'Quick check',questions:[
    {q:'Why does ML maximize the LOG-likelihood instead of the likelihood itself?',
-    options:['Logs give a bigger number','Multiplying many probabilities underflows to 0.0; taking logs turns the product into a stable SUM (and, being monotonic, does not change the answer)','It is required by law','Likelihood cannot be computed'],answer:1,
+    options:['It is required by law','Likelihood cannot be computed','Multiplying many probabilities underflows to 0.0; taking logs turns the product into a stable SUM (and, being monotonic, does not change the answer)','Logs give a bigger number'],answer:2,
     why:'Numerical stability via product-to-sum, at no cost because log is order-preserving. The single most common reason logs appear in ML.'},
    {q:'Taking the log before maximizing is safe because a logarithm is:',
-    options:['Always positive','Monotonic (order-preserving): the value that maximizes f also maximizes log(f)','Faster to compute','Linear'],answer:1,
+    options:['Faster to compute','Linear','Monotonic (order-preserving): the value that maximizes f also maximizes log(f)','Always positive'],answer:2,
     why:'If a > b then log(a) > log(b). So the argmax is unchanged, you gain stability and lose nothing.'},
    {q:'Defining the "surprise" of an event as log(1/p) leads directly to:',
-    options:['The determinant','Entropy and cross-entropy (log-loss), the information measures behind classification loss','The mean','Matrix rank'],answer:1,
+    options:['The determinant','The mean','Entropy and cross-entropy (log-loss), the information measures behind classification loss','Matrix rank'],answer:2,
     why:'Average surprise is entropy; surprise measured against a model is cross-entropy. Logs are the native language of information.'}
  ]},
  exs:[{title:'Watch a product underflow, and logs save it',

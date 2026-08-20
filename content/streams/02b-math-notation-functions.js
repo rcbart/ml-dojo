@@ -11,7 +11,7 @@ readable. You will translate real ML notation into code you already write.</p></
 <h3>Function notation and subscripts</h3>
 <p><b><code>f(x)</code></b>, "f of x", is just a machine: put <code>x</code> in, get
 <code>f(x)</code> out (you have been writing these as Python functions). <b>Subscripts</b>
-like <code>x&#8321;, x&#8322;, &#8230;, x&#8345;</code> are just the items of a list —
+like <code>x&#8321;, x&#8322;, &#8230;, x&#8345;</code> are just the items of a list -
 <code>x&#8342;</code> is "the i-th x," i.e. <code>x[i]</code> (math counts from 1, Python from
 0, the only catch). <code>n</code> almost always means "how many," i.e. <code>len(x)</code>.</p>
 
@@ -45,13 +45,13 @@ turns out to be five lines you could have written yourself.</div>`,
  docs:[['Summation notation (a gentle guide)','https://www.khanacademy.org/math/ap-calculus-bc/bc-series-new/bc-10-1/a/sigma-notation']],
  quiz:{title:'Quick check',questions:[
    {q:'The notation Σ (sum over i from 1 to n) of xᵢ translates to which Python?',
-    options:['A list of the x values','sum(x), a for-loop that accumulates a total','max(x)','len(x)'],answer:1,
+    options:['len(x)','A list of the x values','max(x)','sum(x), a for-loop that accumulates a total'],answer:3,
     why:'Big Sigma = "add these up as i walks the range" = the accumulator loop you already know, i.e. sum().'},
    {q:'argmax over p of a function means:',
-    options:['The largest value the function reaches','The INPUT p that makes the function largest, its location, not its height','The average','The number of inputs'],answer:1,
+    options:['The average','The INPUT p that makes the function largest, its location, not its height','The number of inputs','The largest value the function reaches'],answer:1,
     why:'arg-max = "the argument (input) that maximizes it." MLE is argmax over parameters; you want WHERE the peak is.'},
    {q:'The Pi symbol (capital) in a formula tells you to:',
-    options:['Add the terms','Multiply the terms, a product loop (like a likelihood, before we take logs)','Divide by pi','Take a derivative'],answer:1,
+    options:['Multiply the terms, a product loop (like a likelihood, before we take logs)','Add the terms','Divide by pi','Take a derivative'],answer:0,
     why:'Pi is Sigma for multiplication. A product of probabilities is exactly what the logs stream turned into a sum.'}
  ]},
  exs:[{title:'Translate the notation into code',
@@ -128,7 +128,7 @@ print(total, mean, sum_sq, prod, mse)
  body:`
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>Here is a unifying idea: in ML, <b>a model is a function</b>, it takes features in and puts
-a prediction out. Training just searches for the best function. So understanding functions —
+a prediction out. Training just searches for the best function. So understanding functions,
 what they are, how they combine, and the handful of <b>shapes</b> that recur, is understanding
 the object ML actually manipulates.</p></div>
 
@@ -155,7 +155,7 @@ which is why the sigmoid is the heart of <b>logistic regression</b> and a classi
 activation. You will implement it and watch it squash.</p>
 
 <h3>Composition: functions inside functions</h3>
-<p><b>Composition</b> is feeding one function's output into another: <code>f(g(x))</code> —
+<p><b>Composition</b> is feeding one function's output into another: <code>f(g(x))</code>,
 "do g, then f." This is not a footnote: a <b>neural network is a composition of functions</b>,
 layer after layer, each feeding the next. That is exactly why the <b>chain rule</b> (calculus
 stream) is the engine of training, it is the rule for differentiating compositions. Notation
@@ -169,13 +169,13 @@ layers.</p></div>`,
  docs:[['The sigmoid / logistic function','https://en.wikipedia.org/wiki/Logistic_function'],['Function composition (visual intuition)','https://www.mathsisfun.com/sets/functions-composition.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The sigmoid function 1/(1+e^(-x)) is used in ML because it:',
-    options:['Makes numbers bigger','Squashes any real number into the range (0, 1), turning a raw score into a probability','Sorts the data','Is the fastest function'],answer:1,
+    options:['Squashes any real number into the range (0, 1), turning a raw score into a probability','Makes numbers bigger','Sorts the data','Is the fastest function'],answer:0,
     why:'The S-curve maps (-inf, +inf) to (0, 1): a score becomes a probability. That is the core of logistic regression and a classic activation.'},
    {q:'A neural network is, mathematically, mostly:',
-    options:['A single linear equation','A COMPOSITION of functions, each layer feeds the next, which is exactly why the chain rule trains it','A spreadsheet','A database query'],answer:1,
+    options:['A COMPOSITION of functions, each layer feeds the next, which is exactly why the chain rule trains it','A database query','A single linear equation','A spreadsheet'],answer:0,
     why:'Layers compose: f(g(h(x))). Differentiating a composition is the chain rule, the link between this stream and calculus.'},
    {q:'Why must the composed functions be nonlinear for depth to help?',
-    options:['Nonlinear functions are faster','Composing only linear functions collapses to a single straight line; nonlinearity (like the sigmoid) is what lets stacked layers represent complex shapes','Linear functions cannot be composed','It does not matter'],answer:1,
+    options:['Composing only linear functions collapses to a single straight line; nonlinearity (like the sigmoid) is what lets stacked layers represent complex shapes','Linear functions cannot be composed','It does not matter','Nonlinear functions are faster'],answer:0,
     why:'Linear-of-linear is still linear. The nonlinearity between layers is precisely what buys a deep network its expressive power.'}
  ]},
  exs:[{title:'Build the sigmoid and compose functions',

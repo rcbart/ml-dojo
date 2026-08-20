@@ -40,8 +40,8 @@ is_open = True</div>
 <h3>A list is an ordered collection: and your first "dimension"</h3>
 <p>A <b>list</b> holds several values in order, inside square brackets:</p>
 <div class="codeSample">scores = [80, 90, 100]
-scores[0]        # 80  — counting starts at 0! this is the "index"
-len(scores)      # 3   — how many items</div>
+scores[0]        # 80  - counting starts at 0! this is the "index"
+len(scores)      # 3   - how many items</div>
 <p>Here is the idea people quietly assume in ML: <b>dimension</b> just means <i>how many
 numbers (axes) it takes to describe your data</i>. A single value like <code>90</code> is one
 number. A flat <b>list</b> like <code>[80, 90, 100]</code> is <b>one-dimensional</b>, you need
@@ -49,9 +49,9 @@ one index to reach an item. A <b>list of lists</b>, a grid, is <b>two-dimensiona
 and columns, reached with two indices:</p>
 <div class="codeSample">grid = [[1, 2, 3],
         [4, 5, 6]]
-grid[1][2]       # 6  — row 1, column 2
-len(grid)        # 2  — number of rows
-len(grid[0])     # 3  — number of columns</div>
+grid[1][2]       # 6  - row 1, column 2
+len(grid)        # 2  - number of rows
+len(grid[0])     # 3  - number of columns</div>
 <div class="demystify"><b>Demystify "dimension":</b> it is not a spooky word. A table of data
 with <b>n rows and m columns</b> is "n examples, each described by m numbers", that <i>m</i>
 is the number of dimensions (also called <i>features</i>) of each example. When later lessons
@@ -70,20 +70,20 @@ these tools, no libraries, just Python, to prove the ideas stuck.</p>`,
  docs:[['The Python Tutorial (official)','https://docs.python.org/3/tutorial/'],['Python for absolute beginners','https://wiki.python.org/moin/BeginnersGuide/NonProgrammers']],
  quiz:{title:'Quick check, the tools of the trade',questions:[
    {q:'What kind of thing is Python?',
-    options:['A spreadsheet application','A general-purpose, interpreted programming language designed for readability','A database','An operating system'],
-    answer:1,
+    options:['An operating system','A spreadsheet application','A general-purpose, interpreted programming language designed for readability','A database'],
+    answer:2,
     why:'A language for writing instructions a computer executes, run line by line by an interpreter, designed to read close to plain English, and used far beyond ML.'},
    {q:'A variable is best described as:',
-    options:['A math equation that must be solved','A name that points at a value so you can reuse it','A type of loop','A file on disk'],
-    answer:1,
+    options:['A name that points at a value so you can reuse it','A math equation that must be solved','A type of loop','A file on disk'],
+    answer:0,
     why:'Assignment like age = 31 makes the name "age" refer to the value 31. No type declaration needed: Python infers it.'},
    {q:'For scores = [80, 90, 100], what is scores[0] and len(scores)?',
-    options:['90 and 3','80 and 3','80 and 2','100 and 3'],
-    answer:1,
+    options:['80 and 3','90 and 3','80 and 2','100 and 3'],
+    answer:0,
     why:'Indexing starts at 0, so scores[0] is the first item, 80. len() counts the items: 3.'},
    {q:'In the way ML uses the word, the "dimension" of a data point means:',
-    options:['How large the numbers are','How many independent numbers (axes/features) it takes to describe it','How much memory it uses','How many decimal places it has'],
-    answer:1,
+    options:['How many independent numbers (axes/features) it takes to describe it','How much memory it uses','How many decimal places it has','How large the numbers are'],
+    answer:0,
     why:'A list of 3 numbers is a 3-dimensional point; a list of 300 is 300-dimensional. Dimension = how many values describe each example.'}
  ]},
  exs:[{title:'Variables, lists, and dimensions, pure Python (no libraries)',
@@ -154,16 +154,16 @@ borrows the exact same notation, so learning it here pays twice).</p></div>
 
 <h3>Negative indexes: counting from the end</h3>
 <div class="codeSample">nums = [10, 20, 30, 40, 50]
-nums[0]      # 10  — first
-nums[-1]     # 50  — LAST (minus means "from the end")
-nums[-2]     # 40  — second to last</div>
-<p><code>nums[-1]</code> is how Python code says "the last item" without knowing the length —
+nums[0]      # 10  - first
+nums[-1]     # 50  - LAST (minus means "from the end")
+nums[-2]     # 40  - second to last</div>
+<p><code>nums[-1]</code> is how Python code says "the last item" without knowing the length,
 you will see it everywhere.</p>
 
 <h3>Slicing: a sub-list by range</h3>
-<div class="codeSample">nums[1:4]    # [20, 30, 40]  — start included, END EXCLUDED
-nums[:2]     # [10, 20]      — from the beginning
-nums[2:]     # [30, 40, 50]  — to the end
+<div class="codeSample">nums[1:4]    # [20, 30, 40]  - start included, END EXCLUDED
+nums[:2]     # [10, 20]      - from the beginning
+nums[2:]     # [30, 40, 50]  - to the end
 nums[:]      # a COPY of the whole list</div>
 <p>The rule to burn in: <b>start included, end excluded</b>, the same convention as
 <code>range(a, b)</code>, and the same slice notation NumPy uses on whole datasets
@@ -174,7 +174,7 @@ will use precisely this to split data into train and test sets later.</p>
 <h3>Mutation: lists can change</h3>
 <div class="codeSample">nums.append(60)      # grows the list in place → [10, 20, 30, 40, 50, 60]
 nums[0] = 99         # replaces an item in place
-30 in nums           # True — membership test</div>
+30 in nums           # True - membership test</div>
 <p>A list is a living object: <code>append</code> grows it, assignment by index rewrites a
 slot. Contrast with numbers and strings, which never change in place. One classic
 consequence, flagged now so it never bites you: <code>b = a</code> does <b>not</b> copy a
@@ -192,10 +192,10 @@ that makes slice-based code robust.</div>`,
     options:['50 and [20, 30]','50 and [20, 30, 40]','40 and [10, 20]','An error and [20, 30]'],answer:0,
     why:'-1 means last (50). Slices include the start, EXCLUDE the end: indexes 1 and 2 → [20, 30].'},
    {q:'After b = a (where a is a list), appending to b:',
-    options:['Leaves a unchanged','Also changes a, both names point at the SAME list; a real copy is a[:]','Raises an error','Creates a new list automatically'],answer:1,
+    options:['Raises an error','Creates a new list automatically','Leaves a unchanged','Also changes a, both names point at the SAME list; a real copy is a[:]'],answer:3,
     why:'Assignment shares the object; it does not copy. This is the classic beginner trap, defused now.'},
    {q:'Why does Python exclude the end index in slices (nums[1:4] stops at 3)?',
-    options:['A historical accident with no benefit','So nums[:k] and nums[k:] split cleanly with no overlap, like train/test splits later','To make slices shorter','Because indexes start at 1'],answer:1,
+    options:['So nums[:k] and nums[k:] split cleanly with no overlap, like train/test splits later','A historical accident with no benefit','To make slices shorter','Because indexes start at 1'],answer:0,
     why:'Half-open ranges compose perfectly: the two halves share no element and miss none. Data splitting uses exactly this.'}
  ]},
  exs:[{title:'Slice, grow, and split like a data scientist',
@@ -308,13 +308,13 @@ empty list <code>[]</code>, and an empty string <code>""</code> all count as <b>
 <code>||</code>, <code>!</code> as in some other languages.</div>`,
  quiz:{title:'Quick check',questions:[
    {q:'What does the expression 3 > 5 evaluate to?',
-    options:['True','False','3','An error'],answer:1,
+    options:['3','False','An error','True'],answer:1,
     why:'3 is not greater than 5, so the comparison is False, a boolean value.'},
    {q:'"age >= 18 and has_ticket" is True when:',
-    options:['Either condition is true','BOTH conditions are true, that is what "and" requires','Neither is true','Always'],answer:1,
+    options:['Always','Either condition is true','Neither is true','BOTH conditions are true, that is what "and" requires'],answer:3,
     why:'"and" needs both sides true; "or" needs just one; "not" flips a boolean. These three combine conditions.'},
    {q:'In an if / elif / else chain, how many blocks run?',
-    options:['All whose conditions are true','Exactly one, the first true condition (or else)','Always the else block','None until the end'],answer:1,
+    options:['Exactly one, the first true condition (or else)','Always the else block','None until the end','All whose conditions are true'],answer:0,
     why:'Python runs the first branch whose condition is True and skips the rest; else runs only if none matched.'}
  ]},
  exs:[{title:'Write a classifier with if / elif / else',
@@ -377,9 +377,9 @@ training keeps adjusting a weight: <code>weight -= learning_rate * gradient</cod
 <code>+=</code> in the very next lesson.</p>
 
 <h3>Integer division // and remainder %</h3>
-<div class="codeSample">17 / 5    # 3.4   — normal division (always a float)
-17 // 5   # 3     — floor division: how many whole 5s fit
-17 % 5    # 2     — modulo: the remainder left over</div>
+<div class="codeSample">17 / 5    # 3.4   - normal division (always a float)
+17 // 5   # 3     - floor division: how many whole 5s fit
+17 % 5    # 2     - modulo: the remainder left over</div>
 <p>These two are workhorses in ML plumbing: <code>%</code> tests divisibility
 (<code>n % 2 == 0</code> means "even"), and both split data into <b>batches</b>, "how many
 full batches of 32?" is <code>n // 32</code>, and <code>i % 32</code> tells you your position
@@ -400,13 +400,13 @@ and slicing data into batches.</div>`,
  docs:[['Python operators','https://docs.python.org/3/reference/expressions.html#operator-precedence']],
  quiz:{title:'Quick check',questions:[
    {q:'After total = 10; total += 5; total *= 2, what is total?',
-    options:['20','30, first 10 + 5 = 15, then 15 * 2 = 30','25','17'],answer:1,
+    options:['20','25','30, first 10 + 5 = 15, then 15 * 2 = 30','17'],answer:2,
     why:'+= updates in place (10 → 15), then *= doubles it (15 → 30). Augmented assignment is just "do the op, then store back."'},
    {q:'17 % 5 evaluates to:',
-    options:['3','2, the remainder after taking out three 5s (15), leaving 2','3.4','85'],answer:1,
+    options:['2, the remainder after taking out three 5s (15), leaving 2','3','3.4','85'],answer:0,
     why:'Modulo is the remainder. 17 // 5 = 3 (whole 5s), and 17 − 15 = 2 is left over. n % 2 == 0 is the standard "is it even?" test.'},
    {q:'The expression  "yes" if x > 0 else "no"  is:',
-    options:['A syntax error','A ternary, a compact if/else that produces one of two values','A loop','A function call'],answer:1,
+    options:['A function call','A ternary, a compact if/else that produces one of two values','A syntax error','A loop'],answer:1,
     why:'The conditional expression picks a value based on a condition, all on one line, the same logic as a full if/else block.'}
  ]},
  exs:[{title:'Use the compact operators',
@@ -500,7 +500,7 @@ false runs forever, always make sure something inside the loop moves it toward s
     options:['1, 2, 3, 4','1, 2, 3','0, 1, 2, 3','2, 3, 4'],answer:1,
     why:'range starts at the first number and stops BEFORE the second: 1, 2, 3.'},
    {q:'What is total += x short for?',
-    options:['total = x','total = total + x','total = total * x','x = x + total'],answer:1,
+    options:['total = total + x','total = x','total = total * x','x = x + total'],answer:0,
     why:'+= updates the variable in place: total = total + x. It is the accumulator pattern.'}
  ]},
  exs:[{title:'Sum the even numbers with a loop',
@@ -542,11 +542,11 @@ print("total =", total, " count =", count)
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>You just wrote loops that build a result, start an empty list, loop, append. That pattern is
 so common Python gives it a one-line form: the <b>comprehension</b>. It is the single most
-common line of code in data and ML work, every dataset transformation you will read uses it —
+common line of code in data and ML work, every dataset transformation you will read uses it,
 so learning to write and read it now pays off on every lesson after this one.</p></div>
 
 <h3>From a loop to a comprehension</h3>
-<div class="codeSample"># the long way — build a list with a loop
+<div class="codeSample"># the long way - build a list with a loop
 squares = []
 for x in range(5):
     squares.append(x * x)
@@ -585,11 +585,11 @@ counting die rolls and matching data in the probability stream.)</p>
 <p>Put a comprehension <i>inside</i> another and you build a <b>list of lists</b>, a grid. This
 is exactly how you will build matrices in the linear-algebra stream:</p>
 <div class="codeSample">grid = [[r * c for c in range(3)] for r in range(2)]
-# [[0, 0, 0], [0, 1, 2]]   — outer loop makes rows, inner loop makes each row</div>
+# [[0, 0, 0], [0, 1, 2]]   - outer loop makes rows, inner loop makes each row</div>
 <p>Read it outside-in: the <b>outer</b> <code>for r in range(2)</code> makes two rows; for each
 row, the <b>inner</b> <code>[... for c in range(3)]</code> builds that row's three cells. It is
-two nested loops folded together. A related move you will see is looping twice to <i>flatten</i>
-— <code>[x for row in grid for x in row]</code> walks every row, then every cell in it, into one
+two nested loops folded together. A related move you will see is looping twice to <i>flatten</i>,
+<code>[x for row in grid for x in row]</code> walks every row, then every cell in it, into one
 flat list. (These are the fanciest comprehensions we use; if one is hard to read, unfold it into
 plain nested for-loops.)</p>
 
@@ -600,13 +600,13 @@ Dicts and sets have the same shorthand: <code>{k: v for ...}</code> and <code>{x
  docs:[['Python tutorial (list comprehensions)','https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions']],
  quiz:{title:'Quick check',questions:[
    {q:'[x * 2 for x in range(4)] produces:',
-    options:['[0, 1, 2, 3]','[0, 2, 4, 6], double each number from 0 to 3','[2, 4, 6, 8]','8'],answer:1,
+    options:['8','[0, 2, 4, 6], double each number from 0 to 3','[0, 1, 2, 3]','[2, 4, 6, 8]'],answer:1,
     why:'For each x in 0,1,2,3, the expression x*2 gives 0,2,4,6. A comprehension is a loop that builds a list.'},
-   {q:'In  [0 for _ in range(5)]  , what is the underscore _ for?',
-    options:['A syntax error','A throwaway name for the loop variable you do not need, "just do this 5 times"','It multiplies by 5','It reverses the list'],answer:1,
+   {q:'In  [0 for _ in range(5)], what is the underscore _ for?',
+    options:['It reverses the list','A syntax error','It multiplies by 5','A throwaway name for the loop variable you do not need, "just do this 5 times"'],answer:3,
     why:'_ is the convention for "I am ignoring this variable." Here you just want to repeat 0 five times: [0,0,0,0,0].'},
    {q:'What does  sum(1 for x in data if x > 10)  compute?',
-    options:['The total of all values','The COUNT of items greater than 10, it adds 1 for each match','The largest value','10'],answer:1,
+    options:['The COUNT of items greater than 10, it adds 1 for each match','The largest value','10','The total of all values'],answer:0,
     why:'Adding 1 for every item that passes the condition counts them. This "sum(1 for ... if ...)" idiom is everywhere in data code.'}
  ]},
  exs:[{title:'Write your first comprehensions',
@@ -688,8 +688,8 @@ first line that returns to the old indentation. Convention (used by virtually al
 earth): one level = <b>4 spaces</b>.</p>
 <div class="codeSample">temperature = 30
 if temperature > 25:
-    print("hot")          # inside the if — indented 4 spaces
-    print("stay hydrated")  # still inside — same indentation
+    print("hot")          # inside the if - indented 4 spaces
+    print("stay hydrated")  # still inside - same indentation
 print("done")            # back to column 0 → OUTSIDE the if, always runs</div>
 <p>Move that last print 4 spaces right and it becomes part of the if, printed only on hot
 days. <b>Same characters, different program.</b> That is what "indentation is grammar" means.</p>
@@ -700,7 +700,7 @@ days. <b>Same characters, different program.</b> That is what "indentation is gr
     for x in nums:              # level 1: still inside the function
         if x > 0:               # level 2: inside the for
             count += 1          # level 3: inside the if
-    return count                # level 1: for is over — back out</div>
+    return count                # level 1: for is over - back out</div>
 <p>Read the levels like an outline: each colon opens a deeper level; de-denting closes it.
 The <code>return</code> sits at level 1, so it runs after the loop finishes, indent it to
 level 3 by accident and the function returns during the first positive number. (This exact
@@ -718,7 +718,7 @@ of a block at exactly the same depth.</div>
 <code>pass</code>, a statement that does <i>nothing at all</i>. Its only job is to be a valid,
 empty body while you decide what to write:</p>
 <div class="codeSample">def not_written_yet():
-    pass          # a placeholder — the function is legal but empty (returns None)</div>
+    pass          # a placeholder - the function is legal but empty (returns None)</div>
 <p>You will see <code>pass</code> in the starter code of exercises: it marks the spot where
 <b>your code goes</b>, delete it and write the real body. It is not printed and does nothing
 when run; it simply keeps the block from being empty until you fill it in.</p>
@@ -734,10 +734,10 @@ pseudocode, and why it won data science.</div>`,
     options:['Curly braces around them','They are indented one level deeper than the if, until a line returns to the old depth','They are on the same line','A special end keyword'],answer:1,
     why:'The colon announces the block; the deeper-indented lines are its body; de-denting closes it. Indentation IS the grammar.'},
    {q:'In count_positives, if "return count" were indented to sit inside the for-loop, the function would:',
-    options:['Work the same','Return during the FIRST iteration, a silent logic bug, not an error','Raise IndentationError','Run faster'],answer:1,
+    options:['Return during the FIRST iteration, a silent logic bug, not an error','Work the same','Raise IndentationError','Run faster'],answer:0,
     why:'It would still be legal Python, just wrong. Indentation bugs that parse cleanly are the dangerous kind; reading levels like an outline catches them.'},
    {q:'The standard indentation unit in Python is:',
-    options:['1 space','4 spaces (never mixing tabs and spaces)','A tab character always','8 spaces'],answer:1,
+    options:['8 spaces','1 space','A tab character always','4 spaces (never mixing tabs and spaces)'],answer:3,
     why:'Four spaces is the universal convention (PEP 8). Mixing tabs and spaces is the classic source of phantom IndentationErrors.'}
  ]},
  exs:[{title:'Three levels deep: prove you control the blocks',
@@ -819,13 +819,13 @@ yours. Reading outer ("global") variables from inside works, but the professiona
 depend on outside variables are the ones that break mysteriously later.</p>`,
  quiz:{title:'Quick check',questions:[
    {q:'What does return do inside a function?',
-    options:['Prints the value to the screen','Hands a value back to whoever called the function, and ends it','Saves the value to a file','Starts a loop'],answer:1,
+    options:['Starts a loop','Prints the value to the screen','Saves the value to a file','Hands a value back to whoever called the function, and ends it'],answer:3,
     why:'return produces the function result and immediately exits it. print only displays text; it does not hand back a value.'},
    {q:'What is (1, 3) in the line return 1, 3?',
-    options:['A list','A tuple, an ordered group of values','A dictionary','A syntax error'],answer:1,
+    options:['A dictionary','A syntax error','A tuple, an ordered group of values','A list'],answer:2,
     why:'Comma-separated values become a tuple, so a function can return several results at once.'},
    {q:'A variable created inside a function:',
-    options:['Is visible everywhere in the program','Is LOCAL, it exists only during that call, keeping the function a sealed workshop','Must be declared with a keyword','Is automatically saved to a file'],answer:1,
+    options:['Is automatically saved to a file','Is LOCAL, it exists only during that call, keeping the function a sealed workshop','Is visible everywhere in the program','Must be declared with a keyword'],answer:1,
     why:'Locals vanish when the call ends and never collide with outside names. Pass data in as parameters, hand it back with return.'}
  ]},
  exs:[{title:'Write a stats function that returns three values',
@@ -864,7 +864,7 @@ print("min", lo, "max", hi, "avg", avg)
  body:`
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>A function's <b>return value</b> is the answer it hands back to whoever called it. Getting
-comfortable with returns, including Python's ability to return <i>several</i> values at once —
+comfortable with returns, including Python's ability to return <i>several</i> values at once,
 is what lets you build programs out of small, reusable pieces instead of one giant blob.</p></div>
 
 <h3>return hands a value back AND ends the function</h3>
@@ -878,7 +878,7 @@ useful: an <b>early return</b> handles a special case up front and exits, so the
 function can assume the normal case.</p>
 <div class="codeSample">def safe_divide(a, b):
     if b == 0:
-        return None       # bail out early — nothing below runs
+        return None       # bail out early - nothing below runs
     return a / b          # the normal case</div>
 
 <h3>No return? You get None</h3>
@@ -907,13 +907,13 @@ several things, which is why Python code leans on it so heavily.</div>`,
  docs:[['Python tutorial (defining functions)','https://docs.python.org/3/tutorial/controlflow.html#defining-functions']],
  quiz:{title:'Quick check',questions:[
    {q:'What does a function return if it never reaches a return statement?',
-    options:['0','An empty string','None, the "nothing here" value','It raises an error'],answer:2,
+    options:['An empty string','None, the "nothing here" value','It raises an error','0'],answer:1,
     why:'No return (or a bare return) yields None. Printing inside a function is NOT returning, the caller still gets None.'},
-   {q:'def f(): return 1, 2  — what is the type of what f() gives back?',
-    options:['Two separate integers','A tuple (1, 2), comma-separated returns bundle into one tuple','A list','An error'],answer:1,
+   {q:'With def f(): return 1, 2, what is the type of what f() gives back?',
+    options:['A list','An error','Two separate integers','A tuple (1, 2), comma-separated returns bundle into one tuple'],answer:3,
     why:'return a, b is return (a, b): a tuple. The caller unpacks it with x, y = f(). That is how Python "returns several values."'},
    {q:'Why is an "early return" useful?',
-    options:['It runs faster','It handles a special case and exits immediately, so the rest of the function can assume the normal case','It returns twice','Python requires it'],answer:1,
+    options:['Python requires it','It runs faster','It handles a special case and exits immediately, so the rest of the function can assume the normal case','It returns twice'],answer:2,
     why:'return stops the function on the spot. Bailing out early on an edge case keeps the main logic clean and unindented.'}
  ]},
  exs:[{title:'Return one value, several values, and None',
@@ -982,7 +982,7 @@ syntax. Each is a small convenience over loops you already know.</p></div>
 actual = [2, 5, 8]
 for p, a in zip(preds, actual):     # pairs them up: (3,2), (5,5), (7,8)
     print(p - a)
-# common one-liner — the error on each example:
+# common one-liner - the error on each example:
 errors = [p - a for p, a in zip(preds, actual)]   # [1, 0, -1]</div>
 <p><code>zip(a, b)</code> pairs up matching items so you can loop over both at once. It is
 everywhere in ML: comparing predictions to actual labels, pairing features with weights. (You
@@ -1011,8 +1011,8 @@ sort records by a field later.)</p>
 
 <h3><code>any</code> and <code>all</code>: is ANY / are ALL true?</h3>
 <div class="codeSample">nums = [4, 0, 7]
-any(n < 0 for n in nums)    # False — none is negative
-all(n >= 0 for n in nums)   # True  — every one is >= 0</div>
+any(n < 0 for n in nums)    # False - none is negative
+all(n >= 0 for n in nums)   # True  - every one is >= 0</div>
 <p><code>any(...)</code> is True if at least one item passes; <code>all(...)</code> is True only
 if every item does. Fed a generator expression (last lesson), they answer "does this hold
 anywhere / everywhere?" in one readable line, handy for validating data.</p>
@@ -1024,13 +1024,13 @@ write by hand</i>. <code>zip</code> = "index both lists together," <code>enumera
  docs:[['Python built-in functions','https://docs.python.org/3/library/functions.html']],
  quiz:{title:'Quick check',questions:[
    {q:'zip([1, 2, 3], [10, 20, 30]) lets you:',
-    options:['Compress the lists to a file','Loop over both lists together, pairing (1,10), (2,20), (3,30)','Add the two lists','Sort them'],answer:1,
+    options:['Sort them','Compress the lists to a file','Add the two lists','Loop over both lists together, pairing (1,10), (2,20), (3,30)'],answer:3,
     why:'zip pairs matching items so you can process two lists in step, e.g. predictions vs actual labels.'},
    {q:'max(words, key=lambda w: len(w)) returns:',
-    options:['The longest length (a number)','The longest WORD itself, key says "compare BY length"','A lambda','An error'],answer:1,
+    options:['The longest length (a number)','A lambda','The longest WORD itself, key says "compare BY length"','An error'],answer:2,
     why:'key= takes a little function saying what to compare by; lambda w: len(w) means "use the length of each word." max returns the winning item itself, not the length.'},
    {q:'all(n > 0 for n in [3, 1, -2]) is:',
-    options:['True','False, not every number is > 0 (−2 fails), so "all" is False','3','An error'],answer:1,
+    options:['3','False, not every number is > 0 (−2 fails), so "all" is False','An error','True'],answer:1,
     why:'all is True only if EVERY item passes; one failure makes it False. any would be True here (some pass).'}
  ]},
  exs:[{title:'zip, lambda, and all in action',
@@ -1098,8 +1098,8 @@ counts["a"] = counts.get("a", 0) + 1   # .get returns a default if the key is mi
 # counts is {"a": 1}
 
 text = "the cat sat"
-words = text.split()     # ["the", "cat", "sat"]  — split on spaces
-f"{len(words)} words"    # "3 words"  — an f-string drops values into text</div>
+words = text.split()     # ["the", "cat", "sat"]  - split on spaces
+f"{len(words)} words"    # "3 words"  - an f-string drops values into text</div>
 <p>Two everyday text tools appear here: <code>.split()</code> breaks a string into a list of
 words, and an <b>f-string</b> (<code>f"…{value}…"</code>) builds text with values plugged in.
 The <code>.get(key, default)</code> trick, return a default when a key isn't there yet, is
@@ -1118,10 +1118,10 @@ for fruit in prices:                 # keys:   apple, pear, plum
 for cost in prices.values():         # values: 3, 5, 2
     print(cost)
 
-for fruit, cost in prices.items():   # BOTH at once — the everyday one
+for fruit, cost in prices.items():   # BOTH at once - the everyday one
     print(fruit, "costs", cost)      # apple costs 3 / pear costs 5 / plum costs 2</div>
-<p>That <code>for key, value in d.items()</code> pattern is how you process every entry of a map
-— summing values, finding the biggest, transforming a table. You will reach for it constantly
+<p>That <code>for key, value in d.items()</code> pattern is how you process every entry of a map,
+summing values, finding the biggest, transforming a table. You will reach for it constantly
 in data and ML code (a dictionary of word counts, of per-category totals, of model settings). It
 combines two things you already know: looping, and unpacking a pair into two names.</p>
 
@@ -1134,10 +1134,10 @@ pairs by default, a bare <code>for x in d</code> gives you only the keys (a freq
     options:['Only the keys, one by one','A key and its value together (unpacked into k and v)','Only the values, one by one','The whole dictionary each time'],answer:1,
     why:'.items() yields (key, value) pairs; a bare "for x in d" would give only keys. .values() gives only values.'},
    {q:'What does "a b a".split() return?',
-    options:['"aba"','["a", "b", "a"]','["a b a"]','3'],answer:1,
+    options:['["a", "b", "a"]','"aba"','["a b a"]','3'],answer:0,
     why:'split() with no argument breaks the string on whitespace into a list of the words.'},
    {q:'Why use counts.get("x", 0) instead of counts["x"]?',
-    options:['It is faster','It returns a default (0) if the key is missing, instead of erroring','It sorts the dictionary','There is no difference'],answer:1,
+    options:['There is no difference','It returns a default (0) if the key is missing, instead of erroring','It is faster','It sorts the dictionary'],answer:1,
     why:'Reading a missing key with [] raises an error; .get supplies a fallback, which is perfect for tallying.'}
  ]},
  exs:[{title:'Count the words in a sentence',
@@ -1180,8 +1180,8 @@ containers, and real code, including all the ML libraries, uses each where it sh
 able to <b>choose the right container</b> is a quiet mark of competence.</p></div>
 
 <h3>Tuples: ordered and locked</h3>
-<div class="codeSample">point = (3, 5)          # like a list, but IMMUTABLE — cannot change
-x, y = point            # unpacking — you met this with return a, b
+<div class="codeSample">point = (3, 5)          # like a list, but IMMUTABLE - cannot change
+x, y = point            # unpacking - you met this with return a, b
 shape = (150, 4)        # you have seen this: NumPy's .shape IS a tuple</div>
 <p>A <b>tuple</b> is a list that cannot change. Why would you *want* that? For fixed-size
 records where each position has a meaning, a coordinate, a (rows, columns) shape, a
@@ -1190,7 +1190,7 @@ not a work-in-progress. (It also lets tuples serve as dict keys, which lists can
 
 <h3>Sets: membership, uniqueness, no order</h3>
 <div class="codeSample">seen = {"ada", "alan", "ada"}     # duplicates collapse → {"ada", "alan"}
-"ada" in seen                     # True — and FAST, even with millions of items
+"ada" in seen                     # True - and FAST, even with millions of items
 unique_words = set(words)         # the classic one-liner: dedupe anything</div>
 <p>A <b>set</b> holds each value at most once and answers <code>in</code> questions almost
 instantly (a list checks item by item; a set jumps straight there, the difference between
@@ -1211,13 +1211,13 @@ corrupt it. Swap the list for a tuple and the error goes away.</div>`,
  docs:[['Python tutorial (tuples and sets)','https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences']],
  quiz:{title:'Quick check',questions:[
    {q:'Why choose a tuple over a list for a (rows, columns) shape?',
-    options:['Tuples are faster to type','It is a fixed record, immutability promises the grouping will not change, and each position has a meaning','Lists cannot hold two numbers','Tuples use less disk'],answer:1,
+    options:['Tuples use less disk','Tuples are faster to type','Lists cannot hold two numbers','It is a fixed record, immutability promises the grouping will not change, and each position has a meaning'],answer:3,
     why:'Immutable, fixed-size, position-meaningful records are what tuples are FOR, which is why .shape is one.'},
    {q:'You have 10 million emails and a blocklist to check each against. The blocklist should be a:',
-    options:['List (order matters)','Set, membership checks are near-instant regardless of size','Tuple, it is fixed','String'],answer:1,
+    options:['List (order matters)','Tuple, it is fixed','String','Set, membership checks are near-instant regardless of size'],answer:3,
     why:'A list checks item by item (slow at scale); a set jumps straight to the answer. Fast membership is the set superpower.'},
    {q:'set([1, 2, 2, 3, 3, 3]) equals:',
-    options:['{1, 2, 2, 3, 3, 3}','{1, 2, 3}, duplicates collapse; sets hold each value at most once','[1, 2, 3]','An error'],answer:1,
+    options:['{1, 2, 3}, duplicates collapse; sets hold each value at most once','[1, 2, 3]','An error','{1, 2, 2, 3, 3, 3}'],answer:0,
     why:'Uniqueness is the defining property, and set(anything) is the standard dedupe one-liner.'}
  ]},
  exs:[{title:'Pick the right container for each job',
@@ -1284,18 +1284,18 @@ we represent that as a <b>list of dictionaries</b>, one dict per row. Everything
 later (filter, aggregate, group) you can do here by hand, and doing it by hand once is what
 makes the library feel like a shortcut instead of magic.</p></div>
 <div class="codeSample">people = [
-    {"name": "Ada",   "age": 36, "city": "London"},
-    {"name": "Alan",  "age": 41, "city": "London"},
+    {"name": "Ada", "age": 36, "city": "London"},
+    {"name": "Alan", "age": 41, "city": "London"},
     {"name": "Grace", "age": 45, "city": "NYC"},
 ]
 
-# average age — an accumulator over a comprehension
+# average age - an accumulator over a comprehension
 avg_age = sum(p["age"] for p in people) / len(people)     # 40.67
 
-# everyone in London — filter with a comprehension
+# everyone in London - filter with a comprehension
 londoners = [p["name"] for p in people if p["city"] == "London"]   # ["Ada", "Alan"]
 
-# the oldest person — max with a key
+# the oldest person - max with a key
 oldest = max(people, key=lambda p: p["age"])["name"]      # "Grace"</div>
 <p>That's the whole craft in miniature: <b>select</b> columns (<code>p["age"]</code>),
 <b>filter</b> rows (<code>if p["city"] == "London"</code>), and <b>aggregate</b>
@@ -1305,10 +1305,10 @@ data.</p>`,
  docs:[['Python data structures (the tutorial)','https://docs.python.org/3/tutorial/datastructures.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Why represent a data table as a list of dictionaries?',
-    options:['It is the only way Python stores data','Each row is a record with named fields, so it mirrors a real table','Dictionaries are faster than lists','It avoids using loops'],answer:1,
+    options:['Dictionaries are faster than lists','It avoids using loops','It is the only way Python stores data','Each row is a record with named fields, so it mirrors a real table'],answer:3,
     why:'A list holds the rows in order; each dict gives that row named columns (name, age, city), exactly a table.'},
    {q:'What does [p["name"] for p in people if p["city"] == "London"] produce?',
-    options:['Every name in the table','The names of only the people whose city is London','The number of Londoners','A dictionary of cities'],answer:1,
+    options:['Every name in the table','The number of Londoners','The names of only the people whose city is London','A dictionary of cities'],answer:2,
     why:'It is a filtered comprehension: keep the name, but only for rows where the city matches.'}
  ]},
  exs:[{title:'Summarise a dataset with comprehensions',
@@ -1317,8 +1317,8 @@ data.</p>`,
    (the average age, ~40.67), <code>londoners</code> (a list of the <b>names</b> of people whose
    city is <code>"London"</code>), and <code>oldest</code> (the <b>name</b> of the oldest person).`,
    starter:`people = [
-    {"name": "Ada",   "age": 36, "city": "London"},
-    {"name": "Alan",  "age": 41, "city": "London"},
+    {"name": "Ada", "age": 36, "city": "London"},
+    {"name": "Alan", "age": 41, "city": "London"},
     {"name": "Grace", "age": 45, "city": "NYC"},
 ]
 
@@ -1329,8 +1329,8 @@ oldest =                  # name of the person with the largest age
 print(avg_age, londoners, oldest)
 `,
    solution:`people = [
-    {"name": "Ada",   "age": 36, "city": "London"},
-    {"name": "Alan",  "age": 41, "city": "London"},
+    {"name": "Ada", "age": 36, "city": "London"},
+    {"name": "Alan", "age": 41, "city": "London"},
     {"name": "Grace", "age": 45, "city": "NYC"},
 ]
 
@@ -1377,7 +1377,7 @@ from NumPy is read with exactly the same skill.</p>
 except ValueError:
     result = 0                   # a chosen fallback, not a crash</div>
 <p><code>try</code> runs the risky code; if the named exception occurs, the <code>except</code>
-block runs instead of crashing. Rule of craft: catch the <b>specific</b> exception you expect —
+block runs instead of crashing. Rule of craft: catch the <b>specific</b> exception you expect,
 a bare <code>except:</code> that swallows everything hides real bugs (including your typos).</p>
 
 <div class="demystify"><b>Demystify "exception":</b> not an insult, an <i>exceptional
@@ -1386,13 +1386,13 @@ The traceback is just the trail it left while flying.</div>`,
  docs:[['Python tutorial (errors and exceptions)','https://docs.python.org/3/tutorial/errors.html']],
  quiz:{title:'Quick check',questions:[
    {q:'int("hello") raises which exception?',
-    options:['TypeError','ValueError, the type (str) is fine, the VALUE cannot be converted','IndexError','SyntaxError'],answer:1,
+    options:['SyntaxError','TypeError','IndexError','ValueError, the type (str) is fine, the VALUE cannot be converted'],answer:3,
     why:'Right type, bad value → ValueError. TypeError would be for e.g. int(["a", "b"]).'},
    {q:'The most useful line of a long traceback is usually:',
-    options:['The first line','The LAST line, the exception type and message, then work upward for the location','A random middle line','None; tracebacks are noise'],answer:1,
+    options:['The first line','A random middle line','None; tracebacks are noise','The LAST line, the exception type and message, then work upward for the location'],answer:3,
     why:'Read bottom-up: last line = what went wrong; the lines above = where. That habit is half of debugging.'},
    {q:'Why is a bare "except:" (catching everything) bad practice?',
-    options:['It is slower','It silently swallows unrelated bugs, including your own typos, making them undebuggable','Python forbids it','It only works once'],answer:1,
+    options:['It is slower','Python forbids it','It silently swallows unrelated bugs, including your own typos, making them undebuggable','It only works once'],answer:2,
     why:'Catch the specific exception you expect; let surprises crash loudly so you can see and fix them.'}
  ]},
  exs:[{title:'Catch exactly what you expect',
@@ -1484,7 +1484,7 @@ what it does: load the package once, and give it a two-letter name.</p>
 
 <h3>Modules vs packages: and where they come from</h3>
 <p>A <b>module</b> is one importable file; a <b>package</b> is a bundle of them under one
-name (scikit-learn is a package; <code>sklearn.linear_model</code> is a module inside it —
+name (scikit-learn is a package; <code>sklearn.linear_model</code> is a module inside it,
 the dots mirror folders). Standard-library modules ship with Python. Third-party packages
 must be <b>installed once</b> into your environment, on your own machine that is
 <code>pip install scikit-learn</code>, and then imported in code. Two different verbs:
@@ -1498,7 +1498,7 @@ automatically on first use; in a real project, installing them, usually into a p
 <div class="demystify"><b>Demystify "from x import y" vs "import x":</b> both load the same
 code; they differ only in what name lands in your file, the whole module (<code>math.sqrt</code>,
 clear where things come from) or one name (<code>sqrt</code>, shorter). Style guidance you can
-trust: whole-module or aliased imports for big libraries (<code>np.</code>, <code>pd.</code> —
+trust: whole-module or aliased imports for big libraries (<code>np.</code>, <code>pd.</code>,
 everyone instantly knows what they are reading), <code>from</code>-imports for a few specific
 tools (<code>from sklearn.linear_model import LinearRegression</code>). Avoid
 <code>from x import *</code>, it dumps unknown names into your file and real codebases ban it.</div>
@@ -1523,19 +1523,19 @@ file just to reuse one function, a classic surprise. Putting your "run it" code 
 keeps importing safe.</p>
 
 <div class="demystify"><b>Demystify "dunder main":</b> <code>__main__</code> is just the name
-Python gives the file you launched. The guard is a plain <code>if</code> comparing a string —
+Python gives the file you launched. The guard is a plain <code>if</code> comparing a string,
 nothing magical, and it is the single most common idiom you will see at the bottom of Python
 scripts. Read it as "if this file is the one being run, start here."</div>`,
  docs:[['Python tutorial, modules','https://docs.python.org/3/tutorial/modules.html'],['pip, installing packages','https://packaging.python.org/en/latest/tutorials/installing-packages/']],
  quiz:{title:'Quick check',questions:[
    {q:'What does "import numpy as np" do?',
-    options:['Downloads numpy from the internet','Loads the installed numpy package and gives it the short name np in your file','Renames numpy on disk','Re-runs all the numpy code every time you use np'],answer:1,
+    options:['Renames numpy on disk','Re-runs all the numpy code every time you use np','Downloads numpy from the internet','Loads the installed numpy package and gives it the short name np in your file'],answer:3,
     why:'Import loads an installed package into your program; "as np" is just a local nickname, the universal ML convention.'},
    {q:'A ModuleNotFoundError for sklearn most likely means:',
-    options:['Your import line has a typo in the syntax','The package is not INSTALLED in the environment you are running, install (pip) and import are different verbs','sklearn no longer exists','Python is broken'],answer:1,
+    options:['Python is broken','The package is not INSTALLED in the environment you are running, install (pip) and import are different verbs','Your import line has a typo in the syntax','sklearn no longer exists'],answer:1,
     why:'Install fetches code onto the machine (once); import loads it into the program (each run). The error says the first step is missing.'},
    {q:'In sklearn.linear_model, the dots represent:',
-    options:['Multiplication','The path inside the package, a bundle of modules organized like folders','A version number','A typo'],answer:1,
+    options:['A version number','A typo','Multiplication','The path inside the package, a bundle of modules organized like folders'],answer:3,
     why:'Packages are nested namespaces: sklearn is the package, linear_model a module inside it. The dots mirror that structure.'}
  ]},
  exs:[{title:'All three import forms, in one working program',
@@ -1645,8 +1645,8 @@ from models.linear import LinearModel</div>
 
 <h3>A realistic (small) ML project layout</h3>
 <div class="codeSample">house_prices/
-    data.py       # load_data() — reads the CSV, returns X, y
-    model.py      # LinearModel — fit() and predict()
+    data.py       # load_data() - reads the CSV, returns X, y
+    model.py      # LinearModel - fit() and predict()
     train.py      # the ENTRY POINT: imports the others, runs the training
 
 # train.py
@@ -1674,13 +1674,13 @@ runs a single file. The setup guide shows how to make a project folder.)</i></di
  docs:[['Python tutorial (modules & packages)','https://docs.python.org/3/tutorial/modules.html#packages']],
  quiz:{title:'Quick check',questions:[
    {q:'In Python, a "module" is:',
-    options:['A special kind of class','A single .py file of code you can import','A folder of files','A running program'],answer:1,
+    options:['A folder of files','A running program','A special kind of class','A single .py file of code you can import'],answer:3,
     why:'A module is one importable .py file. Your helpers.py is a module, exactly like numpy is, a library is just modules someone else wrote.'},
    {q:'To group several modules into a package, you put them in a folder and add:',
-    options:['A README file','An __init__.py file to mark it as a package','A .zip archive','Nothing, folders are automatic'],answer:1,
+    options:['An __init__.py file to mark it as a package','Nothing, folders are automatic','A README file','A .zip archive'],answer:0,
     why:'An __init__.py (often empty) marks a folder as a package; then you import with dotted paths like package.module that mirror the folders.'},
    {q:'from models.linear import LinearModel means:',
-    options:['Download a model from the internet','Import LinearModel from linear.py inside the models package (folder)','Create a new folder','Run linear.py as a program'],answer:1,
+    options:['Create a new folder','Import LinearModel from linear.py inside the models package (folder)','Run linear.py as a program','Download a model from the internet'],answer:1,
     why:'The dots follow the folder path: the models/ package, its linear.py module, and the LinearModel name inside it, same dotted style as sklearn.linear_model.'}
  ]}},
 
@@ -1688,7 +1688,7 @@ runs a single file. The setup guide shows how to make a project folder.)</i></di
  title:'Files, input & output: getting data in and results out',
  body:`
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>An ML application is a pipeline with two ends: <b>data comes in</b> (usually from files —
+<p>An ML application is a pipeline with two ends: <b>data comes in</b> (usually from files,
 almost always CSV, "comma-separated values") and <b>results go out</b> (formatted numbers, a
 report, a saved file). This lesson covers both ends in pure Python, so when pandas reads a
 CSV in one line later, you know exactly what it just did for you.</p></div>
@@ -1701,7 +1701,7 @@ CSV in one line later, you know exactly what it just did for you.</p></div>
 
 with open("scores.csv") as f:           # default mode = read
     text = f.read()                     # the whole file as one string
-    # or: for line in f:  — one line at a time (big files!)</div>
+    # or: for line in f:  - one line at a time (big files!)</div>
 <p>The <code>with</code> block is the professional habit worth copying from day 1: it opens
 the file, and <b>guarantees it closes</b> when the block ends, even if an error strikes
 mid-way (it is try/finally, packaged). Note it is also our old friend: a colon and an
@@ -1711,7 +1711,7 @@ indented block.</p>
 <div class="codeSample">rows = []
 lines = text.strip().split("\\n")        # split into lines
 header = lines[0].split(",")             # ["name", "score"]
-for line in lines[1:]:                   # skip the header — a slice!
+for line in lines[1:]:                   # skip the header - a slice!
     name, score = line.split(",")        # split each line on commas
     rows.append({"name": name, "score": int(score)})</div>
 <p>Split lines, split commas, convert types, build the list-of-dicts from your capstone.
@@ -1724,7 +1724,7 @@ That is all a CSV is, and every tool from pandas up is automating this exact loo
 <code>input("prompt")</code> pauses and returns what the user types (always as a
 <i>string</i>, convert with <code>int()</code>/<code>float()</code>, and guard with the
 try/except you learned, because users type "abc"). Honest note: <code>input()</code> belongs
-to terminal apps; in browsers and web apps, user input arrives through UI events instead —
+to terminal apps; in browsers and web apps, user input arrives through UI events instead,
 here in MLDojo, your "input" is the code and data you provide.</p>
 
 <div class="demystify"><b>Demystify "file handle":</b> the <code>f</code> in
@@ -1736,10 +1736,10 @@ mistake impossible.</div>`,
  docs:[['Python tutorial (reading and writing files)','https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files'],['f-string format specs','https://docs.python.org/3/library/string.html#format-specification-mini-language']],
  quiz:{title:'Quick check',questions:[
    {q:'Why is "with open(...) as f:" preferred over plain open()?',
-    options:['It is shorter to type','The with-block GUARANTEES the file closes when the block ends, even if an error occurs mid-way','It reads files faster','It creates the file if missing'],answer:1,
+    options:['It is shorter to type','It reads files faster','The with-block GUARANTEES the file closes when the block ends, even if an error occurs mid-way','It creates the file if missing'],answer:2,
     why:'with = open + guaranteed cleanup (a packaged try/finally). The professional habit from day one.'},
    {q:'input() returns what the user typed as:',
-    options:['An int if they typed digits','Always a STRING, convert with int()/float(), guarded by try/except','A list of words','A boolean'],answer:1,
+    options:['Always a STRING, convert with int()/float(), guarded by try/except','A list of words','A boolean','An int if they typed digits'],answer:0,
     why:'Everything arrives as text. "42" is not 42 until you convert it, and users type "abc", which is why parse_int exists.'},
    {q:'A CSV file is, at bottom:',
     options:['A special binary database format','Plain text: one line per row, commas between values, parseable with split()','An Excel-only format','Compressed data'],answer:1,
@@ -1826,10 +1826,10 @@ methods. This lesson names the pattern and shows you how to make your own.</p></
 
 <h3>A class is a blueprint; an object is one built from it</h3>
 <div class="codeSample">class RunningMean:
-    def __init__(self):        # runs when you create one — sets up the data
+    def __init__(self):        # runs when you create one - sets up the data
         self.total = 0
         self.count = 0
-    def add(self, x):          # a method — note "self" is the object itself
+    def add(self, x):          # a method - note "self" is the object itself
         self.total += x
         self.count += 1
     def mean(self):
@@ -1839,13 +1839,13 @@ rm = RunningMean()             # build an object from the blueprint
 rm.add(10); rm.add(20)         # call its methods
 rm.mean()                      # 15.0</div>
 <p>A <b>class</b> defines a new kind of object. <code>__init__</code> is the setup routine that
-runs when you create one. <code>self</code> is the automatic first parameter of every method —
+runs when you create one. <code>self</code> is the automatic first parameter of every method,
 it <i>is</i> the particular object being worked on, so <code>self.total</code> is "this
 object's own total." You rarely need to write classes as a beginner, but you will <b>read</b>
 them constantly, because the whole ML ecosystem is built from them.</p>
 
 <h3>Dunder methods: the special <code>__names__</code></h3>
-<p>You already met one: <code>__init__</code>. Those double-underscore-wrapped names —
+<p>You already met one: <code>__init__</code>. Those double-underscore-wrapped names,
 pronounced <b>"dunder"</b> (short for <b>d</b>ouble <b>under</b>score), are Python's
 <b>special methods</b>: methods Python calls <i>automatically</i> in certain situations, so your
 objects can plug into the language's built-in behavior. You do not call them by name; Python
@@ -1881,13 +1881,13 @@ methods."</p></div>`,
  docs:[['Python tutorial (classes)','https://docs.python.org/3/tutorial/classes.html']],
  quiz:{title:'Quick check',questions:[
    {q:'When you write list.append(3) or model.predict(X), the dot means:',
-    options:['Multiplication','You are calling a METHOD on an object, every value in Python is an object bundling data with methods','Division','Importing a module'],answer:1,
+    options:['Division','Importing a module','You are calling a METHOD on an object, every value in Python is an object bundling data with methods','Multiplication'],answer:2,
     why:'Everything is an object; methods are the functions attached to it. You have been doing OOP since your first .append().'},
    {q:'In a class, what is "self"?',
-    options:['A keyword you must avoid','The particular object the method is working on, self.total is "this object\u2019s own total"','The name of the class','A global variable'],answer:1,
+    options:['A global variable','The particular object the method is working on, self.total is "this object\u2019s own total"','A keyword you must avoid','The name of the class'],answer:1,
     why:'self is the automatic first parameter: the specific instance. It is how an object refers to its own data.'},
    {q:'model = LinearRegression() then model.fit(X, y). In class terms this is:',
-    options:['Two unrelated function calls','Creating an OBJECT from a class, then calling one of its methods, exactly the pattern in this lesson','A syntax error','Importing sklearn'],answer:1,
+    options:['Importing sklearn','Two unrelated function calls','A syntax error','Creating an OBJECT from a class, then calling one of its methods, exactly the pattern in this lesson'],answer:3,
     why:'sklearn models are objects; fit/predict are methods. Classes are why the whole ecosystem feels consistent.'}
  ]},
  exs:[{title:'Write your own object: a running-statistics accumulator',
@@ -1989,13 +1989,13 @@ ten seconds. That posture is competence.</div>`,
  docs:[['The Python standard library (you will never memorize it (bookmark it))','https://docs.python.org/3/library/'],['How to read Python documentation','https://docs.python.org/3/tutorial/']],
  quiz:{title:'Quick check',questions:[
    {q:'You meet an unfamiliar function, df.groupby, in a lesson. The competent first move is:',
-    options:['Give up (you were not taught it)','Recognize it is a method on an object, and use help()/the docs/the tutor/the Playground to learn it in seconds','Memorize the whole pandas library first','Avoid that lesson'],answer:1,
+    options:['Avoid that lesson','Give up (you were not taught it)','Memorize the whole pandas library first','Recognize it is a method on an object, and use help()/the docs/the tutor/the Playground to learn it in seconds'],answer:3,
     why:'Competence is not prior memorization; it is the reflex to look things up fast. That is the whole point of this lesson.'},
    {q:'What does dir(x) do?',
-    options:['Deletes x','Lists the methods and attributes available on x, a menu of what you can do with it','Runs x','Downloads documentation'],answer:1,
+    options:['Downloads documentation','Deletes x','Runs x','Lists the methods and attributes available on x, a menu of what you can do with it'],answer:3,
     why:'dir() asks any object what it offers; help() then explains any item on that menu. The answers live inside Python.'},
    {q:'"Knowing Python" is best understood as:',
-    options:['Having every function memorized','Fluency with the core PLUS the reflexes to find and understand the rest when needed','Never needing documentation','Only using functions you were explicitly taught'],answer:1,
+    options:['Never needing documentation','Fluency with the core PLUS the reflexes to find and understand the rest when needed','Only using functions you were explicitly taught','Having every function memorized'],answer:1,
     why:'No one memorizes it all. The durable skill is core fluency plus knowing how to learn anything else on demand.'}
  ]},
  exs:[{title:'Use methods you were never explicitly taught (look them up!)',

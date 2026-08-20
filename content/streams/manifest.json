@@ -9,5 +9,6 @@
   "02-numpy-and-vectors.js",
   "06-ml-toolkit.js",
   "07-ml-classic.js",
-  "08-neural-networks.js"
+  "08-neural-networks.js",
+  "09-reinforcement-learning.js"
 ]

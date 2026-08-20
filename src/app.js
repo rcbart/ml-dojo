@@ -248,7 +248,8 @@ function renderNav(){
   let lastTrack=null;
   nav.innerHTML=`<div class="lessonLink${cur.si===-1?' active':''}" onclick="renderHome()" style="font-weight:700">${ico('\u{1F3E0}')} Welcome &amp; mission</div>
   <div class="lessonLink${cur.si===-2?' active':''}" onclick="renderPlayground()" style="font-weight:700">${ico('\u{1F40D}')} Python Playground</div>
-  <div class="lessonLink${cur.si===-3?' active':''}" onclick="renderSetupGuide()" style="font-weight:700">${ico('\u{1F6E0}')} Python on your machine</div>`+STREAMS.map((s,si)=>{
+  <div class="lessonLink${cur.si===-3?' active':''}" onclick="renderSetupGuide()" style="font-weight:700">${ico('\u{1F6E0}')} Python on your machine</div>
+  <div class="lessonLink${cur.si===-4?' active':''}" onclick="renderGlossary()" style="font-weight:700">${ico('\u{1F4D6}')} Glossary</div>`+STREAMS.map((s,si)=>{
     let divider='';
     if(s.track&&s.track!==lastTrack){divider=`<div class="trackDivider">${esc(s.track)}</div>`;lastTrack=s.track;}
     const links=s.lessons.map((l,li)=>{
@@ -270,7 +271,7 @@ function openLesson(si,li){
   const prev=siblingLesson(si,li,-1),next=siblingLesson(si,li,1);
   const nextTitle=next?STREAMS[next.si].lessons[next.li].title:'';
   const prereqUnmet=s.requires&&!store.lesson(s.requires).done;
-  const prereqBanner=prereqUnmet?`<div class="hardidea" style="border-color:#e2a03f;background:#fff4e0">🔒 <b>Prerequisite:</b> this stream assumes you've completed <b>${esc(s.requiresName||'the earlier stream')}</b> first, it teaches the Python and the primitives (like what a <i>dimension</i> is) that this lesson builds on. You can look around, but you'll get the most out of it after finishing the prerequisite.</div>`:'';
+  const prereqBanner=prereqUnmet?`<div class="hardidea" style="border-color:#e2a03f;background:#fff4e0">🔒 <b>Prerequisite:</b> this stream assumes you've completed <b>${esc(s.requiresName||'the earlier stream')}</b> first, because it teaches what this lesson builds on. You can look around, but you'll get the most out of it after finishing the prerequisite.</div>`:'';
   m.innerHTML=`
     <div class="crumb">${ico(s.icon)} ${esc(s.title)} · Lesson ${li+1} of ${s.lessons.length}</div>
     ${prereqBanner}
@@ -321,7 +322,10 @@ function pickQuiz(qi,oi){
   const opts=block.querySelectorAll('.qOpt');
   opts.forEach((o,i)=>{o.classList.remove('sel','correct','wrong');if(i===qq.answer)o.classList.add('correct');if(i===oi&&oi!==qq.answer)o.classList.add('wrong');});
   const why=document.getElementById('qwhy-'+qi);
-  why.textContent=(oi===qq.answer?'✓ Correct. ':'✗ Not quite. ')+qq.why;
+  // whyWrong runs parallel to options: say why THIS choice is wrong, then why the right one is right.
+  const rebuttal=(oi!==qq.answer&&Array.isArray(qq.whyWrong)&&qq.whyWrong.length===qq.options.length)
+    ? String(qq.whyWrong[oi]||'').trim() : '';
+  why.textContent=(oi===qq.answer?'✓ Correct. ':'✗ Not quite. ')+(rebuttal?rebuttal+' ':'')+qq.why;
   why.classList.add('show');
   window.__quiz[qi]=(oi===qq.answer);
   // A lesson with a quiz but NO code exercise completes when every question is answered correctly.
@@ -375,7 +379,7 @@ function renderExercise(l){
     <div class="ioPanel">
       <div class="ioTabs"><div class="ioTab active" id="tab-tests">Test results</div><div class="ioTab" id="tab-console">Console</div></div>
       <div class="ioBody" id="io-tests"><span style="color:var(--muted);font-size:12.5px">No runs yet, hit ▶ Run &amp; check. The first run loads Python in your browser (a few seconds).</span></div>
-      <div class="ioBody" id="io-console" style="display:none"><span class="cLine dim">— program output appears here —</span></div>
+      <div class="ioBody" id="io-console" style="display:none"><span class="cLine dim">program output appears here</span></div>
     </div>
     <div class="doneBanner" id="doneBanner">✅ Lesson complete, nice work!</div>
     <div class="solution" id="solBox" hidden><div class="codeSample">${esc(e.solution)}</div></div>
@@ -553,7 +557,7 @@ function renderPlayground(){
       <button id="btnClear">↺ Clear scratchpad</button>
     </div>
     <div class="ioPanel"><div class="ioTabs"><div class="ioTab active">Output</div></div>
-      <div class="ioBody" id="io-play"><span class="cLine dim">— output appears here —</span></div></div>`;
+      <div class="ioBody" id="io-play"><span class="cLine dim">output appears here</span></div></div>`;
   const saved=store.get().__play;
   const ed=wireEditor(saved!=null?saved:PLAY_DEFAULT,
     code=>{const d=store.get();d.__play=code;store.set(d);},

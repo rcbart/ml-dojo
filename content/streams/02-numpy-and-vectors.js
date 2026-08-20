@@ -103,16 +103,16 @@ now you know the ladder is there.</p>`,
  docs:[['NumPy (the absolute basics for beginners)','https://numpy.org/doc/stable/user/absolute_beginners.html'],['Bishop, Pattern Recognition and Machine Learning (free PDF)','https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/']],
  quiz:{title:'Quick check, did the idea land?',questions:[
    {q:'In the plainest terms, a vector is:',
-    options:['A kind of spreadsheet formula','An ordered list of numbers (also picturable as an arrow or point in space)','A type of neural network','A special database table'],
-    answer:1,
+    options:['An ordered list of numbers (also picturable as an arrow or point in space)','A type of neural network','A special database table','A kind of spreadsheet formula'],
+    answer:0,
     why:'A vector is just an ordered list of numbers, e.g. [178, 74, 31]. The arrow/point picture is the same object seen geometrically.'},
    {q:'"Support Vector Machine", stripped of the intimidating name, is really:',
-    options:['A physical machine that stores vectors','A method that draws the line/plane best separating two groups, as far from both as possible','A programming language for math','A way to compress data on disk'],
+    options:['A way to compress data on disk','A method that draws the line/plane best separating two groups, as far from both as possible','A physical machine that stores vectors','A programming language for math'],
     answer:1,
     why:'It is geometry: the widest-margin separating boundary. The "support vectors" are just the closest data points that pin that boundary in place.'},
    {q:'The dot product of two vectors gives you:',
-    options:['Another, longer vector','A single number measuring how aligned the two vectors are','A matrix of all their products','The average of the two vectors'],
-    answer:1,
+    options:['Another, longer vector','A matrix of all their products','The average of the two vectors','A single number measuring how aligned the two vectors are'],
+    answer:3,
     why:'Multiply element-by-element and add: one number. Big positive = aligned, zero = perpendicular, negative = opposing. It is the core "similarity" operation in ML.'}
  ]},
  exs:[{title:'Vectors, length, and the dot product, in real NumPy',
@@ -190,13 +190,13 @@ X[0]        # first row  → [120, 300]     (one house)
 X[:, 0]     # ALL rows, column 0 → [120, 90, 150, 60]   (all sizes)
 X[:, 1]     # all prices
 X[1:3]      # rows 1 and 2 (end excluded, like range)</div>
-<p>The comma reads "rows, columns" and <code>:</code> means "all of them" —
+<p>The comma reads "rows, columns" and <code>:</code> means "all of them",
 <code>X[:, 0]</code> is "every row, column 0." That one idiom unlocks most NumPy you will
 ever read.</p>
 
 <h3>Boolean masks: filter by condition, no loop</h3>
-<div class="codeSample">X[:, 1] > 200          # [True, True, True, False]  — a question per row
-X[X[:, 1] > 200]       # the rows where it is True — the expensive houses</div>
+<div class="codeSample">X[:, 1] > 200          # [True, True, True, False]  - a question per row
+X[X[:, 1] > 200]       # the rows where it is True - the expensive houses</div>
 <p>A comparison on an array asks the question <i>everywhere at once</i>, producing a
 <b>mask</b> of booleans; indexing with the mask keeps the True rows. "Select the spam
 emails," "drop the outliers," "take the test set", all one-line masks in real code.</p>
@@ -215,13 +215,13 @@ you.</div>`,
  docs:[['NumPy (indexing and slicing)','https://numpy.org/doc/stable/user/basics.indexing.html']],
  quiz:{title:'Quick check',questions:[
    {q:'X[:, 1] reads as:',
-    options:['Row 1','Every row, column 1, the whole second column','The first two rows','Columns except the first'],answer:1,
+    options:['Columns except the first','Row 1','The first two rows','Every row, column 1, the whole second column'],answer:3,
     why:'Comma = "rows, columns"; ":" = all. So X[:, 1] is column 1 across all rows.'},
    {q:'X[X[:, 1] > 200] returns:',
-    options:['True/False values','The rows of X where column 1 exceeds 200, a filtered dataset','The number of matches','An error'],answer:1,
+    options:['The number of matches','The rows of X where column 1 exceeds 200, a filtered dataset','An error','True/False values'],answer:1,
     why:'The comparison builds a boolean mask (one True/False per row); indexing with it keeps the True rows.'},
    {q:'X.mean(axis=0) gives:',
-    options:['One number','One mean per COLUMN, it collapses the rows','One mean per row','The median'],answer:1,
+    options:['One mean per row','The median','One number','One mean per COLUMN, it collapses the rows'],answer:3,
     why:'axis=0 collapses rows: per-feature averages. axis=1 would collapse columns: per-example averages.'}
  ]},
  exs:[{title:'Query a housing dataset without a single loop',
@@ -295,7 +295,7 @@ print(sizes, n_expensive, avg_price, biggest_cheap)
 <p><b>Broadcasting</b> is NumPy's rule for combining arrays of different shapes: the smaller
 one is "stretched" to fit, without copying. <code>X - col_means</code> subtracts a
 2-number row from every row of a 4×2 matrix in one shot. This single rule is why real ML code
-has almost no loops: the loop is implicit, and it runs in compiled C instead of Python —
+has almost no loops: the loop is implicit, and it runs in compiled C instead of Python,
 routinely 100–1000× faster on real data.</p></div>
 
 <h3>The one transformation every dataset gets: standardization</h3>
@@ -323,13 +323,13 @@ A memory-free virtual copy plus a compiled loop. That is the entire magic of Num
  docs:[['NumPy (broadcasting)','https://numpy.org/doc/stable/user/basics.broadcasting.html']],
  quiz:{title:'Quick check',questions:[
    {q:'X is 4×2 and m = X.mean(axis=0) has shape (2,). X - m works because:',
-    options:['NumPy ignores shapes','Broadcasting stretches the 2-number row across all 4 rows, no copy, compiled speed','m is converted to a scalar','It does not work'],answer:1,
+    options:['Broadcasting stretches the 2-number row across all 4 rows, no copy, compiled speed','m is converted to a scalar','It does not work','NumPy ignores shapes'],answer:0,
     why:'Shapes align from the right: (4,2) vs (2,) → the row is virtually repeated down the rows.'},
    {q:'After Z = (X - X.mean(axis=0)) / X.std(axis=0), each column of Z has:',
-    options:['Mean 1 and spread 0','Mean 0 and spread 1, every feature on the same ruler','Its original units','Only positive values'],answer:1,
+    options:['Its original units','Mean 0 and spread 1, every feature on the same ruler','Only positive values','Mean 1 and spread 0'],answer:1,
     why:'That is the z-score: center, then scale. The standard first step of countless ML pipelines (StandardScaler).'},
    {q:'Why is vectorized NumPy so much faster than a Python for-loop doing the same math?',
-    options:['It skips half the numbers','The loop happens in compiled C over packed memory instead of interpreted Python objects','It uses the GPU automatically','It caches the answer'],answer:1,
+    options:['The loop happens in compiled C over packed memory instead of interpreted Python objects','It skips half the numbers','It uses the GPU automatically','It caches the answer'],answer:0,
     why:'Same arithmetic, different engine: compiled tight loops over contiguous arrays vs the Python interpreter per element.'}
  ]},
  exs:[{title:'Standardize the housing data in one line',
