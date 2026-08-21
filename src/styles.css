@@ -5,17 +5,30 @@
 .ic{width:1em;height:1em;vertical-align:-.12em;color:var(--accent);opacity:.9;
   display:inline-block;flex:0 0 auto}
 :root{
-  color-scheme:light;
-  /* Aligned with the roniam.dev design system (engine/styles.css in the dojo
-     repo). Rule: raw hues for fills, borders and gradients; the -ink variants
-     for anything that carries text. The previous accent was #0d9488, which is
-     3.74:1 on white and failed WCAG AA as body text. */
-  --bg:#f6f6fa; --panel:#ffffff; --ink:#191530; --muted:#5b5872; --line:#e4e4f0;
-  --accent:#6d28d9;   /* violet-ink: 7.10:1 as text, and as a fill under white text */
-  --accent2:#0d9488;  /* raw teal: decorative only, one border and one gradient stop */
-  --accent3:#9f1239;  /* rose-ink: used as text and as a dashed border */
-  --ok:#16a34a; --bad:#dc2626; --warn:#92400e;
-  --code-bg:#0f172a; --code-ink:#e2e8f0;
+  color-scheme:dark;
+  /* Shares the dojo palette defined in the dojo repo's engine/styles.css so the
+     four courses read as one product. ML Dojo lives in its own repository, so
+     this is a copy rather than an import; the contrast gate is run against both
+     files and they carry the same token vocabulary on purpose.
+
+     Rule, unchanged: raw hues for fills, borders and gradients, the -ink
+     variants for anything carrying text. In a dark theme the -ink variants sit
+     at the light end of each hue rather than the dark end. */
+  --bg:#0c0a18; --panel:#191441; --panel-2:#221b52; --sunken:#2b2363;
+  --ink:#eae7f9; --muted:#aaa2d6; --line:#372e7d;
+  --night:#080513; --night2:#181037; --on-night:#ffffff; --night-muted:#c9c2e8;
+  --violet:#8b5cf6; --violet-ink:#c4b5fd; --violet-tint:#1f1a47; --violet-line:#3d3184;
+  --amber:#f59e0b; --amber-ink:#fbbf24; --amber-tint:#2a1f08; --amber-tint-2:#3d2c09;
+  --amber-line:#5f4610; --amber-line-2:#7d5d15;
+  --teal:#0d9488;  --teal-ink:#5eead4;  --teal-tint:#082622;  --teal-line:#12645a;
+  --rose:#f43f5e;  --rose-ink:#fda4af;  --rose-tint:#2d111a;
+  --ok:#16a34a; --ok-ink:#86efac; --ok-tint:#0c2618; --ok-tint-2:#123722; --ok-line:#22703d;
+  --bad:#dc2626; --bad-ink:#fca5a5; --bad-tint:#2e1215; --bad-line:#732222;
+  --inline-code-bg:#241d52; --on-accent:#ffffff; --on-amber:#1a1204;
+  --code-bg:#080615; --code-ink:#e2e8f0;
+  --accent:#c4b5fd; --accent-fill:#7c3aed; --accent-fill-hover:#6d28d9;
+  --accent2:#5eead4; --accent2-ink:#5eead4; --accent3:#fda4af;
+  --warn:#fbbf24;
 }
 html,body{margin:0;height:100%}
 body{font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column}
@@ -29,50 +42,54 @@ header .tip{font-size:12px;color:var(--muted);max-width:640px}
 .belt .strip i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
 #layout{display:flex;flex:1;min-height:0}
 nav{width:264px;min-width:264px;background:var(--panel);border-right:1px solid var(--line);overflow-y:auto;padding:12px}
-.trackDivider{margin:12px 4px 6px;padding:6px 9px;font-size:10.5px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--accent);background:#ede9fe;border-radius:7px}
+.trackDivider{margin:12px 4px 6px;padding:6px 9px;font-size:10.5px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--accent);background:var(--violet-tint);border-radius:7px}
 .streamHd{font-weight:700;padding:8px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:6px}
 .lessonLink{display:flex;gap:7px;align-items:center;padding:7px 9px;margin-left:8px;border-radius:7px;cursor:pointer;font-size:12.5px;color:var(--muted)}
-.lessonLink:hover{background:#e6f6f2;color:var(--ink)}
-.lessonLink.active{background:#d6f2ec;color:var(--accent);font-weight:600}
+.lessonLink:hover{background:var(--teal-tint);color:var(--ink)}
+.lessonLink.active{background:var(--teal-tint);color:var(--accent);font-weight:600}
 main{flex:1;overflow-y:auto;padding:26px 34px;max-width:920px}
 .crumb{font-size:12px;color:var(--muted);margin-bottom:4px}
 h1.lessonTitle{font-size:25px;margin:2px 0 14px;letter-spacing:-.3px}
 .lessonBody{font-size:15px;line-height:1.65}
 .lessonBody h3{margin:22px 0 6px;font-size:16px;color:var(--accent)}
 .lessonBody p{margin:10px 0}
-.lessonBody code,.prompt code{background:#e4f4f0;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
-.ground{border-left:4px solid var(--accent2);background:#eafaf5;border-radius:0 10px 10px 0;padding:10px 14px;margin:12px 0}
+.lessonBody code,.prompt code{background:var(--inline-code-bg);border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
+.ground{border-left:4px solid var(--accent2);background:var(--teal-tint);border-radius:0 10px 10px 0;padding:10px 14px;margin:12px 0}
 .ground .gTag{font-size:10.5px;font-weight:800;letter-spacing:.6px;color:var(--accent);text-transform:uppercase}
-.demystify{border:1px dashed var(--accent3);background:#e8f6fb;border-radius:10px;padding:12px 14px;margin:14px 0}
+.demystify{border:1px dashed var(--accent3);background:var(--teal-tint);border-radius:10px;padding:12px 14px;margin:14px 0}
 .demystify b{color:var(--accent3)}
-.hardidea{border:1px solid #f0c36d;background:#fff8e8;border-radius:10px;padding:12px 14px;margin:14px 0}
-.figure{margin:16px 0;padding:12px;background:#fff;border:1px solid var(--line);border-radius:12px;text-align:center}
+.hardidea{border:1px solid var(--amber-line);background:var(--amber-tint);border-radius:10px;padding:12px 14px;margin:14px 0}
+.figure{margin:16px 0;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;text-align:center}
 .figure svg{max-width:100%;height:auto}
 .figCap{margin-top:8px;font-size:12.5px;color:var(--muted);line-height:1.5}
-.notebox{border:1px solid #b9a6e6;background:#f3effc;border-radius:10px;padding:12px 14px;margin:14px 0;font-size:13.5px}
-.notebox b{color:#6d4bc4}
+.notebox{border:1px solid var(--violet-line);background:var(--violet-tint);border-radius:10px;padding:12px 14px;margin:14px 0;font-size:13.5px}
+.notebox b{color:var(--violet-ink)}
 .notebox table{border-collapse:collapse;margin-top:8px;width:100%}
-.notebox td{padding:4px 8px;border-bottom:1px solid #e0d7f5;vertical-align:top}
-.notebox td:first-child{white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#4c3a86;font-weight:600}
+.notebox td{padding:4px 8px;border-bottom:1px solid var(--violet-line);vertical-align:top}
+.notebox td:first-child{white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--violet-ink);font-weight:600}
 .codeSample{background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:12px 14px;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.55;margin:10px 0;white-space:pre}
-.docs{margin:16px 0;padding:10px 14px;background:#eafaf5;border:1px solid var(--line);border-radius:10px;font-size:13px}
+.docs{margin:16px 0;padding:10px 14px;background:var(--teal-tint);border:1px solid var(--line);border-radius:10px;font-size:13px}
 .docs b{color:var(--accent)}
 .quiz{margin-top:22px;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
-.quizHd{padding:12px 16px;background:linear-gradient(90deg,#e6f6f2,#e8f6fb);border-bottom:1px solid var(--line);font-weight:700}
+.quizHd{padding:12px 16px;background:linear-gradient(90deg,var(--teal-tint),var(--teal-tint));border-bottom:1px solid var(--line);font-weight:700}
+/* Stated on every quiz, because it is the part people do not expect: a wrong
+   answer gets answered specifically rather than just overruled. */
+.quizNote{padding:9px 16px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--muted);line-height:1.5}
+.quizNote em{font-style:normal;font-weight:700;color:var(--ink)}
 .qBlock{padding:12px 16px;border-bottom:1px solid var(--line)}
 .qBlock .qq{font-weight:600;margin-bottom:8px}
 .qOpt{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin:6px 0;cursor:pointer;font-size:13.5px}
 .qOpt:hover{border-color:var(--accent)}
-.qOpt.sel{border-color:var(--accent);background:#e6f6f2}
-.qOpt.correct{border-color:var(--ok);background:#e7f7ec}
-.qOpt.wrong{border-color:var(--bad);background:#fdeaea}
+.qOpt.sel{border-color:var(--accent);background:var(--teal-tint)}
+.qOpt.correct{border-color:var(--ok);background:var(--ok-tint)}
+.qOpt.wrong{border-color:var(--bad);background:var(--bad-tint)}
 .qWhy{margin-top:8px;font-size:13px;color:var(--muted);display:none}
 .qWhy.show{display:block}
 .exercise{margin-top:22px;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
-.exHd{padding:12px 16px;background:linear-gradient(90deg,#e6f6f2,#e8f6fb);border-bottom:1px solid var(--line);font-weight:700;display:flex;align-items:center;gap:8px}
-.badge{font-size:11px;background:var(--accent);color:#fff;border-radius:10px;padding:2px 8px}
+.exHd{padding:12px 16px;background:linear-gradient(90deg,var(--teal-tint),var(--teal-tint));border-bottom:1px solid var(--line);font-weight:700;display:flex;align-items:center;gap:8px}
+.badge{font-size:11px;background:var(--accent-fill);color:var(--on-accent);border-radius:10px;padding:2px 8px}
 .badge.done{background:var(--ok)}
-.badge.adv{background:#7c3aed;font-weight:600;cursor:help}
+.badge.adv{background:var(--accent-fill);font-weight:600;cursor:help}
 .prompt{padding:12px 16px;font-size:14px}
 .prompt ol{margin:6px 0 0 18px;padding:0}
 .prompt li{margin:4px 0}
@@ -91,83 +108,87 @@ h1.lessonTitle{font-size:25px;margin:2px 0 14px;letter-spacing:-.3px}
 #ed::selection{background:rgba(94,234,212,.25)}
 .statusBar{display:flex;justify-content:space-between;padding:6px 12px;font-size:11px;color:#6b8f97;background:#081a1f;border-top:1px solid #12333b;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px}
-button{font:inherit;padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;color:var(--ink)}
+button{font:inherit;padding:8px 12px;border:1px solid var(--line);background:var(--panel);border-radius:9px;cursor:pointer;color:var(--ink)}
 button:hover{border-color:var(--accent);color:var(--accent)}
-button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-button.primary:hover{background:#0b7d72;color:#fff}
+button.primary{background:var(--accent-fill);border-color:var(--accent-fill);color:var(--on-accent);font-weight:600}
+button.primary:hover{background:var(--accent-fill-hover);color:var(--on-accent)}
 button:disabled{opacity:.5;cursor:default}
 .ioPanel{margin:0 16px 14px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.ioTabs{display:flex;background:#eafaf5;border-bottom:1px solid var(--line)}
+.ioTabs{display:flex;background:var(--teal-tint);border-bottom:1px solid var(--line)}
 .ioTab{padding:8px 14px;font-size:12.5px;cursor:pointer;font-weight:600;color:var(--muted)}
-.ioTab.active{background:#fff;color:var(--accent)}
+.ioTab.active{background:var(--panel);color:var(--accent)}
 .ioBody{padding:12px 14px;font-size:13px;min-height:44px}
 .cLine{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;white-space:pre-wrap}
 .cLine.dim{color:var(--muted)}
 .cLine.err{color:var(--bad)}
 .cLine.ok{color:var(--ok)}
 .tcase{padding:6px 8px;border-radius:7px;margin:5px 0;font-size:13px}
-.tcase.ok{background:#e7f7ec;color:#166534}
-.tcase.bad{background:#fdeaea;color:#991b1b}
-.aiBox{margin-top:10px;padding:10px 12px;border-radius:9px;background:#eafaf5;border:1px solid var(--line);font-size:13px}
-.aiBox.hint{background:#fff8e8;border-color:#f0c36d}
+.tcase.ok{background:var(--ok-tint);color:var(--ok-ink)}
+.tcase.bad{background:var(--bad-tint);color:var(--bad-ink)}
+.aiBox{margin-top:10px;padding:10px 12px;border-radius:9px;background:var(--teal-tint);border:1px solid var(--line);font-size:13px}
+.aiBox.hint{background:var(--amber-tint);border-color:var(--amber-line)}
+/* The prerequisite banner used to carry its two colours inline in app.js, which
+   meant it stayed a light amber card when everything around it went dark. */
+.hardidea.prereq{border-color:var(--amber-line-2);background:var(--amber-tint-2);color:var(--ink)}
+.hardidea.prereq b{color:var(--amber-ink)}
 .solution{margin:0 16px 16px}
-.doneBanner{display:none;margin:0 16px 16px;padding:10px 14px;border-radius:9px;background:#e7f7ec;color:#166534;font-weight:600}
+.doneBanner{display:none;margin:0 16px 16px;padding:10px 14px;border-radius:9px;background:var(--ok-tint);color:var(--ok-ink);font-weight:600}
 .fbBar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 16px 16px;font-size:12.5px;color:var(--muted)}
 .fbBar button{padding:5px 10px;font-size:12.5px}
 .lessonNav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:20px 0 40px;padding-top:16px;border-top:1px solid var(--line)}
 .lessonNav button{padding:10px 16px}
 .lessonNav .primary{font-weight:600;max-width:70%;text-align:right}
 .navDone{font-size:13px;color:var(--muted)}
-.homework{margin-top:22px;border:1px solid #cbb6ea;border-radius:14px;background:#faf7ff;overflow:hidden}
-.hwHd{padding:12px 16px;background:linear-gradient(90deg,#efe7fb,#e8f6fb);border-bottom:1px solid #e0d3f5;font-weight:700;color:#5a3fb0}
-.hwIntro{margin:0;padding:10px 16px;font-size:13px;color:var(--muted);border-bottom:1px solid #efe7fb}
+.homework{margin-top:22px;border:1px solid var(--violet-line);border-radius:14px;background:var(--violet-tint);overflow:hidden}
+.hwHd{padding:12px 16px;background:linear-gradient(90deg,var(--violet-tint),var(--teal-tint));border-bottom:1px solid var(--violet-line);font-weight:700;color:var(--violet-ink)}
+.hwIntro{margin:0;padding:10px 16px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--violet-tint)}
 .hwList{margin:0;padding:8px 16px 12px 34px}
 .hwList li{margin:12px 0}
 .hwQ{font-size:14px;margin-bottom:6px}
 .hwSol{font-size:13.5px}
-.hwSol summary{cursor:pointer;color:#6d4bc4;font-weight:600;padding:4px 0}
+.hwSol summary{cursor:pointer;color:var(--violet-ink);font-weight:600;padding:4px 0}
 .hwSol summary:hover{text-decoration:underline}
-.hwBody{margin-top:8px;padding:10px 14px;background:#fff;border:1px solid #e0d3f5;border-radius:9px;line-height:1.6}
+.hwBody{margin-top:8px;padding:10px 14px;background:var(--panel);border:1px solid var(--violet-line);border-radius:9px;line-height:1.6}
 .hwBody .codeSample{margin:8px 0}
-.hwTry{margin:10px 16px 14px;padding:10px 14px;background:#eafaf5;border:1px solid #bfe9de;border-radius:9px;font-size:13px;line-height:1.55}
+.hwTry{margin:10px 16px 14px;padding:10px 14px;background:var(--teal-tint);border:1px solid var(--teal-line);border-radius:9px;font-size:13px;line-height:1.55}
 .linklike{border:none;background:none;color:var(--accent);font-weight:700;cursor:pointer;padding:0;font-size:inherit;text-decoration:underline}
-.linklike:hover{color:#0b7d72}
-.mathblock{background:#f3effc;border:1px solid #cbb6ea;border-radius:10px;padding:12px 16px;margin:12px 0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.7;color:#3a2d63;overflow-x:auto;white-space:pre}
-.mathblock b{color:#6d4bc4}
-.worked{border-left:4px solid var(--accent);background:#f0faf8;border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:14px;line-height:1.6}
+.linklike:hover{color:var(--accent-fill-hover)}
+.mathblock{background:var(--violet-tint);border:1px solid var(--violet-line);border-radius:10px;padding:12px 16px;margin:12px 0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.7;color:var(--ink);overflow-x:auto;white-space:pre}
+.mathblock b{color:var(--violet-ink)}
+.worked{border-left:4px solid var(--accent);background:var(--teal-tint);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:14px;line-height:1.6}
 .worked>b:first-child{color:var(--accent);display:block;margin-bottom:4px}
-.worked .mathblock{background:#fff;border-color:#bfe4dd;color:#123b38;white-space:pre}
-.pyFig{display:block;max-width:100%;margin:10px 0;border-radius:8px;background:#fff;border:1px solid var(--line)}
+.worked .mathblock{background:var(--panel);border-color:var(--teal-line);color:var(--ink);white-space:pre}
+.pyFig{display:block;max-width:100%;margin:10px 0;border-radius:8px;background:var(--panel);border:1px solid var(--line)}
 .spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
-#tutorFab{position:fixed;right:20px;bottom:20px;background:var(--accent);color:#fff;padding:11px 16px;border-radius:24px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(109,40,217,.35);z-index:40}
-#tutorPanel{position:fixed;right:20px;bottom:20px;width:380px;max-width:calc(100vw - 40px);height:520px;max-height:calc(100vh - 40px);background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.18);display:flex;flex-direction:column;z-index:41}
+#tutorFab{position:fixed;right:20px;bottom:20px;background:var(--accent-fill);color:var(--on-accent);padding:11px 16px;border-radius:24px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(109,40,217,.35);z-index:40}
+#tutorPanel{position:fixed;right:20px;bottom:20px;width:380px;max-width:calc(100vw - 40px);height:520px;max-height:calc(100vh - 40px);background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.18);display:flex;flex-direction:column;z-index:41}
 #tutorPanel.hidden,#tutorFab.hidden{display:none}
 .tpHd{padding:12px 14px;font-weight:700;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .tpHd button{border:none;background:none;font-size:16px;padding:2px 6px}
 .tpBody{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
 .tMsg{padding:9px 12px;border-radius:12px;font-size:13.5px;line-height:1.5;max-width:85%;white-space:pre-wrap}
-.tBot{background:#eafaf5;align-self:flex-start}
-.tUser{background:var(--accent);color:#fff;align-self:flex-end}
+.tBot{background:var(--teal-tint);align-self:flex-start}
+.tUser{background:var(--accent-fill);color:var(--on-accent);align-self:flex-end}
 .tpInput{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
 .tpInput textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:9px;padding:8px;font:inherit}
 
 /* ------------------------------ glossary ------------------------------ */
 .glossToolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:18px 0 12px}
 .glossSearch{flex:1 1 240px;min-width:200px;padding:9px 12px;border:1px solid var(--line);
-  border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--ink)}
+  border-radius:9px;font:inherit;font-size:14px;background:var(--panel);color:var(--ink)}
 .glossSearch:focus{outline:2px solid var(--accent);outline-offset:1px}
-.glossBtn{padding:9px 14px;border:1px solid var(--line);border-radius:9px;background:#fff;
+.glossBtn{padding:9px 14px;border:1px solid var(--line);border-radius:9px;background:var(--panel);
   color:var(--ink);font:inherit;font-size:13.5px;cursor:pointer}
 .glossBtn:hover{border-color:var(--accent);color:var(--accent)}
 .glossJumps{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
 .glossJump{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;
-  border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+  border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
 .glossJump:hover{border-color:var(--accent);color:var(--accent)}
 .glossJumpN{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
-.glossDom{border:1px solid var(--line);border-radius:12px;background:#fff;margin:0 0 14px;overflow:hidden}
+.glossDom{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:0 0 14px;overflow:hidden}
 .glossSum{display:flex;align-items:center;gap:8px;padding:13px 16px;cursor:pointer;
-  font-weight:650;font-size:15.5px;background:var(--panel-2,#faf9ff)}
+  font-weight:650;font-size:15.5px;background:var(--panel-2,var(--violet-tint))}
 .glossSum::-webkit-details-marker{display:none}
 .glossDomN{margin-left:auto;font-weight:400;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .glossGrp{padding:14px 16px 4px;font-size:12.5px;font-weight:700;letter-spacing:.4px;

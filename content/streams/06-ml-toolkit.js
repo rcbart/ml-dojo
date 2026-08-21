@@ -29,7 +29,7 @@ write Python that stays on the fast path, and you will understand what the tools
 are doing.</p>
 
 <h3>The toolkit you are about to meet</h3>
-<p><b>NumPy</b> (done, arrays and vectorized math), <b>pandas</b> (next lesson, labelled
+<p><b>NumPy</b> (done, arrays and vectorized math), <b>pandas</b> (next lesson, labeled
 tables), <b>scikit-learn</b> (the one after, classic ML with a fit/predict interface),
 <b>matplotlib</b> (plotting, heavily used in the ML track ahead), and later
 <b>PyTorch</b> (deep learning, Phase 2, where the GPU story becomes central). Each is a
@@ -43,13 +43,13 @@ now.</div>`,
  docs:[['Why NumPy is fast (NumPy docs)','https://numpy.org/doc/stable/user/whatisnumpy.html#why-is-numpy-fast']],
  quiz:{title:'Quick check',questions:[
    {q:'The most accurate description of the role of Python in ML is:',
-    options:['Python is used for teaching, and production systems are written in other languages','Python directs the work, and compiled code underneath does the arithmetic','Python is being replaced by faster languages across the whole ecosystem','All of the computation happens in Python, which is why models take so long to train'],answer:1,whyWrong:['It runs most of the production ML in the world. Teaching is a small part of it.','','Nothing is replacing it. The compiled layer underneath is what does the arithmetic.','Almost none of it happens in Python. The interpreter directs compiled code.'],
+    options:['Python directs the work, and compiled code underneath does the arithmetic','Python is used for teaching, and production systems are written in other languages','All of the computation happens in Python, which is why models take so long to train','Python is being replaced by faster languages across the whole ecosystem'],answer:0,whyWrong:['','It runs most of the production ML in the world. Teaching is a small part of it.','Almost none of it happens in Python. The interpreter directs compiled code.','Nothing is replacing it. The compiled layer underneath is what does the arithmetic.'],
     why:'Control room vs engine room. NumPy, sklearn, and PyTorch are Python interfaces over compiled, parallel kernels.'},
    {q:'Why is looping over array elements in Python the cardinal performance sin?',
-    options:['Loops over arrays are forbidden syntax once NumPy has been imported','Every element makes a trip through the interpreter instead of staying in compiled code','It uses far more memory, because each iteration allocates a new array','It only matters on a GPU, where the transfer cost per element dominates'],answer:1,whyWrong:['Loops are legal Python and are the right tool for plenty of tasks.','','Memory use is comparable. It is the per-element interpreter overhead that costs you.','It matters on a CPU just as much. NumPy on a CPU is already compiled code.'],
+    options:['Every element makes a trip through the interpreter instead of staying in compiled code','It uses far more memory, because each iteration allocates a new array','Loops over arrays are forbidden syntax once NumPy has been imported','It only matters on a GPU, where the transfer cost per element dominates'],answer:0,whyWrong:['','Memory use is comparable. It is the per-element interpreter overhead that costs you.','Loops are legal Python and are the right tool for plenty of tasks.','It matters on a CPU just as much. NumPy on a CPU is already compiled code.'],
     why:'The interpreter is slow per operation; the kernels are fast per million operations. Vectorizing is how you stay in the engine room.'},
    {q:'In serious production ML systems:',
-    options:['Python is never involved once a model has reached production','Production and prototyping have the same constraints, so the code is the same','Models are often exported to a runtime built for serving','Everything stays in Python, because rewriting a model risks changing its behaviour'],answer:2,whyWrong:['Python is usually still there, orchestrating and serving.','They have different constraints. Latency and throughput matter in one and not the other.','','Some systems do, and the demanding ones export to a runtime built for serving.'],
+    options:['Python is never involved once a model has reached production','Models are often exported to a runtime built for serving','Everything stays in Python, because rewriting a model risks changing its behavior','Production and prototyping have the same constraints, so the code is the same'],answer:1,whyWrong:['Python is usually still there, orchestrating and serving.','','Some systems do, and the demanding ones export to a runtime built for serving.','They have different constraints. Latency and throughput matter in one and not the other.'],
     why:'Design and validate in Python; execute in whatever the computation demands. Knowing both halves is the professional picture.'}
  ]},
  exs:[{title:'Measure the engine room: pure Python vs the compiled kernel',
@@ -133,7 +133,7 @@ print("agree:", agree, " speedup: {:.0f}x".format(speedup))
    ]}]},
 
 {id:'tk2',
- title:'pandas: the labelled table (your capstone, industrialized)',
+ title:'pandas: the labeled table (your capstone, industrialized)',
  body:`
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>Remember the Python capstone, a dataset as a list of dictionaries, filtered and
@@ -164,14 +164,14 @@ arrays for speed. Nothing more frightening than a spreadsheet with an API.</div>
  docs:[['10 minutes to pandas','https://pandas.pydata.org/docs/user_guide/10min.html']],
  quiz:{title:'Quick check',questions:[
    {q:'df[df["age"] > 40] is:',
-    options:['A file operation, reading the matching rows from disk','A syntax error, since a DataFrame cannot index itself','Boolean-mask filtering, the NumPy idea applied to labelled rows','A groupby, splitting the rows into those above and below 40'],answer:2,whyWrong:['Nothing is read or written. It selects rows already in memory.','It is valid pandas and one of the most common lines you will write.','','A groupby splits into groups. This filters to a subset of rows.'],
+    options:['A file operation, reading the matching rows from disk','Boolean-mask filtering, the NumPy idea applied to labeled rows','A groupby, splitting the rows into those above and below 40','A syntax error, since a DataFrame cannot index itself'],answer:1,whyWrong:['Nothing is read or written. It selects rows already in memory.','','A groupby splits into groups. This filters to a subset of rows.','It is valid pandas and one of the most common lines you will write.'],
     why:'The comparison builds a True/False mask per row; indexing keeps the True rows. Same concept as NumPy, now with column names.'},
    {q:'df.groupby("city")["age"].mean() computes:',
     options:['The number of distinct cities appearing in the column','The age of the oldest person in the whole table','The mean age across every row, ignoring the city','One mean age per city, aggregated within each group'],answer:3,whyWrong:['Counting cities is nunique on the column.','The oldest person needs max rather than mean, and idxmax to find who.','The overall mean is what you get without the groupby.',''],
     why:'Groupby = split-apply-combine: one row per group with its aggregate. Most reporting questions have this shape.'},
    {q:'Under the hood, a DataFrame stores its columns as:',
-    options:['SQL tables, queried through an embedded database engine','Python lists of dictionaries, one entry per row','NumPy arrays, so the operations run in compiled code','Text files, read from disk each time a column is accessed'],answer:2,whyWrong:['No database is involved. A DataFrame lives in memory.','That is one way to hold records, and it is far slower than what pandas actually does.','','Text files are how data arrives. The DataFrame is the in-memory form.'],
-    why:'pandas is a labelled interface over NumPy storage, which is why vectorized pandas is fast and row-by-row loops over a DataFrame are slow.'}
+    options:['SQL tables, queried through an embedded database engine','NumPy arrays, so the operations run in compiled code','Text files, read from disk each time a column is accessed','Python lists of dictionaries, one entry per row'],answer:1,whyWrong:['No database is involved. A DataFrame lives in memory.','','Text files are how data arrives. The DataFrame is the in-memory form.','That is one way to hold records, and it is far slower than what pandas actually does.'],
+    why:'pandas is a labeled interface over NumPy storage, which is why vectorized pandas is fast and row-by-row loops over a DataFrame are slow.'}
  ]},
  exs:[{title:'Filter, aggregate, group, the real tool this time',
    lang:'python',
@@ -271,13 +271,13 @@ says "train," picture the bowl and the walk downhill, never an incantation.</div
  docs:[['scikit-learn (getting started)','https://scikit-learn.org/stable/getting_started.html']],
  quiz:{title:'Quick check',questions:[
    {q:'model.fit(X, y) on a LinearRegression does what, in terms you already know?',
-    options:['Solves the least-squares problem, the same normal equations you implemented','Downloads a pretrained model and adapts it to the data you passed','Sorts the data so the relationship between X and y becomes visible','Runs a proprietary routine whose internals are not published'],answer:0,whyWrong:['','Nothing is downloaded. It computes the fit from the data you handed it.','Sorting would leave the coefficients unset.','It is open source, and it is the same normal equations you derived by hand.'],
+    options:['Sorts the data so the relationship between X and y becomes visible','Downloads a pretrained model and adapts it to the data you passed','Runs a proprietary routine whose internals are not published','Solves the least-squares problem, the same normal equations you implemented'],answer:3,whyWrong:['Sorting would leave the coefficients unset.','Nothing is downloaded. It computes the fit from the data you handed it.','It is open source, and it is the same normal equations you derived by hand.',''],
     why:'The library packages the exact math you did by hand: minimize squared error, residual perpendicular to features.'},
    {q:'The trailing underscore in coef_ and intercept_ signals:',
-    options:['A private attribute that callers are not supposed to read','A deprecated attribute kept only for backwards compatibility','A typo that has been left in place for too long to fix','Learned from data, so it exists only after .fit() has run'],answer:3,whyWrong:['It is meant to be read. A leading underscore is the private convention, not a trailing one.','Nothing is deprecated. It is an active and deliberate naming rule.','It appears on every fitted attribute in the library, which is more consistency than a typo allows.',''],
+    options:['A deprecated attribute kept only for backwards compatibility','A private attribute that callers are not supposed to read','Learned from data, so it exists only after .fit() has run','A typo that has been left in place for too long to fix'],answer:2,whyWrong:['Nothing is deprecated. It is an active and deliberate naming rule.','It is meant to be read. A leading underscore is the private convention, not a trailing one.','','It appears on every fitted attribute in the library, which is more consistency than a typo allows.'],
     why:'Parameters estimated by fitting get the underscore; settings you chose (hyperparameters) do not. A tiny convention that reads whole codebases.'},
    {q:'Why does every sklearn model sharing fit/predict matter for learning ML?',
-    options:['It does not matter, since the concepts are what you are learning','One interface, many models, so each new concept plugs into a familiar shape','It means all the models work the same way internally','It removes the need to understand what each model is doing'],answer:1,whyWrong:['It matters a great deal. It is why each new model costs you almost no new syntax.','','They are very different inside. What is shared is the interface.','It makes the concepts easier to compare, and you still have to understand them.'],
+    options:['One interface, many models, so each new concept plugs into a familiar shape','It means all the models work the same way internally','It removes the need to understand what each model is doing','It does not matter, since the concepts are what you are learning'],answer:0,whyWrong:['','They are very different inside. What is shared is the interface.','It makes the concepts easier to compare, and you still have to understand them.','It matters a great deal. It is why each new model costs you almost no new syntax.'],
     why:'Uniformity separates the concept (what a tree or SVM does) from the mechanics (how to run one), so lessons focus on the concept.'}
  ]},
  exs:[{title:'Your normal equations vs sklearn, same numbers, engine-room edition',
@@ -382,13 +382,13 @@ land on the same canvas until it is displayed.</div>`,
  docs:[['matplotlib, quick start','https://matplotlib.org/stable/users/explain/quick_start.html'],['Anscombe quartet, why plotting matters','https://en.wikipedia.org/wiki/Anscombe%27s_quartet']],
  quiz:{title:'Quick check',questions:[
    {q:'Why plot data when you already have its mean, variance, and correlation?',
-    options:['Only for presentations, since the numbers already told you everything','Different datasets can share identical summaries while looking nothing alike','Plots are easier to look at, though they carry no information the numbers lack','You should not, because a plot can mislead where a number cannot'],answer:1,whyWrong:['Plots are a working tool long before anything is presented.','','Anscombe\'s quartet is four datasets with identical summaries and completely different shapes.','The numbers can be identical across datasets that look nothing alike.'],
+    options:['Different datasets can share identical summaries while looking nothing alike','Only for presentations, since the numbers already told you everything','Plots are easier to look at, though they carry no information the numbers lack','You should not, because a plot can mislead where a number cannot'],answer:0,whyWrong:['','Plots are a working tool long before anything is presented.','Anscombe\'s quartet is four datasets with identical summaries and completely different shapes.','The numbers can be identical across datasets that look nothing alike.'],
     why:'The quartet is the canonical proof: same stats, wildly different data. Looking is not optional in real ML work.'},
    {q:'plt.scatter vs plt.plot:',
-    options:['scatter is deprecated and plot is the supported replacement','scatter draws individual points, plot draws connected lines','They are identical, and which one you use is a matter of taste','plot is for three-dimensional axes, scatter for two'],answer:1,whyWrong:['Both are current and both are used constantly.','','They draw different things. One shows points, the other joins them.','Both are two-dimensional by default. 3-D needs a separate axes type.'],
+    options:['scatter draws individual points, plot draws connected lines','plot is for three-dimensional axes, scatter for two','scatter is deprecated and plot is the supported replacement','They are identical, and which one you use is a matter of taste'],answer:0,whyWrong:['','Both are two-dimensional by default. 3-D needs a separate axes type.','Both are current and both are used constantly.','They draw different things. One shows points, the other joins them.'],
     why:'Points for raw data, lines for models and trends, overlaying both is the classic "did my fit capture the data?" picture.'},
    {q:'The conventional import for matplotlib is:',
-    options:['import matplotlib, which brings in the whole package','from matplotlib import *, which pulls every name into scope','import pyplot, since that is the module you actually use','import matplotlib.pyplot as plt, the alias every codebase uses'],answer:3,whyWrong:['That imports the package without the plotting module you need.','Star imports are discouraged, and pyplot is a submodule rather than a namespace to flatten.','pyplot is not a top-level package, so that import fails.',''],
+    options:['from matplotlib import *, which pulls every name into scope','import matplotlib, which brings in the whole package','import matplotlib.pyplot as plt, the alias every codebase uses','import pyplot, since that is the module you actually use'],answer:2,whyWrong:['Star imports are discouraged, and pyplot is a submodule rather than a namespace to flatten.','That imports the package without the plotting module you need.','','pyplot is not a top-level package, so that import fails.'],
     why:'Like np and pd, plt is a universal convention, reading ML code anywhere assumes you know it.'}
  ]},
  exs:[{title:'Plot the housing data and your fitted line, and see it render',

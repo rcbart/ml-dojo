@@ -226,6 +226,10 @@ function renderHome(){
   two groups. "Regression" is a historical accident that means "predict a number." Every term
   is explained in plain English before it is used, and the plain version is always
   <i>correct</i>, followed by the precise, exam-surviving definition.</p>
+  <p><b>A wrong answer tells you why.</b> Every lesson ends with a quick check, and picking a
+  wrong option explains what is wrong with <i>that</i> option, not just which one was right.
+  Most of these questions have a reasonable-sounding distractor for a reason: the
+  misconception you actually had is the one worth addressing.</p>
   <p><b>Depth on demand.</b> Every lesson checks your understanding with quizzes and
   exercises, offers progressive hints and full solutions, a tutor you can ask anything, and
   a Dive Deeper path down to graduate-level treatment when you want it.</p>
@@ -266,12 +270,13 @@ function openLesson(si,li){
   cur={si,li};
   window.__quiz={};                 // reset per-lesson quiz correctness
   const s=STREAMS[si],l=s.lessons[li];
+  window.__QZ=(l.quiz&&l.quiz.questions)?shuffleQuiz(l.quiz.questions):null;
   const m=document.getElementById('main');
   const done=store.lesson(l.id).done;
   const prev=siblingLesson(si,li,-1),next=siblingLesson(si,li,1);
   const nextTitle=next?STREAMS[next.si].lessons[next.li].title:'';
   const prereqUnmet=s.requires&&!store.lesson(s.requires).done;
-  const prereqBanner=prereqUnmet?`<div class="hardidea" style="border-color:#e2a03f;background:#fff4e0">🔒 <b>Prerequisite:</b> this stream assumes you've completed <b>${esc(s.requiresName||'the earlier stream')}</b> first, because it teaches what this lesson builds on. You can look around, but you'll get the most out of it after finishing the prerequisite.</div>`:'';
+  const prereqBanner=prereqUnmet?`<div class="hardidea prereq">🔒 <b>Prerequisite:</b> this stream assumes you've completed <b>${esc(s.requiresName||'the earlier stream')}</b> first, because it teaches what this lesson builds on. You can look around, but you'll get the most out of it after finishing the prerequisite.</div>`:'';
   m.innerHTML=`
     <div class="crumb">${ico(s.icon)} ${esc(s.title)} · Lesson ${li+1} of ${s.lessons.length}</div>
     ${prereqBanner}
@@ -307,9 +312,34 @@ function flatLessons(){const a=[];STREAMS.forEach((s,si)=>s.lessons.forEach((l,l
 function siblingLesson(si,li,dir){const f=flatLessons();const i=f.findIndex(p=>p.si===si&&p.li===li);return f[i+dir]||null;}
 
 /* ------------------------------ quiz ------------------------------ */
+/* Shuffle option order per visit, the way the shared engine does for the other
+   dojos. The bank is already balanced at rest, and this makes position useless
+   even to someone who has seen the lesson before. Options and whyWrong move in
+   lockstep and answer is remapped, so pickQuiz needs no other change. The source
+   in l.quiz is never mutated. */
+function shuffleQuiz(qs){
+  if(!qs||!qs.length)return qs||null;
+  return qs.map(function(q){
+    const n=(q&&q.options)?q.options.length:0;
+    if(n<2)return q;
+    const idx=q.options.map(function(_,i){return i;});
+    for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=idx[i];idx[i]=idx[j];idx[j]=t;}
+    const ww=q.whyWrong;
+    return Object.assign({},q,{
+      options:idx.map(function(i){return q.options[i];}),
+      whyWrong:Array.isArray(ww)?idx.map(function(i){return ww[i]||'';}):ww,
+      answer:idx.indexOf(q.answer)
+    });
+  });
+}
+function quizQuestions(l){
+  return (window.__QZ&&window.__QZ.length)?window.__QZ:((l&&l.quiz&&l.quiz.questions)||[]);
+}
 function renderQuiz(q){
+  const qs=(window.__QZ&&window.__QZ.length)?window.__QZ:q.questions;
   return `<div class="quiz"><div class="quizHd">📝 ${esc(q.title||'Quick check')}</div>
-    ${q.questions.map((qq,qi)=>`<div class="qBlock" id="q-${qi}">
+    <div class="quizNote">Pick a wrong answer and it tells you what is wrong with <em>that</em> answer, not just which one was right.</div>
+    ${qs.map((qq,qi)=>`<div class="qBlock" id="q-${qi}">
       <div class="qq">${qi+1}. ${esc(qq.q)}</div>
       ${qq.options.map((o,oi)=>`<label class="qOpt" onclick="pickQuiz(${qi},${oi})">${esc(o)}</label>`).join('')}
       <div class="qWhy" id="qwhy-${qi}"></div>
@@ -317,7 +347,7 @@ function renderQuiz(q){
 }
 window.__quiz={};
 function pickQuiz(qi,oi){
-  const l=STREAMS[cur.si].lessons[cur.li];const qq=l.quiz.questions[qi];
+  const l=STREAMS[cur.si].lessons[cur.li];const qq=quizQuestions(l)[qi];
   const block=document.getElementById('q-'+qi);
   const opts=block.querySelectorAll('.qOpt');
   opts.forEach((o,i)=>{o.classList.remove('sel','correct','wrong');if(i===qq.answer)o.classList.add('correct');if(i===oi&&oi!==qq.answer)o.classList.add('wrong');});

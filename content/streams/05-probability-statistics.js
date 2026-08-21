@@ -51,13 +51,13 @@ from the mean", spread, measured in a way that will feed the math later.</div>`,
  docs:[['Seeing Theory (a visual intro to probability)','https://seeing-theory.brown.edu/']],
  quiz:{title:'Quick check',questions:[
    {q:'"This coin is 50% heads" means, in the frequentist reading:',
-    options:['Over many flips, the fraction of heads settles toward one half','The coin remembers its last flip and balances the next one','A head is worth half a point when the outcomes are scored','Every second flip comes up heads, alternating down the sequence'],answer:0,whyWrong:['','Coins have no memory. Each flip is independent of everything before it.','Probability is not a payout. It says how often, not how much.','Strict alternation would be a pattern you could bet against, and it is not what randomness looks like.'],
+    options:['A head is worth half a point when the outcomes are scored','Every second flip comes up heads, alternating down the sequence','The coin remembers its last flip and balances the next one','Over many flips, the fraction of heads settles toward one half'],answer:3,whyWrong:['Probability is not a payout. It says how often, not how much.','Strict alternation would be a pattern you could bet against, and it is not what randomness looks like.','Coins have no memory. Each flip is independent of everything before it.',''],
     why:'Probability = long-run frequency. Any short run can wobble; the fraction converges as flips accumulate.'},
    {q:'The expectation of a fair die is 3.5. Why is that not absurd, given no face shows 3.5?',
-    options:['Dice do have a 3.5 face, on the versions used in probability','An expectation is a long-run average, not a value that has to occur','The true expectation is 3 or 4, and 3.5 is a rounding of it','It is absurd, and the definition of expectation is misleading here'],answer:1,whyWrong:['A standard die has faces 1 through 6 and nothing in between.','','Nothing was rounded. 3.5 is the exact average of 1 through 6.','It is standard and correct. An average need not be an attainable value, and 2.4 children is the same idea.'],
+    options:['The true expectation is 3 or 4, and 3.5 is a rounding of it','An expectation is a long-run average, not a value that has to occur','Dice do have a 3.5 face, on the versions used in probability','It is absurd, and the definition of expectation is misleading here'],answer:1,whyWrong:['Nothing was rounded. 3.5 is the exact average of 1 through 6.','','A standard die has faces 1 through 6 and nothing in between.','It is standard and correct. An average need not be an attainable value, and 2.4 children is the same idea.'],
     why:'Expectation is where the running average settles over many rolls, it need not be a possible outcome.'},
    {q:'Variance uses SQUARED distances from the mean because:',
-    options:['Squares are simpler to write than absolute values are','Positive and negative deviations would otherwise cancel out','It produces a smaller number, which is easier to compare across datasets','It is a convention, and absolute deviation would do just as well'],answer:1,whyWrong:['Absolute values are just as easy to write, and they are a real alternative with different properties.','','Squaring makes the number larger, not smaller.','There is a reason, and taking the square root at the end recovers the original units.'],
+    options:['Positive and negative deviations would otherwise cancel out','It is a convention, and absolute deviation would do just as well','It produces a smaller number, which is easier to compare across datasets','Squares are simpler to write than absolute values are'],answer:0,whyWrong:['','There is a reason, and taking the square root at the end recovers the original units.','Squaring makes the number larger, not smaller.','Absolute values are just as easy to write, and they are a real alternative with different properties.'],
     why:'Same logic as MSE: kill the cancellation, weight large deviations more, and keep the math smooth for what comes later.'}
  ]},
  exs:[{title:'Simulate a die: watch the mean and variance settle',
@@ -120,7 +120,7 @@ print(mean, var, p_six)
  title:'Fundamentals: descriptive statistics, summarizing data beyond the mean',
  body:`
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Before modelling anything, you <b>describe</b> your data, and the mean alone lies. One
+<p>Before modeling anything, you <b>describe</b> your data, and the mean alone lies. One
 billionaire in a room of ten people makes the <i>average</i> wealth enormous while nine people
 are broke. Descriptive statistics are the small set of numbers that summarize a dataset
 honestly; reaching for them is the first move in every real ML project (exploratory data
@@ -131,7 +131,7 @@ analysis), and choosing the right one is a mark of competence.</p></div>
 middle value when sorted; <i>robust</i>, the billionaire barely moves it. <b>Mode</b>, the
 most common value. On <code>[1, 2, 2, 3, 100]</code>: mean ≈ 21.6 (dragged up by 100),
 median = 2 (unbothered), mode = 2. When mean and median diverge, your data is <b>skewed</b>, and
-the mean is pulled toward the long tail. (Recognise the pair? Squared error lands on the mean,
+the mean is pulled toward the long tail. (Recognize the pair? Squared error lands on the mean,
 absolute error on the median, the MSE-vs-MAE robustness story, in statistics form.)</p>
 
 <h3>Spread: range, percentiles, and the IQR</h3>
@@ -151,13 +151,13 @@ data scientist's default first look.</div>`,
  docs:[['Descriptive statistics (an overview)','https://www.scribbr.com/statistics/descriptive-statistics/']],
  quiz:{title:'Quick check',questions:[
    {q:'On the data [1, 2, 2, 3, 100], the mean is ~21.6 but the median is 2. This tells you:',
-    options:['Nothing useful, since two summaries of the same data will always differ','The median is wrong, because it ignores four fifths of the values','The data is skewed, and one extreme value is dragging the mean','The mode is 100, since that is the value furthest from the median'],answer:2,whyWrong:['The gap between them is one of the most useful signals in exploratory work.','The median is exactly right. It is the mean that is being dragged.','','The mode is 2, the value that appears twice.'],
+    options:['The median is wrong, because it ignores four fifths of the values','The data is skewed, and one extreme value is dragging the mean','The mode is 100, since that is the value furthest from the median','Nothing useful, since two summaries of the same data will always differ'],answer:1,whyWrong:['The median is exactly right. It is the mean that is being dragged.','','The mode is 2, the value that appears twice.','The gap between them is one of the most useful signals in exploratory work.'],
     why:'Mean is sensitive to outliers, median is robust. A large gap between them signals skew and warns you not to trust the mean alone.'},
    {q:'The interquartile range (IQR) is:',
-    options:['The most common value in the dataset','Q3 minus Q1, the spread of the middle half of the data','The maximum minus the minimum, the full extent of the data','The average of all the values in the dataset'],answer:1,whyWrong:['That is the mode.','','That is the range, and a single outlier can inflate it without limit.','That is the mean, which is a centre rather than a spread.'],
+    options:['Q3 minus Q1, the spread of the middle half of the data','The average of all the values in the dataset','The maximum minus the minimum, the full extent of the data','The most common value in the dataset'],answer:0,whyWrong:['','That is the mean, which is a center rather than a spread.','That is the range, and a single outlier can inflate it without limit.','That is the mode.'],
     why:'IQR ignores the extreme quarters, so a few outliers do not distort it, unlike the range or standard deviation.'},
    {q:'Why do data scientists reach for the median and IQR first on real data?',
-    options:['They keep telling the truth when outliers are present','They are cheaper to compute than the mean and the range','They are required by reporting standards in most industries','They only become reliable once the dataset is large'],answer:0,whyWrong:['','The mean is the cheaper computation. Robustness is what earns the median its place.','No law is involved. It is a judgement about which summary survives dirty data.','They work at any size, and on small samples the difference is often starkest.'],
+    options:['They keep telling the truth when outliers are present','They are required by reporting standards in most industries','They only become reliable once the dataset is large','They are cheaper to compute than the mean and the range'],answer:0,whyWrong:['','No law is involved. It is a judgement about which summary survives dirty data.','They work at any size, and on small samples the difference is often starkest.','The mean is the cheaper computation. Robustness is what earns the median its place.'],
     why:'Robustness. The first look at messy data should not be fooled by a handful of extreme or erroneous values.'}
  ]},
  exs:[{title:'Robust vs sensitive, summarize data with an outlier',
@@ -226,7 +226,7 @@ print(mean, median, q1, q3, iqr, mean_beats_median)
  title:'Fundamentals: counting, permutations, combinations, and where the binomial comes from',
  body:`
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Probability of equally-likely outcomes is <b>favourable ÷ total</b>, so you have to
+<p>Probability of equally-likely outcomes is <b>favorable ÷ total</b>, so you have to
 <i>count</i> outcomes, and outcomes explode fast. <b>Combinatorics</b> is the art of counting
 without listing, and it is the missing piece behind the binomial distribution, the
 "n-choose-k" you see in formulas, and a lot of probability reasoning.</p></div>
@@ -278,16 +278,16 @@ the classic counting mistake; the tell is the word "arrange/order" (permutation)
  docs:[['Permutations and combinations','https://www.mathsisfun.com/combinatorics/combinations-permutations.html'],['Python math.comb / math.perm','https://docs.python.org/3/library/math.html#math.comb']],
  quiz:{title:'Quick check',questions:[
    {q:'The fundamental counting principle says that 3 shirts and 4 pants give how many outfits?',
-    options:['It depends on which shirts go with which trousers','12, since each of the three shirts pairs with each of the four trousers','7, adding the two counts together','1, since you can only wear one outfit at a time'],answer:1,whyWrong:['It does not depend on anything here. Every shirt can go with every pair of trousers.','','Adding counts the garments. Multiplying counts the combinations.','One outfit would mean the choices were fixed rather than free.'],
+    options:['12, three shirts times four pairs of trousers','1, since you can only wear one outfit at a time','7, adding the two counts together','It depends on which shirts go with which trousers'],answer:0,whyWrong:['','One outfit would mean the choices were fixed rather than free.','Adding counts the garments. Multiplying counts the combinations.','It does not depend on anything here. Every shirt can go with every pair of trousers.'],
     why:'Independent choices multiply: m ways × n ways = m×n combined. This one rule generates factorials, permutations, and combinations.'},
    {q:'The difference between a permutation and a combination is:',
-    options:['Permutations always produce the larger number of the two','Combinations are only defined when you are choosing exactly two items','Nothing, they are two names for the same count','Permutations count arrangements, combinations count selections'],answer:3,whyWrong:['They are bigger for the same n and k, and that is a consequence rather than the definition.','Combinations work for any k. The formula has no such restriction.','There is a real difference, and mixing them up is one of the commonest counting errors.',''],
+    options:['Combinations are only defined when you are choosing exactly two items','Nothing, they are two names for the same count','Permutations count arrangements, combinations count selections','Permutations always produce the larger number of the two'],answer:2,whyWrong:['Combinations work for any k. The formula has no such restriction.','There is a real difference, and mixing them up is one of the commonest counting errors.','','They are bigger for the same n and k, and that is a consequence rather than the definition.'],
     why:'Order is the whole distinction. "Arrange/order" → permutation; "choose/group/select" → combination.'},
    {q:'"n choose k", written C(n, k), answers:',
-    options:['Whichever of n and k is the larger of the two','n multiplied by k, one choice for each item selected','How many different groups of k can be picked from n','n raised to the power k, one choice per position'],answer:2,whyWrong:['Comparing sizes has nothing to do with counting selections.','Multiplying gives you pairs from two separate sets, not subsets of one.','','That counts sequences with repetition allowed, which is a different question.'],
+    options:['n raised to the power k, one choice per position','Whichever of n and k is the larger of the two','How many different groups of k can be picked from n','n multiplied by k, one choice for each item selected'],answer:2,whyWrong:['That counts sequences with repetition allowed, which is a different question.','Comparing sizes has nothing to do with counting selections.','','Multiplying gives you pairs from two separate sets, not subsets of one.'],
     why:'C(n,k) = n!/(k!(n−k)!) counts unordered selections. It is the counting factor in the binomial distribution.'},
    {q:'The number of ways to get exactly k heads in n coin flips is:',
-    options:['C(n, k), the number of ways to choose which flips came up heads','Always 1, since each outcome of n flips happens in exactly one way','k / n, the proportion of the flips that need to be heads','n × k, one choice per flip multiplied by the heads required'],answer:0,whyWrong:['','Exactly one arrangement gives all heads or all tails. Every count in between has many.','That is a proportion between zero and one. The question asks for a count of arrangements.','Multiplying does not describe how the heads can be positioned among the flips.'],
+    options:['C(n, k), the number of ways to choose which flips came up heads','k / n, the proportion of the flips that need to be heads','n × k, one choice per flip multiplied by the heads required','Always 1, since each outcome of n flips happens in exactly one way'],answer:0,whyWrong:['','That is a proportion between zero and one. The question asks for a count of arrangements.','Multiplying does not describe how the heads can be positioned among the flips.','Exactly one arrangement gives all heads or all tails. Every count in between has many.'],
     why:'There are C(n,k) arrangements of k heads among n flips. All-heads has only C(n,n)=1 way; that is why extremes are rare.'}
  ]},
  exs:[{title:'Count it, factorials, choices, and the binomial coefficient',
@@ -375,13 +375,13 @@ between −1σ and +1σ.</div>`,
  docs:[['Seeing Theory (distributions)','https://seeing-theory.brown.edu/probability-distributions/index.html']],
  quiz:{title:'Quick check',questions:[
    {q:'For a continuous quantity like height, P(height is EXACTLY 178.000000 cm) is:',
-    options:['Zero, since probability lives in ranges as areas under the curve','About 68%, the share falling within one standard deviation','One in six, the same as any single outcome of a die','Equal to the density of the curve at 178'],answer:0,whyWrong:['','68% is the share within one standard deviation, which is a range rather than a point.','One in six is a fair die. Heights are continuous.','The density at a point is not a probability, and it can exceed one.'],
+    options:['About 68%, the share falling within one standard deviation','Equal to the density of the curve at 178','One in six, the same as any single outcome of a die','Zero, since probability lives in ranges as areas under the curve'],answer:3,whyWrong:['68% is the share within one standard deviation, which is a range rather than a point.','The density at a point is not a probability, and it can exceed one.','One in six is a fair die. Heights are continuous.',''],
     why:'Infinitely many values means any exact one has probability zero. The PDF gives density; area over a range gives probability.'},
    {q:'A Gaussian is completely described by:',
-    options:['Its total area, which varies from one Gaussian to another','Its mean, where the peak sits, and its standard deviation','Its minimum and its maximum, the range it covers','Its first ten samples, which pin down the shape'],answer:1,whyWrong:['The area is always exactly one, for every Gaussian. That is what makes it a density.','','A Gaussian has no minimum or maximum. Its tails go on forever.','Samples estimate the parameters. They are not the description.'],
+    options:['Its mean, where the peak sits, and its standard deviation','Its total area, which varies from one Gaussian to another','Its first ten samples, which pin down the shape','Its minimum and its maximum, the range it covers'],answer:0,whyWrong:['','The area is always exactly one, for every Gaussian. That is what makes it a density.','Samples estimate the parameters. They are not the description.','A Gaussian has no minimum or maximum. Its tails go on forever.'],
     why:'Two numbers pin the whole bell: location and spread. (The area under any PDF is always exactly 1.)'},
    {q:'Why does the sum of ten dice look bell-shaped when a single die is flat?',
-    options:['The central limit theorem: sums of many independent pieces go bell-shaped','It is an artifact of how the histogram bins were chosen','Only weighted dice do this, because their faces are unequally likely','Dice are Gaussian already, and a single die only looks flat'],answer:0,whyWrong:['','Plot it yourself and the shape appears. Nothing about the rendering causes it.','Fair dice do it just as clearly. Weighting is not required.','A single die is flat, which is as far from Gaussian as a distribution gets.'],
+    options:['Dice are Gaussian already, and a single die only looks flat','It is an artifact of how the histogram bins were chosen','Only weighted dice do this, because their faces are unequally likely','The central limit theorem: sums of many independent pieces go bell-shaped'],answer:3,whyWrong:['A single die is flat, which is as far from Gaussian as a distribution gets.','Plot it yourself and the shape appears. Nothing about the rendering causes it.','Fair dice do it just as clearly. Weighting is not required.',''],
     why:'That is the CLT, and it is why the Gaussian shows up wherever many small effects add: heights, noise, measurement error.'}
  ]},
  exs:[{title:'Watch the bell emerge: the central limit theorem by hand',
@@ -476,13 +476,13 @@ conditional independence of features. You are one lesson away from seeing it exp
  docs:[['Seeing Theory (conditional probability)','https://seeing-theory.brown.edu/compound-probability/index.html']],
  quiz:{title:'Quick check',questions:[
    {q:'P(A | B) means:',
-    options:['P(A) divided by P(B), the ratio of the two separate probabilities','The probability of A in a world narrowed to the cases where B happened','The probability that A and B both occur together','The probability of B given A, the same quantity written differently'],answer:1,whyWrong:['That is the formula for P(A and B) divided by P(B), and writing it as P(A)/P(B) drops the joint term.','','That is P(A and B), which appears in the definition rather than being the definition.','The order matters. P(A|B) and P(B|A) are different numbers, as the disease example shows.'],
+    options:['The probability of A in a world narrowed to the cases where B happened','The probability of B given A, the same quantity written differently','The probability that A and B both occur together','P(A) divided by P(B), the ratio of the two separate probabilities'],answer:0,whyWrong:['','The order matters. P(A|B) and P(B|A) are different numbers, as the disease example shows.','That is P(A and B), which appears in the definition rather than being the definition.','That is the formula for P(A and B) divided by P(B), and writing it as P(A)/P(B) drops the joint term.'],
     why:'The bar reads "given": filter to B\u0027s cases, then ask how often A holds there.'},
    {q:'Two events are independent exactly when:',
     options:['Both of them are outcomes of rolling dice or flipping coins','They cannot both happen, so one rules the other out','They have the same probability of occurring','Knowing one changes nothing about the other, so P(A and B) = P(A)P(B)'],answer:3,whyWrong:['Dice are one example. Independence is a property of any two events.','That is mutual exclusivity, which is close to the opposite. If they cannot both happen, one tells you a great deal about the other.','Equal probability says nothing about whether they inform each other.',''],
     why:'Independence = knowledge of B is worthless for predicting A. The product rule is the same statement in multiplication form.'},
    {q:'A test is 99% accurate: P(positive | sick) = 0.99. Is that the same as P(sick | positive)?',
-    options:['No, they ask different questions and can differ enormously','Yes, since both describe the same joint probability from either side','Yes, provided the test is sensitive enough to be worth its cost','Only for blood tests, where the two error rates happen to match'],answer:0,whyWrong:['','They are equal only in special circumstances, and a rare disease is exactly where they diverge.','Price has no bearing on it. The gap comes from how rare the condition is.','It applies to any test for anything, medical or otherwise.'],
+    options:['Yes, provided the test is sensitive enough to be worth its cost','Yes, since both describe the same joint probability from either side','Only for blood tests, where the two error rates happen to match','No, they ask different questions and can differ enormously'],answer:3,whyWrong:['Price has no bearing on it. The gap comes from how rare the condition is.','They are equal only in special circumstances, and a rare disease is exactly where they diverge.','It applies to any test for anything, medical or otherwise.',''],
     why:'Reversing a conditional is the base-rate trap. Bayes\u0027 theorem (next lesson) is the correct way to flip the bar.'}
  ]},
  exs:[{title:'Watch knowledge move the odds, two dice, simulated',
@@ -646,10 +646,10 @@ is tomorrow's prior.</div>`,
     options:['99%','9%','50%','1%'],answer:1,whyWrong:['That is the test accuracy, which is the number people mistake for the answer.','','A coin flip would be the answer if the disease were far more common.','1% is close to the false positive rate, and it is not the posterior.'],
     why:'Count it: ~99 true positives vs ~999 false positives, the rare base rate lets the healthy crowd swamp the signal. 99/1098 ≈ 9%.'},
    {q:'In Bayes vocabulary, the "prior" is:',
-    options:['The final answer, once the evidence has been taken into account','The error rate of the test being applied','The test result itself, positive or negative','Your belief before any evidence has been seen'],answer:3,whyWrong:['That is the posterior, which is what you get after the update.','That is the likelihood, and it describes the test rather than the population.','That is the evidence you are updating on.',''],
+    options:['The test result itself, positive or negative','The error rate of the test being applied','Your belief before any evidence has been seen','The final answer, once the evidence has been taken into account'],answer:2,whyWrong:['That is the evidence you are updating on.','That is the likelihood, and it describes the test rather than the population.','','That is the posterior, which is what you get after the update.'],
     why:'Prior (a priori) = before evidence; posterior (a posteriori) = after. The likelihood is how well each hypothesis explains what you saw.'},
    {q:'Why does a SECOND positive test change the picture so much?',
-    options:['The test becomes more accurate the second time it is administered','Two positives in a row are definitive, whatever the disease rate','It does not change anything, since the same test was used twice','Your prior is now 9% rather than 0.1%, so the same evidence lands differently'],answer:3,whyWrong:['The test is exactly as accurate as it was. What changed is what you believed going in.','Two positives on a very rare condition can still leave real doubt. Here it reaches about 91%, not certainty.','It changes it enormously, from 9% to roughly 91%.',''],
+    options:['Two positives in a row are definitive, whatever the disease rate','It does not change anything, since the same test was used twice','Your prior is now 9% rather than 0.1%, so the same evidence lands differently','The test becomes more accurate the second time it is administered'],answer:2,whyWrong:['Two positives on a very rare condition can still leave real doubt. Here it reaches about 91%, not certainty.','It changes it enormously, from 9% to roughly 91%.','','The test is exactly as accurate as it was. What changed is what you believed going in.'],
     why:'Updating is iterative: today\u0027s posterior is tomorrow\u0027s prior. Starting from 9%, the arithmetic that gave 9% now gives ~91%.'}
  ]},
  exs:[{title:'Compute the posterior two ways: count it, then Bayes it',
@@ -776,13 +776,13 @@ probability stream and the ML track are the same subject wearing two outfits.</d
  docs:[['StatQuest, maximum likelihood','https://www.youtube.com/watch?v=XepXtl9YKwc'],['Seeing Theory, likelihood','https://seeing-theory.brown.edu/bayesian-inference/index.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Maximum likelihood estimation picks the parameter value that:',
-    options:['Makes the observed data least surprising under the model','Minimises the parameter itself, keeping the model as simple as possible','The prior assigns the highest probability to before any data arrives','Sits closest to 0.5, the least committed value available'],answer:0,whyWrong:['','Minimising the parameter would pick whatever value is smallest, regardless of the data.','Adding a prior is what turns MLE into MAP. Plain MLE has no prior.','There is nothing special about 0.5. The data decides.'],
+    options:['Minimizes the parameter itself, keeping the model as simple as possible','Sits closest to 0.5, the least committed value available','The prior assigns the highest probability to before any data arrives','Makes the observed data least surprising under the model'],answer:3,whyWrong:['Minimizing the parameter would pick whatever value is smallest, regardless of the data.','There is nothing special about 0.5. The data decides.','Adding a prior is what turns MLE into MAP. Plain MLE has no prior.',''],
     why:'Score candidates by the probability they give YOUR data; take the argmax. Training a model is this, at scale.'},
    {q:'Why do practitioners maximize LOG-likelihood instead of likelihood?',
-    options:['Products of thousands of small probabilities underflow, and logs give stable sums','Taking logs changes the answer to one that generalises better','It is a convention inherited from statistical physics','Logs are computed to higher precision than products are'],answer:0,whyWrong:['','The maximiser is identical. The log is monotonic, so it moves nowhere.','The reason is numerical, and it applies wherever probabilities are multiplied.','Logs are not more accurate in themselves. They avoid the underflow that destroys accuracy.'],
+    options:['It is a convention inherited from statistical physics','Logs are computed to higher precision than products are','Taking logs changes the answer to one that generalizes better','Products of thousands of probabilities underflow, and logs give sums'],answer:3,whyWrong:['The reason is numerical, and it applies wherever probabilities are multiplied.','Logs are not more accurate in themselves. They avoid the underflow that destroys accuracy.','The maximizer is identical. The log is monotonic, so it moves nowhere.',''],
     why:'log is order-preserving: same winner, numerically sane. "Negative log likelihood" in ML code is exactly this, flipped to minimize.'},
    {q:'MAP differs from MLE by:',
-    options:['Multiplying in a prior, which is what makes regularisation a prior in disguise','Ignoring the likelihood and using only what you believed beforehand','Being defined only for simple models such as a coin flip','Fitting on a different dataset from the one MLE uses'],answer:0,whyWrong:['','MAP keeps the likelihood and multiplies a prior into it.','It applies to any model. Coins are just the easiest example to write out.','Both use the same data. What differs is what else is brought to it.'],
+    options:['Multiplying in a prior, which is what makes regularisation a prior in disguise','Being defined only for simple models such as a coin flip','Fitting on a different dataset from the one MLE uses','Ignoring the likelihood and using only what you believed beforehand'],answer:0,whyWrong:['','It applies to any model. Coins are just the easiest example to write out.','Both use the same data. What differs is what else is brought to it.','MAP keeps the likelihood and multiplies a prior into it.'],
     why:'MAP = argmax likelihood × prior. L2 regularization = Gaussian prior on weights: the Bayes lesson and the ML track, connected.'}
  ]},
  exs:[{title:'Fit your first model by maximum likelihood',
@@ -914,15 +914,92 @@ stand-in. That substitution is called <b>empirical risk minimization</b>, and ev
 training performance and real performance comes from the fact that the sample average is not the
 expectation.</div>
 `,
+ exs:[{title:'Expectation by simulation, then break E[g(X)] = g(E[X])',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`X is the total of two fair dice, and its whole distribution is handed to you as
+   <code>vals</code> and <code>probs</code>. Compute its expectation twice, then watch a rule
+   most people assume fail:
+   <ol>
+   <li><code>EX</code>, the analytic expectation, the weighted sum of every value, which is <b>7.0</b>,</li>
+   <li><code>EX2</code>, the analytic <code>E[X^2]</code> by the same weights on squared values (that is LOTUS: you never work out the distribution of X squared), about <b>54.83</b>,</li>
+   <li><code>sim_mean</code>, the average of 200,000 simulated totals, which should land within 0.05 of <code>EX</code>,</li>
+   <li><code>gap</code>, the difference <code>E[g(X)] - g(E[X])</code> for the convex g(x) = x squared.</li>
+   </ol>
+   Jensen says that gap cannot be negative for a convex g. Here it is exactly the variance, 35/6.`,
+   starter:`import numpy as np
+np.random.seed(0)
+
+# The distribution of X, the total of two fair dice
+vals  = np.arange(2, 13)
+probs = np.array([1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]) / 36.0
+
+# 1) E[X] = sum of x * p(x)
+EX =
+
+# 2) E[X^2] by LOTUS: same weights, squared values
+EX2 =
+
+# 3) The same expectation the other way, by simulation
+rolls = np.random.randint(1, 7, size=(200_000, 2)).sum(axis=1)
+sim_mean =
+
+# The two sides of Jensen's inequality for g(x) = x**2
+g_of_EX = EX ** 2
+E_of_gX = EX2
+
+# 4) The gap between them
+gap =
+
+print(EX, EX2, sim_mean, gap)
+`,
+   solution:`import numpy as np
+np.random.seed(0)
+
+# The distribution of X, the total of two fair dice
+vals  = np.arange(2, 13)
+probs = np.array([1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]) / 36.0
+
+# 1) E[X] = sum of x * p(x)
+EX = float((vals * probs).sum())
+
+# 2) E[X^2] by LOTUS: same weights, squared values
+EX2 = float((vals ** 2 * probs).sum())
+
+# 3) The same expectation the other way, by simulation
+rolls = np.random.randint(1, 7, size=(200_000, 2)).sum(axis=1)
+sim_mean = float(rolls.mean())
+
+# The two sides of Jensen's inequality for g(x) = x**2
+g_of_EX = EX ** 2
+E_of_gX = EX2
+
+# 4) The gap between them
+gap = E_of_gX - g_of_EX
+
+print(EX, EX2, sim_mean, gap)
+`,
+   tests:[
+     {d:'E[X] is 7, the weighted sum of every total the two dice can show',expr:'abs(EX - 7) < 1e-9'},
+     {d:'E[X²] is about 54.83, obtained by LOTUS without ever finding the distribution of X²',expr:'abs(EX2 - 54.8333333333) < 1e-6'},
+     {d:'200,000 simulated totals average to the analytic expectation',expr:'abs(sim_mean - EX) < 0.05'},
+     {d:'E[g(X)] is strictly larger than g(E[X]) for the convex g, which is Jensen as a number rather than a sentence',expr:'E_of_gX > g_of_EX'},
+     {d:'the Jensen gap here is exactly the variance, 35/6 ≈ 5.833',expr:'abs(gap - 35/6) < 1e-9'}
+   ],
+   hints:[
+     'A weighted average is one line with arrays: (vals * probs).sum().',
+     'LOTUS means reusing the same probabilities: (vals ** 2 * probs).sum(). No new distribution is needed.',
+     'gap = E_of_gX - g_of_EX, which is E[X²] - (E[X])², and that is the computational form of the variance from the lesson.'
+   ]}],
  quiz:{title:'Quick check, expectation',questions:[
    {q:'A random variable is best described as:',
-    options:['A variable whose value is unknown','A function mapping outcomes to numbers','The probability assigned to an event','A number chosen uniformly at random'],answer:1,whyWrong:['An unknown constant is not random. A random variable has a distribution over its possible values.','','That is a probability, which is what the function induces rather than what it is.','That is one particular random variable, the uniform one.'],
+    options:['A function mapping outcomes to numbers','A variable whose value is unknown','The probability assigned to an event','A number chosen uniformly at random'],answer:0,whyWrong:['','An unknown constant is not random. A random variable has a distribution over its possible values.','That is a probability, which is what the function induces rather than what it is.','That is one particular random variable, the uniform one.'],
     why:'It is a function on the sample space. The name is historical and misleading.'},
    {q:'E[X + Y] = E[X] + E[Y] holds:',
-    options:['Only when X and Y are independent','For any X and Y whatsoever','Only for discrete random variables','Only when both have finite variance'],answer:1,whyWrong:['Independence is needed for E[XY] = E[X]E[Y]. Linearity of expectation needs nothing at all.','','It holds for continuous variables too.','Finite variance is not required. Only the expectations have to exist.'],
+    options:['For any X and Y whatsoever','Only when both have finite variance','Only for discrete random variables','Only when X and Y are independent'],answer:0,whyWrong:['','Finite variance is not required. Only the expectations have to exist.','It holds for continuous variables too.','Independence is needed for E[XY] = E[X]E[Y]. Linearity of expectation needs nothing at all.'],
     why:'Linearity of expectation never requires independence, which makes it unusually powerful.'},
    {q:'Why is standard deviation reported instead of variance?',
-    options:['It is unaffected by extreme values','It is faster to compute from a sample','It is always smaller and easier to read','It has the same units as the data itself'],answer:3,whyWrong:['It is affected by extreme values just as variance is, since it is the square root of one.','It costs one extra square root, which is negligible either way.','It is smaller only when the variance exceeds one. Below that it is larger.',''],
+    options:['It is unaffected by extreme values','It is always smaller and easier to read','It has the same units as the data itself','It is faster to compute from a sample'],answer:2,whyWrong:['It is affected by extreme values just as variance is, since it is the square root of one.','It is smaller only when the variance exceeds one. Below that it is larger.','','It costs one extra square root, which is negligible either way.'],
     why:'Variance is in squared units. Taking the root puts the spread back on the scale of the measurements.'}
  ]}},
 
@@ -992,15 +1069,102 @@ which is obviously true, and it is exactly the property the next lesson exploits
 = a<sup>T</sup>&Sigma;a</code>. So the quadratic form is not an abstraction, it is the variance
 of the data measured along the direction <code>a</code>.</div>
 `,
+ exs:[{title:'Marginalize, condition, then find zero covariance between dependent variables',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`X is uniform on the five values -2 to 2, and Y is X squared, so Y is completely
+   determined by X. Build the joint table and read all three distributions off it:
+   <ol>
+   <li><code>J</code>, the 5 by 3 joint table, each row holding 0.2 in the single column where y = x squared,</li>
+   <li><code>px</code> and <code>py</code>, the marginals, each obtained by summing the other variable out. <code>py</code> should be <b>[0.2, 0.4, 0.4]</b>,</li>
+   <li><code>cond</code>, the conditional distribution of X given Y = 1, which is that column divided by <code>py[1]</code>, and which must sum to 1,</li>
+   <li><code>cov</code>, the covariance <code>E[XY] - E[X]E[Y]</code>.</li>
+   </ol>
+   The covariance comes out at zero although Y is a function of X. The last test compares the
+   joint against the product of the marginals, which is what independence would actually require.`,
+   starter:`import numpy as np
+
+xs = np.array([-2, -1, 0, 1, 2])
+ys = np.array([0, 1, 4])
+
+# 1) The joint table: P(X = x, Y = x**2) = 1/5, zero everywhere else
+J = np.zeros((5, 3))
+for i, x in enumerate(xs):
+    j = int(np.where(ys == x ** 2)[0][0])
+    J[i, j] =
+
+# 2) Marginals: sum the other variable out
+px =
+py =
+
+# 3) The conditional distribution of X given Y = 1
+cond =
+
+# Expectations, each a weighted sum over the table
+EX  = float((px * xs).sum())
+EY  = float((py * ys).sum())
+EXY = float(sum(J[i, j] * xs[i] * ys[j] for i in range(5) for j in range(3)))
+
+# 4) Covariance
+cov =
+
+# How far the joint sits from the product of its marginals
+gap = float(np.abs(J - np.outer(px, py)).max())
+
+print(py, cond, cov, gap)
+`,
+   solution:`import numpy as np
+
+xs = np.array([-2, -1, 0, 1, 2])
+ys = np.array([0, 1, 4])
+
+# 1) The joint table: P(X = x, Y = x**2) = 1/5, zero everywhere else
+J = np.zeros((5, 3))
+for i, x in enumerate(xs):
+    j = int(np.where(ys == x ** 2)[0][0])
+    J[i, j] = 1 / 5
+
+# 2) Marginals: sum the other variable out
+px = J.sum(axis=1)
+py = J.sum(axis=0)
+
+# 3) The conditional distribution of X given Y = 1
+cond = J[:, 1] / py[1]
+
+# Expectations, each a weighted sum over the table
+EX  = float((px * xs).sum())
+EY  = float((py * ys).sum())
+EXY = float(sum(J[i, j] * xs[i] * ys[j] for i in range(5) for j in range(3)))
+
+# 4) Covariance
+cov = EXY - EX * EY
+
+# How far the joint sits from the product of its marginals
+gap = float(np.abs(J - np.outer(px, py)).max())
+
+print(py, cond, cov, gap)
+`,
+   tests:[
+     {d:'the joint table is a distribution: every cell is non-negative and the whole thing sums to 1',expr:'J.min() >= 0 and abs(J.sum() - 1) < 1e-12'},
+     {d:'marginalizing X out leaves py = [0.2, 0.4, 0.4], since 1 and 4 each arise two ways and 0 only one',expr:'bool(np.allclose(py, [0.2, 0.4, 0.4]))'},
+     {d:'conditioning on Y = 1 gives a distribution summing to 1, split evenly between X = -1 and X = +1',expr:'abs(cond.sum() - 1) < 1e-12 and abs(cond[1] - 0.5) < 1e-12 and abs(cond[3] - 0.5) < 1e-12'},
+     {d:'the covariance is zero, because E[XY] = E[X³] = 0 by symmetry',expr:'abs(cov) < 1e-12'},
+     {d:'yet the joint is nowhere near the product of the marginals, so uncorrelated is not independent',expr:'gap > 0.1'}
+   ],
+   hints:[
+     'Each row of J has exactly one nonzero entry, in the column where ys equals x ** 2, and every outcome has probability 1/5.',
+     'Marginals are sums along an axis: J.sum(axis=1) removes Y, J.sum(axis=0) removes X. Conditioning is a slice divided by its own total.',
+     'cov = EXY - EX * EY. E[X] is zero by symmetry and E[XY] = E[X³] is zero for the same reason, so the covariance has no choice but to vanish.'
+   ]}],
  quiz:{title:'Quick check, joint and covariance',questions:[
    {q:'Marginalizing a joint distribution means:',
-    options:['Conditioning on the most likely value','Normalizing so the total equals one','Summing or integrating the other variable out','Discarding the least probable outcomes'],answer:2,whyWrong:['That is conditioning on a value, which keeps the variable rather than removing it.','Normalising rescales what is there. Marginalising removes a dimension.','','Nothing is discarded. Every outcome contributes to the sum.'],
+    options:['Conditioning on the most likely value','Discarding the least probable outcomes','Summing or integrating the other variable out','Normalizing so the total equals one'],answer:2,whyWrong:['That is conditioning on a value, which keeps the variable rather than removing it.','Nothing is discarded. Every outcome contributes to the sum.','','Normalizing rescales what is there. Marginalizing removes a dimension.'],
     why:'p(x) = Σ_y p(x,y). You remove a variable by summing over everything it could have been.'},
    {q:'Zero covariance between X and Y implies:',
-    options:['No linear relationship, but possibly others','The joint distribution factorizes exactly','X and Y must be statistically independent','One of the two has zero variance'],answer:0,whyWrong:['','Factorisation is independence, which is strictly stronger than zero covariance.','A parabola through the origin has zero covariance and total dependence.','Zero variance in one variable does force zero covariance, and it is not the only way to get it.'],
+    options:['The joint distribution factorizes exactly','X and Y must be statistically independent','One of the two has zero variance','No linear relationship, but possibly others'],answer:3,whyWrong:['Factorisation is independence, which is strictly stronger than zero covariance.','A parabola through the origin has zero covariance and total dependence.','Zero variance in one variable does force zero covariance, and it is not the only way to get it.',''],
     why:'Y = X² with X symmetric about zero has zero covariance and total dependence.'},
    {q:'The quantity aᵀΣa represents:',
-    options:['The variance of the data along direction a','The determinant of the covariance matrix','The mean of the data along direction a','The correlation between the first two columns'],answer:0,whyWrong:['','The determinant is a single scalar summarising the whole matrix, with no direction attached.','The mean along a is aᵀμ, and it is linear rather than quadratic.','That is one off-diagonal entry, and it does not involve a at all.'],
+    options:['The correlation between the first two columns','The determinant of the covariance matrix','The mean of the data along direction a','The variance of the data along direction a'],answer:3,whyWrong:['That is one off-diagonal entry, and it does not involve a at all.','The determinant is a single scalar summarizing the whole matrix, with no direction attached.','The mean along a is aᵀμ, and it is linear rather than quadratic.',''],
     why:'It is Var[aᵀx]. That is why Σ must be positive semi-definite, since variances cannot be negative.'}
  ]}},
 
@@ -1092,15 +1256,105 @@ mean of your data rather than at the direction of greatest spread. It will look 
 wrong.</div>
 `,
  docs:[['A visual, interactive explanation of PCA','https://setosa.io/ev/principal-component-analysis/']],
+ exs:[{title:'Recover a covariance, take its eigenvectors, and watch PCA appear',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`The true covariance is <code>diag(9, 1)</code> rotated by 30 degrees, so the direction
+   of greatest spread is <code>u_true</code>. Sample from it, then work backwards from the sample
+   alone:
+   <ol>
+   <li><code>X</code>, 4,000 draws: standard normal noise passed through the Cholesky factor <code>L</code>, which turns N(0, I) into N(0, &Sigma;),</li>
+   <li><code>S</code>, the covariance estimated from the centered data, <code>Xc.T @ Xc / n</code>,</li>
+   <li><code>top</code> and <code>lam_top</code>, the eigenvector of <code>S</code> with the largest eigenvalue, and that eigenvalue,</li>
+   <li><code>var_top</code>, the variance of the data projected onto <code>top</code>, which should equal <code>lam_top</code> to machine precision.</li>
+   </ol>
+   The last test scans 180 directions around the circle and checks that none beats the top
+   eigenvector. That is the constrained maximum of the lesson, verified rather than asserted.`,
+   starter:`import numpy as np
+np.random.seed(0)
+
+theta  = np.pi / 6
+u_true = np.array([np.cos(theta), np.sin(theta)])
+U      = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
+S_true = U @ np.diag([9.0, 1.0]) @ U.T
+L      = np.linalg.cholesky(S_true)
+
+# 1) 4,000 draws with that covariance
+X  =
+Xc = X - X.mean(axis=0)
+
+# 2) The covariance estimated back from the sample
+S =
+
+# 3) Eigen-decomposition, then the top eigenvector and its eigenvalue
+w, V    = np.linalg.eigh(S)
+top     =
+lam_top =
+
+# 4) The variance of the data along that direction
+proj     = Xc @ top
+var_top  =
+
+# Every direction around the half circle, and the variance along each
+angles   = np.linspace(0, np.pi, 180)
+dirs     = np.stack([np.cos(angles), np.sin(angles)], axis=1)
+vars_all = ((Xc @ dirs.T) ** 2).mean(axis=0)
+
+print(S, lam_top, var_top, abs(float(top @ u_true)))
+`,
+   solution:`import numpy as np
+np.random.seed(0)
+
+theta  = np.pi / 6
+u_true = np.array([np.cos(theta), np.sin(theta)])
+U      = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
+S_true = U @ np.diag([9.0, 1.0]) @ U.T
+L      = np.linalg.cholesky(S_true)
+
+# 1) 4,000 draws with that covariance
+X  = np.random.randn(4000, 2) @ L.T
+Xc = X - X.mean(axis=0)
+
+# 2) The covariance estimated back from the sample
+S = (Xc.T @ Xc) / len(Xc)
+
+# 3) Eigen-decomposition, then the top eigenvector and its eigenvalue
+w, V    = np.linalg.eigh(S)
+top     = V[:, int(np.argmax(w))]
+lam_top = float(w.max())
+
+# 4) The variance of the data along that direction
+proj     = Xc @ top
+var_top  = float(proj.var())
+
+# Every direction around the half circle, and the variance along each
+angles   = np.linspace(0, np.pi, 180)
+dirs     = np.stack([np.cos(angles), np.sin(angles)], axis=1)
+vars_all = ((Xc @ dirs.T) ** 2).mean(axis=0)
+
+print(S, lam_top, var_top, abs(float(top @ u_true)))
+`,
+   tests:[
+     {d:'the sample covariance recovers the true one to within 0.2 in every entry',expr:'float(np.abs(S - S_true).max()) < 0.2'},
+     {d:'the top eigenvalue is near 9, the variance that was built into that direction',expr:'abs(lam_top - 9) < 0.5'},
+     {d:'the top eigenvector points along u_true, up to a sign the decomposition is free to choose',expr:'abs(float(top @ u_true)) > 0.99'},
+     {d:'the variance of the projected data equals the eigenvalue exactly, which is the statement uᵀΣu = λ',expr:'abs(var_top - lam_top) < 1e-9'},
+     {d:'no direction on the circle carries more variance, so the eigenvector really is the constrained maximum',expr:'float(vars_all.max()) <= lam_top + 1e-9'}
+   ],
+   hints:[
+     'np.random.randn(4000, 2) @ L.T produces correlated draws, because multiplying standard normals by L gives covariance L Lᵀ, which is Σ.',
+     'S = (Xc.T @ Xc) / len(Xc). np.linalg.eigh returns eigenvalues in ascending order, so the largest is w[-1].',
+     'top = V[:, int(np.argmax(w))] and lam_top = float(w.max()). Then proj = Xc @ top and var_top = float(proj.var()), which will match lam_top to machine precision.'
+   ]}],
  quiz:{title:'Quick check, Gaussians and PCA',questions:[
    {q:'The Mahalanobis distance differs from Euclidean distance by:',
-    options:['Always producing a value between zero and one','Measuring in units of standard deviation per direction','Being restricted to two dimensions at a time','Ignoring the correlations between variables'],answer:1,whyWrong:['It is unbounded above, exactly like Euclidean distance.','','It works in any number of dimensions, and correlated high-dimensional data is where it earns its keep.','Correlations are precisely what it accounts for, through the inverse covariance matrix.'],
+    options:['Ignoring the correlations between variables','Measuring in units of standard deviation per direction','Always producing a value between zero and one','Being restricted to two dimensions at a time'],answer:1,whyWrong:['Correlations are precisely what it accounts for, through the inverse covariance matrix.','','It is unbounded above, exactly like Euclidean distance.','It works in any number of dimensions, and correlated high-dimensional data is where it earns its keep.'],
     why:'The Σ⁻¹ in the middle rescales each direction by how much the data actually varies along it.'},
    {q:'The directional derivative ∇fᵀu is largest when u:',
     options:['Has the smallest possible magnitude','Is perpendicular to the gradient vector','Points along the first coordinate axis','Points in the same direction as the gradient'],answer:3,whyWrong:['Magnitude scales the whole quantity. The question is about direction, and u is normally taken to be a unit vector.','Perpendicular to the gradient gives exactly zero, which is the flattest direction rather than the steepest.','A coordinate axis is only best when the gradient happens to lie along it.',''],
     why:'∇fᵀu = ‖∇f‖cos θ, maximized at θ = 0. That is why gradient descent steps along −∇E.'},
    {q:'PCA finds eigenvectors of the covariance matrix because:',
-    options:['Maximizing uᵀΣu subject to ‖u‖=1 yields Σu = λu','The covariance matrix is expensive to invert','Eigen-decomposition is numerically the fastest route','Eigenvectors are always orthogonal to each other'],answer:0,whyWrong:['','Nothing is inverted in PCA. The covariance matrix is decomposed.','There are faster factorisations for other purposes. The eigenvectors are what the constrained optimum demands.','Orthogonality is a consequence that makes the components independent, and it is not what produces the equation.'],
+    options:['Maximizing uᵀΣu subject to ‖u‖=1 yields Σu = λu','Eigenvectors are always orthogonal to each other','The covariance matrix is expensive to invert','Eigen-decomposition is numerically the fastest route'],answer:0,whyWrong:['','Orthogonality is a consequence that makes the components independent, and it is not what produces the equation.','Nothing is inverted in PCA. The covariance matrix is decomposed.','There are faster factorisations for other purposes. The eigenvectors are what the constrained optimum demands.'],
     why:'The Lagrange condition for the constrained maximum is exactly the eigenvector equation.'}
  ]}}
 ,
@@ -1172,15 +1426,90 @@ descriptions, one optimization. That is why the same objective keeps appearing u
 names.</div>
 `,
  docs:[['Shannon, A Mathematical Theory of Communication (1948)','https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf']],
+ exs:[{title:'Entropy, cross-entropy, KL, and the price of a confident mistake',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`Coins first, measured in bits, then a classifier:
+   <ol>
+   <li><code>h_fair</code> and <code>h_load</code>, the entropies of a fair coin and of one that lands heads 90% of the time: <b>1.0</b> and about <b>0.469</b> bits,</li>
+   <li><code>hpq</code>, the cross-entropy of the truth <code>p = [0.7, 0.2, 0.1]</code> against the belief <code>q = [0.5, 0.3, 0.2]</code>, and <code>kl</code>, the KL divergence from p to q,</li>
+   <li><code>loss_right</code> and <code>loss_wrong</code>, the classifier loss <code>-log(q_c)</code> when the model gives the true class 0.7 and when it gives it 0.01.</li>
+   </ol>
+   Test three is the identity <code>H(p, q) = H(p) + KL(p || q)</code>, and it holds to machine
+   precision or you have a bug.`,
+   starter:`import numpy as np
+
+def entropy(p):
+    p = np.asarray(p, float)
+    return float(                     )   # average surprise, in bits
+
+# 1) Two coins
+h_fair = entropy([0.5, 0.5])
+h_load = entropy([0.9, 0.1])
+
+# The truth, and a model that believes something slightly different
+p  = np.array([0.7, 0.2, 0.1])
+q  = np.array([0.5, 0.3, 0.2])
+hp = entropy(p)
+
+# 2) Cross-entropy: true weights, surprise measured under q. Then the excess, KL.
+hpq =
+kl  =
+kl_reverse = float((q * np.log2(q / p)).sum())
+
+# 3) The loss on the true class, in nats, confident and right, then confident and wrong
+loss_right =
+loss_wrong =
+
+print(h_fair, h_load, hpq, kl, loss_right, loss_wrong)
+`,
+   solution:`import numpy as np
+
+def entropy(p):
+    p = np.asarray(p, float)
+    return float(-(p * np.log2(p)).sum())   # average surprise, in bits
+
+# 1) Two coins
+h_fair = entropy([0.5, 0.5])
+h_load = entropy([0.9, 0.1])
+
+# The truth, and a model that believes something slightly different
+p  = np.array([0.7, 0.2, 0.1])
+q  = np.array([0.5, 0.3, 0.2])
+hp = entropy(p)
+
+# 2) Cross-entropy: true weights, surprise measured under q. Then the excess, KL.
+hpq = float(-(p * np.log2(q)).sum())
+kl  = float((p * np.log2(p / q)).sum())
+kl_reverse = float((q * np.log2(q / p)).sum())
+
+# 3) The loss on the true class, in nats, confident and right, then confident and wrong
+loss_right = float(-np.log(0.7))
+loss_wrong = float(-np.log(0.01))
+
+print(h_fair, h_load, hpq, kl, loss_right, loss_wrong)
+`,
+   tests:[
+     {d:'a fair coin carries exactly 1 bit, the 90/10 coin only 0.469: predictability is cheap to transmit',expr:'abs(h_fair - 1) < 1e-12 and abs(h_load - 0.469) < 0.001'},
+     {d:'KL is strictly positive here, as it must be whenever q is not p',expr:'kl > 0'},
+     {d:'cross-entropy equals entropy plus KL, to machine precision, which is the identity the loss rests on',expr:'abs(hpq - (hp + kl)) < 1e-12'},
+     {d:'swapping the arguments changes the answer, so KL is not a distance',expr:'abs(kl - kl_reverse) > 0.005'},
+     {d:'the confident wrong answer costs about 4.6 against 0.36 for the confident right one, and that asymmetry is what trains a classifier',expr:'loss_wrong > 4.5 and loss_wrong > 12 * loss_right'}
+   ],
+   hints:[
+     'Entropy is the average of the surprises -log p, weighted by p itself: -(p * np.log2(p)).sum().',
+     'Cross-entropy keeps p as the weights and takes the log of q: -(p * np.log2(q)).sum(). KL is (p * np.log2(p / q)).sum().',
+     'The classifier loss is the negative log of the probability given to the true class, so -np.log(0.01) is about 4.6 while -np.log(0.7) is about 0.36.'
+   ]}],
  quiz:{title:'Quick check, information',questions:[
    {q:'Entropy is highest when a distribution is:',
-    options:['Defined over the fewest outcomes','As close to uniform as possible','Concentrated on a single outcome','Skewed toward the rarest event'],answer:1,whyWrong:['Fewer outcomes means less uncertainty, so entropy falls.','','That is the minimum. A certain outcome carries no surprise at all.','Skew concentrates probability, which lowers entropy rather than raising it.'],
+    options:['As close to uniform as possible','Skewed toward the rarest event','Concentrated on a single outcome','Defined over the fewest outcomes'],answer:0,whyWrong:['','Skew concentrates probability, which lowers entropy rather than raising it.','That is the minimum. A certain outcome carries no surprise at all.','Fewer outcomes means less uncertainty, so entropy falls.'],
     why:'Uniform means maximum average surprise. A certainty has entropy zero.'},
    {q:'KL divergence is not a distance because:',
-    options:['It depends on the base of the logarithm','It can take negative values in some cases','It is undefined for continuous variables','It is not symmetric in its two arguments'],answer:3,whyWrong:['The base only changes the units, bits against nats, and rescaling does not stop something being a distance.','It is never negative. That is one of the few distance-like properties it does have.','It is defined for continuous variables, with an integral in place of the sum.',''],
+    options:['It depends on the base of the logarithm','It is undefined for continuous variables','It is not symmetric in its two arguments','It can take negative values in some cases'],answer:2,whyWrong:['The base only changes the units, bits against nats, and rescaling does not stop something being a distance.','It is defined for continuous variables, with an integral in place of the sum.','','It is never negative. That is one of the few distance-like properties it does have.'],
     why:'D(p‖q) ≠ D(q‖p) in general, which violates a requirement of any metric.'},
    {q:'For a one-hot target, cross-entropy loss reduces to:',
-    options:['The squared error against the one-hot vector','The entropy of the predicted distribution','The negative log probability of the true class','The sum of logs across every class'],answer:2,whyWrong:['Squared error against a one-hot vector is a different loss, and it trains far worse for classification.','The entropy of the prediction involves only the prediction. Cross-entropy compares it to the target.','','Every other class has a target of zero, so its term vanishes. One term survives.'],
+    options:['The entropy of the predicted distribution','The squared error against the one-hot vector','The negative log probability of the true class','The sum of logs across every class'],answer:2,whyWrong:['The entropy of the prediction involves only the prediction. Cross-entropy compares it to the target.','Squared error against a one-hot vector is a different loss, and it trains far worse for classification.','','Every other class has a target of zero, so its term vanishes. One term survives.'],
     why:'Every term with p_k = 0 vanishes, leaving −log q_c for the correct class only.'}
  ]}},
 
@@ -1251,15 +1580,95 @@ and require you to state a prior and pay for the integral. Which matters depends
 need calibrated uncertainty, and on how much data you have, since with enough data the prior
 washes out and the two agree.</p>
 `,
+ exs:[{title:'Update a Beta prior by hand, and watch the prior wash out',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`A coin of unknown bias. Prior <code>Beta(2, 2)</code>, a mild belief in fairness, then
+   7 heads in 10 flips:
+   <ol>
+   <li><code>a_post, b_post</code>, the posterior parameters, which conjugacy reduces to addition,</li>
+   <li><code>post_mean</code>, the posterior mean <code>a/(a+b)</code>, about <b>0.643</b>, and <code>map_est</code>, the posterior mode <code>(a-1)/(a+b-2)</code>, about <b>0.667</b>,</li>
+   <li><code>grid_map</code>, the same peak found the slow way, by evaluating the unnormalized density on a grid of 999 values and taking the argmax,</li>
+   <li><code>map_big</code>, the MAP after 700 heads in 1,000 flips, the same prior against a hundred times the data.</li>
+   </ol>
+   The MLE is 0.7 in both cases. The tests are about where the estimate sits relative to it.`,
+   starter:`import numpy as np
+
+a, b = 2.0, 2.0        # the prior: two imagined heads, two imagined tails
+h, n = 7, 10           # the data
+
+# 1) The conjugate update
+a_post =
+b_post =
+
+prior_mean = a / (a + b)
+mle        = h / n
+
+# 2) Two summaries of the posterior: its mean and its peak
+post_mean =
+map_est   =
+
+# 3) The peak again, by brute force over a grid
+th       = np.linspace(0.001, 0.999, 999)
+dens     = th ** (a_post - 1) * (1 - th) ** (b_post - 1)
+grid_map = float(th[int(np.argmax(dens))])
+
+# 4) The same prior against 1,000 flips
+H, N = 700, 1000
+aB, bB  = a + H, b + N - H
+map_big =
+
+print(a_post, b_post, post_mean, map_est, grid_map, map_big)
+`,
+   solution:`import numpy as np
+
+a, b = 2.0, 2.0        # the prior: two imagined heads, two imagined tails
+h, n = 7, 10           # the data
+
+# 1) The conjugate update
+a_post = a + h
+b_post = b + n - h
+
+prior_mean = a / (a + b)
+mle        = h / n
+
+# 2) Two summaries of the posterior: its mean and its peak
+post_mean = a_post / (a_post + b_post)
+map_est   = (a_post - 1) / (a_post + b_post - 2)
+
+# 3) The peak again, by brute force over a grid
+th       = np.linspace(0.001, 0.999, 999)
+dens     = th ** (a_post - 1) * (1 - th) ** (b_post - 1)
+grid_map = float(th[int(np.argmax(dens))])
+
+# 4) The same prior against 1,000 flips
+H, N = 700, 1000
+aB, bB  = a + H, b + N - H
+map_big = (aB - 1) / (aB + bB - 2)
+
+print(a_post, b_post, post_mean, map_est, grid_map, map_big)
+`,
+   tests:[
+     {d:'the posterior is Beta(9, 5): conjugacy means the counts are simply added to the prior parameters',expr:'a_post == 9 and b_post == 5'},
+     {d:'the posterior mean 0.643 sits between the prior mean 0.5 and the sample proportion 0.7',expr:'prior_mean < post_mean < mle'},
+     {d:'the grid search finds the same peak the closed-form MAP formula does',expr:'abs(grid_map - map_est) < 0.002'},
+     {d:'on 10 flips the prior still moves the answer, pulling MAP about 0.033 off the MLE',expr:'abs(map_est - mle) > 0.03'},
+     {d:'on 1,000 flips the same prior moves it by less than 0.001, so MAP and MLE converge as data accumulates',expr:'abs(map_big - mle) < 0.001'}
+   ],
+   hints:[
+     'The update is arithmetic: a_post = a + heads, b_post = b + tails. Nothing is integrated.',
+     'The mean of a Beta is a/(a+b) and its mode is (a-1)/(a+b-2). They differ, which is why MAP and the posterior mean are not the same estimate.',
+     'map_big uses aB and bB in exactly the same mode formula. With 1,000 flips the added 2 and 2 barely register, which is the prior washing out.'
+   ]}],
  quiz:{title:'Quick check, Bayesian inference',questions:[
    {q:'A conjugate prior is one where:',
-    options:['The evidence integral evaluates to one','The posterior stays in the same family','The likelihood and prior are independent','The prior contains no information at all'],answer:1,whyWrong:['The evidence integrates to whatever it integrates to. Conjugacy is about the shape of the result.','','They are not independent in any meaningful sense. They are multiplied together.','An uninformative prior is a separate idea, and a conjugate prior can be strongly informative.'],
+    options:['The posterior stays in the same family','The evidence integral evaluates to one','The likelihood and prior are independent','The prior contains no information at all'],answer:0,whyWrong:['','The evidence integrates to whatever it integrates to. Conjugacy is about the shape of the result.','They are not independent in any meaningful sense. They are multiplied together.','An uninformative prior is a separate idea, and a conjugate prior can be strongly informative.'],
     why:'Beta prior with a binomial likelihood gives a Beta posterior, so updating means adding counts.'},
    {q:'MAP estimation differs from maximum likelihood by:',
-    options:['Requiring the evidence term to be computed','Using a different optimization algorithm','Adding the log prior to the objective','Averaging over the whole posterior distribution'],answer:2,whyWrong:['The evidence cancels in the argmax, so neither method needs it.','The same optimisers work for both. What changes is the objective.','','Averaging over the posterior is full Bayesian inference. MAP takes the single peak.'],
+    options:['Using a different optimization algorithm','Adding the log prior to the objective','Averaging over the whole posterior distribution','Requiring the evidence term to be computed'],answer:1,whyWrong:['The same optimizers work for both. What changes is the objective.','','Averaging over the posterior is full Bayesian inference. MAP takes the single peak.','The evidence cancels in the argmax, so neither method needs it.'],
     why:'argmax [log p(D|θ) + log p(θ)]. That extra term is exactly what regularization does.'},
    {q:'An L2 penalty on weights corresponds to which prior?',
-    options:['A Laplace prior centered at zero','An exponential prior on the magnitudes','A uniform prior over a bounded range','A zero-mean Gaussian over the weights'],answer:3,whyWrong:['A Laplace prior gives you L1, and its corner geometry is what drives coefficients to exactly zero.','An exponential prior on magnitudes is closer to the L1 case, and it does not give the squared penalty.','A uniform prior contributes a constant, which leaves you with plain maximum likelihood.',''],
+    options:['An exponential prior on the magnitudes','A Laplace prior centered at zero','A uniform prior over a bounded range','A zero-mean Gaussian over the weights'],answer:3,whyWrong:['An exponential prior on magnitudes is closer to the L1 case, and it does not give the squared penalty.','A Laplace prior gives you L1, and its corner geometry is what drives coefficients to exactly zero.','A uniform prior contributes a constant, which leaves you with plain maximum likelihood.',''],
     why:'log of a zero-mean Gaussian gives −λwᵀw/2 plus a constant. Laplace gives L1 instead.'}
  ]}}
 ,
@@ -1335,15 +1744,93 @@ many-trial limit. Exponential is gamma with &alpha; = 1. Beta is the conjugate p
 Bernoulli and binomial; gamma is the conjugate prior for the Poisson rate. The zoo is a family
 tree, not a list.</div>
 `,
+ exs:[{title:'Fit four distributions to one sample and let the log-likelihood pick',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`600 draws from an exponential with rate 0.5. Pretend you do not know that, fit four
+   families by maximum likelihood, and score each by the log-likelihood it reaches. Every density
+   is written out with numpy, because that is all any of them are:
+   <ol>
+   <li><code>rate</code>, the exponential MLE <code>1/mean</code>, and <code>ll_exp</code>, its log-likelihood <code>n log(rate) - rate * sum(x)</code>,</li>
+   <li><code>ll_gauss</code>, for a Gaussian fitted with the sample mean and standard deviation,</li>
+   <li><code>ll_logn</code>, for a log-normal: a Gaussian fitted to <code>log x</code>, plus the <code>-log x</code> the change of variables contributes,</li>
+   <li><code>ll_unif</code>, for a uniform on [0, max x], which is just <code>-n log(max x)</code>.</li>
+   </ol>
+   Higher is better. The family that generated the data should win, and the last test says by
+   how much.`,
+   starter:`import numpy as np
+np.random.seed(3)
+
+n = 600
+x = np.random.exponential(scale=2.0, size=n)     # rate 0.5, mean 2
+
+# 1) Exponential: the MLE rate is one over the sample mean
+rate   =
+ll_exp =
+
+# 2) Gaussian at its MLE
+mu, sd   = x.mean(), x.std()
+ll_gauss = float((-0.5 * np.log(2 * np.pi * sd ** 2) - (x - mu) ** 2 / (2 * sd ** 2)).sum())
+
+# 3) Log-normal: a Gaussian on log x, corrected by -log x
+lg       = np.log(x)
+m2, s2   = lg.mean(), lg.std()
+ll_logn  =
+
+# 4) Uniform on [0, max x]
+ll_unif  =
+
+scores = {'exponential': ll_exp, 'gaussian': ll_gauss, 'lognormal': ll_logn, 'uniform': ll_unif}
+best   = max(scores, key=scores.get)
+print(rate, best, scores)
+`,
+   solution:`import numpy as np
+np.random.seed(3)
+
+n = 600
+x = np.random.exponential(scale=2.0, size=n)     # rate 0.5, mean 2
+
+# 1) Exponential: the MLE rate is one over the sample mean
+rate   = 1 / x.mean()
+ll_exp = float(n * np.log(rate) - rate * x.sum())
+
+# 2) Gaussian at its MLE
+mu, sd   = x.mean(), x.std()
+ll_gauss = float((-0.5 * np.log(2 * np.pi * sd ** 2) - (x - mu) ** 2 / (2 * sd ** 2)).sum())
+
+# 3) Log-normal: a Gaussian on log x, corrected by -log x
+lg       = np.log(x)
+m2, s2   = lg.mean(), lg.std()
+ll_logn  = float((-np.log(x) - 0.5 * np.log(2 * np.pi * s2 ** 2) - (lg - m2) ** 2 / (2 * s2 ** 2)).sum())
+
+# 4) Uniform on [0, max x]
+ll_unif  = float(-n * np.log(x.max()))
+
+scores = {'exponential': ll_exp, 'gaussian': ll_gauss, 'lognormal': ll_logn, 'uniform': ll_unif}
+best   = max(scores, key=scores.get)
+print(rate, best, scores)
+`,
+   tests:[
+     {d:'the fitted rate is close to the true 0.5, from 600 draws',expr:'abs(rate - 0.5) < 0.05'},
+     {d:'the exponential MLE is exactly the reciprocal of the sample mean, no search required',expr:'abs(1 / rate - float(x.mean())) < 1e-12'},
+     {d:'the exponential wins: the family that generated the data scores highest',expr:'best == "exponential"'},
+     {d:'the log-normal comes second, the Gaussian third, the uniform last, which is the order of how much shape each one gets right',expr:'ll_logn > ll_gauss > ll_unif'},
+     {d:'the exponential beats the Gaussian by more than 200 log units, so this is not a close call',expr:'ll_exp - ll_gauss > 200'}
+   ],
+   hints:[
+     'For the exponential, log p(x) = log(rate) - rate*x, so summing over the sample gives n*log(rate) - rate*x.sum().',
+     'The log-normal is the Gaussian formula applied to lg = np.log(x), with an extra -np.log(x) term per point from the change of variables.',
+     'A uniform on [0, m] has density 1/m everywhere, so its log-likelihood is n * log(1/m) = -n * np.log(x.max()).'
+   ]}],
  quiz:{title:'Quick check, the distribution zoo',questions:[
    {q:'A probability density function can exceed 1 because:',
-    options:['Densities are normalized only at the end','It measures probability per unit, not probability','It represents a cumulative rather than exact value','Continuous variables have infinite outcomes'],answer:1,whyWrong:['It is normalised by construction. The integral is one, and that constrains the area rather than the height.','','The cumulative function is the one bounded by one. The density is its slope.','Infinitely many outcomes is why point probabilities are zero, and it does not explain why the height can exceed one.'],
+    options:['It measures probability per unit, not probability','Densities are normalized only at the end','It represents a cumulative rather than exact value','Continuous variables have infinite outcomes'],answer:0,whyWrong:['','It is normalized by construction. The integral is one, and that constrains the area rather than the height.','The cumulative function is the one bounded by one. The density is its slope.','Infinitely many outcomes is why point probabilities are zero, and it does not explain why the height can exceed one.'],
     why:'Only the integral over an interval is a probability. Density on a narrow range can be large.'},
    {q:'Count data whose variance is much larger than its mean suggests:',
-    options:['The data should be modeled as continuous','The counts were collected over too short a window','Poisson is wrong, since it forces them equal','A Poisson model fits it especially well'],answer:2,whyWrong:['Counts are discrete. Overdispersion is about the variance, not about the type.','A shorter window lowers both the mean and the variance. It does not pull them apart.','','It fits badly. Poisson insists the variance equals the mean, and negative binomial is the usual repair.'],
+    options:['The data should be modeled as continuous','Poisson is wrong, since it forces them equal','A Poisson model fits it especially well','The counts were collected over too short a window'],answer:1,whyWrong:['Counts are discrete. Overdispersion is about the variance, not about the type.','','It fits badly. Poisson insists the variance equals the mean, and negative binomial is the usual repair.','A shorter window lowers both the mean and the variance. It does not pull them apart.'],
     why:'Poisson has E = Var = λ. Overdispersion points to a negative binomial instead.'},
    {q:'The exponential distribution is memoryless, which means:',
-    options:['Its variance does not depend on its mean','It has no defined expectation value','Its parameter cannot be estimated from data','Past waiting does not change future waiting'],answer:3,whyWrong:['For an exponential the variance is the square of the mean, so they are tightly linked.','It has a perfectly good expectation, equal to one over the rate.','The rate is easy to estimate. Memorylessness is a property of the distribution, not an obstacle.',''],
+    options:['Its variance does not depend on its mean','It has no defined expectation value','Past waiting does not change future waiting','Its parameter cannot be estimated from data'],answer:2,whyWrong:['For an exponential the variance is the square of the mean, so they are tightly linked.','It has a perfectly good expectation, equal to one over the rate.','','The rate is easy to estimate. Memorylessness is a property of the distribution, not an obstacle.'],
     why:'P(X > s+t | X > s) = P(X > t). Right for decay, wrong for anything that wears out.'}
  ]}},
 
@@ -1407,15 +1894,88 @@ variables, <b>zero covariance really does imply independence</b>, which is false
 a diagonal <code>&Sigma;</code> means axis-aligned contours while a full <code>&Sigma;</code>
 allows tilted ellipses.</p>
 `,
+ exs:[{title:'Average a badly skewed variable until it turns into a bell',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`The exponential is about as far from a bell as a common distribution gets: skewness 2,
+   all of it piled on the right. Average n of them and the skew has to fall like <code>2/&radic;n</code>:
+   <ol>
+   <li><code>skew(v)</code>, a function returning the mean of the cubed standardized values,</li>
+   <li><code>skews</code>, the skewness of 20,000 averages, one entry for each n in [1, 2, 10, 50],</li>
+   <li><code>within1</code>, the fraction of the n = 50 averages lying within one standard deviation of their mean, which for a Gaussian is <b>0.68</b>.</li>
+   </ol>
+   Nothing about the exponential changed. Only the averaging did.`,
+   starter:`import numpy as np
+np.random.seed(1)
+
+def skew(v):
+    v = np.asarray(v, float)
+    return float(                        )   # mean of ((v - mean) / sd) ** 3
+
+S     = 20000
+ns    = [1, 2, 10, 50]
+skews = []
+last  = None
+
+for n in ns:
+    avg = np.random.exponential(1.0, size=(S, n)).mean(axis=1)
+    skews.append(         )
+    last = avg
+
+theory = [2 / np.sqrt(n) for n in ns]
+
+# The n = 50 averages, standardized, and how many land inside one standard deviation
+z       = (last - last.mean()) / last.std()
+within1 =
+
+print(skews, theory, within1)
+`,
+   solution:`import numpy as np
+np.random.seed(1)
+
+def skew(v):
+    v = np.asarray(v, float)
+    return float((((v - v.mean()) / v.std()) ** 3).mean())   # mean of ((v - mean) / sd) ** 3
+
+S     = 20000
+ns    = [1, 2, 10, 50]
+skews = []
+last  = None
+
+for n in ns:
+    avg = np.random.exponential(1.0, size=(S, n)).mean(axis=1)
+    skews.append(skew(avg))
+    last = avg
+
+theory = [2 / np.sqrt(n) for n in ns]
+
+# The n = 50 averages, standardized, and how many land inside one standard deviation
+z       = (last - last.mean()) / last.std()
+within1 = float((np.abs(z) < 1).mean())
+
+print(skews, theory, within1)
+`,
+   tests:[
+     {d:'a single exponential draw has skewness near 2, which is heavily right-tailed',expr:'abs(skews[0] - 2) < 0.15'},
+     {d:'skewness falls at every step: averaging destroys the asymmetry',expr:'all(skews[i] > skews[i + 1] for i in range(3))'},
+     {d:'each measured skew tracks the theoretical 2/√n',expr:'max(abs(skews[i] - theory[i]) for i in range(4)) < 0.1'},
+     {d:'by n = 50 the skew is under 0.35, and the histogram would look like a bell',expr:'skews[-1] < 0.35'},
+     {d:'about 68% of those averages lie within one standard deviation, which is the Gaussian signature',expr:'abs(within1 - 0.68) < 0.02'}
+   ],
+   hints:[
+     'Standardize first, then cube, then average: (((v - v.mean()) / v.std()) ** 3).mean().',
+     'np.random.exponential(1.0, size=(S, n)).mean(axis=1) gives S averages of n draws each, in one call.',
+     'within1 = float((np.abs(z) < 1).mean()). For a Gaussian this is 0.6827, and the n = 50 averages already hit it.'
+   ]}],
  quiz:{title:'Quick check, the Gaussian',questions:[
    {q:'The central limit theorem explains why the Gaussian suits:',
-    options:['Counts of rare events over a fixed interval','Quantities that are products of many factors','Any dataset once it is large enough','Quantities built from many small additive effects'],answer:3,whyWrong:['That is the Poisson, which the central limit theorem does not produce.','Products of many factors give a log-normal, because the logs add rather than the values.','Size alone does not help. A million samples from an exponential are still exponential.',''],
+    options:['Counts of rare events over a fixed interval','Quantities that are products of many factors','Quantities built from many small additive effects','Any dataset once it is large enough'],answer:2,whyWrong:['That is the Poisson, which the central limit theorem does not produce.','Products of many factors give a log-normal, because the logs add rather than the values.','','Size alone does not help. A million samples from an exponential are still exponential.'],
     why:'Sums converge to Gaussian. Products converge to log-normal, which is why income is not Gaussian.'},
    {q:'The maximum entropy argument says the Gaussian:',
-    options:['Assumes the least given a mean and a variance','Minimizes the error of any estimator','Has the smallest possible tail probability','Is the most likely distribution in nature'],answer:0,whyWrong:['','No such optimality is claimed. Estimator error depends on the estimator, not on the prior family.','Its tails are thin, and plenty of distributions have thinner ones, including any with bounded support.','Nature does not have a most likely distribution. The argument is about what you assume, not about what occurs.'],
+    options:['Has the smallest possible tail probability','Is the most likely distribution in nature','Minimizes the error of any estimator','Assumes the least given a mean and a variance'],answer:3,whyWrong:['Its tails are thin, and plenty of distributions have thinner ones, including any with bounded support.','Nature does not have a most likely distribution. The argument is about what you assume, not about what occurs.','No such optimality is claimed. Estimator error depends on the estimator, not on the prior family.',''],
     why:'Any other shape with the same two moments encodes additional assumptions you did not state.'},
    {q:'Using mean squared error implicitly assumes:',
-    options:['The model is linear in its parameters','The data contains no missing values','The features have been standardized first','The residuals are Gaussian'],answer:3,whyWrong:['Squared error is used with nonlinear models constantly. The assumption is about the noise, not the form.','Missing values are a data-cleaning matter and are unrelated to the loss.','Standardisation helps optimisation and has nothing to do with the noise model.',''],
+    options:['The features have been standardized first','The model is linear in its parameters','The residuals are Gaussian','The data contains no missing values'],answer:2,whyWrong:['Standardization helps optimization and has nothing to do with the noise model.','Squared error is used with nonlinear models constantly. The assumption is about the noise, not the form.','','Missing values are a data-cleaning matter and are unrelated to the loss.'],
     why:'Gaussian log-likelihood is a negative sum of squares plus a constant. The two objectives coincide.'}
  ]}}
 ,
@@ -1476,15 +2036,104 @@ small constant to the diagonal of each &Sigma;, or by placing a prior on the cov
 doing MAP instead of maximum likelihood. If your GMM produces a component that has collapsed onto
 one point, this is what happened.</div>
 `,
+ exs:[{title:'Compute responsibilities, and find the points the model is honestly unsure about',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`Two components: weights 0.3 and 0.7, means 0 and 4, standard deviations 1 and 1.5.
+   2,000 points are drawn and their labels thrown away, which is exactly what makes z latent.
+   <ol>
+   <li><code>normpdf(x, m, s)</code>, the Gaussian density written out by hand,</li>
+   <li><code>comp</code>, the 2000 by 2 array of <code>&pi;_k N(x_n | &mu;_k, &sigma;_k)</code>, and <code>px</code>, the mixture density, which is its row sums,</li>
+   <li><code>gam</code>, the responsibilities: each row of <code>comp</code> divided by that row's own total,</li>
+   <li><code>amb</code>, the count of points whose largest responsibility is below 0.9, the ones sitting between the clusters.</li>
+   </ol>
+   Notice that the column means of <code>gam</code> recover the mixing weights. That is the
+   M-step for &pi; hiding in plain sight.`,
+   starter:`import numpy as np
+np.random.seed(0)
+
+pi, mu, sd = np.array([0.3, 0.7]), np.array([0.0, 4.0]), np.array([1.0, 1.5])
+N = 2000
+z = (np.random.rand(N) > pi[0]).astype(int)      # the latent label, used once and discarded
+x = np.random.randn(N) * sd[z] + mu[z]
+
+# 1) The Gaussian density, no library
+def normpdf(x, m, s):
+    return
+
+# 2) Weighted component densities, then the mixture density
+comp = pi * normpdf(x[:, None], mu, sd)          # N by 2
+px   =
+
+# 3) Responsibilities: Bayes, with the mixing weight as the prior
+gam =
+
+# A single point at x = 0, and the share the first component takes of it
+g0 = float(gam[np.argmin(np.abs(x))][0])
+
+# The density integrates to 1, checked with a Riemann sum
+grid = np.linspace(-8, 14, 4001)
+dx   = grid[1] - grid[0]
+area = float(((pi * normpdf(grid[:, None], mu, sd)).sum(axis=1) * dx).sum())
+
+# 4) Points no component can claim with confidence
+amb =
+
+print(gam.mean(axis=0), area, amb)
+`,
+   solution:`import numpy as np
+np.random.seed(0)
+
+pi, mu, sd = np.array([0.3, 0.7]), np.array([0.0, 4.0]), np.array([1.0, 1.5])
+N = 2000
+z = (np.random.rand(N) > pi[0]).astype(int)      # the latent label, used once and discarded
+x = np.random.randn(N) * sd[z] + mu[z]
+
+# 1) The Gaussian density, no library
+def normpdf(x, m, s):
+    return np.exp(-0.5 * ((x - m) / s) ** 2) / (s * np.sqrt(2 * np.pi))
+
+# 2) Weighted component densities, then the mixture density
+comp = pi * normpdf(x[:, None], mu, sd)          # N by 2
+px   = comp.sum(axis=1)
+
+# 3) Responsibilities: Bayes, with the mixing weight as the prior
+gam = comp / px[:, None]
+
+# A single point at x = 0, and the share the first component takes of it
+g0 = float(gam[np.argmin(np.abs(x))][0])
+
+# The density integrates to 1, checked with a Riemann sum
+grid = np.linspace(-8, 14, 4001)
+dx   = grid[1] - grid[0]
+area = float(((pi * normpdf(grid[:, None], mu, sd)).sum(axis=1) * dx).sum())
+
+# 4) Points no component can claim with confidence
+amb = int((gam.max(axis=1) < 0.9).sum())
+
+print(gam.mean(axis=0), area, amb)
+`,
+   tests:[
+     {d:'every point splits its responsibility across the two components, summing to 1',expr:'bool(np.allclose(gam.sum(axis=1), 1.0))'},
+     {d:'the density you wrote integrates to 1 over the grid, so it really is a density',expr:'abs(area - 1) < 0.01'},
+     {d:'the point nearest x = 0 belongs about 95% to the first component',expr:'g0 > 0.9'},
+     {d:'the average responsibility for component 0 recovers its mixing weight of 0.3',expr:'abs(float(gam[:, 0].mean()) - 0.3) < 0.03'},
+     {d:'a few hundred points are genuinely ambiguous, and hard assignment would have to guess at every one of them',expr:'100 < amb < 500'}
+   ],
+   hints:[
+     'The density is exp(-0.5 * ((x - m) / s) ** 2) / (s * sqrt(2 * pi)). Broadcasting x[:, None] against the length-2 arrays gives you the whole N by 2 table at once.',
+     'px = comp.sum(axis=1) is the denominator in Bayes, the total density at that point across components.',
+     'gam = comp / px[:, None]. Then amb = int((gam.max(axis=1) < 0.9).sum()) counts the points where no component is confident.'
+   ]}],
  quiz:{title:'Quick check, mixtures',questions:[
    {q:'The latent variable in a GMM represents:',
-    options:['Which component produced each data point','The number of clusters in the data','The distance from a point to its center','The noise added to each observation'],answer:0,whyWrong:['','The number of components is a hyperparameter you set. The latent variable is per data point.','Distance is computed from the parameters. The latent variable is a discrete label.','The noise is captured by each component\'s covariance.'],
+    options:['The distance from a point to its center','The noise added to each observation','The number of clusters in the data','Which component produced each data point'],answer:3,whyWrong:['Distance is computed from the parameters. The latent variable is a discrete label.','The noise is captured by each component\'s covariance.','The number of components is a hyperparameter you set. The latent variable is per data point.',''],
     why:'z is the unobserved component label. If you knew it, fitting would be trivial.'},
    {q:'A responsibility γ(z_nk) is:',
-    options:['The distance from point n to component k','The prior probability of component k','The posterior probability that k produced n','The fraction of variance explained by k'],answer:2,whyWrong:['Distance is not a probability, and a GMM weights by density rather than by distance.','That is the mixing coefficient, the prior. Responsibility is what it becomes after seeing the point.','','Explained variance is a PCA idea and has no role in a mixture model.'],
+    options:['The prior probability of component k','The posterior probability that k produced n','The distance from point n to component k','The fraction of variance explained by k'],answer:1,whyWrong:['That is the mixing coefficient, the prior. Responsibility is what it becomes after seeing the point.','','Distance is not a probability, and a GMM weights by density rather than by distance.','Explained variance is a PCA idea and has no role in a mixture model.'],
     why:'It is p(z=k | xₙ) by Bayes, using π as the prior. They sum to one across components.'},
    {q:'K-means is a GMM restricted to:',
-    options:['Diagonal covariances estimated per cluster','Data that has been standardized beforehand','Spherical equal covariances and hard assignment','Two components with equal mixing weights'],answer:2,whyWrong:['Diagonal covariances are still per-cluster and still allow different widths per axis.','Standardisation is a preprocessing choice available to both.','','Neither the component count nor equal weights is what makes the difference.'],
+    options:['Diagonal covariances estimated per cluster','Two components with equal mixing weights','Spherical equal covariances and hard assignment','Data that has been standardized beforehand'],answer:2,whyWrong:['Diagonal covariances are still per-cluster and still allow different widths per axis.','Neither the component count nor equal weights is what makes the difference.','','Standardization is a preprocessing choice available to both.'],
     why:'Shared σ²I, equal π, and responsibilities forced to 0 or 1. Those restrictions are why it finds only round clusters.'}
  ]}},
 
@@ -1572,15 +2221,109 @@ the true posterior is intractable you restrict <code>q</code> to a family you ca
 accept a nonzero KL gap. Variational inference is EM with the E-step done approximately.</p>
 `,
  docs:[['Dempster, Laird & Rubin (1977), the paper that named EM','https://www.jstor.org/stable/2984875'],['Bishop, Pattern Recognition and Machine Learning, chapter 9','https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/']],
+ exs:[{title:'Run EM and check the log-likelihood never falls',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`The same 2,000 points, and now the parameters are unknown. Start deliberately badly:
+   equal weights, means at -1 and 1, both standard deviations 2. Then alternate 60 times:
+   <ol>
+   <li>the E-step, <code>gam</code>, the responsibilities under the current parameters,</li>
+   <li>the current log-likelihood, <code>sum(log px)</code>, appended to <code>lls</code> before any update,</li>
+   <li>the M-step: <code>mu</code>, <code>sd</code> and <code>pi</code>, the weighted mean, weighted standard deviation and weighted proportion, with the responsibilities as weights.</li>
+   </ol>
+   The second test is the one that matters. Nothing in your code enforces it. It holds because of
+   the ELBO identity in the lesson.`,
+   starter:`import numpy as np
+np.random.seed(0)
+
+pi_t, mu_t, sd_t = np.array([0.3, 0.7]), np.array([0.0, 4.0]), np.array([1.0, 1.5])
+N = 2000
+z = (np.random.rand(N) > pi_t[0]).astype(int)
+x = np.random.randn(N) * sd_t[z] + mu_t[z]
+
+def normpdf(x, m, s):
+    return np.exp(-0.5 * ((x - m) / s) ** 2) / (s * np.sqrt(2 * np.pi))
+
+# A deliberately poor starting point
+pi, mu, sd = np.array([0.5, 0.5]), np.array([-1.0, 1.0]), np.array([2.0, 2.0])
+lls = []
+
+for it in range(60):
+    comp = pi * normpdf(x[:, None], mu, sd)
+    px   = comp.sum(axis=1)
+
+    # 2) The log-likelihood of the parameters we are about to replace
+    lls.append(                 )
+
+    # 1) E-step
+    gam =
+    Nk  = gam.sum(axis=0)
+
+    # 3) M-step: the ordinary formulas, weighted by responsibility
+    mu =
+    sd =
+    pi =
+
+lls  = np.array(lls)
+step = np.diff(lls)
+print(lls[0], lls[-1], step.min(), np.sort(mu), np.sort(pi))
+`,
+   solution:`import numpy as np
+np.random.seed(0)
+
+pi_t, mu_t, sd_t = np.array([0.3, 0.7]), np.array([0.0, 4.0]), np.array([1.0, 1.5])
+N = 2000
+z = (np.random.rand(N) > pi_t[0]).astype(int)
+x = np.random.randn(N) * sd_t[z] + mu_t[z]
+
+def normpdf(x, m, s):
+    return np.exp(-0.5 * ((x - m) / s) ** 2) / (s * np.sqrt(2 * np.pi))
+
+# A deliberately poor starting point
+pi, mu, sd = np.array([0.5, 0.5]), np.array([-1.0, 1.0]), np.array([2.0, 2.0])
+lls = []
+
+for it in range(60):
+    comp = pi * normpdf(x[:, None], mu, sd)
+    px   = comp.sum(axis=1)
+
+    # 2) The log-likelihood of the parameters we are about to replace
+    lls.append(float(np.log(px).sum()))
+
+    # 1) E-step
+    gam = comp / px[:, None]
+    Nk  = gam.sum(axis=0)
+
+    # 3) M-step: the ordinary formulas, weighted by responsibility
+    mu = (gam * x[:, None]).sum(axis=0) / Nk
+    sd = np.sqrt((gam * (x[:, None] - mu) ** 2).sum(axis=0) / Nk)
+    pi = Nk / N
+
+lls  = np.array(lls)
+step = np.diff(lls)
+print(lls[0], lls[-1], step.min(), np.sort(mu), np.sort(pi))
+`,
+   tests:[
+     {d:'the log-likelihood climbs by more than 1,500 from that bad start',expr:'lls[-1] - lls[0] > 1500'},
+     {d:'it never decreases, at any of the 59 steps, which is the one thing the derivation promises',expr:'float(step.min()) > -1e-9'},
+     {d:'the recovered means land near the true 0 and 4, although nothing ever told the algorithm the labels',expr:'bool(np.allclose(np.sort(mu), [0.0, 4.0], atol=0.15))'},
+     {d:'the recovered mixing weights land near the true 0.3 and 0.7',expr:'abs(float(np.sort(pi)[0]) - 0.3) < 0.03'},
+     {d:'the final step barely moves the likelihood, so this run has converged to a local optimum',expr:'abs(float(step[-1])) < 1e-4'}
+   ],
+   hints:[
+     'The E-step is one line, and it is the same one as the previous lesson: gam = comp / px[:, None].',
+     'Nk = gam.sum(axis=0) is the effective number of points per component. Then mu = (gam * x[:, None]).sum(axis=0) / Nk.',
+     'sd = np.sqrt((gam * (x[:, None] - mu) ** 2).sum(axis=0) / Nk) and pi = Nk / N. Append float(np.log(px).sum()) before updating anything, or the monotonicity test compares the wrong pairs.'
+   ]}],
  quiz:{title:'Quick check, EM',questions:[
    {q:'The E-step sets q(z) to the posterior in order to:',
-    options:['Reduce the number of parameters to update','Guarantee the global maximum is reached','Make the KL gap zero so the bound is tight','Remove the need for an initialization'],answer:2,whyWrong:['The parameter count is unchanged. What changes is how tight the bound is.','Nothing guarantees a global maximum. EM finds a local one.','','Initialisation is still needed, and EM is famously sensitive to it.'],
+    options:['Reduce the number of parameters to update','Make the KL gap zero so the bound is tight','Remove the need for an initialization','Guarantee the global maximum is reached'],answer:1,whyWrong:['The parameter count is unchanged. What changes is how tight the bound is.','','Initialization is still needed, and EM is famously sensitive to it.','Nothing guarantees a global maximum. EM finds a local one.'],
     why:'log p = L + KL. Setting q to the true posterior zeroes the KL term, so the bound touches the likelihood.'},
    {q:'EM guarantees that each iteration:',
-    options:['Never decreases the log-likelihood','Reduces the number of active components','Converges in a fixed number of steps','Reaches the global optimum of the likelihood'],answer:0,whyWrong:['','Components can collapse in practice, and nothing in the guarantee promises it.','The number of steps depends on the data and the initialisation.','It reaches a local optimum. Multiple restarts are standard practice for exactly this reason.'],
+    options:['Reduces the number of active components','Converges in a fixed number of steps','Reaches the global optimum of the likelihood','Never decreases the log-likelihood'],answer:3,whyWrong:['Components can collapse in practice, and nothing in the guarantee promises it.','The number of steps depends on the data and the initialization.','It reaches a local optimum. Multiple restarts are standard practice for exactly this reason.',''],
     why:'Monotonic improvement only. Local optima are real, which is why multiple restarts are standard.'},
    {q:'The M-step is tractable because taking the expectation:',
-    options:['Removes the latent variables from the model','Makes the covariance matrices diagonal','Eliminates the mixing coefficients','Turns a log of a sum into a sum of logs'],answer:3,whyWrong:['The latent variables remain in the model. What changes is that they are replaced by their expected values.','Covariance structure is a modelling choice, and the M-step does not simplify it.','The mixing coefficients are estimated in the M-step rather than eliminated.',''],
+    options:['Makes the covariance matrices diagonal','Removes the latent variables from the model','Turns a log of a sum into a sum of logs','Eliminates the mixing coefficients'],answer:2,whyWrong:['Covariance structure is a modeling choice, and the M-step does not simplify it.','The latent variables remain in the model. What changes is that they are replaced by their expected values.','','The mixing coefficients are estimated in the M-step rather than eliminated.'],
     why:'The expected complete-data log-likelihood separates, so each parameter has a closed-form solution.'}
  ]}},
 
@@ -1644,15 +2387,96 @@ the same reason: it is closed under the operations involved, so something that w
 require an intractable integral has a closed form. When you see a Gaussian assumption in a paper,
 ask which integral it is buying, and you will usually find it immediately.</div>
 `,
+ exs:[{title:'Kill the signal in a deep network, then rescue it with 2/n',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`Ten ReLU layers of width 256, one batch of 512 standard normal inputs, three choices of
+   weight variance. Record the variance of the activations after every layer:
+   <ol>
+   <li><code>he</code>, with <code>Var[w] = 2/n_in</code>, the value the lesson derives,</li>
+   <li><code>half</code>, with <code>Var[w] = 1/n_in</code>, right for a linear layer but forgetting that ReLU throws away half the signal,</li>
+   <li><code>naive</code>, with a fixed standard deviation of 0.01, the pre-2010 default,</li>
+   <li><code>ratios</code>, the layer-to-layer variance ratios of the <code>half</code> run.</li>
+   </ol>
+   Only one of the three still has a signal at layer ten. The median ratio should sit close to
+   <b>0.5</b>, which is precisely the factor the 2 exists to cancel.`,
+   starter:`import numpy as np
+np.random.seed(0)
+
+n_in, layers, batch = 256, 10, 512
+x0 = np.random.randn(batch, n_in)
+
+def forward(var_w):
+    h, variances = x0.copy(), []
+    for _ in range(layers):
+        W = np.random.randn(n_in, n_in) * np.sqrt(var_w)
+        h =                              # one linear layer, then ReLU
+        variances.append(float(h.var()))
+    return np.array(variances)
+
+# 1) He: the derived value
+he    = forward(              )
+
+# 2) The same derivation, without the ReLU correction
+half  = forward(              )
+
+# 3) A fixed small scale, chosen by habit rather than derivation
+naive = forward(0.01 ** 2)
+
+# 4) What each layer does to the variance in the second run
+ratios =
+
+print(he[-1], half[-1], naive[-1], float(np.median(ratios)))
+`,
+   solution:`import numpy as np
+np.random.seed(0)
+
+n_in, layers, batch = 256, 10, 512
+x0 = np.random.randn(batch, n_in)
+
+def forward(var_w):
+    h, variances = x0.copy(), []
+    for _ in range(layers):
+        W = np.random.randn(n_in, n_in) * np.sqrt(var_w)
+        h = np.maximum(h @ W, 0.0)       # one linear layer, then ReLU
+        variances.append(float(h.var()))
+    return np.array(variances)
+
+# 1) He: the derived value
+he    = forward(2.0 / n_in)
+
+# 2) The same derivation, without the ReLU correction
+half  = forward(1.0 / n_in)
+
+# 3) A fixed small scale, chosen by habit rather than derivation
+naive = forward(0.01 ** 2)
+
+# 4) What each layer does to the variance in the second run
+ratios = half[1:] / half[:-1]
+
+print(he[-1], half[-1], naive[-1], float(np.median(ratios)))
+`,
+   tests:[
+     {d:'He keeps the activation variance flat: layer 10 is within a factor of two of layer 1',expr:'0.5 < he[-1] / he[0] < 2.0'},
+     {d:'without the factor of 2, each layer passes on about half the variance it received',expr:'abs(float(np.median(ratios)) - 0.5) < 0.05'},
+     {d:'ten halvings cost a factor of several hundred, from a change of 2 in one constant',expr:'half[0] / half[-1] > 100'},
+     {d:'the fixed 0.01 scale wipes the signal out completely, which is what made deep networks untrainable before this was worked out',expr:'naive[-1] < 1e-12'},
+     {d:'only the He run still carries a usable signal at the last layer',expr:'he[-1] > 0.1 and he[-1] > 100 * half[-1]'}
+   ],
+   hints:[
+     'A layer is h = np.maximum(h @ W, 0.0): the matrix multiply, then ReLU clipping the negatives to zero.',
+     'The two variances to pass in are 2.0 / n_in and 1.0 / n_in. Everything else about the two runs is identical.',
+     'ratios = half[1:] / half[:-1] compares each layer with the one before it, and the median of those will be almost exactly 0.5.'
+   ]}],
  quiz:{title:'Quick check, Gaussians in ML',questions:[
    {q:'He initialization uses variance 2/n_in because:',
-    options:['It matches the scale of typical input data','It keeps signal variance stable, doubled for ReLU','It minimizes the number of dead neurons','It was found empirically to train fastest'],answer:1,whyWrong:['Input scale is handled by normalising the data. The factor concerns what happens through the layers.','','Dead neurons are a related symptom, and the derivation is about keeping the variance of the signal constant.','It was derived rather than found by search, and the derivation is what makes it transfer to new architectures.'],
+    options:['It keeps signal variance stable, doubled for ReLU','It matches the scale of typical input data','It minimizes the number of dead neurons','It was found empirically to train fastest'],answer:0,whyWrong:['','Input scale is handled by normalizing the data. The factor concerns what happens through the layers.','Dead neurons are a related symptom, and the derivation is about keeping the variance of the signal constant.','It was derived rather than found by search, and the derivation is what makes it transfer to new architectures.'],
     why:'Var of the weighted sum is n·σ²·Var[x]; setting it to 1 gives 1/n, and ReLU zeroing half the outputs doubles it.'},
    {q:'The reparameterization trick in a VAE relies on:',
-    options:['The encoder producing discrete latent codes','KL divergence being symmetric in its arguments','The Gaussian being closed under scaling and shifting','The decoder being a deterministic function'],answer:2,whyWrong:['Discrete codes are exactly the case the trick does not cover, which is why Gumbel-softmax exists.','KL is not symmetric, and the trick does not need it to be.','','The decoder is deterministic in a VAE, and the trick is about the sampling step in the encoder.'],
+    options:['The encoder producing discrete latent codes','The Gaussian being closed under scaling and shifting','KL divergence being symmetric in its arguments','The decoder being a deterministic function'],answer:1,whyWrong:['Discrete codes are exactly the case the trick does not cover, which is why Gumbel-softmax exists.','','KL is not symmetric, and the trick does not need it to be.','The decoder is deterministic in a VAE, and the trick is about the sampling step in the encoder.'],
     why:'z = μ + σ⊙ε keeps the sampling outside the gradient path, and only works because scaling a Gaussian gives a Gaussian.'},
    {q:'Across all six examples, the Gaussian is chosen mainly because:',
-    options:['It is the only distribution with finite variance','It best describes how real data is distributed','It makes an otherwise intractable integral solvable','It has the fewest parameters to estimate'],answer:2,whyWrong:['Plenty of distributions have finite variance, including the uniform.','Real data is frequently skewed or heavy-tailed. Convenience is the honest reason.','','It has more parameters than several alternatives, two rather than one.'],
+    options:['It has the fewest parameters to estimate','It makes an otherwise intractable integral solvable','It is the only distribution with finite variance','It best describes how real data is distributed'],answer:1,whyWrong:['It has more parameters than several alternatives, two rather than one.','','Plenty of distributions have finite variance, including the uniform.','Real data is frequently skewed or heavy-tailed. Convenience is the honest reason.'],
     why:'Closure under the relevant operation is what buys the closed form. That is the common thread.'}
  ]}}
 ,
@@ -1693,7 +2517,7 @@ from <code>x&#772;</code>, which was itself computed from the same data and ther
 to the points than the true <code>&mu;</code> does. Squared deviations from the sample mean are
 the smallest they could be from any center, so they undershoot.</p>
 <div class="worked"><b>The correction.</b> Dividing by <code>n-1</code> instead of
-<code>n</code> multiplies the result by <code>n/(n-1)</code>, cancelling the factor exactly and
+<code>n</code> multiplies the result by <code>n/(n-1)</code>, canceling the factor exactly and
 giving an unbiased estimate. The <code>n-1</code> is the number of <b>degrees of freedom</b>
 left: once you know <code>x&#772;</code> and any <code>n-1</code> of the deviations, the last one
 is determined, since they sum to zero. You spent one degree of freedom estimating the mean.</div>
@@ -1734,15 +2558,77 @@ at the spread of the results. It treats your sample as a stand-in for the popula
 justified by the same law of large numbers. It is also the idea behind <b>bagging</b> and
 therefore behind random forests.</p>
 `,
+ exs:[{title:'Catch an estimator being wrong on average',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`20,000 samples of 5 draws each, from a standard normal whose true variance is 1. For
+   every sample compute both variance estimators, then average across the 20,000:
+   <ol>
+   <li><code>means</code>, each sample's own mean, and <code>dev2</code>, its sum of squared deviations from that mean,</li>
+   <li><code>v_n</code>, that sum divided by n, and <code>v_nm1</code>, the same sum divided by n-1,</li>
+   <li><code>bias_n</code>, the average of <code>v_n</code> minus the true variance of 1.</li>
+   </ol>
+   The 1/n estimator should average near <b>0.8</b>, which is (n-1)/n, rather than near 1. Missing
+   by 20% every time, always in the same direction, is what bias means.`,
+   starter:`import numpy as np
+np.random.seed(0)
+
+n, S = 5, 20000
+X = np.random.randn(S, n)          # true mean 0, true variance 1
+
+# 1) Each sample's own mean, and its squared deviations from it
+means = X.mean(axis=1)
+dev2  =
+
+# 2) The two estimators
+v_n   =
+v_nm1 =
+
+# 3) How far the first one is off, on average
+bias_n =
+
+print(means.mean(), v_n.mean(), v_nm1.mean(), bias_n)
+`,
+   solution:`import numpy as np
+np.random.seed(0)
+
+n, S = 5, 20000
+X = np.random.randn(S, n)          # true mean 0, true variance 1
+
+# 1) Each sample's own mean, and its squared deviations from it
+means = X.mean(axis=1)
+dev2  = ((X - means[:, None]) ** 2).sum(axis=1)
+
+# 2) The two estimators
+v_n   = dev2 / n
+v_nm1 = dev2 / (n - 1)
+
+# 3) How far the first one is off, on average
+bias_n = float(v_n.mean()) - 1.0
+
+print(means.mean(), v_n.mean(), v_nm1.mean(), bias_n)
+`,
+   tests:[
+     {d:'the sample mean is unbiased: over 20,000 samples it averages to within 0.01 of the true 0',expr:'abs(float(means.mean())) < 0.01'},
+     {d:'the 1/n estimator averages about 0.8, not 1, and 0.8 is exactly (n-1)/n',expr:'abs(float(v_n.mean()) - 0.8) < 0.02'},
+     {d:'the 1/(n-1) estimator averages about 1, so its bias is essentially zero',expr:'abs(float(v_nm1.mean()) - 1) < 0.02'},
+     {d:'the bias is negative and large: the estimator undershoots, and more samples will not fix it',expr:'bias_n < -0.15'},
+     {d:'multiplying the biased average by n/(n-1) recovers the unbiased one exactly, which is all the correction ever was',expr:'abs(float(v_n.mean()) * n / (n - 1) - float(v_nm1.mean())) < 1e-12'}
+   ],
+   hints:[
+     'Deviations are measured from each row’s own mean, so subtract means[:, None] before squaring and summing along axis=1.',
+     'The two estimators share dev2 and differ only in the denominator: dev2 / n and dev2 / (n - 1).',
+     'bias_n = float(v_n.mean()) - 1.0, since the true variance is 1. Expect about -0.2, which is -1/n.'
+   ]}],
  quiz:{title:'Quick check, estimation',questions:[
    {q:'Sample variance divides by n-1 because:',
-    options:['It makes the result match the standard deviation','Small samples need a larger denominator','It prevents division by zero when n is one','Deviations from the sample mean are too small'],answer:3,whyWrong:['The standard deviation is the square root of whichever variance you computed. The denominator is a separate question.','It is not a size-based fudge. The correction is exactly one, at every n.','With n equal to one there is no spread to estimate, and the undefined result is arguably the honest answer.',''],
+    options:['It makes the result match the standard deviation','It prevents division by zero when n is one','Deviations from the sample mean are too small','Small samples need a larger denominator'],answer:2,whyWrong:['The standard deviation is the square root of whichever variance you computed. The denominator is a separate question.','With n equal to one there is no spread to estimate, and the undefined result is arguably the honest answer.','','It is not a size-based fudge. The correction is exactly one, at every n.'],
     why:'The sample mean sits closer to the data than μ does, so squared deviations undershoot by exactly n/(n-1).'},
    {q:'Standard error falls as 1/√n, which implies:',
-    options:['Doubling the data halves the error','A hundred times the data cuts error tenfold','Ten times the data cuts error by a factor of ten','Error is independent of the sample size'],answer:1,whyWrong:['Doubling gives a factor of the square root of two, about 1.41, not 2.','','Ten times the data cuts it by the square root of ten, about 3.2.','It depends on n very much. That dependence is the whole point of the formula.'],
+    options:['A hundred times the data cuts error tenfold','Doubling the data halves the error','Error is independent of the sample size','Ten times the data cuts error by a factor of ten'],answer:0,whyWrong:['','Doubling gives a factor of the square root of two, about 1.41, not 2.','It depends on n very much. That dependence is the whole point of the formula.','Ten times the data cuts it by the square root of ten, about 3.2.'],
     why:'√100 = 10. This is why going from 100 to 1,000 examples matters far more than 100,000 to 1,000,000.'},
    {q:'The bootstrap estimates uncertainty by:',
-    options:['Splitting the data into equal sized folds','Fitting the model on progressively larger subsets','Resampling the data with replacement many times','Assuming the statistic is Gaussian around its mean'],answer:2,whyWrong:['That is cross-validation, which estimates predictive performance rather than the sampling distribution of a statistic.','That is a learning curve, which shows how performance scales with data.','','Assuming Gaussian is the parametric shortcut the bootstrap exists to avoid.'],
+    options:['Assuming the statistic is Gaussian around its mean','Fitting the model on progressively larger subsets','Resampling the data with replacement many times','Splitting the data into equal sized folds'],answer:2,whyWrong:['Assuming Gaussian is the parametric shortcut the bootstrap exists to avoid.','That is a learning curve, which shows how performance scales with data.','','That is cross-validation, which estimates predictive performance rather than the sampling distribution of a statistic.'],
     why:'It uses the sample as a stand-in for the population, then looks at the spread of the recomputed statistic.'}
  ]}},
 
@@ -1828,15 +2714,109 @@ currencies. And a <b>Bayesian treatment</b> with an informative prior is the pri
 of all of them, since the prior supplies information the data cannot.</p>
 `,
  docs:[['Belkin et al., double descent','https://arxiv.org/abs/1812.11118']],
+ exs:[{title:'Split squared error into bias, variance and noise, and watch it add back up',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`The truth is <code>sin(x)</code> at 30 fixed points, with noise of standard deviation
+   0.3. Draw 400 training sets, each a fresh noise realization, fit a polynomial of each degree,
+   and record the pieces:
+   <ol>
+   <li><code>fbar</code>, the average prediction across the 400 fits, the f-bar of the derivation,</li>
+   <li><code>bias2</code>, the mean over points of <code>(f - fbar)&sup2;</code>,</li>
+   <li><code>var</code>, the mean of <code>(pred - fbar)&sup2;</code> over fits and points,</li>
+   <li><code>total</code>, the expected squared error, <code>mean((f - preds)&sup2;) + &sigma;&sup2;</code>.</li>
+   </ol>
+   The decomposition is an identity, not an approximation, so the first test holds to machine
+   precision at every degree.`,
+   starter:`import numpy as np
+np.random.seed(0)
+
+sigma  = 0.3
+xs     = np.linspace(0, 2 * np.pi, 30)
+ftrue  = np.sin(xs)
+S      = 400
+degrees = [1, 3, 5, 7]
+
+bias2s, vars_, totals, sums = [], [], [], []
+
+for d in degrees:
+    preds = np.zeros((S, len(xs)))
+    for s in range(S):
+        y = ftrue + sigma * np.random.randn(len(xs))
+        preds[s] = np.polyval(np.polyfit(xs, y, d), xs)
+
+    # 1) The average model across all 400 training sets
+    fbar  =
+
+    # 2) How far that average model is from the truth
+    bias2 =
+
+    # 3) How far individual fits sit from their own average
+    var   =
+
+    # 4) The expected squared error against noisy targets
+    total =
+
+    bias2s.append(bias2); vars_.append(var); totals.append(total)
+    sums.append(bias2 + var + sigma ** 2)
+
+print(np.round(bias2s, 5), np.round(vars_, 5), np.round(totals, 5))
+`,
+   solution:`import numpy as np
+np.random.seed(0)
+
+sigma  = 0.3
+xs     = np.linspace(0, 2 * np.pi, 30)
+ftrue  = np.sin(xs)
+S      = 400
+degrees = [1, 3, 5, 7]
+
+bias2s, vars_, totals, sums = [], [], [], []
+
+for d in degrees:
+    preds = np.zeros((S, len(xs)))
+    for s in range(S):
+        y = ftrue + sigma * np.random.randn(len(xs))
+        preds[s] = np.polyval(np.polyfit(xs, y, d), xs)
+
+    # 1) The average model across all 400 training sets
+    fbar  = preds.mean(axis=0)
+
+    # 2) How far that average model is from the truth
+    bias2 = float(((ftrue - fbar) ** 2).mean())
+
+    # 3) How far individual fits sit from their own average
+    var   = float(((preds - fbar) ** 2).mean())
+
+    # 4) The expected squared error against noisy targets
+    total = float(((ftrue - preds) ** 2).mean()) + sigma ** 2
+
+    bias2s.append(bias2); vars_.append(var); totals.append(total)
+    sums.append(bias2 + var + sigma ** 2)
+
+print(np.round(bias2s, 5), np.round(vars_, 5), np.round(totals, 5))
+`,
+   tests:[
+     {d:'bias squared plus variance plus noise reproduces the total exactly, at every degree: this is an identity, not a fit',expr:'max(abs(totals[i] - sums[i]) for i in range(4)) < 1e-12'},
+     {d:'bias collapses as the polynomial gains flexibility, and by degree 7 there is almost none left',expr:'bias2s[0] > 20 * bias2s[1] and bias2s[-1] < 0.01'},
+     {d:'variance rises at every step, because a more flexible fit chases the noise harder',expr:'all(vars_[i] < vars_[i + 1] for i in range(3))'},
+     {d:'that variance is close to σ²(d+1)/n, roughly one noise unit per parameter fitted',expr:'max(abs(vars_[i] - 0.09 * (degrees[i] + 1) / 30) / vars_[i] for i in range(4)) < 0.15'},
+     {d:'total error is lowest at degree 3, not at the most flexible model, and that trade is the whole lesson',expr:'int(np.argmin(totals)) == 1'}
+   ],
+   hints:[
+     'fbar = preds.mean(axis=0) averages over training sets, leaving one average prediction per x.',
+     'bias2 uses ftrue against fbar; var uses each prediction against fbar. Both end in .mean().',
+     'total = float(((ftrue - preds) ** 2).mean()) + sigma ** 2. The noise term is added rather than simulated, which is why the identity closes to machine precision.'
+   ]}],
  quiz:{title:'Quick check, bias and variance',questions:[
    {q:'The gap between training and validation error estimates:',
-    options:['The irreducible noise in the labels','The learning rate used during training','The variance term of the decomposition','The bias term of the decomposition'],answer:2,whyWrong:['Irreducible noise appears in both errors equally and does not show up in the gap.','The learning rate affects how you got here, and it is not what the gap measures.','','Bias shows up as both errors being high together, not as a gap between them.'],
+    options:['The bias term of the decomposition','The irreducible noise in the labels','The variance term of the decomposition','The learning rate used during training'],answer:2,whyWrong:['Bias shows up as both errors being high together, not as a gap between them.','Irreducible noise appears in both errors equally and does not show up in the gap.','','The learning rate affects how you got here, and it is not what the gap measures.'],
     why:'Variance is how much the fitted model moves with the training sample, which is exactly what the gap reflects.'},
    {q:'Adding regularization typically:',
-    options:['Affects only the irreducible error','Reduces variance while raising bias','Reduces bias while raising variance','Reduces both terms simultaneously'],answer:1,whyWrong:['Irreducible error is a property of the problem and no model choice can touch it.','','That is the trade run backwards. Regularisation constrains the model, which raises bias.','If both fell you would simply have a better model. The trade is that one rises.'],
+    options:['Reduces variance while raising bias','Reduces both terms simultaneously','Affects only the irreducible error','Reduces bias while raising variance'],answer:0,whyWrong:['','If both fell you would simply have a better model. The trade is that one rises.','Irreducible error is a property of the problem and no model choice can touch it.','That is the trade run backwards. Regularisation constrains the model, which raises bias.'],
     why:'It constrains the family, so the average fit moves further from the truth but varies less across samples.'},
    {q:'With a small dataset, the dominant term is usually:',
-    options:['All three contribute about equally','Variance, since fits move a lot per sample','Irreducible error, since noise dominates','Bias, since simple models are forced'],answer:1,whyWrong:['They do not. Variance is the term a small sample inflates.','','Irreducible error is fixed by the problem and does not grow as the sample shrinks.','Simpler models are the response to the problem rather than its cause.'],
+    options:['Variance, since fits move a lot per sample','Bias, since simple models are forced','Irreducible error, since noise dominates','All three contribute about equally'],answer:0,whyWrong:['','Simpler models are the response to the problem rather than its cause.','Irreducible error is fixed by the problem and does not grow as the sample shrinks.','They do not. Variance is the term a small sample inflates.'],
     why:'Few rows means the fit swings with the sample. That is why transfer learning and augmentation help most.'}
  ]}}
 ]});

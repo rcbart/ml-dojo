@@ -82,8 +82,16 @@ def skippable(els):
     return False
 
 
-def perm(n, ai, key, target):
-    rest = [x for x in range(n) if x != ai]
+def perm(els, ai, key, target):
+    """Index permutation placing option `ai` in slot `target`.
+
+    The distractors are put in a canonical order (sorted by their own text)
+    before the key-seeded rotation, so the result depends on the SET of options
+    rather than on their current arrangement. Without that, every run rotated
+    the distractors again: the answer position looked stable while the options
+    kept moving underneath it, which is not a fixed point and is very hard to
+    notice from the summary counts alone."""
+    rest = sorted((x for x in range(len(els)) if x != ai), key=lambda x: els[x])
     r = h(key) % len(rest)
     rest = rest[r:] + rest[:r]
     return rest[:target] + [ai] + rest[target:]
@@ -119,11 +127,20 @@ def main(mode):
                 after[ai] += 1
                 continue
             t = target[key]
-            order = perm(len(els), ai, key, t)
-            edits.append((i, end, ','.join(els[k] for k in order), ans_span, t))
+            order = perm(els, ai, key, t)
+            edits.append((i, end, ','.join(els[k] for k in order), ans_span, t, order))
             after[t] += 1
         if mode == 'apply' and edits:
-            for i, end, new_arr, ans_span, t in sorted(edits, reverse=True):
+            for i, end, new_arr, ans_span, t, order in sorted(edits, key=lambda e: -e[0]):
+                # whyWrong runs parallel to options. Reorder it in lockstep, or every
+                # rebuttal ends up attached to the wrong choice.
+                am = re.compile(r'\s*,?\s*answer:\s*\d+').match(src, end)
+                wm = re.compile(r'\s*,\s*whyWrong:\s*\[').match(src, am.end())
+                if wm:
+                    wstart = src.index('[', am.end())
+                    wels, wend = split_array(src, wstart)
+                    if len(wels) == len(order):
+                        src = src[:wstart] + '[' + ','.join(wels[k] for k in order) + ']' + src[wend:]
                 src = src[:ans_span[0]] + str(t) + src[ans_span[1]:]
                 src = src[:i] + '[' + new_arr + ']' + src[end:]
             io.open(f, 'w', encoding='utf-8').write(src)

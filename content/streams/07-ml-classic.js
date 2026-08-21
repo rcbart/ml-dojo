@@ -5,7 +5,7 @@ STREAMS.push({icon:'🤖',track:'ML & AI Track',title:'Classic Machine Learning:
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>You met the words in Orientation; now we make them real. <b>Machine learning is learning a
 function from examples.</b> Instead of you writing rules ("if the email says FREE MONEY, it is
-spam"), you show the computer many labelled examples and it <i>finds the rule itself</i> by
+spam"), you show the computer many labeled examples and it <i>finds the rule itself</i> by
 tuning knobs to reduce error. Every classic model, regression, classification, trees, is a
 variation on one loop: <b>fit, predict, evaluate.</b></p></div>
 
@@ -15,7 +15,7 @@ variation on one loop: <b>fit, predict, evaluate.</b></p></div>
 <b>predict</b>: give the trained model new features and it outputs its guess. <b>evaluate</b>:
 measure how wrong those guesses are (the error/loss), ideally on data it has <i>never seen</i>,
 so you know it will work in the real world, not just memorize.</p>
-<div class="codeSample">model.fit(X_train, y_train)     # learn from labelled examples
+<div class="codeSample">model.fit(X_train, y_train)     # learn from labeled examples
 preds = model.predict(X_test)   # guess on new data
 error = mse(preds, y_test)      # how wrong were the guesses?</div>
 <p>That <code>fit/predict</code> shape is the exact scikit-learn interface you met, and it is
@@ -33,7 +33,7 @@ for the weights that make the error small. ("Weight," "parameter," and "coeffici
 words for the same thing, <code>model.coef_</code> in scikit-learn.)</p>
 
 <h3>Regression vs classification</h3>
-<p>Two flavours cover most of classic ML: <b>regression</b> predicts a <i>number</i> (house
+<p>Two flavors cover most of classic ML: <b>regression</b> predicts a <i>number</i> (house
 price, temperature), the demystified name just means "predict a continuous value"; and
 <b>classification</b> predicts a <i>category</i> (spam / not-spam, cat / dog). Same fit/predict
 loop; different kind of answer, and a different way to measure error (squared error for numbers,
@@ -46,13 +46,13 @@ which function and which search.</div>`,
  docs:[['scikit-learn (an intro to machine learning)','https://scikit-learn.org/stable/tutorial/basic/tutorial.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The core loop of a classic ML model is:',
-    options:['fit on labelled examples, predict on new data, evaluate the error','Compile the model, link its dependencies, then execute it on the data','Guess at random, and keep guessing until the answers happen to be right','Download a model, install its weights, and run it on your own data'],answer:0,whyWrong:['','That is the build cycle for a compiled program. Nothing in it learns from data.','Guessing is where an untrained model starts. The loop is what moves it away from that.','That is how you obtain a tool, not how a model learns.'],
+    options:['Guess at random, and keep guessing until the answers happen to be right','Compile the model, link its dependencies, then execute it on the data','Download a model, install its weights, and run it on your own data','fit on labeled examples, predict on new data, evaluate the error'],answer:3,whyWrong:['Guessing is where an untrained model starts. The loop is what moves it away from that.','That is the build cycle for a compiled program. Nothing in it learns from data.','That is how you obtain a tool, not how a model learns.',''],
     why:'Fit tunes the weights on training data; predict applies them to new data; evaluate measures how wrong, ideally on unseen data.'},
    {q:'In prediction = w · feature + b, the weight w is:',
-    options:['The number of features the model was given to work with','The error between the prediction and the true value','How much that feature counts toward the prediction','Always 1, so that every feature contributes on equal terms'],answer:2,whyWrong:['The feature count is a property of your data. Each feature gets its own weight.','The error is the gap between the prediction and the truth. The weight is what you adjust to shrink it.','','A weight fixed at 1 would leave the model unable to learn anything.'],
+    options:['The number of features the model was given to work with','How much that feature counts toward the prediction','Always 1, so that every feature contributes on equal terms','The error between the prediction and the true value'],answer:1,whyWrong:['The feature count is a property of your data. Each feature gets its own weight.','','A weight fixed at 1 would leave the model unable to learn anything.','The error is the gap between the prediction and the truth. The weight is what you adjust to shrink it.'],
     why:'Weights (= parameters = coefficients) are the knobs training tunes. "+18k per bedroom" is a weight. b is the baseline (bias/intercept).'},
    {q:'Predicting a house PRICE is regression; predicting SPAM/not-spam is:',
-    options:['Clustering, since the messages are grouped by similarity','Not machine learning, since the answer is a yes or a no','Classification, since the answer is a category','Also regression, since the model outputs a spam score'],answer:2,whyWrong:['Clustering groups unlabelled data. Here you have labels saying which messages were spam.','It is a textbook supervised problem, and one of the first ever solved commercially.','','Regression predicts a number. Spam or not is a category with no ordering and no arithmetic.'],
+    options:['Also regression, since the model outputs a spam score','Classification, since the answer is a category','Clustering, since the messages are grouped by similarity','Not machine learning, since the answer is a yes or a no'],answer:1,whyWrong:['Regression predicts a number. Spam or not is a category with no ordering and no arithmetic.','','Clustering groups unlabelled data. Here you have labels saying which messages were spam.','It is a textbook supervised problem, and one of the first ever solved commercially.'],
     why:'Regression predicts a continuous number; classification predicts a category. Same fit/predict loop, different answer type and error measure.'}
  ]},
  exs:[{title:'Be the model: predict, then measure the error',
@@ -161,13 +161,13 @@ from-scratch version is how you <i>understand</i> what that one line does.</p></
  docs:[['scikit-learn (LinearRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Linear regression finds its weights by:',
-    options:['Guessing values at random and keeping whichever happens to fit best','Gradient descent, or the closed-form normal equations','Enumerating every possible line and scoring each of them in turn','Sorting the data so the best-fitting line can be read off directly'],answer:1,whyWrong:['Random guessing never converges. The whole method is that each step is informed by the slope.','','There are infinitely many lines. You cannot enumerate them.','Sorting rearranges the data and leaves the weights untouched.'],
+    options:['Gradient descent, or the closed-form normal equations','Sorting the data so the best-fitting line can be read off directly','Enumerating every possible line and scoring each of them in turn','Guessing values at random and keeping whichever happens to fit best'],answer:0,whyWrong:['','Sorting rearranges the data and leaves the weights untouched.','There are infinitely many lines. You cannot enumerate them.','Random guessing never converges. The whole method is that each step is informed by the slope.'],
     why:'The line has two knobs; training walks them down the loss surface (gradient descent) or solves the normal equations directly.'},
    {q:'The gradient ∂Loss/∂w for MSE is (2/n)·Σ(errorᵢ·xᵢ). What is errorᵢ?',
-    options:['The learning rate, which scales the size of each step','The true label yᵢ, the value the model was aiming for','The prediction minus the actual, (w·xᵢ + b) − yᵢ','Always zero, once the model has been fitted properly'],answer:2,whyWrong:['The learning rate is a setting you choose. The error is measured from the data.','The true label is one half of the error. The error is what is left after subtracting the prediction from it.','','If the error were always zero there would be nothing left to learn.'],
+    options:['The true label yᵢ, the value the model was aiming for','The prediction minus the actual, (w·xᵢ + b) − yᵢ','Always zero, once the model has been fitted properly','The learning rate, which scales the size of each step'],answer:1,whyWrong:['The true label is one half of the error. The error is what is left after subtracting the prediction from it.','','If the error were always zero there would be nothing left to learn.','The learning rate is a setting you choose. The error is measured from the data.'],
     why:'Error is prediction − actual. Multiplying it by xᵢ and averaging gives the slope of the loss in the w-direction, the nudge.'},
    {q:'If after training the loss stops decreasing, it means:',
-    options:['The weights have settled near the bottom of the loss bowl','There is no data left for the model to learn anything further from','The training loop crashed and stopped updating the loss','The learning rate has decayed to zero and no steps are being taken'],answer:0,whyWrong:['','With no data there would be no loss to compute in the first place.','A crash stops the program. A flat loss curve is the program working and finishing its job.','A learning rate of zero would leave the loss flat from step one, not after it had come down.'],
+    options:['The training loop crashed and stopped updating the loss','There is no data left for the model to learn anything further from','The learning rate has decayed to zero and no steps are being taken','The weights have settled near the bottom of the loss bowl'],answer:3,whyWrong:['A crash stops the program. A flat loss curve is the program working and finishing its job.','With no data there would be no loss to compute in the first place.','A learning rate of zero would leave the loss flat from step one, not after it had come down.',''],
     why:'A flat loss means the gradient is ~0, you are at the minimum, the best line the model can draw.'}
  ]},
  exs:[{title:'Train a linear regression by gradient descent',
@@ -272,10 +272,10 @@ met in the logarithms stream.)</div>`,
  docs:[['scikit-learn (LogisticRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Logistic regression turns the linear score w·x + b into a class by:',
-    options:['Passing it through the sigmoid, then thresholding the probability at 0.5','Sorting the scores and splitting them at the halfway point','Rounding the score to the nearest whole number','Taking the absolute value and comparing it against a threshold'],answer:0,whyWrong:['','Sorting the scores says which example is most likely, not whether any of them cross the line.','Rounding a raw score gives an arbitrary integer with no probabilistic meaning.','Absolute value throws away the sign, which is exactly the information that decides the class.'],
+    options:['Rounding the score to the nearest whole number','Sorting the scores and splitting them at the halfway point','Taking the absolute value and comparing it against a threshold','Passing it through the sigmoid, then thresholding the probability at 0.5'],answer:3,whyWrong:['Rounding a raw score gives an arbitrary integer with no probabilistic meaning.','Sorting the scores says which example is most likely, not whether any of them cross the line.','Absolute value throws away the sign, which is exactly the information that decides the class.',''],
     why:'Score → sigmoid → probability → decision. The sigmoid keeps the output a valid probability; 0.5 is the usual cut.'},
    {q:'Despite its name, logistic regression performs:',
-    options:['Classification, since it predicts a category rather than a number','Clustering, since it groups similar examples together','Sorting, since it ranks examples by their score','Regression, since it predicts a continuous quantity'],answer:0,whyWrong:['','Clustering has no labels. Logistic regression is trained on them.','Nothing is sorted. It produces a probability per example.','It produces a probability, and the decision it hands you is a category rather than a quantity.'],
+    options:['Sorting, since it ranks examples by their score','Clustering, since it groups similar examples together','Regression, since it predicts a continuous quantity','Classification, since it predicts a category rather than a number'],answer:3,whyWrong:['Nothing is sorted. It produces a probability per example.','Clustering has no labels. Logistic regression is trained on them.','It produces a probability, and the decision it hands you is a category rather than a quantity.',''],
     why:'It predicts a category via a probability. The name is a historical quirk; it is a classifier.'},
    {q:'The decision boundary of logistic regression sits where:',
     options:['At x = 0, wherever the input happens to be zero','Where the score z = w·x + b crosses zero, so the probability is 0.5','At the edge of the region the training data covers','At the largest value taken by the strongest feature'],answer:1,whyWrong:['x = 0 is a point in the input space and has nothing to do with where the score crosses zero.','','The boundary is defined by the weights and extends across the whole space, wherever the data happens to stop.','The largest feature value is a property of the data, not of the model.'],
@@ -408,15 +408,110 @@ about cause. If your question is "what will happen if we change X", no algorithm
 answers it, and reaching for one is how organizations end up confidently acting on a
 correlation.</div>
 `,
+ exs:[{title:'Run one dataset through both paradigms',
+   lang:'python',
+   packages:['scikit-learn','numpy'],
+   prompt:`Three overlapping groups of points. The supervised half is written for you: a
+   <code>LogisticRegression</code> gets <code>X</code> and <code>y</code> and scores about
+   <code>0.878</code> on held-out data. Now do the same data without the labels.
+   <ol>
+   <li><code>clusters</code>, the assignments from <code>KMeans</code> with <code>n_clusters=3</code> fitted on <code>X</code> alone, with <code>y</code> never passed in,</li>
+   <li>inside the loop, the class each cluster should be renamed to, namely the one it mostly contains (<code>matched_acc</code> then comes out around <code>0.843</code>),</li>
+   <li><code>ari</code>, the <code>adjusted_rand_score</code> between <code>y</code> and the clusters (about <code>0.583</code>).</li>
+   </ol>`,
+   starter:`import numpy as np
+from sklearn.datasets import make_blobs
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.cluster import KMeans
+from sklearn.metrics import accuracy_score, adjusted_rand_score
+
+# Three overlapping groups. y says which group each point came from.
+centers = np.array([[0.0, 0.0], [4.0, 0.0], [1.0, 3.0]])
+X, y = make_blobs(n_samples=300, centers=centers, cluster_std=1.4, random_state=1)
+
+# Supervised: the answer key goes in.
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=0, stratify=y)
+clf = LogisticRegression(max_iter=1000).fit(X_tr, y_tr)
+sup_acc = accuracy_score(y_te, clf.predict(X_te))
+
+# 1) Unsupervised: the same X, and y is never passed in.
+clusters =
+
+# 2) How often does a cluster number happen to equal a class number?
+raw_agree = float(np.mean(clusters == y))
+
+# 3) Rename each cluster to the class it mostly contains. This step needs y.
+renamed = np.zeros_like(clusters)
+for c in range(3):
+    renamed[clusters == c] =
+matched_acc = float(np.mean(renamed == y))
+
+# 4) How well does the partition line up with the classes, ignoring the names?
+ari =
+
+print("supervised test accuracy:", round(sup_acc, 3))
+print("raw cluster/class agreement:", round(raw_agree, 3))
+print("agreement after renaming:", round(matched_acc, 3))
+print("adjusted Rand index:", round(ari, 3))
+`,
+   solution:`import numpy as np
+from sklearn.datasets import make_blobs
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.cluster import KMeans
+from sklearn.metrics import accuracy_score, adjusted_rand_score
+
+# Three overlapping groups. y says which group each point came from.
+centers = np.array([[0.0, 0.0], [4.0, 0.0], [1.0, 3.0]])
+X, y = make_blobs(n_samples=300, centers=centers, cluster_std=1.4, random_state=1)
+
+# Supervised: the answer key goes in.
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=0, stratify=y)
+clf = LogisticRegression(max_iter=1000).fit(X_tr, y_tr)
+sup_acc = accuracy_score(y_te, clf.predict(X_te))
+
+# 1) Unsupervised: the same X, and y is never passed in.
+clusters = KMeans(n_clusters=3, n_init=10, random_state=0).fit(X).labels_
+
+# 2) How often does a cluster number happen to equal a class number?
+raw_agree = float(np.mean(clusters == y))
+
+# 3) Rename each cluster to the class it mostly contains. This step needs y.
+renamed = np.zeros_like(clusters)
+for c in range(3):
+    renamed[clusters == c] = np.bincount(y[clusters == c]).argmax()
+matched_acc = float(np.mean(renamed == y))
+
+# 4) How well does the partition line up with the classes, ignoring the names?
+ari = adjusted_rand_score(y, clusters)
+
+print("supervised test accuracy:", round(sup_acc, 3))
+print("raw cluster/class agreement:", round(raw_agree, 3))
+print("agreement after renaming:", round(matched_acc, 3))
+print("adjusted Rand index:", round(ari, 3))
+`,
+   tests:[
+     {d:'the supervised model, handed the answer key, gets about 0.88 on points it never saw',expr:'sup_acc > 0.8'},
+     {d:'cluster numbers agree with class numbers barely better than chance, because nothing told k-means what to call anything',expr:'raw_agree < 0.5'},
+     {d:'renaming each cluster by its majority class lifts agreement to about 0.84, and that renaming was computed from y',expr:'matched_acc > 0.75'},
+     {d:'the adjusted Rand index is about 0.58, so the partition recovers the three groups partly and not fully',expr:'0.4 < ari < 0.75'},
+     {d:'the renaming is what made the clusters readable, and it needed labels: without them you have geometry and no names',expr:'matched_acc > 2 * raw_agree'}
+   ],
+   hints:[
+     'KMeans takes only X. Fit it with KMeans(n_clusters=3, n_init=10, random_state=0).fit(X) and read .labels_.',
+     'To rename a cluster, look at the true labels of the points inside it and take the most common one.',
+     'renamed[clusters == c] = np.bincount(y[clusters == c]).argmax(), and ari = adjusted_rand_score(y, clusters).'
+   ]}],
  quiz:{title:'Quick check, paradigms',questions:[
    {q:'The defining difference between supervised and unsupervised learning is:',
-    options:['Whether the dataset is large or small','Whether the model is linear or nonlinear','Whether the training data includes target labels','Whether the data is numeric or categorical'],answer:2,whyWrong:['Size affects how well either one works. It does not decide which one you are doing.','Both supervised and unsupervised methods come in linear and nonlinear forms.','','Both handle numeric and categorical data. The distinction is about targets, not feature types.'],
+    options:['Whether the data is numeric or categorical','Whether the training data includes target labels','Whether the dataset is large or small','Whether the model is linear or nonlinear'],answer:1,whyWrong:['Both handle numeric and categorical data. The distinction is about targets, not feature types.','','Size affects how well either one works. It does not decide which one you are doing.','Both supervised and unsupervised methods come in linear and nonlinear forms.'],
     why:'Supervised has an answer key. Everything else about the two follows from that one fact.'},
    {q:'Self-supervised learning is best described as:',
-    options:['Reinforcement learning with a delayed reward','Clustering applied before a supervised model runs','Supervised learning on labels derived from the data','Training without any objective function at all'],answer:2,whyWrong:['There is no reward and no environment. The labels come from the data itself.','That is a preprocessing pipeline, and the labels would still have to come from somewhere.','','There is very much an objective. Predicting the hidden word is the objective.'],
+    options:['Reinforcement learning with a delayed reward','Supervised learning on labels derived from the data','Training without any objective function at all','Clustering applied before a supervised model runs'],answer:1,whyWrong:['There is no reward and no environment. The labels come from the data itself.','','There is very much an objective. Predicting the hidden word is the objective.','That is a preprocessing pipeline, and the labels would still have to come from somewhere.'],
     why:'Mask a word and predict it. There is a target, so it is supervised, but nobody annotated anything.'},
    {q:'Running k-means on data with no real cluster structure will:',
-    options:['Return a single cluster containing everything','Raise an error about insufficient separation','Return k clusters and report no problem','Fail to converge within the iteration limit'],answer:2,whyWrong:['It returns exactly the k you asked for, split however the geometry allows.','There is no such check. The algorithm has no notion of whether the structure is real.','','It converges reliably, and converging is not the same as finding something meaningful.'],
+    options:['Fail to converge within the iteration limit','Return k clusters and report no problem','Raise an error about insufficient separation','Return a single cluster containing everything'],answer:1,whyWrong:['It converges reliably, and converging is not the same as finding something meaningful.','','There is no such check. The algorithm has no notion of whether the structure is real.','It returns exactly the k you asked for, split however the geometry allows.'],
     why:'Clustering partitions whatever it is given. Validation has to come from outside the algorithm.'}
  ]}},
 
@@ -489,15 +584,135 @@ you look at once, and if you cannot afford one, at least count how many decision
 against your cross-validation score and treat the last number with a proportionate amount of
 suspicion.</p>
 `,
+ exs:[{title:'Score a model on 40 rows without fooling yourself',
+   lang:'python',
+   packages:['scikit-learn','numpy'],
+   prompt:`Forty rows, two classes. Part one scores one model with a single train/test split,
+   twenty times, changing nothing but the seed. Part two scores the same model by 5-fold
+   cross-validation. Part three moves to a 95/5 dataset, where accuracy stops meaning anything.
+   <ol>
+   <li><code>spread</code>, the largest of the twenty accuracies minus the smallest (it comes out to <code>0.5</code>), and <code>split_sd</code>, their standard deviation, <code>std(ddof=1)</code>,</li>
+   <li><code>cv_se</code>, the standard error of the five fold scores, <code>std(ddof=1) / sqrt(5)</code>,</li>
+   <li>on the imbalanced set, <code>rec_imb</code>, the recall, and <code>majority_acc</code>, the accuracy you score by never predicting the rare class at all.</li>
+   </ol>`,
+   starter:`import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, recall_score
+
+# Part 1: 40 rows, one split, twenty different seeds.
+X, y = make_classification(n_samples=40, n_features=4, n_informative=2,
+                           n_redundant=0, class_sep=0.9, random_state=1)
+accs = []
+for seed in range(20):
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.25,
+                                              random_state=seed, stratify=y)
+    m = LogisticRegression(max_iter=1000).fit(X_tr, y_tr)
+    accs.append(accuracy_score(y_te, m.predict(X_te)))
+accs = np.array(accs)
+
+# 1) how far apart are the best and worst seeds, and how much do they scatter?
+spread =
+split_sd =
+
+# Part 2: the same model, scored by 5-fold cross-validation instead.
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
+fold_scores = cross_val_score(LogisticRegression(max_iter=1000), X, y, cv=cv)
+
+# 2) the averaged estimate, and the standard error of that average
+cv_mean = float(fold_scores.mean())
+cv_se =
+
+print("single split: min", accs.min(), "max", accs.max(), "spread", round(spread, 3))
+print("sd across splits:", round(split_sd, 3))
+print("cross-validated:", round(cv_mean, 3), "standard error", round(cv_se, 3))
+
+# Part 3: 95 percent of one class, 5 percent of the other.
+Xi, yi = make_classification(n_samples=400, n_features=4, n_informative=2, n_redundant=0,
+                             weights=[0.95, 0.05], flip_y=0.0, class_sep=1.0, random_state=0)
+Xi_tr, Xi_te, yi_tr, yi_te = train_test_split(Xi, yi, test_size=0.5,
+                                              random_state=0, stratify=yi)
+pred = LogisticRegression(max_iter=1000).fit(Xi_tr, yi_tr).predict(Xi_te)
+
+# 3) accuracy, recall, and the score for never predicting the rare class at all
+acc_imb = accuracy_score(yi_te, pred)
+rec_imb =
+majority_acc =
+
+print("imbalanced: accuracy", round(acc_imb, 3), "majority baseline", round(majority_acc, 3),
+      "recall", round(rec_imb, 3))
+`,
+   solution:`import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, recall_score
+
+# Part 1: 40 rows, one split, twenty different seeds.
+X, y = make_classification(n_samples=40, n_features=4, n_informative=2,
+                           n_redundant=0, class_sep=0.9, random_state=1)
+accs = []
+for seed in range(20):
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.25,
+                                              random_state=seed, stratify=y)
+    m = LogisticRegression(max_iter=1000).fit(X_tr, y_tr)
+    accs.append(accuracy_score(y_te, m.predict(X_te)))
+accs = np.array(accs)
+
+# 1) how far apart are the best and worst seeds, and how much do they scatter?
+spread = float(accs.max() - accs.min())
+split_sd = float(accs.std(ddof=1))
+
+# Part 2: the same model, scored by 5-fold cross-validation instead.
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
+fold_scores = cross_val_score(LogisticRegression(max_iter=1000), X, y, cv=cv)
+
+# 2) the averaged estimate, and the standard error of that average
+cv_mean = float(fold_scores.mean())
+cv_se = float(fold_scores.std(ddof=1) / np.sqrt(5))
+
+print("single split: min", accs.min(), "max", accs.max(), "spread", round(spread, 3))
+print("sd across splits:", round(split_sd, 3))
+print("cross-validated:", round(cv_mean, 3), "standard error", round(cv_se, 3))
+
+# Part 3: 95 percent of one class, 5 percent of the other.
+Xi, yi = make_classification(n_samples=400, n_features=4, n_informative=2, n_redundant=0,
+                             weights=[0.95, 0.05], flip_y=0.0, class_sep=1.0, random_state=0)
+Xi_tr, Xi_te, yi_tr, yi_te = train_test_split(Xi, yi, test_size=0.5,
+                                              random_state=0, stratify=yi)
+pred = LogisticRegression(max_iter=1000).fit(Xi_tr, yi_tr).predict(Xi_te)
+
+# 3) accuracy, recall, and the score for never predicting the rare class at all
+acc_imb = accuracy_score(yi_te, pred)
+rec_imb = recall_score(yi_te, pred)
+majority_acc = accuracy_score(yi_te, np.zeros_like(yi_te))
+
+print("imbalanced: accuracy", round(acc_imb, 3), "majority baseline", round(majority_acc, 3),
+      "recall", round(rec_imb, 3))
+`,
+   tests:[
+     {d:'twenty splits of the same forty rows return accuracies all the way from 0.5 to 1.0',expr:'accs.min() <= 0.5 and accs.max() >= 1.0'},
+     {d:'the spread across seeds is 0.5, so any one split reports a number that says almost nothing',expr:'spread >= 0.4'},
+     {d:'cross-validation puts the model at about 0.83, having tested every row exactly once',expr:'0.7 < cv_mean < 0.95'},
+     {d:'the standard error of the cross-validated estimate is less than half the scatter of single splits',expr:'cv_se < split_sd / 2'},
+     {d:'on the 95/5 data the model beats the majority-class baseline on accuracy, 0.965 against 0.95',expr:'acc_imb > majority_acc'},
+     {d:'and it still misses seven of the ten positives, which were the entire reason for building it',expr:'rec_imb <= 0.3'}
+   ],
+   hints:[
+     'spread = accs.max() - accs.min(), and split_sd = accs.std(ddof=1), both on the array of twenty accuracies.',
+     'The standard error of a mean of k numbers is their standard deviation divided by the square root of k.',
+     'recall_score(y_true, pred) is the fraction of real positives the model found. accuracy_score(y_true, np.zeros_like(y_true)) scores a model that never predicts the rare class.'
+   ]}],
  quiz:{title:'Quick check, small data',questions:[
    {q:'Small datasets are dominated by which error term?',
     options:['Irreducible noise in the measurements','All three contribute about equally','Variance, since the fit swings with the sample','Bias, since simpler models must be used'],answer:2,whyWrong:['Irreducible noise is fixed by the problem and does not grow as the sample shrinks.','They do not. Variance is the term a small sample inflates.','','Simpler models are the response to the problem, not the source of it.'],
     why:'Few rows means a different sample gives a noticeably different model. That is variance by definition.'},
    {q:'Feature selection based on correlation with the target should be done:',
-    options:['Only when the dataset is large','Once on the full dataset beforehand','After the model has been fitted','Inside each cross-validation fold'],answer:3,whyWrong:['Size does not change the argument. Selecting on the full data leaks the answer at any size.','That is the leak. The held-out fold has already influenced which features you kept.','By then the selection has already decided what the model saw. It has to happen inside the fold.',''],
+    options:['Only when the dataset is large','After the model has been fitted','Inside each cross-validation fold','Once on the full dataset beforehand'],answer:2,whyWrong:['Size does not change the argument. Selecting on the full data leaks the answer at any size.','By then the selection has already decided what the model saw. It has to happen inside the fold.','','That is the leak. The held-out fold has already influenced which features you kept.'],
     why:'Doing it beforehand leaks the held-out labels into the selection and inflates every score that follows.'},
    {q:'With 200 rows and 20 positives, reporting accuracy is misleading because:',
-    options:['Predicting the majority class already scores 90%','The folds will not contain any positives','Accuracy is undefined for imbalanced data','Cross-validation cannot be used at all'],answer:0,whyWrong:['','Stratified folds keep the positives distributed. That is a separate concern, and a solvable one.','Accuracy is perfectly well defined here. It is just uninformative.','Cross-validation works fine. It is the metric that is wrong, not the protocol.'],
+    options:['Cross-validation cannot be used at all','The folds will not contain any positives','Accuracy is undefined for imbalanced data','Predicting the majority class already scores 90%'],answer:3,whyWrong:['Cross-validation works fine. It is the metric that is wrong, not the protocol.','Stratified folds keep the positives distributed. That is a separate concern, and a solvable one.','Accuracy is perfectly well defined here. It is just uninformative.',''],
     why:'A model that learns nothing scores 90%. Precision, recall and the confusion matrix are informative here.'}
  ]}}
 ,
@@ -510,7 +725,7 @@ suspicion.</p>
 they differ in one respect that matters more than any other: <b>what shape of decision boundary
 they are willing to draw</b>. Choose by matching that shape to your problem, not by reputation.</p></div>
 
-<h3>1. k-nearest neighbours: no model at all</h3>
+<h3>1. k-nearest neighbors: no model at all</h3>
 <p>To classify a new point, find the <code>k</code> closest training points and take a vote. That
 is the entire algorithm. There is no training phase, which is why it is called
 <b>lazy</b>: the training set <i>is</i> the model.</p>
@@ -519,13 +734,13 @@ is the entire algorithm. There is no training phase, which is why it is called
 that wraps around every single point, which is maximum variance and zero bias. Large
 <code>k</code> smooths the boundary toward the majority class, which is the opposite.</p>
 <div class="demystify"><b>k-NN is not k-means, and the names cause real confusion.</b> k-NN is
-<b>supervised</b> classification, where <code>k</code> is how many neighbours vote. k-means is
+<b>supervised</b> classification, where <code>k</code> is how many neighbors vote. k-means is
 <b>unsupervised</b> clustering, where <code>k</code> is how many clusters exist. They share a
 letter and nothing else.</div>
 <div class="hardidea">🧠 <b>Why k-NN collapses in high dimensions.</b> In <code>d</code>
 dimensions, the volume of a unit ball shrinks toward zero as <code>d</code> grows, so almost all
 of a cube's volume sits in its corners. The practical consequence is that the distance to your
-nearest neighbour and the distance to your farthest become nearly equal, so "nearest" stops
+nearest neighbor and the distance to your farthest become nearly equal, so "nearest" stops
 meaning anything. This is the <b>curse of dimensionality</b>, and it hits every distance-based
 method. Beyond about 20 informative dimensions, k-NN needs dimensionality reduction first, or a
 different method entirely.</div>
@@ -606,15 +821,248 @@ need to explain it       &rarr; a shallow tree or logistic regression</div>
 <p>Start with logistic regression. It gives you a baseline in minutes and tells you whether the
 problem is easy. A great deal of effort is spent beating a linear model that was never tried.</p>
 `,
+ exs:[{title:'Fit six classifiers on a boundary no line can draw',
+   lang:'python',
+   packages:['scikit-learn','numpy'],
+   prompt:`One class is a ring around the other, so no straight line separates them. Six models,
+   the same two calls each.
+   <ol>
+   <li>fit every model in <code>models</code> on the training set and store its test accuracy in <code>acc[name]</code>,</li>
+   <li><code>worst_curved</code>, the lowest accuracy among the five that are not logistic regression,</li>
+   <li><code>best_name</code>, the name of the highest-scoring model, and <code>logistic_won</code>, whether that name is <code>logistic</code>.</li>
+   </ol>
+   Logistic regression should land near <code>0.47</code>, and everything else above <code>0.94</code>.`,
+   starter:`import numpy as np
+from sklearn.datasets import make_circles
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+# One class is a ring around the other.
+X, y = make_circles(n_samples=300, noise=0.12, factor=0.5, random_state=0)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=0, stratify=y)
+
+models = {
+    'logistic': LogisticRegression(max_iter=1000),
+    'knn': KNeighborsClassifier(n_neighbors=5),
+    'naive_bayes': GaussianNB(),
+    'tree': DecisionTreeClassifier(max_depth=5, random_state=0),
+    'forest': RandomForestClassifier(n_estimators=30, random_state=0),
+    'svm_rbf': SVC(kernel='rbf', random_state=0),
+}
+
+# 1) the identical two calls, six times
+acc = {}
+for name, model in models.items():
+    model.fit(X_tr, y_tr)
+    acc[name] =
+
+acc_logistic = acc['logistic']
+acc_tree = acc['tree']
+acc_svm = acc['svm_rbf']
+
+# 2) the weakest of the five that are allowed to bend
+worst_curved =
+
+# 3) which model actually won
+best_name =
+logistic_won = (best_name == 'logistic')
+
+for name in models:
+    print(name, round(acc[name], 3))
+print("worst curved model:", round(worst_curved, 3), "best overall:", best_name)
+`,
+   solution:`import numpy as np
+from sklearn.datasets import make_circles
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+# One class is a ring around the other.
+X, y = make_circles(n_samples=300, noise=0.12, factor=0.5, random_state=0)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=0, stratify=y)
+
+models = {
+    'logistic': LogisticRegression(max_iter=1000),
+    'knn': KNeighborsClassifier(n_neighbors=5),
+    'naive_bayes': GaussianNB(),
+    'tree': DecisionTreeClassifier(max_depth=5, random_state=0),
+    'forest': RandomForestClassifier(n_estimators=30, random_state=0),
+    'svm_rbf': SVC(kernel='rbf', random_state=0),
+}
+
+# 1) the identical two calls, six times
+acc = {}
+for name, model in models.items():
+    model.fit(X_tr, y_tr)
+    acc[name] = accuracy_score(y_te, model.predict(X_te))
+
+acc_logistic = acc['logistic']
+acc_tree = acc['tree']
+acc_svm = acc['svm_rbf']
+
+# 2) the weakest of the five that are allowed to bend
+worst_curved = min(v for k, v in acc.items() if k != 'logistic')
+
+# 3) which model actually won
+best_name = max(acc, key=acc.get)
+logistic_won = (best_name == 'logistic')
+
+for name in models:
+    print(name, round(acc[name], 3))
+print("worst curved model:", round(worst_curved, 3), "best overall:", best_name)
+`,
+   tests:[
+     {d:'all six models fit and predict through the identical pair of calls',expr:'len(acc) == 6'},
+     {d:'logistic regression lands at about 0.47, no better than a coin, because one straight line cannot cut a ring off from its center',expr:'acc_logistic < 0.6'},
+     {d:'the RBF support vector machine reaches about 0.98, since its kernel makes the boundary curved',expr:'acc_svm > 0.9'},
+     {d:'the decision tree reaches about 0.94 by stacking axis-aligned cuts into a box around the inner disc',expr:'acc_tree > 0.9'},
+     {d:'every model that can bend beats the one that cannot by more than 40 points of accuracy',expr:'worst_curved > acc_logistic + 0.4'},
+     {d:'the linear model does not win here, and no amount of tuning would make it: the shape of its boundary is the whole limitation',expr:'logistic_won == False'}
+   ],
+   hints:[
+     'Every model in the dict takes the same two calls, model.fit(X_tr, y_tr) then model.predict(X_te). That uniformity is the point of the interface.',
+     'acc[name] = accuracy_score(y_te, model.predict(X_te)).',
+     'worst_curved is the smallest value in acc over the five keys that are not logistic, and best_name = max(acc, key=acc.get).'
+   ]},
+  {title:'Show that a linear boundary really is a line',
+   lang:'python',
+   packages:['scikit-learn','numpy'],
+   prompt:`Two interleaved crescents, fitted by logistic regression and by a decision tree. Predict
+   on a 100 by 100 grid, which is what a decision-boundary plot draws, then interrogate the shape.
+   The loop that traces where the predicted class flips, column by column, is written for you.
+   <ol>
+   <li><code>score</code>, the single linear combination <code>grid.dot(coef) + intercept</code>, one number per grid point (<code>matches_score</code> then comes out to exactly <code>1.0</code>),</li>
+   <li><code>slope</code> and <code>intercept</code> of the line <code>np.polyfit</code> puts through the flip points it collected,</li>
+   <li><code>tree_line_agree</code>, how much of the tree's grid prediction one straight line can reproduce.</li>
+   </ol>`,
+   starter:`import numpy as np
+from sklearn.datasets import make_moons
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_moons(n_samples=300, noise=0.25, random_state=0)
+linear = LogisticRegression(max_iter=1000).fit(X, y)
+tree = DecisionTreeClassifier(max_depth=4, random_state=0).fit(X, y)
+
+xs = np.linspace(-2.0, 3.0, 100)
+ys = np.linspace(-2.0, 2.5, 100)
+GX, GY = np.meshgrid(xs, ys)
+grid = np.c_[GX.ravel(), GY.ravel()]
+
+linear_pred = linear.predict(grid)
+tree_pred = tree.predict(grid)
+
+w1, w2 = linear.coef_[0]
+b = linear.intercept_[0]
+
+# 1) the one number the linear model actually looks at
+score =
+matches_score = float(np.mean(linear_pred == (score > 0).astype(int)))
+
+# 2) trace the flip, column by column
+grid_pred = linear_pred.reshape(GX.shape)
+points = []
+for j in range(len(xs)):
+    flips = np.where(np.diff(grid_pred[:, j]) != 0)[0]
+    if len(flips) == 1:
+        points.append((xs[j], ys[flips[0]]))
+points = np.array(points)
+
+# 3) fit a straight line to those flip points and measure the worst gap
+slope, intercept =
+max_resid = float(np.abs(points[:, 1] - (slope * points[:, 0] + intercept)).max())
+algebra_slope = -w1 / w2
+
+# 4) can one straight line reproduce what the tree drew?
+surrogate = LogisticRegression(max_iter=1000).fit(grid, tree_pred)
+tree_line_agree =
+
+print("grid points classified by sign(score):", matches_score)
+print("boundary points found:", len(points))
+print("fitted slope", round(slope, 4), "vs -w1/w2", round(algebra_slope, 4))
+print("largest departure from that line:", round(max_resid, 4))
+print("a straight line reproduces this much of the tree:", round(tree_line_agree, 3))
+`,
+   solution:`import numpy as np
+from sklearn.datasets import make_moons
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = make_moons(n_samples=300, noise=0.25, random_state=0)
+linear = LogisticRegression(max_iter=1000).fit(X, y)
+tree = DecisionTreeClassifier(max_depth=4, random_state=0).fit(X, y)
+
+xs = np.linspace(-2.0, 3.0, 100)
+ys = np.linspace(-2.0, 2.5, 100)
+GX, GY = np.meshgrid(xs, ys)
+grid = np.c_[GX.ravel(), GY.ravel()]
+
+linear_pred = linear.predict(grid)
+tree_pred = tree.predict(grid)
+
+w1, w2 = linear.coef_[0]
+b = linear.intercept_[0]
+
+# 1) the one number the linear model actually looks at
+score = grid.dot(linear.coef_[0]) + b
+matches_score = float(np.mean(linear_pred == (score > 0).astype(int)))
+
+# 2) trace the flip, column by column
+grid_pred = linear_pred.reshape(GX.shape)
+points = []
+for j in range(len(xs)):
+    flips = np.where(np.diff(grid_pred[:, j]) != 0)[0]
+    if len(flips) == 1:
+        points.append((xs[j], ys[flips[0]]))
+points = np.array(points)
+
+# 3) fit a straight line to those flip points and measure the worst gap
+slope, intercept = np.polyfit(points[:, 0], points[:, 1], 1)
+max_resid = float(np.abs(points[:, 1] - (slope * points[:, 0] + intercept)).max())
+algebra_slope = -w1 / w2
+
+# 4) can one straight line reproduce what the tree drew?
+surrogate = LogisticRegression(max_iter=1000).fit(grid, tree_pred)
+tree_line_agree = float(np.mean(surrogate.predict(grid) == tree_pred))
+
+print("grid points classified by sign(score):", matches_score)
+print("boundary points found:", len(points))
+print("fitted slope", round(slope, 4), "vs -w1/w2", round(algebra_slope, 4))
+print("largest departure from that line:", round(max_resid, 4))
+print("a straight line reproduces this much of the tree:", round(tree_line_agree, 3))
+`,
+   tests:[
+     {d:'every one of the 10,000 grid points is decided by the sign of a single number, w1·x1 + w2·x2 + b',expr:'matches_score == 1.0'},
+     {d:'the boundary crosses all 100 columns of the grid exactly once each',expr:'len(points) == 100'},
+     {d:'the slope fitted to those crossings matches -w1/w2, which is the slope the algebra says it must have',expr:'abs(slope - algebra_slope) < 0.01'},
+     {d:'no crossing sits more than one grid step off that line, so the boundary is straight to the resolution you sampled it at',expr:'max_resid < 0.05'},
+     {d:'the best straight line through the tree’s boundary recovers only about 88 percent of it, because a staircase is not a line',expr:'tree_line_agree < 0.95'}
+   ],
+   hints:[
+     'linear.coef_[0] is a length-2 array, so grid.dot(linear.coef_[0]) + linear.intercept_[0] gives one score per grid point.',
+     'np.polyfit(points[:, 0], points[:, 1], 1) returns the slope and intercept of the best line through the crossings.',
+     'tree_line_agree = float(np.mean(surrogate.predict(grid) == tree_pred)), the fraction of the grid a linear stand-in gets right.'
+   ]}],
  quiz:{title:'Quick check, classifiers',questions:[
    {q:'k-NN requires feature scaling because:',
-    options:['Scaling reduces the number of neighbours needed','Distances are dominated by large-scale features','The vote would otherwise be tied too often','Training would take too long without it'],answer:1,whyWrong:['k is a setting you choose, and scaling does not change how many neighbours you need.','','Ties are handled by choosing an odd k or by a tie-break rule. Scaling addresses something else.','There is no training phase to speed up. k-NN stores the data and does the work at query time.'],
+    options:['Scaling reduces the number of neighbors needed','Distances are dominated by large-scale features','The vote would otherwise be tied too often','Training would take too long without it'],answer:1,whyWrong:['k is a setting you choose, and scaling does not change how many neighbors you need.','','Ties are handled by choosing an odd k or by a tie-break rule. Scaling addresses something else.','There is no training phase to speed up. k-NN stores the data and does the work at query time.'],
     why:'A feature in dollars swamps one in years. Distance has no idea the units differ.'},
    {q:'Random forests and gradient boosting differ mainly in that:',
-    options:['Forests use shallow trees, boosting uses deep ones','Forests reduce variance, boosting reduces bias','Only boosting can handle categorical features','Forests require the data to be scaled first'],answer:1,whyWrong:['It is usually the reverse. Forests grow deep trees and boosting grows shallow ones.','','Both handle categorical features, depending on the implementation rather than the family.','Neither needs scaling. Trees split on thresholds, which are scale-invariant.'],
+    options:['Forests reduce variance, boosting reduces bias','Forests use shallow trees, boosting uses deep ones','Only boosting can handle categorical features','Forests require the data to be scaled first'],answer:0,whyWrong:['','It is usually the reverse. Forests grow deep trees and boosting grows shallow ones.','Both handle categorical features, depending on the implementation rather than the family.','Neither needs scaling. Trees split on thresholds, which are scale-invariant.'],
     why:'Averaging deep decorrelated trees cuts variance; sequentially fitting residuals with shallow trees cuts bias.'},
    {q:'The kernel trick works because the SVM dual depends on data only through:',
-    options:['The distances to the decision boundary','The number of features in the input','The class labels of the support vectors','Inner products between pairs of points'],answer:3,whyWrong:['Distances to the boundary are what the margin measures, and they come out of the solution rather than going into it.','The feature count is precisely what the trick lets you ignore, since the space may be infinite-dimensional.','The labels appear in the dual as coefficients, and they are not what the kernel replaces.',''],
+    options:['The class labels of the support vectors','The distances to the decision boundary','Inner products between pairs of points','The number of features in the input'],answer:2,whyWrong:['The labels appear in the dual as coefficients, and they are not what the kernel replaces.','Distances to the boundary are what the margin measures, and they come out of the solution rather than going into it.','','The feature count is precisely what the trick lets you ignore, since the space may be infinite-dimensional.'],
     why:'Replace each inner product with K(xᵢ,xⱼ) and you work in a higher space without ever computing coordinates there.'}
  ]}},
 
@@ -659,8 +1107,8 @@ k-means. Cost is <code>O(n&sup2;)</code> or worse, so it is for thousands of poi
 millions.</p>
 
 <h3>4. DBSCAN: density, arbitrary shapes, and an outlier category</h3>
-<p>Define a neighbourhood radius <code>&epsilon;</code> and a minimum count
-<code>minPts</code>. A point with at least <code>minPts</code> neighbours within
+<p>Define a neighborhood radius <code>&epsilon;</code> and a minimum count
+<code>minPts</code>. A point with at least <code>minPts</code> neighbors within
 <code>&epsilon;</code> is a <b>core point</b>; core points that are close together form a cluster;
 points near a cluster but not core join its edge; anything else is labeled <b>noise</b>.</p>
 <p>Three properties follow, and they are exactly what k-means lacks. It finds clusters of
@@ -691,12 +1139,181 @@ distance. On unscaled data with income in the tens of thousands and age in the t
 distance is essentially the income difference and the clustering is a one-dimensional split on
 income wearing a disguise.</div>
 `,
+ exs:[{title:'Watch inertia fail to choose k',
+   lang:'python',
+   packages:['scikit-learn','numpy'],
+   prompt:`Three round blobs. Run k-means at every k from 2 to 8, record what each metric says, and
+   see which of the two is capable of picking a winner.
+   <ol>
+   <li>inside the loop, append the within-cluster sum of squares to <code>inertias</code> and the silhouette score to <code>sils</code>,</li>
+   <li><code>k_by_inertia</code> and <code>k_by_silhouette</code>, the k each metric would choose if you simply took its optimum.</li>
+   </ol>
+   One of those two will be <code>8</code>, and it would be <code>300</code> if the loop went that
+   far.`,
+   starter:`import numpy as np
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+
+X, _ = make_blobs(n_samples=300, centers=3, cluster_std=0.9, random_state=0)
+
+ks = list(range(2, 9))
+inertias = []
+sils = []
+for k in ks:
+    km = KMeans(n_clusters=k, n_init=10, random_state=0).fit(X)
+    # 1) the two numbers, one per k
+    inertias.append()
+    sils.append()
+
+# 2) does inertia ever go back up?
+falls_every_step = all(inertias[i + 1] < inertias[i] for i in range(len(inertias) - 1))
+
+# 3) the k each metric would pick on its own
+k_by_inertia =
+k_by_silhouette =
+
+# 4) the size of the first two steps down
+drop_2_to_3 = inertias[0] - inertias[1]
+drop_3_to_4 = inertias[1] - inertias[2]
+
+for i, k in enumerate(ks):
+    print(k, round(inertias[i], 1), round(sils[i], 3))
+print("inertia falls every step:", falls_every_step)
+print("k by inertia:", k_by_inertia, " k by silhouette:", k_by_silhouette)
+`,
+   solution:`import numpy as np
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+
+X, _ = make_blobs(n_samples=300, centers=3, cluster_std=0.9, random_state=0)
+
+ks = list(range(2, 9))
+inertias = []
+sils = []
+for k in ks:
+    km = KMeans(n_clusters=k, n_init=10, random_state=0).fit(X)
+    # 1) the two numbers, one per k
+    inertias.append(km.inertia_)
+    sils.append(silhouette_score(X, km.labels_))
+
+# 2) does inertia ever go back up?
+falls_every_step = all(inertias[i + 1] < inertias[i] for i in range(len(inertias) - 1))
+
+# 3) the k each metric would pick on its own
+k_by_inertia = ks[int(np.argmin(inertias))]
+k_by_silhouette = ks[int(np.argmax(sils))]
+
+# 4) the size of the first two steps down
+drop_2_to_3 = inertias[0] - inertias[1]
+drop_3_to_4 = inertias[1] - inertias[2]
+
+for i, k in enumerate(ks):
+    print(k, round(inertias[i], 1), round(sils[i], 3))
+print("inertia falls every step:", falls_every_step)
+print("k by inertia:", k_by_inertia, " k by silhouette:", k_by_silhouette)
+`,
+   tests:[
+     {d:'inertia falls at every single step from k=2 to k=8, without exception',expr:'falls_every_step == True'},
+     {d:'so its minimum is at the largest k you tried, and would keep moving if you kept going, all the way to one cluster per point',expr:'k_by_inertia == 8'},
+     {d:'the fall from k=2 to k=3 is more than five times the fall from 3 to 4, which is the bend people read off an elbow plot',expr:'drop_2_to_3 > 5 * drop_3_to_4'},
+     {d:'silhouette does have a real maximum, and it sits at k=3, the number of groups the data was built with',expr:'k_by_silhouette == 3'},
+     {d:'at k=8 inertia says the fit improved while silhouette says the partition got worse, which is exactly why one of them can choose k and the other cannot',expr:'inertias[6] < inertias[1] and sils[6] < sils[1]'}
+   ],
+   hints:[
+     'km.inertia_ is the within-cluster sum of squares after fitting. Append it once per k.',
+     'silhouette_score(X, km.labels_) takes the data and the assignment, not the fitted model.',
+     'k_by_inertia = ks[int(np.argmin(inertias))] and k_by_silhouette = ks[int(np.argmax(sils))]. One of those two will be 8 no matter what data you feed it.'
+   ]},
+  {title:'Break k-means on two crescents',
+   lang:'python',
+   packages:['scikit-learn','numpy'],
+   prompt:`Two interleaved crescents. Neither is round, which is the one assumption k-means cannot
+   give up. <code>groups</code> records which crescent each point came from and is used only to
+   score the result, never to fit.
+   <ol>
+   <li><code>db_labels</code>, the assignments from <code>DBSCAN(eps=0.2, min_samples=5)</code>, which takes no k at all,</li>
+   <li><code>km_ari</code> and <code>db_ari</code>, each partition scored against <code>groups</code> with <code>adjusted_rand_score</code>.</li>
+   </ol>
+   k-means should come out near <code>0.23</code> and DBSCAN near <code>0.99</code>, on identical
+   points.`,
+   starter:`import numpy as np
+from sklearn.datasets import make_moons
+from sklearn.cluster import KMeans, DBSCAN
+from sklearn.metrics import adjusted_rand_score
+
+# Two interleaved crescents. Neither is round.
+X, groups = make_moons(n_samples=300, noise=0.08, random_state=0)
+
+# 1) two clusterings of the identical points
+km_labels = KMeans(n_clusters=2, n_init=10, random_state=0).fit(X).labels_
+db_labels =
+
+# 2) score each partition against the crescents it should have found
+km_ari =
+db_ari =
+
+# 3) DBSCAN was never told how many groups to look for
+n_db_clusters = len(set(db_labels) - {-1})
+n_noise = int((db_labels == -1).sum())
+
+# 4) how mixed is the better of the two k-means clusters?
+worst_purity = min(max(float(np.mean(groups[km_labels == c] == 0)),
+                       float(np.mean(groups[km_labels == c] == 1))) for c in (0, 1))
+
+print("k-means ARI:", round(km_ari, 3))
+print("DBSCAN ARI:", round(db_ari, 3))
+print("DBSCAN found", n_db_clusters, "clusters and", n_noise, "noise point(s)")
+print("purity of the cleanest k-means cluster:", round(worst_purity, 3))
+`,
+   solution:`import numpy as np
+from sklearn.datasets import make_moons
+from sklearn.cluster import KMeans, DBSCAN
+from sklearn.metrics import adjusted_rand_score
+
+# Two interleaved crescents. Neither is round.
+X, groups = make_moons(n_samples=300, noise=0.08, random_state=0)
+
+# 1) two clusterings of the identical points
+km_labels = KMeans(n_clusters=2, n_init=10, random_state=0).fit(X).labels_
+db_labels = DBSCAN(eps=0.2, min_samples=5).fit(X).labels_
+
+# 2) score each partition against the crescents it should have found
+km_ari = adjusted_rand_score(groups, km_labels)
+db_ari = adjusted_rand_score(groups, db_labels)
+
+# 3) DBSCAN was never told how many groups to look for
+n_db_clusters = len(set(db_labels) - {-1})
+n_noise = int((db_labels == -1).sum())
+
+# 4) how mixed is the better of the two k-means clusters?
+worst_purity = min(max(float(np.mean(groups[km_labels == c] == 0)),
+                       float(np.mean(groups[km_labels == c] == 1))) for c in (0, 1))
+
+print("k-means ARI:", round(km_ari, 3))
+print("DBSCAN ARI:", round(db_ari, 3))
+print("DBSCAN found", n_db_clusters, "clusters and", n_noise, "noise point(s)")
+print("purity of the cleanest k-means cluster:", round(worst_purity, 3))
+`,
+   tests:[
+     {d:'k-means scores an adjusted Rand index of about 0.23 against the crescents, not far above the 0.0 of a random partition',expr:'km_ari < 0.4'},
+     {d:'DBSCAN scores about 0.99 on the identical points, so the structure was there to be found all along',expr:'db_ari > 0.9'},
+     {d:'and DBSCAN was never told there were two groups: it found two from the density alone',expr:'n_db_clusters == 2'},
+     {d:'it also declined to place one point, labeling it noise instead of forcing it into a cluster',expr:'n_noise >= 1'},
+     {d:'even the cleaner k-means cluster is about a quarter made of the wrong crescent, because minimizing distance to a center cuts the moons across rather than along',expr:'worst_purity < 0.85'}
+   ],
+   hints:[
+     'DBSCAN(eps=0.2, min_samples=5).fit(X).labels_. Note that it takes no k at all.',
+     'adjusted_rand_score(groups, labels) compares two partitions and ignores how each one numbered its clusters: 1.0 is a perfect match, 0.0 is chance.',
+     'The k-means call is not wrong and there is nothing to tune. Its objective is squared distance to a center, and a crescent has no useful center.'
+   ]}],
  quiz:{title:'Quick check, clustering',questions:[
    {q:'k-means cannot find elongated clusters because:',
-    options:['It requires k to be known beforehand','It assigns each point to exactly one cluster','Its objective is squared distance to a center','It converges before reaching them'],answer:2,whyWrong:['Needing k in advance is a real inconvenience, and it has nothing to do with cluster shape.','Hard assignment is what separates it from a GMM, and a GMM with round components has the same shape limitation.','','It converges to a genuine local optimum of its own objective. The objective is the problem.'],
+    options:['It assigns each point to exactly one cluster','Its objective is squared distance to a center','It converges before reaching them','It requires k to be known beforehand'],answer:1,whyWrong:['Hard assignment is what separates it from a GMM, and a GMM with round components has the same shape limitation.','','It converges to a genuine local optimum of its own objective. The objective is the problem.','Needing k in advance is a real inconvenience, and it has nothing to do with cluster shape.'],
     why:'Minimizing ‖x − μ‖² makes round, equally sized groups the only thing the objective rewards.'},
    {q:'DBSCAN differs from k-means most importantly by:',
-    options:['Guaranteeing the global optimum is found','Producing soft rather than hard assignments','Finding arbitrary shapes and labeling noise','Running faster on very large datasets'],answer:2,whyWrong:['Neither guarantees a global optimum. DBSCAN is deterministic given its parameters, which is a different thing.','DBSCAN assigns hard labels. Soft assignment is what a GMM gives you.','','It is often slower, and speed is not why people reach for it.'],
+    options:['Producing soft rather than hard assignments','Finding arbitrary shapes and labeling noise','Running faster on very large datasets','Guaranteeing the global optimum is found'],answer:1,whyWrong:['DBSCAN assigns hard labels. Soft assignment is what a GMM gives you.','','It is often slower, and speed is not why people reach for it.','Neither guarantees a global optimum. DBSCAN is deterministic given its parameters, which is a different thing.'],
     why:'Density-connected regions can be any shape, and points in no dense region are explicitly outliers.'},
    {q:'A high silhouette score tells you:',
     options:['The data was properly scaled beforehand','The partition is compact and well separated','The clusters correspond to something real','The correct k has definitely been found'],answer:1,whyWrong:['Scaling affects the distances the score is computed from, and the score itself cannot tell you whether you did it.','','Nothing about the geometry says the clusters mean anything. That takes domain knowledge.','It is one signal among several for choosing k, and it can peak at a k that is not the true one.'],
@@ -808,15 +1425,105 @@ need to extrapolate beyond the data &rarr; a linear model, and only a linear mod
 they are structurally incapable of predicting outside the range they were trained on. If your
 problem requires extrapolation, no amount of boosting will help.</p>
 `,
+ exs:[{title:'Overfit a degree-15 polynomial, then penalize it',
+   lang:'python',
+   packages:['scikit-learn','numpy'],
+   prompt:`Twenty noisy points from a sine curve, and two pipelines that differ in exactly one
+   thing: the second one penalizes the size of the coefficients. Both build the same fifteen
+   polynomial features, and the unpenalized pipeline is written for you.
+   <ol>
+   <li><code>ridge</code>, that same pipeline with <code>Ridge(alpha=0.1)</code> in the last slot, fitted on the same twenty points,</li>
+   <li><code>plain_test</code> and <code>ridge_test</code>, the mean squared error of each against the sine curve underneath,</li>
+   <li><code>ridge_size</code>, the sum of the squared coefficients ridge ended up with, to compare against <code>plain_size</code>.</li>
+   </ol>`,
+   starter:`import numpy as np
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.metrics import mean_squared_error
+
+rng = np.random.RandomState(0)
+x = np.sort(rng.uniform(-1, 1, 20))
+y = np.sin(2.5 * x) + rng.normal(0, 0.1, 20)
+X = x.reshape(-1, 1)
+
+x_test = np.linspace(x.min(), x.max(), 200)
+y_test = np.sin(2.5 * x_test)
+X_test = x_test.reshape(-1, 1)
+
+# 1) and 2) the same fifteen features, one penalized and one not
+plain = make_pipeline(PolynomialFeatures(15), StandardScaler(), LinearRegression()).fit(X, y)
+ridge =
+
+# 3) error on the points it saw, and on the curve underneath
+plain_train = mean_squared_error(y, plain.predict(X))
+plain_test =
+ridge_train = mean_squared_error(y, ridge.predict(X))
+ridge_test =
+
+# 4) how big did the coefficients get?
+plain_size = float(np.sum(plain.named_steps['linearregression'].coef_ ** 2))
+ridge_size =
+
+print("unpenalized: train", round(plain_train, 5), "test", round(plain_test, 2))
+print("ridge:       train", round(ridge_train, 5), "test", round(ridge_test, 5))
+print("sum of squared coefficients:", round(plain_size, 1), "vs", round(ridge_size, 3))
+`,
+   solution:`import numpy as np
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.metrics import mean_squared_error
+
+rng = np.random.RandomState(0)
+x = np.sort(rng.uniform(-1, 1, 20))
+y = np.sin(2.5 * x) + rng.normal(0, 0.1, 20)
+X = x.reshape(-1, 1)
+
+x_test = np.linspace(x.min(), x.max(), 200)
+y_test = np.sin(2.5 * x_test)
+X_test = x_test.reshape(-1, 1)
+
+# 1) and 2) the same fifteen features, one penalized and one not
+plain = make_pipeline(PolynomialFeatures(15), StandardScaler(), LinearRegression()).fit(X, y)
+ridge = make_pipeline(PolynomialFeatures(15), StandardScaler(), Ridge(alpha=0.1)).fit(X, y)
+
+# 3) error on the points it saw, and on the curve underneath
+plain_train = mean_squared_error(y, plain.predict(X))
+plain_test = mean_squared_error(y_test, plain.predict(X_test))
+ridge_train = mean_squared_error(y, ridge.predict(X))
+ridge_test = mean_squared_error(y_test, ridge.predict(X_test))
+
+# 4) how big did the coefficients get?
+plain_size = float(np.sum(plain.named_steps['linearregression'].coef_ ** 2))
+ridge_size = float(np.sum(ridge.named_steps['ridge'].coef_ ** 2))
+
+print("unpenalized: train", round(plain_train, 5), "test", round(plain_test, 2))
+print("ridge:       train", round(ridge_train, 5), "test", round(ridge_test, 5))
+print("sum of squared coefficients:", round(plain_size, 1), "vs", round(ridge_size, 3))
+`,
+   tests:[
+     {d:'the unpenalized degree-15 fit reaches a training error of 0.0039, below the 0.01 variance of the noise it was fitting, so it fitted the noise',expr:'plain_train < 0.005'},
+     {d:'and its test error is in the thousands: between the twenty points it oscillates violently',expr:'plain_test > 100'},
+     {d:'ridge is worse on the training data, which is what paying for the penalty looks like',expr:'ridge_train > plain_train'},
+     {d:'and about 0.004 on the test curve, which is what you get back for paying it',expr:'ridge_test < 0.01'},
+     {d:'the unpenalized coefficients run into the billions, and the penalty is the only thing holding them down',expr:'plain_size > 1e6 and ridge_size < 10'},
+     {d:'so the model that fits the data you have best is not the model that predicts best, and that gap is the entire reason regularization exists',expr:'plain_train < ridge_train and plain_test > 1000 * ridge_test'}
+   ],
+   hints:[
+     'The second pipeline is identical apart from the last step: Ridge(alpha=0.1) instead of LinearRegression().',
+     'mean_squared_error(y, model.predict(X)) for the training error, mean_squared_error(y_test, model.predict(X_test)) for the test error.',
+     'named_steps is keyed by the lowercased class name, so the ridge estimator is ridge.named_steps under the key ridge, and its coef_ squared and summed gives ridge_size.'
+   ]}],
  quiz:{title:'Quick check, regression',questions:[
    {q:'Ridge regression makes XᵀX invertible because it:',
-    options:['Uses gradient descent instead of a closed form','Adds λI, lifting every eigenvalue','Removes the correlated features first','Standardizes the features beforehand'],answer:1,whyWrong:['Ridge has a closed form too. The penalty is what makes the matrix invertible, not the solver.','','Nothing is removed. Ridge keeps every feature and shrinks their coefficients.','Standardising makes the penalty fair across features, and it does not fix a singular matrix.'],
+    options:['Adds λI, lifting every eigenvalue','Uses gradient descent instead of a closed form','Removes the correlated features first','Standardizes the features beforehand'],answer:0,whyWrong:['','Ridge has a closed form too. The penalty is what makes the matrix invertible, not the solver.','Nothing is removed. Ridge keeps every feature and shrinks their coefficients.','Standardizing makes the penalty fair across features, and it does not fix a singular matrix.'],
     why:'(XᵀX + λI)⁻¹. The regularization and the numerical conditioning fix are literally the same operation.'},
    {q:'Lasso produces exactly-zero coefficients because:',
-    options:['Its constraint region has corners on the axes','Its penalty grows faster than L2 does','It uses absolute error rather than squared error','It removes features before fitting begins'],answer:0,whyWrong:['','L2 grows faster for large coefficients, since it is squared. L1 wins here on the shape of its constraint region.','The loss is still squared error. It is the penalty that uses absolute values.','Selection happens as a consequence of fitting, not before it begins.'],
+    options:['It uses absolute error rather than squared error','Its penalty grows faster than L2 does','It removes features before fitting begins','Its constraint region has corners on the axes'],answer:3,whyWrong:['The loss is still squared error. It is the penalty that uses absolute values.','L2 grows faster for large coefficients, since it is squared. L1 wins here on the shape of its constraint region.','Selection happens as a consequence of fitting, not before it begins.',''],
     why:'The diamond’s corners lie on the axes, so the contours very often first touch where a coordinate is zero.'},
    {q:'Gradient-boosted trees cannot extrapolate because:',
-    options:['Boosting stops once residuals are small','They overfit before reaching the boundary','Each leaf returns a constant learned from data','Their loss is only defined on training data'],answer:2,whyWrong:['Boosting stops when you tell it to, and small residuals inside the data range say nothing about outside it.','Overfitting is a separate risk. Even a perfectly fitted ensemble is flat beyond the data.','','The loss is defined anywhere. It is the prediction that cannot leave the range of the leaf values.'],
+    options:['Their loss is only defined on training data','They overfit before reaching the boundary','Each leaf returns a constant learned from data','Boosting stops once residuals are small'],answer:2,whyWrong:['The loss is defined anywhere. It is the prediction that cannot leave the range of the leaf values.','Overfitting is a separate risk. Even a perfectly fitted ensemble is flat beyond the data.','','Boosting stops when you tell it to, and small residuals inside the data range say nothing about outside it.'],
     why:'The surface is piecewise constant. Outside the training range you get the nearest leaf’s value, unchanged forever.'}
  ]}}
 ]});

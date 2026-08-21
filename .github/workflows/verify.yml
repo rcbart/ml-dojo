@@ -1,0 +1,70 @@
+# ML Dojo ships into the roniam.dev repository as a tracked build snapshot, so a
+# defect here reaches the site the moment that snapshot is refreshed. These are
+# the same classes of check the sibling courses run there.
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install the libraries the lessons import
+        run: python3 -m pip install --quiet numpy pandas scikit-learn matplotlib
+
+      # Every reference solution is executed and checked against the assertions
+      # the learner is graded on. A model answer that does not satisfy its own
+      # tests is the worst kind of defect: it is wrong, and nothing tells you.
+      - name: Run every reference solution against its own assertions
+        run: python3 scripts/verify-exercises.py
+
+      # A correct answer that is conspicuously the longest option is answerable
+      # without knowing the material. Ratcheting budget, currently zero.
+      - name: Verify quiz options are not length-biased
+        run: node scripts/verify-quiz-length.js
+
+      # Choosing a wrong answer has to explain why THAT choice is wrong, not
+      # only why the right one is right. Also catches a whyWrong array that has
+      # drifted out of step with its options.
+      - name: Verify every question explains its wrong answers
+        run: node scripts/verify-quiz-rebuttals.js
+
+      # The dojos run a dark palette shared with the sibling courses. Text that
+      # stops being readable is the sort of change that looks fine to whoever
+      # made it, so every declared pairing is checked as arithmetic.
+      - name: Check colour contrast
+        run: node scripts/verify-contrast.js
+
+      - name: Build
+        run: node build.js
+
+      # The page is one large inline script. If it does not parse, the site
+      # serves a header with nothing under it and returns 200 while doing so.
+      - name: Verify the built page can run
+        run: |
+          node -e "
+            const fs=require('fs');
+            const h=fs.readFileSync('dist/index.html','utf8');
+            const blocks=[...h.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+            if(!blocks.length){console.error('no inline script found');process.exit(1)}
+            blocks.forEach((b,i)=>{try{new Function(b[1])}catch(e){console.error('block '+i+': '+e.message);process.exit(1)}});
+            console.log(blocks.length+' script block(s) parse, '+h.length+' bytes');
+          "
+
+      - name: No em dashes in the shipped page
+        run: |
+          n=$(grep -o '—' dist/index.html | wc -l | tr -d ' ')
+          echo "em dashes: $n"
+          test "$n" = "0"

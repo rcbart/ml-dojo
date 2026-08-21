@@ -27,7 +27,7 @@ But if you ever want to experiment further on your own machine, there is a step-
 walkthrough for the standard professional setup:</p>
 <p><button class="primary" onclick="renderSetupGuide()">🛠 Set up Python for ML on my machine, step by step</button></p>
 
-<h3>A variable is a labelled box</h3>
+<h3>A variable is a labeled box</h3>
 <p>A <b>variable</b> is just a name that points at a value, so you can use it later:</p>
 <div class="codeSample">age = 31
 name = "Ada"
@@ -70,20 +70,20 @@ these tools, no libraries, just Python, to prove the ideas stuck.</p>`,
  docs:[['The Python Tutorial (official)','https://docs.python.org/3/tutorial/'],['Python for absolute beginners','https://wiki.python.org/moin/BeginnersGuide/NonProgrammers']],
  quiz:{title:'Quick check, the tools of the trade',questions:[
    {q:'What kind of thing is Python?',
-    options:['An operating system, which manages the machine\'s hardware','A spreadsheet application, with a scripting layer built in','A general-purpose interpreted language, designed for readability','A database, optimised for storing and querying structured records'],
-    answer:2,whyWrong:['An operating system runs the machine. Python runs on top of one.','Spreadsheets are applications. Python is the language you would write one in.','','Databases store data. Python is what talks to them.'],
+    options:['A database, optimized for storing and querying structured records','A spreadsheet application, with a scripting layer built in','A general-purpose interpreted language, designed for readability','An operating system, which manages the machine\'s hardware'],
+    answer:2,whyWrong:['Databases store data. Python is what talks to them.','Spreadsheets are applications. Python is the language you would write one in.','','An operating system runs the machine. Python runs on top of one.'],
     why:'A language for writing instructions a computer executes, run line by line by an interpreter, designed to read close to plain English, and used far beyond ML.'},
    {q:'A variable is best described as:',
-    options:['A name that points at a value, so you can reuse it','An equation that has to be solved before it can be used','A kind of loop that repeats over a range of values','A file on disk holding a value between program runs'],
-    answer:0,whyWrong:['','Nothing is solved. Assignment binds a name to a value that already exists.','Loops repeat work. A variable holds a value.','Files persist between runs. A variable lives only while the program does.'],
+    options:['A name that points at a value, so you can reuse it','A file on disk holding a value between program runs','A kind of loop that repeats over a range of values','An equation that has to be solved before it can be used'],
+    answer:0,whyWrong:['','Files persist between runs. A variable lives only while the program does.','Loops repeat work. A variable holds a value.','Nothing is solved. Assignment binds a name to a value that already exists.'],
     why:'Assignment like age = 31 makes the name "age" refer to the value 31. No type declaration needed: Python infers it.'},
    {q:'For scores = [80, 90, 100], what is scores[0] and len(scores)?',
-    options:['80 and 3','90 and 3','80 and 2','100 and 3'],
-    answer:0,whyWrong:['','90 is scores[1]. Indexing starts at 0, which is where most of these mistakes come from.','There are three items, so len is 3. Two is the largest valid index, which is a different number.','100 is the last item, scores[2] or scores[-1].'],
+    options:['80 and 3','80 and 2','90 and 3','100 and 3'],
+    answer:0,whyWrong:['','There are three items, so len is 3. Two is the largest valid index, which is a different number.','90 is scores[1]. Indexing starts at 0, which is where most of these mistakes come from.','100 is the last item, scores[2] or scores[-1].'],
     why:'Indexing starts at 0, so scores[0] is the first item, 80. len() counts the items: 3.'},
    {q:'In the way ML uses the word, the "dimension" of a data point means:',
-    options:['How many independent numbers it takes to describe it','How much memory the data point occupies when stored','How many decimal places its values are recorded to','How large the numbers describing it happen to be'],
-    answer:0,whyWrong:['','Memory is measured in bytes and depends on the type as much as the count.','Decimal places are precision. Dimension counts how many separate numbers there are.','Magnitude is about the values. Dimension is about how many of them you need.'],
+    options:['How many independent numbers it takes to describe it','How much memory the data point occupies when stored','How large the numbers describing it happen to be','How many decimal places its values are recorded to'],
+    answer:0,whyWrong:['','Memory is measured in bytes and depends on the type as much as the count.','Magnitude is about the values. Dimension is about how many of them you need.','Decimal places are precision. Dimension counts how many separate numbers there are.'],
     why:'A list of 3 numbers is a 3-dimensional point; a list of 300 is 300-dimensional. Dimension = how many values describe each example.'}
  ]},
  exs:[{title:'Variables, lists, and dimensions, pure Python (no libraries)',
@@ -189,13 +189,13 @@ that makes slice-based code robust.</div>`,
  docs:[['Python tutorial (lists)','https://docs.python.org/3/tutorial/introduction.html#lists']],
  quiz:{title:'Quick check',questions:[
    {q:'For nums = [10, 20, 30, 40, 50], what is nums[-1] and nums[1:3]?',
-    options:['50 and [20, 30]','50 and [20, 30, 40]','40 and [10, 20]','An error and [20, 30]'],answer:0,whyWrong:['','The slice stops before index 3, so 40 is excluded.','nums[-1] is the last item, 50. Counting back from the end starts at minus one.','Negative indexing is valid Python and is one of its most-used idioms.'],
+    options:['50 and [20, 30]','50 and [20, 30, 40]','An error and [20, 30]','40 and [10, 20]'],answer:0,whyWrong:['','The slice stops before index 3, so 40 is excluded.','Negative indexing is valid Python and is one of its most-used idioms.','nums[-1] is the last item, 50. Counting back from the end starts at minus one.'],
     why:'-1 means last (50). Slices include the start, EXCLUDE the end: indexes 1 and 2 → [20, 30].'},
    {q:'After b = a (where a is a list), appending to b:',
-    options:['Raises an error, since two names cannot share one list','Creates a new list for b, leaving the original untouched','Leaves a unchanged, since assignment always copies the value','Also changes a, since both names point at the same list'],answer:3,whyWrong:['It works without complaint, which is what makes the aliasing surprising.','Assignment copies the reference, not the list. A new list needs a[:] or list(a).','a changes too, because both names refer to the same object in memory.',''],
+    options:['Leaves a unchanged, since assignment always copies the value','Raises an error, since two names cannot share one list','Also changes a, since both names point at the same list','Creates a new list for b, leaving the original untouched'],answer:2,whyWrong:['a changes too, because both names refer to the same object in memory.','It works without complaint, which is what makes the aliasing surprising.','','Assignment copies the reference, not the list. A new list needs a[:] or list(a).'],
     why:'Assignment shares the object; it does not copy. This is the classic beginner trap, defused now.'},
    {q:'Why does Python exclude the end index in slices (nums[1:4] stops at 3)?',
-    options:['So nums[:k] and nums[k:] split cleanly, with no overlap and nothing missing','A historical accident carried over from an earlier language','To keep the written slice one character shorter','Because indexes start at 1, so the end has to be shifted'],answer:0,whyWrong:['','There is a real benefit, and it is why nums[:k] and nums[k:] tile perfectly.','The written length is identical either way.','Indexes start at 0, which is a separate convention that happens to fit well with this one.'],
+    options:['A historical accident carried over from an earlier language','Because indexes start at 1, so the end has to be shifted','To keep the written slice one character shorter','So nums[:k] and nums[k:] split cleanly, with no overlap and nothing missing'],answer:3,whyWrong:['There is a real benefit, and it is why nums[:k] and nums[k:] tile perfectly.','Indexes start at 0, which is a separate convention that happens to fit well with this one.','The written length is identical either way.',''],
     why:'Half-open ranges compose perfectly: the two halves share no element and miss none. Data splitting uses exactly this.'}
  ]},
  exs:[{title:'Slice, grow, and split like a data scientist',
@@ -308,13 +308,13 @@ empty list <code>[]</code>, and an empty string <code>""</code> all count as <b>
 <code>||</code>, <code>!</code> as in some other languages.</div>`,
  quiz:{title:'Quick check',questions:[
    {q:'What does the expression 3 > 5 evaluate to?',
-    options:['3','False','An error','True'],answer:1,whyWrong:['3 is one of the operands. The comparison produces a truth value instead.','','It is a perfectly valid comparison between two numbers.','Three is smaller than five, so the comparison is false.'],
+    options:['False','True','3','An error'],answer:0,whyWrong:['','Three is smaller than five, so the comparison is false.','3 is one of the operands. The comparison produces a truth value instead.','It is a perfectly valid comparison between two numbers.'],
     why:'3 is not greater than 5, so the comparison is False, a boolean value.'},
    {q:'"age >= 18 and has_ticket" is True when:',
-    options:['Always, since the two conditions are checked separately','When either one of the two conditions holds','When neither of the two conditions holds','When both conditions hold, which is what and requires'],answer:3,whyWrong:['Then the condition would be pointless. It depends on both values.','That is or. and requires both.','Neither being true is exactly when the whole expression is false.',''],
+    options:['Always, since the two conditions are checked separately','When either one of the two conditions holds','When both conditions hold, which is what and requires','When neither of the two conditions holds'],answer:2,whyWrong:['Then the condition would be pointless. It depends on both values.','That is or. and requires both.','','Neither being true is exactly when the whole expression is false.'],
     why:'"and" needs both sides true; "or" needs just one; "not" flips a boolean. These three combine conditions.'},
    {q:'In an if / elif / else chain, how many blocks run?',
-    options:['Exactly one, the first true condition (or else)','Always the else block','None until the end','All whose conditions are true'],answer:0,whyWrong:['','else runs only when no earlier condition matched.','The first true condition runs immediately.','The chain stops at the first match. Separate if statements are how you run several.'],
+    options:['Exactly one, the first whose condition is true','Always the else block, after the others have run','None of them until the chain has been fully checked','All of them whose conditions turn out to be true'],answer:0,whyWrong:['','else runs only when no earlier condition matched.','The first true condition runs immediately.','The chain stops at the first match. Separate if statements are how you run several.'],
     why:'Python runs the first branch whose condition is True and skips the rest; else runs only if none matched.'}
  ]},
  exs:[{title:'Write a classifier with if / elif / else',
@@ -400,13 +400,13 @@ and slicing data into batches.</div>`,
  docs:[['Python operators','https://docs.python.org/3/reference/expressions.html#operator-precedence']],
  quiz:{title:'Quick check',questions:[
    {q:'After total = 10; total += 5; total *= 2, what is total?',
-    options:['20, doubling the original value of 10','25, adding 5 and then adding 10 again','30, since 10 + 5 is 15, and 15 times 2 is 30','17, adding 5 and then adding 2'],answer:2,whyWrong:['20 doubles the original 10 and skips the addition.','25 adds 5 and then 10, which is not what the second line does.','','17 is 10 plus 5 plus 2, treating the second operator as addition.'],
+    options:['25, adding 5 and then adding 10 again','30, since 10 + 5 is 15, and 15 times 2 is 30','17, adding 5 and then adding 2','20, doubling the original value of 10'],answer:1,whyWrong:['25 adds 5 and then 10, which is not what the second line does.','','17 is 10 plus 5 plus 2, treating the second operator as addition.','20 doubles the original 10 and skips the addition.'],
     why:'+= updates in place (10 → 15), then *= doubles it (15 → 30). Augmented assignment is just "do the op, then store back."'},
    {q:'17 % 5 evaluates to:',
-    options:['2, the remainder after taking out three whole 5s','3, the number of whole 5s that fit into 17','3.4, the result of dividing 17 by 5','85, the result of multiplying 17 by 5'],answer:0,whyWrong:['','3 is how many whole 5s fit, which is 17 // 5.','3.4 is 17 / 5, ordinary division.','85 is 17 times 5.'],
+    options:['3, the number of whole 5s that fit into 17','3.4, the result of dividing 17 by 5','85, the result of multiplying 17 by 5','2, the remainder after taking out three whole 5s'],answer:3,whyWrong:['3 is how many whole 5s fit, which is 17 // 5.','3.4 is 17 / 5, ordinary division.','85 is 17 times 5.',''],
     why:'Modulo is the remainder. 17 // 5 = 3 (whole 5s), and 17 − 15 = 2 is left over. n % 2 == 0 is the standard "is it even?" test.'},
    {q:'The expression  "yes" if x > 0 else "no"  is:',
-    options:['A function call, with the condition passed as an argument','A ternary, a compact if/else that produces one of two values','A syntax error, since if cannot appear inside an expression','A loop, repeating while the condition holds'],answer:1,whyWrong:['There are no parentheses and nothing is being called.','','It is valid Python, and the unusual word order is what makes it look wrong at first.','Nothing repeats. It evaluates once and produces a value.'],
+    options:['A function call, with the condition passed as an argument','A ternary, a compact if/else that produces one of two values','A loop, repeating while the condition holds','A syntax error, since if cannot appear inside an expression'],answer:1,whyWrong:['There are no parentheses and nothing is being called.','','Nothing repeats. It evaluates once and produces a value.','It is valid Python, and the unusual word order is what makes it look wrong at first.'],
     why:'The conditional expression picks a value based on a condition, all on one line, the same logic as a full if/else block.'}
  ]},
  exs:[{title:'Use the compact operators',
@@ -494,13 +494,13 @@ pass. And the classic hazard, named now: a <code>while</code> whose condition ne
 false runs forever, always make sure something inside the loop moves it toward stopping.</p>`,
  quiz:{title:'Quick check',questions:[
    {q:'When do you reach for while instead of for?',
-    options:['Never, since anything a while loop does a for loop can do as well','When the number of repetitions is not known in advance','When looping over a list, because for cannot reach the index','Only when you deliberately want a loop that never terminates'],answer:1,whyWrong:['They differ. for walks a known sequence, while repeats on a condition.','','Looping over a list is what for is built for.','Infinite loops are one use, and the common case is repeating until a condition is met.'],
+    options:['When the number of repetitions is not known in advance','When looping over a list, because for cannot reach the index','Never, since anything a while loop does a for loop can do as well','Only when you deliberately want a loop that never terminates'],answer:0,whyWrong:['','Looping over a list is what for is built for.','They differ. for walks a known sequence, while repeats on a condition.','Infinite loops are one use, and the common case is repeating until a condition is met.'],
     why:'for = once per item; while = until the condition changes. Training loops are the canonical ML example of the second.'},
    {q:'Which numbers does range(1, 4) produce?',
     options:['1, 2, 3, 4','1, 2, 3','0, 1, 2, 3','2, 3, 4'],answer:1,whyWrong:['The stop value is excluded, so 4 does not appear.','','The start is 1, so 0 is not included.','The start is 1, not 2.'],
     why:'range starts at the first number and stops BEFORE the second: 1, 2, 3.'},
    {q:'What is total += x short for?',
-    options:['total = total + x','total = x','total = total * x','x = x + total'],answer:0,whyWrong:['','That would discard whatever total held.','That is total *= x.','That rebinds x rather than total.'],
+    options:['x = x + total','total = total * x','total = x','total = total + x'],answer:3,whyWrong:['That rebinds x rather than total.','That is total *= x.','That would discard whatever total held.',''],
     why:'+= updates the variable in place: total = total + x. It is the accumulator pattern.'}
  ]},
  exs:[{title:'Sum the even numbers with a loop',
@@ -600,13 +600,13 @@ Dicts and sets have the same shorthand: <code>{k: v for ...}</code> and <code>{x
  docs:[['Python tutorial (list comprehensions)','https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions']],
  quiz:{title:'Quick check',questions:[
    {q:'[x * 2 for x in range(4)] produces:',
-    options:['8, the last value the comprehension computes','[0, 2, 4, 6], doubling each number from 0 to 3','[0, 1, 2, 3], the range itself, undoubled','[2, 4, 6, 8], doubling each number from 1 to 4'],answer:1,whyWrong:['8 would be a single number. A comprehension produces a list.','','That is range(4) itself, without the doubling.','That starts from 1 rather than 0. range(4) begins at 0.'],
+    options:['[0, 2, 4, 6], doubling each number from 0 to 3','[0, 1, 2, 3], the range itself, undoubled','[2, 4, 6, 8], doubling each number from 1 to 4','8, the last value the comprehension computes'],answer:0,whyWrong:['','That is range(4) itself, without the doubling.','That starts from 1 rather than 0. range(4) begins at 0.','8 would be a single number. A comprehension produces a list.'],
     why:'For each x in 0,1,2,3, the expression x*2 gives 0,2,4,6. A comprehension is a loop that builds a list.'},
    {q:'In  [0 for _ in range(5)], what is the underscore _ for?',
-    options:['It reverses the list once the comprehension has finished building it','It is a syntax error that Python happens to tolerate here','It multiplies the result by the length of the range','A throwaway name for a loop variable you never use'],answer:3,whyWrong:['Nothing is reversed. The name is never used at all.','It is a legal identifier and a widely used convention.','The repetition comes from range(5). The underscore is just a name.',''],
+    options:['It multiplies the result by the length of the range','It reverses the list once the comprehension has finished building it','A throwaway name for a loop variable you never use','It is a syntax error that Python happens to tolerate here'],answer:2,whyWrong:['The repetition comes from range(5). The underscore is just a name.','Nothing is reversed. The name is never used at all.','','It is a legal identifier and a widely used convention.'],
     why:'_ is the convention for "I am ignoring this variable." Here you just want to repeat 0 five times: [0,0,0,0,0].'},
    {q:'What does  sum(1 for x in data if x > 10)  compute?',
-    options:['The count of items greater than 10, since it adds 1 per match','The largest value among the items greater than 10','10, the threshold that appears in the condition','The total of the values that are greater than 10'],answer:0,whyWrong:['','The largest value would be max(data).','10 is the threshold in the condition, not the result.','That would be sum(x for x in data if x > 10), summing the values rather than counting them.'],
+    options:['The total of the values that are greater than 10','10, the threshold that appears in the condition','The largest value among the items greater than 10','The count of items greater than 10, since it adds 1 per match'],answer:3,whyWrong:['That would be sum(x for x in data if x > 10), summing the values rather than counting them.','10 is the threshold in the condition, not the result.','The largest value would be max(data).',''],
     why:'Adding 1 for every item that passes the condition counts them. This "sum(1 for ... if ...)" idiom is everywhere in data code.'}
  ]},
  exs:[{title:'Write your first comprehensions',
@@ -731,13 +731,13 @@ pseudocode, and why it won data science.</div>`,
  docs:[['Python tutorial, first steps (indentation)','https://docs.python.org/3/tutorial/introduction.html#first-steps-towards-programming'],['PEP 8, indentation style','https://peps.python.org/pep-0008/#indentation']],
  quiz:{title:'Quick check',questions:[
    {q:'How does Python know which lines belong to an if-block?',
-    options:['Curly braces around them, as in C and Java','They are indented deeper, until a line returns to the old depth','They sit on the same line, separated by semicolons','A special end keyword closes the block explicitly'],answer:1,whyWrong:['Braces are how C and Java do it. Python uses indentation instead.','','A one-line if is allowed and holds a single statement. Blocks are indented.','There is no end keyword. The block closes when the indentation returns.'],
+    options:['They are indented deeper, until a line returns to the old depth','A special end keyword closes the block explicitly','Curly braces around them, as in C and Java','They sit on the same line, separated by semicolons'],answer:0,whyWrong:['','There is no end keyword. The block closes when the indentation returns.','Braces are how C and Java do it. Python uses indentation instead.','A one-line if is allowed and holds a single statement. Blocks are indented.'],
     why:'The colon announces the block; the deeper-indented lines are its body; de-denting closes it. Indentation IS the grammar.'},
    {q:'In count_positives, if "return count" were indented to sit inside the for-loop, the function would:',
     options:['Return during the first iteration, which is a silent logic bug','Work exactly the same, since the loop finishes before the return runs','Raise an IndentationError, because return cannot sit inside a loop','Run faster, since it stops as soon as it has an answer'],answer:0,whyWrong:['','It would return after examining one item, so the count would be 0 or 1.','The indentation is legal. That is exactly why the bug is silent.','It would be faster and wrong, which is the worst combination.'],
     why:'It would still be legal Python, just wrong. Indentation bugs that parse cleanly are the dangerous kind; reading levels like an outline catches them.'},
    {q:'The standard indentation unit in Python is:',
-    options:['8 spaces','1 space','A tab character always','4 spaces (never mixing tabs and spaces)'],answer:3,whyWrong:['8 is a C convention. Python settled on 4.','One space is legal and unreadable, which is why the convention exists.','Tabs are legal, and mixing them with spaces is what causes the errors.',''],
+    options:['8 spaces, the convention inherited from C','A tab character, in every case','4 spaces, never mixed with tabs','1 space, the smallest amount that still nests'],answer:2,whyWrong:['8 is a C convention. Python settled on 4.','Tabs are legal, and mixing them with spaces is what causes the errors.','','One space is legal and unreadable, which is why the convention exists.'],
     why:'Four spaces is the universal convention (PEP 8). Mixing tabs and spaces is the classic source of phantom IndentationErrors.'}
  ]},
  exs:[{title:'Three levels deep: prove you control the blocks',
@@ -819,13 +819,13 @@ yours. Reading outer ("global") variables from inside works, but the professiona
 depend on outside variables are the ones that break mysteriously later.</p>`,
  quiz:{title:'Quick check',questions:[
    {q:'What does return do inside a function?',
-    options:['Starts a loop that repeats the body of the function','Prints the value to the screen for the caller to read','Saves the value to a file so it survives the call','Hands a value back to the caller, and ends the function'],answer:3,whyWrong:['Loops are started by for and while.','Printing is print. return hands the value back to the caller instead.','Saving needs a file to be opened and written.',''],
+    options:['Prints the value to the screen for the caller to read','Saves the value to a file so it survives the call','Hands a value back to the caller, and ends the function','Starts a loop that repeats the body of the function'],answer:2,whyWrong:['Printing is print. return hands the value back to the caller instead.','Saving needs a file to be opened and written.','','Loops are started by for and while.'],
     why:'return produces the function result and immediately exits it. print only displays text; it does not hand back a value.'},
    {q:'What is (1, 3) in the line return 1, 3?',
-    options:['A dictionary','A syntax error','A tuple, an ordered group of values','A list'],answer:2,whyWrong:['A dictionary needs keys, written with braces and colons.','It is valid, and returning several values this way is common.','','A list needs brackets. The bare comma builds a tuple.'],
+    options:['A dictionary with two entries and no keys','A tuple, an ordered group of values','A list, built by the comma between the values','A syntax error, since return takes one value'],answer:1,whyWrong:['A dictionary needs keys, written with braces and colons.','','A list needs brackets. The bare comma builds a tuple.','It is valid, and returning several values this way is common.'],
     why:'Comma-separated values become a tuple, so a function can return several results at once.'},
    {q:'A variable created inside a function:',
-    options:['Is written to a file automatically when the call finishes','Is local, so it exists only for the duration of that call','Is visible everywhere in the program once the function has run','Has to be declared with a keyword before it can be assigned'],answer:1,whyWrong:['Nothing is saved. It disappears when the call ends.','','That is a global, and it takes a deliberate global statement to create one this way.','Python has no variable declarations. Assignment is enough.'],
+    options:['Has to be declared with a keyword before it can be assigned','Is local, so it exists only for the duration of that call','Is visible everywhere in the program once the function has run','Is written to a file automatically when the call finishes'],answer:1,whyWrong:['Python has no variable declarations. Assignment is enough.','','That is a global, and it takes a deliberate global statement to create one this way.','Nothing is saved. It disappears when the call ends.'],
     why:'Locals vanish when the call ends and never collide with outside names. Pass data in as parameters, hand it back with return.'}
  ]},
  exs:[{title:'Write a stats function that returns three values',
@@ -907,13 +907,13 @@ several things, which is why Python code leans on it so heavily.</div>`,
  docs:[['Python tutorial (defining functions)','https://docs.python.org/3/tutorial/controlflow.html#defining-functions']],
  quiz:{title:'Quick check',questions:[
    {q:'What does a function return if it never reaches a return statement?',
-    options:['An empty string','None, the "nothing here" value','It raises an error','0'],answer:1,whyWrong:['An empty string is a value you would have to return deliberately.','','No error occurs. Falling off the end is perfectly legal.','Zero is also a value, and it is not the default.'],
+    options:['None, the "nothing here" value','0','An empty string','It raises an error'],answer:0,whyWrong:['','Zero is also a value, and it is not the default.','An empty string is a value you would have to return deliberately.','No error occurs. Falling off the end is perfectly legal.'],
     why:'No return (or a bare return) yields None. Printing inside a function is NOT returning, the caller still gets None.'},
    {q:'With def f(): return 1, 2, what is the type of what f() gives back?',
-    options:['A list containing the two values, built by the comma','An error, since a function may only return one value','Two separate integers, delivered as two results','A tuple, since comma-separated returns bundle into one'],answer:3,whyWrong:['A list needs brackets. Commas alone build a tuple.','It is legal, and it is the standard way to return several values.','They arrive as one object. Unpacking with a, b = f() is what separates them.',''],
+    options:['Two separate integers, delivered as two results','A list containing the two values, built by the comma','An error, since a function may only return one value','A tuple, since comma-separated returns bundle into one'],answer:3,whyWrong:['They arrive as one object. Unpacking with a, b = f() is what separates them.','A list needs brackets. Commas alone build a tuple.','It is legal, and it is the standard way to return several values.',''],
     why:'return a, b is return (a, b): a tuple. The caller unpacks it with x, y = f(). That is how Python "returns several values."'},
    {q:'Why is an "early return" useful?',
-    options:['Python requires a return before any conditional branch in a function','It runs measurably faster, because fewer statements are ever evaluated','It exits on the special case, so the rest can assume the normal one','It lets a function hand back two values at two different moments'],answer:2,whyWrong:['Python requires nothing of the sort. It is a style choice.','The saving is negligible. Readability is the reason.','','A function returns once. The early return is the one that happens.'],
+    options:['It lets a function hand back two values at two different moments','It exits on the special case, so the rest can assume the normal one','It runs measurably faster, because fewer statements are ever evaluated','Python requires a return before any conditional branch in a function'],answer:1,whyWrong:['A function returns once. The early return is the one that happens.','','The saving is negligible. Readability is the reason.','Python requires nothing of the sort. It is a style choice.'],
     why:'return stops the function on the spot. Bailing out early on an edge case keeps the main logic clean and unindented.'}
  ]},
  exs:[{title:'Return one value, several values, and None',
@@ -1024,13 +1024,13 @@ write by hand</i>. <code>zip</code> = "index both lists together," <code>enumera
  docs:[['Python built-in functions','https://docs.python.org/3/library/functions.html']],
  quiz:{title:'Quick check',questions:[
    {q:'zip([1, 2, 3], [10, 20, 30]) lets you:',
-    options:['Sort both lists into the same order as each other','Compress the two lists into a single archive file','Add the two lists together entry by entry','Loop over both lists together, pairing them up'],answer:3,whyWrong:['Sorting is sorted, and it works on one sequence at a time.','That is the zip archive format, an unrelated meaning of the word.','Adding element-wise needs a comprehension or NumPy. zip only pairs them up.',''],
+    options:['Add the two lists together entry by entry','Compress the two lists into a single archive file','Sort both lists into the same order as each other','Loop over both lists together, pairing them up'],answer:3,whyWrong:['Adding element-wise needs a comprehension or NumPy. zip only pairs them up.','That is the zip archive format, an unrelated meaning of the word.','Sorting is sorted, and it works on one sequence at a time.',''],
     why:'zip pairs matching items so you can process two lists in step, e.g. predictions vs actual labels.'},
    {q:'max(words, key=lambda w: len(w)) returns:',
-    options:['The length of the longest word, as a number','The lambda itself, since that is what key was given','The longest word itself, since key only changes the comparison','An error, since max cannot take a keyword argument'],answer:2,whyWrong:['The length would be max(len(w) for w in words). key changes what is compared, not what is returned.','The lambda is the comparison rule. What comes back is an item from the list.','','It is valid and idiomatic, and key is a standard parameter on max, min and sorted.'],
+    options:['The lambda itself, since that is what key was given','The longest word itself, since key only changes the comparison','The length of the longest word, as a number','An error, since max cannot take a keyword argument'],answer:1,whyWrong:['The lambda is the comparison rule. What comes back is an item from the list.','','The length would be max(len(w) for w in words). key changes what is compared, not what is returned.','It is valid and idiomatic, and key is a standard parameter on max, min and sorted.'],
     why:'key= takes a little function saying what to compare by; lambda w: len(w) means "use the length of each word." max returns the winning item itself, not the length.'},
    {q:'all(n > 0 for n in [3, 1, -2]) is:',
-    options:['3, the first element that satisfies the condition','False, since minus two fails the test and all requires every one to pass','An error, since all cannot take a generator expression','True, since two of the three numbers are greater than zero'],answer:1,whyWrong:['3 is the first element. all returns a truth value.','','It is valid. Generator expressions are exactly what all expects.','Minus two fails the test, and all requires every item to pass.'],
+    options:['An error, since all cannot take a generator expression','False, since minus two fails the test and all requires every one to pass','True, since two of the three numbers are greater than zero','3, the first element that satisfies the condition'],answer:1,whyWrong:['It is valid. Generator expressions are exactly what all expects.','','Minus two fails the test, and all requires every item to pass.','3 is the first element. all returns a truth value.'],
     why:'all is True only if EVERY item passes; one failure makes it False. any would be True here (some pass).'}
  ]},
  exs:[{title:'zip, lambda, and all in action',
@@ -1089,7 +1089,7 @@ print(diffs, longest, all_pass)
  title:'Dictionaries and text',
  body:`
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>A <b>dictionary</b> maps <i>keys</i> to <i>values</i>, a labelled lookup, like a real
+<p>A <b>dictionary</b> maps <i>keys</i> to <i>values</i>, a labeled lookup, like a real
 dictionary maps a word to its meaning. Written with braces:
 <code>{"apples": 3, "pears": 5}</code>. You read and write by key:
 <code>prices["apples"]</code>.</p></div>
@@ -1131,13 +1131,13 @@ pairs by default, a bare <code>for x in d</code> gives you only the keys (a freq
 <code>for k, v in …</code> unpacks that pair into two handy names.</div>`,
  quiz:{title:'Quick check',questions:[
    {q:'Looping with  for k, v in prices.items()  gives you, each pass:',
-    options:['Only the keys, one by one','A key and its value together (unpacked into k and v)','Only the values, one by one','The whole dictionary each time'],answer:1,whyWrong:['Keys alone is for k in prices, or prices.keys().','','Values alone is prices.values().','Each pass gives one entry. The whole dictionary is what you started with.'],
+    options:['A key and its value together, unpacked into k and v','Only the keys, one at a time','Only the values, one at a time','The whole dictionary, once per entry'],answer:0,whyWrong:['','Keys alone is for k in prices, or prices.keys().','Values alone is prices.values().','Each pass gives one entry. The whole dictionary is what you started with.'],
     why:'.items() yields (key, value) pairs; a bare "for x in d" would give only keys. .values() gives only values.'},
    {q:'What does "a b a".split() return?',
-    options:['["a", "b", "a"]','"aba"','["a b a"]','3'],answer:0,whyWrong:['','That is what .join would give you, with the spaces removed.','A single-element list is what you get from splitting on a separator that never occurs.','3 is the length of the result, not the result itself.'],
+    options:['["a", "b", "a"]','"aba"','3','["a b a"]'],answer:0,whyWrong:['','That is what .join would give you, with the spaces removed.','3 is the length of the result, not the result itself.','A single-element list is what you get from splitting on a separator that never occurs.'],
     why:'split() with no argument breaks the string on whitespace into a list of the words.'},
    {q:'Why use counts.get("x", 0) instead of counts["x"]?',
-    options:['There is no difference between the two forms','It returns a default when the key is missing, instead of raising','It is faster, since it skips the hash lookup on a miss','It sorts the dictionary by key before looking anything up'],answer:1,whyWrong:['There is a large difference. One raises KeyError and the other does not.','','Speed is comparable. Safety is the reason.','Nothing is sorted. get only affects what happens when the key is absent.'],
+    options:['It returns a default when the key is missing, instead of raising','There is no difference between the two forms','It is faster, since it skips the hash lookup on a miss','It sorts the dictionary by key before looking anything up'],answer:0,whyWrong:['','There is a large difference. One raises KeyError and the other does not.','Speed is comparable. Safety is the reason.','Nothing is sorted. get only affects what happens when the key is absent.'],
     why:'Reading a missing key with [] raises an error; .get supplies a fallback, which is perfect for tallying.'}
  ]},
  exs:[{title:'Count the words in a sentence',
@@ -1211,13 +1211,13 @@ corrupt it. Swap the list for a tuple and the error goes away.</div>`,
  docs:[['Python tutorial (tuples and sets)','https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences']],
  quiz:{title:'Quick check',questions:[
    {q:'Why choose a tuple over a list for a (rows, columns) shape?',
-    options:['Tuples occupy less disk space when the shape is written to a file','Tuples are quicker to type, since parentheses need no shift key','Lists cannot hold exactly two numbers without extra bookkeeping','It is a fixed record, and each position carries a meaning'],answer:3,whyWrong:['Neither is written to disk here. Both live in memory.','They are the same length to type, parentheses against brackets.','Lists hold two numbers perfectly well. The argument is about intent, not capacity.',''],
+    options:['Tuples are quicker to type, since parentheses need no shift key','Tuples occupy less disk space when the shape is written to a file','It is a fixed record, and each position carries a meaning','Lists cannot hold exactly two numbers without extra bookkeeping'],answer:2,whyWrong:['They are the same length to type, parentheses against brackets.','Neither is written to disk here. Both live in memory.','','Lists hold two numbers perfectly well. The argument is about intent, not capacity.'],
     why:'Immutable, fixed-size, position-meaningful records are what tuples are FOR, which is why .shape is one.'},
    {q:'You have 10 million emails and a blocklist to check each against. The blocklist should be a:',
-    options:['A list, since the order the entries were added in matters','A tuple, since the blocklist is fixed once it is loaded','A string, so each address can be searched for directly','A set, since membership checks stay fast at any size'],answer:3,whyWrong:['A list scans linearly, so every check walks the whole blocklist.','A tuple is immutable and still scans linearly, so it has the same problem.','Substring search would match fragments of unrelated addresses.',''],
+    options:['A string, so each address can be searched for directly','A tuple, since the blocklist is fixed once it is loaded','A set, since membership checks stay fast at any size','A list, since the order the entries were added in matters'],answer:2,whyWrong:['Substring search would match fragments of unrelated addresses.','A tuple is immutable and still scans linearly, so it has the same problem.','','A list scans linearly, so every check walks the whole blocklist.'],
     why:'A list checks item by item (slow at scale); a set jumps straight to the answer. Fast membership is the set superpower.'},
    {q:'set([1, 2, 2, 3, 3, 3]) equals:',
-    options:['{1, 2, 3}, since a set holds each value at most once','[1, 2, 3], a list with the duplicates removed in order','An error, since a set cannot be built from a list with repeats','{1, 2, 2, 3, 3, 3}, with the braces changed and nothing else'],answer:0,whyWrong:['','Brackets denote a list. A set prints with braces.','It is valid. Building a set from a list is the standard way to deduplicate.','Duplicates are exactly what a set removes.'],
+    options:['An error, since a set cannot be built from a list with repeats','[1, 2, 3], a list with the duplicates removed in order','{1, 2, 2, 3, 3, 3}, with the braces changed and nothing else','{1, 2, 3}, since a set holds each value at most once'],answer:3,whyWrong:['It is valid. Building a set from a list is the standard way to deduplicate.','Brackets denote a list. A set prints with braces.','Duplicates are exactly what a set removes.',''],
     why:'Uniqueness is the defining property, and set(anything) is the standard dedupe one-liner.'}
  ]},
  exs:[{title:'Pick the right container for each job',
@@ -1305,13 +1305,13 @@ data.</p>`,
  docs:[['Python data structures (the tutorial)','https://docs.python.org/3/tutorial/datastructures.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Why represent a data table as a list of dictionaries?',
-    options:['Dictionaries are faster to iterate over than lists are','It removes the need to loop over the rows at all','It is the only structure Python offers for tabular data','Each row becomes a record with named fields, mirroring a real table'],answer:3,whyWrong:['Lookup by key is fast, and that is not why the shape is chosen here.','You still loop over the rows. What changes is how you address the fields.','Python stores data in many shapes. This one happens to mirror a table.',''],
+    options:['Dictionaries are faster to iterate over than lists are','It is the only structure Python offers for tabular data','Each row becomes a record with named fields, mirroring a real table','It removes the need to loop over the rows at all'],answer:2,whyWrong:['Lookup by key is fast, and that is not why the shape is chosen here.','Python stores data in many shapes. This one happens to mirror a table.','','You still loop over the rows. What changes is how you address the fields.'],
     why:'A list holds the rows in order; each dict gives that row named columns (name, age, city), exactly a table.'},
    {q:'What does [p["name"] for p in people if p["city"] == "London"] produce?',
-    options:['Every name in the table','The number of Londoners','The names of only the people whose city is London','A dictionary of cities'],answer:2,whyWrong:['The if clause filters. Without it you would get every name.','Counting would need len around it, or sum with a 1.','','The output is a list of names. Nothing keyed by city is built.'],
+    options:['The number of people whose city is London','The names of the people whose city is London','A dictionary keyed by city, holding the names','Every name in the table, in the original order'],answer:1,whyWrong:['Counting would need len around it, or sum with a 1.','','The output is a list of names. Nothing keyed by city is built.','The if clause filters. Without it you would get every name.'],
     why:'It is a filtered comprehension: keep the name, but only for rows where the city matches.'}
  ]},
- exs:[{title:'Summarise a dataset with comprehensions',
+ exs:[{title:'Summarize a dataset with comprehensions',
    lang:'python',
    prompt:`Given the <code>people</code> table below, compute three things: <code>avg_age</code>
    (the average age, ~40.67), <code>londoners</code> (a list of the <b>names</b> of people whose
@@ -1386,13 +1386,13 @@ The traceback is just the trail it left while flying.</div>`,
  docs:[['Python tutorial (errors and exceptions)','https://docs.python.org/3/tutorial/errors.html']],
  quiz:{title:'Quick check',questions:[
    {q:'int("hello") raises which exception?',
-    options:['SyntaxError, since the argument is not a valid number literal','TypeError, since a string is the wrong type to pass to int','IndexError, since there is no digit at the expected position','ValueError, since the type is fine and the value cannot be converted'],answer:3,whyWrong:['A SyntaxError happens before the program runs. This line is syntactically fine.','A TypeError would mean the argument was the wrong type. A string is exactly what int expects.','An IndexError comes from indexing past the end of a sequence.',''],
+    options:['SyntaxError, since the argument is not a valid number literal','TypeError, since a string is the wrong type to pass to int','ValueError, since the type is fine and the value cannot be converted','IndexError, since there is no digit at the expected position'],answer:2,whyWrong:['A SyntaxError happens before the program runs. This line is syntactically fine.','A TypeError would mean the argument was the wrong type. A string is exactly what int expects.','','An IndexError comes from indexing past the end of a sequence.'],
     why:'Right type, bad value → ValueError. TypeError would be for e.g. int(["a", "b"]).'},
    {q:'The most useful line of a long traceback is usually:',
-    options:['The first line, which names the file where execution began','A line from the middle, where the failing call was made','None of it. Tracebacks are noise around the real message','The last line, the exception type and message, then work upward'],answer:3,whyWrong:['The first line is usually the least specific part of the trace.','The middle is the call stack, useful after you know what went wrong.','They are dense and they carry the answer. Reading them is a learnable skill.',''],
+    options:['A line from the middle, where the failing call was made','None of it. Tracebacks are noise around the real message','The first line, which names the file where execution began','The last line, the exception type and message, then work upward'],answer:3,whyWrong:['The middle is the call stack, useful after you know what went wrong.','They are dense and they carry the answer. Reading them is a learnable skill.','The first line is usually the least specific part of the trace.',''],
     why:'Read bottom-up: last line = what went wrong; the lines above = where. That habit is half of debugging.'},
    {q:'Why is a bare "except:" (catching everything) bad practice?',
-    options:['It is slower, because every exception type has to be tested in turn','Python forbids it outright and reports a syntax error','It silently swallows unrelated bugs, including your own typos','It only catches the first exception, and later ones escape it'],answer:2,whyWrong:['Speed is unaffected. Correctness is the problem.','It is legal Python, which is why it is so easy to reach for.','','It works every time, and every time it hides something you needed to see.'],
+    options:['Python forbids it outright and reports a syntax error','It silently swallows unrelated bugs, including your own typos','It is slower, because every exception type has to be tested in turn','It only catches the first exception, and later ones escape it'],answer:1,whyWrong:['It is legal Python, which is why it is so easy to reach for.','','Speed is unaffected. Correctness is the problem.','It works every time, and every time it hides something you needed to see.'],
     why:'Catch the specific exception you expect; let surprises crash loudly so you can see and fix them.'}
  ]},
  exs:[{title:'Catch exactly what you expect',
@@ -1529,13 +1529,13 @@ scripts. Read it as "if this file is the one being run, start here."</div>`,
  docs:[['Python tutorial, modules','https://docs.python.org/3/tutorial/modules.html'],['pip, installing packages','https://packaging.python.org/en/latest/tutorials/installing-packages/']],
  quiz:{title:'Quick check',questions:[
    {q:'What does "import numpy as np" do?',
-    options:['Renames the numpy package on disk to np','Re-runs the numpy source every time you use the alias','Downloads numpy from the internet if it is missing','Loads the installed package and gives it the short name np'],answer:3,whyWrong:['Nothing on disk changes. The alias exists only inside your file.','The module runs once and is then cached for the rest of the session.','Downloading is pip\'s job. Import expects it to be there already.',''],
+    options:['Re-runs the numpy source every time you use the alias','Renames the numpy package on disk to np','Downloads numpy from the internet if it is missing','Loads the installed package and gives it the short name np'],answer:3,whyWrong:['The module runs once and is then cached for the rest of the session.','Nothing on disk changes. The alias exists only inside your file.','Downloading is pip\'s job. Import expects it to be there already.',''],
     why:'Import loads an installed package into your program; "as np" is just a local nickname, the universal ML convention.'},
    {q:'A ModuleNotFoundError for sklearn most likely means:',
-    options:['Python itself is broken and needs to be reinstalled from scratch','The package is not installed in the environment you are running','Your import line has a syntax error that Python reports this way','sklearn has been removed and no longer exists as a package'],answer:1,whyWrong:['Python is fine. It simply cannot find that package where it is looking.','','A typo would usually give a different name in the message. This says the module is absent.','It is actively maintained. The problem is local to your environment.'],
+    options:['Your import line has a syntax error that Python reports this way','The package is not installed in the environment you are running','sklearn has been removed and no longer exists as a package','Python itself is broken and needs to be reinstalled from scratch'],answer:1,whyWrong:['A typo would usually give a different name in the message. This says the module is absent.','','It is actively maintained. The problem is local to your environment.','Python is fine. It simply cannot find that package where it is looking.'],
     why:'Install fetches code onto the machine (once); import loads it into the program (each run). The error says the first step is missing.'},
    {q:'In sklearn.linear_model, the dots represent:',
-    options:['A version number, separating the package from its release','A typo, since underscores and dots serve the same purpose','Multiplication of the two names into a combined identifier','The path inside the package, organised like folders'],answer:3,whyWrong:['Versions are separate and are not written in the import path.','It is the standard path. Dotted imports are how subpackages are addressed.','Nothing is multiplied. The dot is attribute access.',''],
+    options:['Multiplication of the two names into a combined identifier','A typo, since underscores and dots serve the same purpose','The path inside the package, organized like folders','A version number, separating the package from its release'],answer:2,whyWrong:['Nothing is multiplied. The dot is attribute access.','It is the standard path. Dotted imports are how subpackages are addressed.','','Versions are separate and are not written in the import path.'],
     why:'Packages are nested namespaces: sklearn is the package, linear_model a module inside it. The dots mirror that structure.'}
  ]},
  exs:[{title:'All three import forms, in one working program',
@@ -1669,18 +1669,18 @@ thing, and how <code>if __name__ == "__main__":</code> (last lesson) marks it as
 <code>numpy</code> and your <code>helpers.py</code> are both just modules, importable files of
 Python. A library is only "modules someone else wrote and installed into your environment." Once
 you can import your own files, you understand exactly what importing a library does. <i>(Note:
-this is a project-structure skill you practise on your own machine, the in-browser Playground
+this is a project-structure skill you practice on your own machine, the in-browser Playground
 runs a single file. The setup guide shows how to make a project folder.)</i></div>`,
  docs:[['Python tutorial (modules & packages)','https://docs.python.org/3/tutorial/modules.html#packages']],
  quiz:{title:'Quick check',questions:[
    {q:'In Python, a "module" is:',
-    options:['A folder of files','A running program','A special kind of class','A single .py file of code you can import'],answer:3,whyWrong:['A folder of modules is a package.','A running program is a process. A module is the file it may import.','Classes live inside modules. The module is the file.',''],
+    options:['A folder holding several files of code','A particular kind of class definition','A single .py file you can import','A program while it is running'],answer:2,whyWrong:['A folder of modules is a package.','Classes live inside modules. The module is the file.','','A running program is a process. A module is the file it may import.'],
     why:'A module is one importable .py file. Your helpers.py is a module, exactly like numpy is, a library is just modules someone else wrote.'},
    {q:'To group several modules into a package, you put them in a folder and add:',
-    options:['An __init__.py file to mark it as a package','Nothing, folders are automatic','A README file','A .zip archive'],answer:0,whyWrong:['','Namespace packages exist and behave differently, and the explicit file is what marks an ordinary package.','A README documents. It has no effect on imports.','A zip is a distribution format, not what makes a folder importable.'],
+    options:['Nothing at all, since folders are importable already','A .zip archive holding the modules together','A README file describing what the modules do','An __init__.py file to mark it as a package'],answer:3,whyWrong:['Namespace packages exist and behave differently, and the explicit file is what marks an ordinary package.','A zip is a distribution format, not what makes a folder importable.','A README documents. It has no effect on imports.',''],
     why:'An __init__.py (often empty) marks a folder as a package; then you import with dotted paths like package.module that mirror the folders.'},
    {q:'from models.linear import LinearModel means:',
-    options:['Create a new folder called models with linear.py inside it','Import LinearModel from linear.py inside the models package','Run linear.py as a program and capture what it prints','Download a model called LinearModel from a package index'],answer:1,whyWrong:['The folder has to exist already. Importing never creates one.','','Running a file as a program is python linear.py, and importing does not do that.','Nothing is fetched. It reads a file already on your machine.'],
+    options:['Import LinearModel from linear.py inside the models package','Create a new folder called models with linear.py inside it','Download a model called LinearModel from a package index','Run linear.py as a program and capture what it prints'],answer:0,whyWrong:['','The folder has to exist already. Importing never creates one.','Nothing is fetched. It reads a file already on your machine.','Running a file as a program is python linear.py, and importing does not do that.'],
     why:'The dots follow the folder path: the models/ package, its linear.py module, and the LinearModel name inside it, same dotted style as sklearn.linear_model.'}
  ]}},
 
@@ -1736,13 +1736,13 @@ mistake impossible.</div>`,
  docs:[['Python tutorial (reading and writing files)','https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files'],['f-string format specs','https://docs.python.org/3/library/string.html#format-specification-mini-language']],
  quiz:{title:'Quick check',questions:[
    {q:'Why is "with open(...) as f:" preferred over plain open()?',
-    options:['It is shorter to type than opening and closing the file by hand','It reads the file faster, by buffering the whole contents at once','The block guarantees the file closes, even if an error is raised inside it','It creates the file when it does not already exist'],answer:2,whyWrong:['It is slightly longer to type, and the guarantee is what you are paying for.','Reading speed is identical.','','Creating a missing file depends on the mode you pass, not on the with-block.'],
+    options:['It reads the file faster, by buffering the whole contents at once','The block guarantees the file closes, even if an error is raised inside it','It creates the file when it does not already exist','It is shorter to type than opening and closing the file by hand'],answer:1,whyWrong:['Reading speed is identical.','','Creating a missing file depends on the mode you pass, not on the with-block.','It is slightly longer to type, and the guarantee is what you are paying for.'],
     why:'with = open + guaranteed cleanup (a packaged try/finally). The professional habit from day one.'},
    {q:'input() returns what the user typed as:',
-    options:['Always a string, so you convert it yourself with int or float','A list of words, split on the spaces the user typed','A boolean, when the user types something like yes or no','An integer, when what the user typed happens to be digits'],answer:0,whyWrong:['','Splitting into words is something you do afterwards, with .split().','A boolean would need converting from the text yourself.','It never converts. Digits come back as a string too, which is the usual surprise.'],
+    options:['Always a string, so you convert it yourself with int or float','A boolean, when the user types something like yes or no','A list of words, split on the spaces the user typed','An integer, when what the user typed happens to be digits'],answer:0,whyWrong:['','A boolean would need converting from the text yourself.','Splitting into words is something you do afterwards, with .split().','It never converts. Digits come back as a string too, which is the usual surprise.'],
     why:'Everything arrives as text. "42" is not 42 until you convert it, and users type "abc", which is why parse_int exists.'},
    {q:'A CSV file is, at bottom:',
-    options:['A binary database format that needs a library to read','Plain text, one line per row with commas between the values','An Excel format that other tools can only approximate','Compressed data, which is why the files stay small'],answer:1,whyWrong:['It is plain text and you can open it in any editor.','','Excel reads and writes it, and so does everything else. That is the point of the format.','Nothing is compressed, which is why the files get large.'],
+    options:['Plain text, one line per row with commas between the values','Compressed data, which is why the files stay small','A binary database format that needs a library to read','An Excel format that other tools can only approximate'],answer:0,whyWrong:['','Nothing is compressed, which is why the files get large.','It is plain text and you can open it in any editor.','Excel reads and writes it, and so does everything else. That is the point of the format.'],
     why:'Lines and commas, nothing more. pandas reads it in one line later, but now you know what that line automates.'}
  ]},
  exs:[{title:'A complete mini-pipeline: file in, parsed, computed, formatted out',
@@ -1869,7 +1869,7 @@ len(m)            # 500          ← Python called __len__</div>
 That is <i>why</i> the same <code>len()</code>, <code>+</code>, and <code>[]</code> work on
 lists, strings, and NumPy arrays alike, each type implements the matching dunder. Defining a few
 dunders makes your own objects feel like built-in ones. (You will rarely write them as a
-beginner, but recognising them turns confusing library code into something readable.)</p>
+beginner, but recognizing them turns confusing library code into something readable.)</p>
 
 <div class="demystify"><b>Why this matters for ML:</b> <code>model = LinearRegression()</code>
 builds an <i>object</i> from scikit-learn's <code>LinearRegression</code> <i>class</i>;
@@ -1881,13 +1881,13 @@ methods."</p></div>`,
  docs:[['Python tutorial (classes)','https://docs.python.org/3/tutorial/classes.html']],
  quiz:{title:'Quick check',questions:[
    {q:'When you write list.append(3) or model.predict(X), the dot means:',
-    options:['Division, written the same way as it is in arithmetic','Importing a module, in the way sklearn.linear_model does','You are calling a method on an object','Multiplication, since the dot is the usual symbol for a product'],answer:2,whyWrong:['Division is the slash.','Imports use the import keyword. This dot reaches into an object you already have.','','Multiplication is the asterisk.'],
+    options:['Importing a module, in the way sklearn.linear_model does','Multiplication, since the dot is the usual symbol for a product','You are calling a method on an object','Division, written the same way as it is in arithmetic'],answer:2,whyWrong:['Imports use the import keyword. This dot reaches into an object you already have.','Multiplication is the asterisk.','','Division is the slash.'],
     why:'Everything is an object; methods are the functions attached to it. You have been doing OOP since your first .append().'},
    {q:'In a class, what is "self"?',
-    options:['A global variable that every method in the class can read and write','The particular object the method is working on','A reserved keyword that you should avoid naming anything after','The name of the class, available inside its own method bodies'],answer:1,whyWrong:['Nothing global is involved. It refers to one particular object.','','It is required. Every method receives it as its first parameter.','The class name is separate. self is the instance, not the blueprint.'],
+    options:['The particular object the method is working on','A global variable that every method in the class can read and write','A reserved keyword that you should avoid naming anything after','The name of the class, available inside its own method bodies'],answer:0,whyWrong:['','Nothing global is involved. It refers to one particular object.','It is required. Every method receives it as its first parameter.','The class name is separate. self is the instance, not the blueprint.'],
     why:'self is the automatic first parameter: the specific instance. It is how an object refers to its own data.'},
    {q:'model = LinearRegression() then model.fit(X, y). In class terms this is:',
-    options:['Importing sklearn, since the class name has to be resolved first','Two unrelated function calls that happen to share a variable name','A syntax error, because a class cannot be called like a function','Creating an object from a class, then calling one of its methods'],answer:3,whyWrong:['The import happened earlier, on its own line.','They are closely related. The second call operates on the object the first one created.','It is the standard sklearn idiom and runs exactly as written.',''],
+    options:['Importing sklearn, since the class name has to be resolved first','Two unrelated function calls that happen to share a variable name','Creating an object from a class, then calling one of its methods','A syntax error, because a class cannot be called like a function'],answer:2,whyWrong:['The import happened earlier, on its own line.','They are closely related. The second call operates on the object the first one created.','','It is the standard sklearn idiom and runs exactly as written.'],
     why:'sklearn models are objects; fit/predict are methods. Classes are why the whole ecosystem feels consistent.'}
  ]},
  exs:[{title:'Write your own object: a running-statistics accumulator',
@@ -1989,13 +1989,13 @@ ten seconds. That posture is competence.</div>`,
  docs:[['The Python standard library (you will never memorize it (bookmark it))','https://docs.python.org/3/library/'],['How to read Python documentation','https://docs.python.org/3/tutorial/']],
  quiz:{title:'Quick check',questions:[
    {q:'You meet an unfamiliar function, df.groupby, in a lesson. The competent first move is:',
-    options:['Avoid that lesson until a later one introduces the function properly','Give up on it, since you cannot be expected to use what you were not taught','Memorise the pandas API before attempting anything that uses it','Recognise it as a method on an object, then look it up'],answer:3,whyWrong:['Skipping the lesson leaves the gap in place.','Nobody is taught every function. Looking things up is the job.','Nobody has memorised pandas, including the people who wrote it.',''],
+    options:['Give up on it, since you cannot be expected to use what you were not taught','Memorize the pandas API before attempting anything that uses it','Recognize it as a method on an object, then look it up','Avoid that lesson until a later one introduces the function properly'],answer:2,whyWrong:['Nobody is taught every function. Looking things up is the job.','Nobody has memorized pandas, including the people who wrote it.','','Skipping the lesson leaves the gap in place.'],
     why:'Competence is not prior memorization; it is the reflex to look things up fast. That is the whole point of this lesson.'},
    {q:'What does dir(x) do?',
-    options:['Downloads the documentation for whatever type x happens to be','Deletes x and frees whatever memory it was holding','Runs x, if x happens to be a function or a callable object','Lists the methods and attributes available on x'],answer:3,whyWrong:['Nothing is fetched. It reads what is already in memory.','Deleting is del. dir only inspects.','Nothing is executed. It lists names.',''],
+    options:['Deletes x and frees whatever memory it was holding','Downloads the documentation for whatever type x happens to be','Runs x, if x happens to be a function or a callable object','Lists the methods and attributes available on x'],answer:3,whyWrong:['Deleting is del. dir only inspects.','Nothing is fetched. It reads what is already in memory.','Nothing is executed. It lists names.',''],
     why:'dir() asks any object what it offers; help() then explains any item on that menu. The answers live inside Python.'},
    {q:'"Knowing Python" is best understood as:',
-    options:['Never having to reach for the documentation again','Fluency with the core, plus the reflexes to find the rest when needed','Restricting yourself to the functions you were explicitly taught','Having the whole standard library committed to memory'],answer:1,whyWrong:['Everyone reads documentation, constantly and without embarrassment.','','That would leave you stuck at the edge of every lesson.','Nobody has it memorised, and the libraries change faster than anyone could.'],
+    options:['Fluency with the core, plus the reflexes to find the rest when needed','Never having to reach for the documentation again','Restricting yourself to the functions you were explicitly taught','Having the whole standard library committed to memory'],answer:0,whyWrong:['','Everyone reads documentation, constantly and without embarrassment.','That would leave you stuck at the edge of every lesson.','Nobody has it memorized, and the libraries change faster than anyone could.'],
     why:'No one memorizes it all. The durable skill is core fluency plus knowing how to learn anything else on demand.'}
  ]},
  exs:[{title:'Use methods you were never explicitly taught (look them up!)',

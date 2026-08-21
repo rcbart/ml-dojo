@@ -6,7 +6,7 @@
    Worst offenders: python3 scripts/quiz-annotate.py bias 20
    Rewrite them:    python3 scripts/quiz-annotate.py retext patch.json */
 const fs = require('fs');
-const BUDGET = 40;          // lower this as questions are fixed, never raise it
+const BUDGET = 0;          // lower this as questions are fixed, never raise it
 const RATIO = 1.4;           // correct answer at least 40% above the mean of the rest
 const ABS = 20;              // and at least 20 characters longer, to ignore noise
 const dir = 'content/streams';
