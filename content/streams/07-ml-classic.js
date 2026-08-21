@@ -119,7 +119,7 @@ print(preds, mse, base_pred, base_mse, beats_baseline)
    {q:`<b>1.</b> A model predicts salary from years of experience as <code>salary = 5·years + 30</code> (in thousands). What does the weight 5 mean, and what does the 30 mean? Predict the salary for 4 years.`,
     solution:`The <b>weight 5</b> means each extra year of experience adds <b>5k</b> to the predicted salary (positive → more experience, higher pay; size 5 → the strength). The <b>30</b> is the <b>bias/baseline</b>: the predicted salary at 0 years (a starting point). Prediction at 4 years: <code>5·4 + 30 = 50</code> → <b>50k</b>.`},
    {q:`<b>2. (Concept)</b> Why do we evaluate a model on data it has never seen (a test set) instead of the data it trained on?`,
-    solution:`Because doing well on the training data is easy and misleading, a model can <b>memorize</b> those exact examples without learning the real pattern (overfitting), then fail on anything new. The whole point of a model is to work on <b>future, unseen</b> data, so we hold out a test set to get an honest estimate of that. Low training error but high test error is the classic warning sign.`}
+    solution:`Because doing well on the training data is easy and misleading, a model can <b>memorize</b> those exact examples without learning the real pattern (overfitting), then fail on anything new. The whole point of a model is to work on <b>future, unseen</b> data, so we hold out a test set to get an unbiased estimate of that. Low training error but high test error is the classic warning sign.`}
  ]}},
 
 {id:'mllinreg',
@@ -266,8 +266,7 @@ boundary sits at <code>x = 3</code> (where <code>z = 0, p = 0.5</code>).</div>
 <div class="demystify"><b>Demystify "logistic regression":</b> the name lies twice over, it
 does <b>classification</b>, not regression, and there is nothing scary about it: it is linear
 regression's score passed through the sigmoid to become a probability. Why not just use a line
-for 0/1 labels? Because a line gives −4 or 7.2, nonsense as a probability; the sigmoid keeps
-the answer honestly between 0 and 1. (And its loss is cross-entropy, not MSE, the log-loss you
+for 0/1 labels? Because a line gives −4 or 7.2, nonsense as a probability; the sigmoid keeps the answer between 0 and 1. (And its loss is cross-entropy, not MSE, the log-loss you
 met in the logarithms stream.)</div>`,
  docs:[['scikit-learn (LogisticRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html']],
  quiz:{title:'Quick check',questions:[
@@ -396,7 +395,7 @@ most consequential idea on this page.</p>
 <p><b>Reinforcement learning</b>: no answer key, only a reward that arrives later, often long
 after the actions that earned it. Different enough to be its own field.</p>
 
-<h3>Choosing, and the honest order to do it in</h3>
+<h3>Choosing, and the order to do it in</h3>
 <p>Start from the question, not the method. Do you have labels? If yes and you want a number,
 regression; a category, classification. If no, ask whether you want groups, fewer dimensions, or
 a notion of "unusual", and pick accordingly. If you have a few labels and lots of raw data, look
@@ -552,7 +551,7 @@ which is why bagging exists.</p>
 <p><b>An informative prior.</b> The Bayesian version of all of the above, and the most explicit:
 you are stating what you believed before the data arrived, and small data is precisely when that
 belief still matters.</p>
-<p><b>Collecting more data.</b> Worth pricing honestly. Error falls as
+<p><b>Collecting more data.</b> Worth pricing. Error falls as
 <code>1/&radic;n</code>, so going from 100 to 400 rows halves your error. That is often cheaper
 than a month of modeling.</p>
 
@@ -811,7 +810,7 @@ the trick, and it is one of the most elegant ideas in the field.</div>
 <code>d</code> is large, text being the classic case. They scale badly past a few tens of
 thousands of rows.</p>
 
-<h3>Choosing, honestly</h3>
+<h3>Choosing, in practice</h3>
 <div class="mathblock">tabular, any size        &rarr; gradient boosting first, random forest as the safe default
 text, small data         &rarr; naive Bayes or linear SVM
 few features, need speed &rarr; logistic regression, and it is interpretable
@@ -1090,7 +1089,7 @@ them across the middle rather than along their length. That is not a bug, it is 
 <p>Covered in depth in the probability stream. A GMM replaces "nearest center" with "posterior
 probability of each component", and replaces the shared spherical shape with a learned
 <code>&Sigma;<sub>k</sub></code> per component. That buys you elongated, tilted clusters of
-different sizes, and honest fractional membership for ambiguous points.</p>
+different sizes, and fractional membership for ambiguous points.</p>
 <div class="mathblock">k-means  =  GMM with  &Sigma;<sub>k</sub> = &sigma;&sup2;I (shared), equal &pi;<sub>k</sub>, hard responsibilities</div>
 <p>Fitted by EM. Costs more, needs more data per cluster because there are more parameters, and
 can collapse onto a single point if the covariances are not regularized.</p>
@@ -1126,7 +1125,7 @@ distance to the nearest other cluster:</p>
 <div class="mathblock">s(i) = (b(i) - a(i)) / max(a(i), b(i)), s &isin; [-1, 1]</div>
 <p><b>BIC or AIC</b> apply to GMMs, since a GMM has a likelihood, and penalize parameter count.
 This is the closest thing to a principled answer available.</p>
-<div class="hardidea">🧠 <b>The honest position on validation.</b> Every internal measure above
+<div class="hardidea">🧠 <b>Where validation actually stands.</b> Every internal measure above
 scores how well the partition matches the assumptions of the method that produced it. Silhouette
 rewards compact round clusters, so it will prefer k-means output on data with elongated groups,
 even when the elongated grouping is the true one. No internal score can tell you whether the

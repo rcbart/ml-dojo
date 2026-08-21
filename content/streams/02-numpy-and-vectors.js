@@ -72,8 +72,7 @@ The length of <code>a</code> is <code>‖a‖ = √(a·a)</code>. Everything abo
 formulas, and in the exercise you'll compute both on real vectors, in real Python, running in
 your browser.</div>`,
  deepDive:`<b>📖 Dive deeper: the dot product, rigorously (but in plain English).</b>
-<p>We said the dot product measures <i>alignment</i>. Here is why that is literally true, built up
-one honest step at a time.</p>
+<p>We said the dot product measures <i>alignment</i>. Here is why that is literally true, built up one step at a time.</p>
 <p><b>1. The definition.</b> For two vectors <code>a = [a₁,…,a_n]</code> and
 <code>b = [b₁,…,b_n]</code>, the dot product is <code>a·b = Σᵢ aᵢbᵢ = a₁b₁ + a₂b₂ + … + a_nb_n</code>.
 Just multiply matching entries and add. This is the <i>algebraic</i> definition.</p>

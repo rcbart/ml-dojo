@@ -194,7 +194,7 @@ function renderHome(){
   machine learning and AI</b>, the way a university would teach it, but hands-on, self-paced,
   and with every concept grounded in what it is actually <i>for</i>.</p>
 
-  <div class="ground"><span class="gTag">⏳ An honest promise</span>
+  <div class="ground"><span class="gTag">⏳ What this will take</span>
   <p><b>This will take time to master, and that is the point.</b> MLDojo is not a "become an
   ML expert in 30 days" shortcut. It offers the opposite: <b>depth and rigor that rivals
   college studies</b>. We are confident that, although it does not grant a degree, if you
@@ -234,7 +234,7 @@ function renderHome(){
   exercises, offers progressive hints and full solutions, a tutor you can ask anything, and
   a Dive Deeper path down to graduate-level treatment when you want it.</p>
 
-  <h3>Where this leads: said honestly</h3>
+  <h3>Where this leads</h3>
   <p>Completing MLDojo means you can understand, build, and deploy real ML systems, and hold
   your own with people who studied this in college. It is <b>preparation, not a credential</b>:
   it will make you thrive in a job interview, an ML team, or a degree program, but it is not

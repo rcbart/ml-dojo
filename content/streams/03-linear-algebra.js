@@ -316,7 +316,7 @@ also explains the shape law: the row length of A must equal the column length of
 dot two lists of different lengths.</p>
 
 <div class="worked"><b>✍️ Worked by hand, multiply a matrix by a vector.</b> Take our three
-houses and the weights, and compute every prediction the slow, honest way.
+houses and the weights, and compute every prediction the slow way.
 <div class="mathblock">X = | 1  2 |        w = | 50 |
     | 3  4 |            | −2 |
     | 5  6 |
@@ -449,8 +449,7 @@ print(preds, unchanged, first_by_hand)
 <div class="ground"><span class="gTag">🎯 The idea that unlocks the rest</span>
 <p>So far a matrix has been a grid of numbers and a batch of dot products. Here is the deeper
 picture that makes eigenvectors, determinants, and inverses finally make sense: <b>a matrix is
-a machine that moves points around, it transforms space.</b> But first we owe you an honest
-answer to a question you should be asking: <i>what is "space"?</i></p></div>
+a machine that moves points around, it transforms space.</b> But first we owe you an answer to a question you should be asking: <i>what is "space"?</i></p></div>
 
 <h3>First: what do we even mean by "space"?</h3>
 <p>Not outer space, no vacuum, no stars. In math, a <b>space</b> is simply <b>the collection of
@@ -1059,7 +1058,7 @@ one line. Sound familiar? That is precisely the duplicated-feature disease from 
 lesson (height in cm and in meters), and precisely what <b>rank</b> counts: rank = the number
 of independent directions = the true dimension of the span.</p>
 
-<h3>Basis: the minimal honest description</h3>
+<h3>Basis: the minimal description</h3>
 <p>A <b>basis</b> is an independent set that spans the space, no redundancy, nothing missing;
 every point has exactly one recipe in terms of it. Finding the coefficients of that recipe is
 a <code>solve</code>, the same tool as last lesson. And a preview with teeth: <b>PCA</b>

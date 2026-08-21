@@ -2072,8 +2072,7 @@ learn otherwise.</div>
 <h3>GRU, in one paragraph</h3>
 <p>The <b>gated recurrent unit</b> (2014) merges the forget and input gates into one update
 gate, and drops the separate cell state. Fewer parameters, faster, and in practice usually
-comparable. Which one is better depends on the problem, and the honest answer from the
-literature is that the difference is small.</p>
+comparable. Which one is better depends on the problem, and the answer from the literature is that the difference is small.</p>
 `,
  docs:[['Hochreiter & Schmidhuber, Long Short-Term Memory (1997)','https://www.bioinf.jku.at/publications/older/2604.pdf'],['Olah, Understanding LSTM Networks','https://colah.github.io/posts/2015-08-Understanding-LSTMs/']],
  exs:[{title:'Multiply thirty derivatives together, then open a gate',
@@ -2512,7 +2511,7 @@ print(np.round(w_causal, 4))
 {id:'nn14',
  title:'What neural networks still cannot do',
  body:`
-<div class="ground"><span class="gTag">🎯 The lesson that keeps the rest of the stream honest</span>
+<div class="ground"><span class="gTag">🎯 What the rest of the stream cannot do</span>
 <p>Every technique here works, and none of them makes the limitations below go away. Knowing
 what a network cannot do is what separates using one well from being surprised by it in
 production.</p></div>

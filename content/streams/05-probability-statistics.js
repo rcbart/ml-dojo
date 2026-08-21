@@ -123,7 +123,7 @@ print(mean, var, p_six)
 <p>Before modeling anything, you <b>describe</b> your data, and the mean alone lies. One
 billionaire in a room of ten people makes the <i>average</i> wealth enormous while nine people
 are broke. Descriptive statistics are the small set of numbers that summarize a dataset
-honestly; reaching for them is the first move in every real ML project (exploratory data
+faithfully; reaching for them is the first move in every real ML project (exploratory data
 analysis), and choosing the right one is a mark of competence.</p></div>
 
 <h3>Middle: mean vs median vs mode</h3>
@@ -1174,8 +1174,7 @@ print(py, cond, cov, gap)
 <div class="ground"><span class="gTag">🎯 One distribution, one optimization, and the machinery behind both</span>
 <p>The multivariate Gaussian is the distribution nearly every method assumes when it assumes
 anything. PCA is the optimization that falls out of its geometry. This lesson does both, and
-introduces <b>directional derivatives</b> along the way, because that is the tool that makes the
-PCA derivation honest rather than hand-waved.</p></div>
+introduces <b>directional derivatives</b> along the way, because that is the tool that makes the PCA derivation rigorous rather than hand-waved.</p></div>
 
 <h3>The density, term by term</h3>
 <div class="mathblock">N(x | &mu;, &Sigma;) = (2&pi;)<sup>-D/2</sup> |&Sigma;|<sup>-1/2</sup> exp( -&frac12; (x-&mu;)<sup>T</sup>&Sigma;<sup>-1</sup>(x-&mu;) )</div>
@@ -1575,7 +1574,7 @@ so a 95% confidence interval is a statement about the procedure. A Bayesian trea
 <code>&theta;</code> as random and the observed data as fixed, so a 95% credible interval is a
 statement about <code>&theta;</code>: there is a 95% probability it lies in this range, given the
 prior and the data. The second is what people usually think the first means.</p>
-<p>The practical trade is honest: Bayesian methods give you uncertainty as a first-class output
+<p>The practical trade is plain: Bayesian methods give you uncertainty as a first-class output
 and require you to state a prior and pay for the integral. Which matters depends on whether you
 need calibrated uncertainty, and on how much data you have, since with enough data the prior
 washes out and the two agree.</p>
@@ -1860,7 +1859,7 @@ skewed you may need hundreds. The convergence is in distribution, not in the tai
 events remain badly estimated even when the middle looks perfect. That caveat is the one that
 bites.</div>
 
-<h3>Reason 2: it is the most honest choice given only a mean and a variance</h3>
+<h3>Reason 2: it is the least presumptuous choice given only a mean and a variance</h3>
 <p>Among all distributions on the real line with a given mean and variance, the Gaussian has
 <b>maximum entropy</b>. Entropy is average surprise, so maximum entropy means assuming the least
 beyond what you have specified. If all you are willing to claim is a center and a spread, any
@@ -2026,8 +2025,7 @@ cluster.</div>
 be fractions. Those restrictions cost you real things.</p>
 <p>K-means finds spherical clusters of similar size, because that is what its assumptions
 encode. A GMM with full covariance can find elongated, tilted clusters of different sizes and
-different shapes. And soft responsibilities mean a point between two clusters is honestly
-reported as ambiguous rather than arbitrarily assigned.</p>
+different shapes. And soft responsibilities mean a point between two clusters is reported as ambiguous rather than arbitrarily assigned.</p>
 <div class="demystify"><b>The trap that ruins naive implementations.</b> The likelihood of a GMM
 is <b>unbounded</b>. Put one component's mean exactly on a single data point and shrink its
 variance toward zero, and the density at that point goes to infinity, so the likelihood does too.
@@ -2036,7 +2034,7 @@ small constant to the diagonal of each &Sigma;, or by placing a prior on the cov
 doing MAP instead of maximum likelihood. If your GMM produces a component that has collapsed onto
 one point, this is what happened.</div>
 `,
- exs:[{title:'Compute responsibilities, and find the points the model is honestly unsure about',
+ exs:[{title:'Compute responsibilities, and find the points the model is unsure about',
    lang:'python',
    packages:['numpy'],
    prompt:`Two components: weights 0.3 and 0.7, means 0 and 4, standard deviations 1 and 1.5.
@@ -2476,7 +2474,7 @@ print(he[-1], half[-1], naive[-1], float(np.median(ratios)))
     options:['The encoder producing discrete latent codes','The Gaussian being closed under scaling and shifting','KL divergence being symmetric in its arguments','The decoder being a deterministic function'],answer:1,whyWrong:['Discrete codes are exactly the case the trick does not cover, which is why Gumbel-softmax exists.','','KL is not symmetric, and the trick does not need it to be.','The decoder is deterministic in a VAE, and the trick is about the sampling step in the encoder.'],
     why:'z = μ + σ⊙ε keeps the sampling outside the gradient path, and only works because scaling a Gaussian gives a Gaussian.'},
    {q:'Across all six examples, the Gaussian is chosen mainly because:',
-    options:['It has the fewest parameters to estimate','It makes an otherwise intractable integral solvable','It is the only distribution with finite variance','It best describes how real data is distributed'],answer:1,whyWrong:['It has more parameters than several alternatives, two rather than one.','','Plenty of distributions have finite variance, including the uniform.','Real data is frequently skewed or heavy-tailed. Convenience is the honest reason.'],
+    options:['It has the fewest parameters to estimate','It makes an otherwise intractable integral solvable','It is the only distribution with finite variance','It best describes how real data is distributed'],answer:1,whyWrong:['It has more parameters than several alternatives, two rather than one.','','Plenty of distributions have finite variance, including the uniform.','Real data is frequently skewed or heavy-tailed. Convenience is the real reason.'],
     why:'Closure under the relevant operation is what buys the closed form. That is the common thread.'}
  ]}}
 ,
@@ -2622,7 +2620,7 @@ print(means.mean(), v_n.mean(), v_nm1.mean(), bias_n)
    ]}],
  quiz:{title:'Quick check, estimation',questions:[
    {q:'Sample variance divides by n-1 because:',
-    options:['It makes the result match the standard deviation','It prevents division by zero when n is one','Deviations from the sample mean are too small','Small samples need a larger denominator'],answer:2,whyWrong:['The standard deviation is the square root of whichever variance you computed. The denominator is a separate question.','With n equal to one there is no spread to estimate, and the undefined result is arguably the honest answer.','','It is not a size-based fudge. The correction is exactly one, at every n.'],
+    options:['It makes the result match the standard deviation','It prevents division by zero when n is one','Deviations from the sample mean are too small','Small samples need a larger denominator'],answer:2,whyWrong:['The standard deviation is the square root of whichever variance you computed. The denominator is a separate question.','With n equal to one there is no spread to estimate, and the undefined result is arguably the right answer.','','It is not a size-based fudge. The correction is exactly one, at every n.'],
     why:'The sample mean sits closer to the data than μ does, so squared deviations undershoot by exactly n/(n-1).'},
    {q:'Standard error falls as 1/√n, which implies:',
     options:['A hundred times the data cuts error tenfold','Doubling the data halves the error','Error is independent of the sample size','Ten times the data cuts error by a factor of ten'],answer:0,whyWrong:['','Doubling gives a factor of the square root of two, about 1.41, not 2.','It depends on n very much. That dependence is the whole point of the formula.','Ten times the data cuts it by the square root of ten, about 3.2.'],

@@ -390,7 +390,7 @@ d/dx σ(x)  = σ(x)·(1 − σ(x))     the SIGMOID derivative, used in every bac
 get by applying the chain rule to <code>1/(1+e⁻ˣ)</code>. Every neural network that uses a
 sigmoid computes exactly this during training. You will verify it in the exercise.</p>
 
-<div class="demystify"><b>Honest boundary, and why you will rarely do this by hand.</b> We
+<div class="demystify"><b>The boundary, and why you will rarely do this by hand.</b> We
 cover the power, product, and chain rules and the derivatives of <code>eˣ</code>,
 <code>ln x</code>, and the sigmoid, the differentiation ML uses, and we <i>skip</i> the rest
 of a calculus course (integration, trig calculus, infinite series, related rates): ML does not
@@ -577,7 +577,7 @@ slope per knob and stack them into a vector: THAT vector is the gradient. "Gradi
 gradient IS the derivative. Nothing fancier is happening in a 100-billion-parameter model,
 just this loop, with more knobs.</div>
 
-<div class="hardidea">🧠 <b>Honest caveat (convexity, previewed).</b> Walking downhill finds
+<div class="hardidea">🧠 <b>Caveat (convexity, previewed).</b> Walking downhill finds
 <i>a</i> bottom, not always <i>the deepest</i> one. Bowl-shaped ("convex") errors like
 (x−3)² have exactly one bottom, so descent is guaranteed to find it. Neural-net losses are
 bumpier; that's a real issue, and it gets its own deep-dive later. For now: one bowl, one

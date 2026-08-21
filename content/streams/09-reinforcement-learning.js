@@ -1335,7 +1335,7 @@ different questions: Q-learning asks what is optimal, SARSA asks what is best <i
 going to keep making mistakes</i>. If exploration will continue in deployment, or mistakes are
 expensive, SARSA is often the one you want.</p></div>
 
-<h3>Convergence, and the honest version of it</h3>
+<h3>Convergence, and what it actually guarantees</h3>
 <p>Tabular Q-learning converges to <code>Q*</code> with probability 1, under two conditions.
 Every state-action pair must be visited infinitely often, and the step sizes must satisfy the
 Robbins-Monro conditions:</p>
@@ -2668,7 +2668,7 @@ print('learned', proxy_l, true_l)
 {id:'rl14',
  title:'What reinforcement learning is still bad at, and when not to use it',
  body:`
-<div class="ground"><span class="gTag">🎯 The honest summary</span>
+<div class="ground"><span class="gTag">🎯 Where it stands</span>
 <p>RL has produced some of the most striking results in machine learning and it remains difficult
 to deploy. Knowing where the difficulty lives is what separates someone who has read about it
 from someone who has shipped it. Most of what follows is not solved, and being clear about that
@@ -2708,7 +2708,7 @@ own. And when comparing algorithms, be suspicious of any gap smaller than the se
 <h3>Safety during learning</h3>
 <p>An agent learns by making mistakes. In a simulator that is free. On a real robot, a real
 network, or a real financial position, some mistakes are not recoverable. Constrained MDPs, safe
-exploration and shielding all address this, and the honest state of the art is that most
+exploration and shielding all address this, and the state of the art is that most
 production deployments avoid the problem instead: train in simulation, transfer to reality, and
 never let the live system explore.</p>
 

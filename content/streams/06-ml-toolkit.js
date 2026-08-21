@@ -1,8 +1,8 @@
-STREAMS.push({icon:'🧰',track:'Scientific Python (after the math)',title:'The ML Toolkit: pandas, scikit-learn & plotting',blurb:'The advanced Python stream: the libraries that run real ML work, and the honest story of what Python actually does in ML.',requires:'vec3',requiresName:'NumPy: arrays & fast vectorized math',lessons:[
+STREAMS.push({icon:'🧰',track:'Scientific Python (after the math)',title:'The ML Toolkit: pandas, scikit-learn & plotting',blurb:'The advanced Python stream: the libraries that run real ML work, and what Python actually does in ML.',requires:'vec3',requiresName:'NumPy: arrays & fast vectorized math',lessons:[
 {id:'tk1',
  title:'Python’s real role in ML: the control room, not the engine room',
  body:`
-<div class="ground"><span class="gTag">🎯 The honest story</span>
+<div class="ground"><span class="gTag">🎯 What actually runs</span>
 <p>Let's correct a myth before it takes root: <b>"ML is written in Python" is only half
 true.</b> Python is where ML solutions are <b>prototyped, designed, and orchestrated</b>,
 where you express ideas, wire pipelines, and explore data. But the actual number-crunching,
@@ -21,7 +21,7 @@ thin steering layer over a compiled engine</i>. That is also why loops over arra
 cardinal sin, every trip back into the Python interpreter abandons the engine.</p>
 
 <h3>And in production?</h3>
-<p>The same honesty applies at the far end: serious production systems often go further,
+<p>The same applies at the far end: serious production systems often go further,
 inference servers in C++ or Rust, models exported to optimized runtimes (ONNX, TensorRT),
 specialized hardware. The pattern to internalize: <b>design and validate in Python, execute
 in whatever the computation demands.</b> Knowing this makes you better at both, you will

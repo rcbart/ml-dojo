@@ -13,7 +13,7 @@ and designed around one value above all: <b>readability</b>, code that looks clo
 English. That design choice is exactly why it became the language of data science and ML.</p>
 <p>In ML, Python's role is precise: it is where ML solutions are <b>prototyped, designed, and
 orchestrated</b>, the heavy number-crunching itself runs in far more optimized compiled code
-that Python directs (an honest distinction this track makes precise in the ML Toolkit
+that Python directs (a distinction this track makes precise in the ML Toolkit
 stream). ML work leans on words like <i>list</i>, <i>index</i>, and <i>dimension</i> as if
 everyone already knows them, so before we touch NumPy or a single dataset, we learn the tools
 of the trade from zero, starting with "what is a variable."</p></div>
@@ -1723,7 +1723,7 @@ That is all a CSV is, and every tool from pandas up is automating this exact loo
 (1,234,567); <code>f"{share:.0%}"</code> → a percentage. For interactive terminal programs,
 <code>input("prompt")</code> pauses and returns what the user types (always as a
 <i>string</i>, convert with <code>int()</code>/<code>float()</code>, and guard with the
-try/except you learned, because users type "abc"). Honest note: <code>input()</code> belongs
+try/except you learned, because users type "abc"). Note: <code>input()</code> belongs
 to terminal apps; in browsers and web apps, user input arrives through UI events instead,
 here in MLDojo, your "input" is the code and data you provide.</p>
 
@@ -1952,7 +1952,7 @@ print(result)
  title:'You cannot memorize Python, how to learn any function or library',
  body:`
 <div class="ground"><span class="gTag">🎯 The most important skill of all</span>
-<p>Here is the honest truth this course is built on: <b>nobody knows all of Python.</b> The
+<p>Here is the premise this course is built on: <b>nobody knows all of Python.</b> The
 standard library alone has hundreds of modules; NumPy, pandas, and scikit-learn have thousands
 of functions between them; the wider ecosystem has hundreds of thousands of packages. No
 course could cover them all, and no professional has them memorized. What separates competent
