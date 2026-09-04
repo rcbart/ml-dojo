@@ -75,13 +75,9 @@ def main():
         for l in s['lessons']:
             # The app renders lessonExs(l)[0] and nothing else, so a second
             # exercise is content no learner can reach and no one can grade.
-            # Loud, but not a build break: clearing it needs a content decision
-            # (promote the second exercise to its own lesson, or retire it), and
-            # a red deploy would not make that decision arrive sooner. Make this
-            # `failed += 1` the day mlzoo and mlcluster are resolved.
             if len(l['exs']) > 1:
-                warned += 1
-                problems.append(('UNREACHABLE EX (warn)', l['id'],
+                failed += 1
+                problems.append(('UNREACHABLE EX', l['id'],
                                  '%d exercises declared, but src/app.js renders lessonExs(l)[0] only, '
                                  'so exercise 2+ is unreachable. Promote it to its own lesson or retire it.'
                                  % len(l['exs'])))
