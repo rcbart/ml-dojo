@@ -51,7 +51,7 @@ turns out to be five lines you could have written yourself.</div>`,
     options:['The input p at which the function is largest','The largest value the function reaches anywhere','The number of inputs the function accepts','The average value the function takes across its inputs'],answer:0,whyWrong:['','That is max. argmax gives you where it happens, not how high it is.','That is a count of inputs, not a choice among them.','The average is a different summary and has nothing to do with where the peak is.'],
     why:'arg-max = "the argument (input) that maximizes it." MLE is argmax over parameters; you want WHERE the peak is.'},
    {q:'The Pi symbol (capital) in a formula tells you to:',
-    options:['Take the derivative of the expression that follows','Add the terms together, one after another','Divide the result by the constant pi','Multiply the terms together, the way a likelihood is built'],answer:3,whyWrong:['Derivatives are written with d or partial signs.','Adding is capital sigma. Pi is its multiplicative counterpart.','The constant pi is lowercase and is a different symbol altogether.',''],
+    options:['Take the derivative of each term in the expression that follows','Add the terms together, one after another','Divide the result by the constant pi','Multiply the terms together, the way a likelihood is built'],answer:3,whyWrong:['Derivatives are written with d or partial signs.','Adding is capital sigma. Pi is its multiplicative counterpart.','The constant pi is lowercase and is a different symbol altogether.',''],
     why:'Pi is Sigma for multiplication. A product of probabilities is exactly what the logs stream turned into a sum.'}
  ]},
  exs:[{title:'Translate the notation into code',

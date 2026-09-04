@@ -138,26 +138,15 @@ function toast(msg){
 }
 
 /* ------------------------------ Pyodide runner ------------------------------ */
-let _py=null,_pyInit=null;const _loadedPkgs=new Set();
-function getPy(status){
-  if(_pyInit)return _pyInit;
-  const p=(async()=>{
-    if(status)status('Loading Python (first run downloads ~10MB)…');
-    _py=await loadPyodide();
-    return _py;
-  })();
-  // Never cache a failure. One offline moment used to poison every later Run
-  // with the same stale rejection until the learner reloaded the whole page.
-  p.catch(()=>{if(_pyInit===p)_pyInit=null;});
-  _pyInit=p;
-  return p;
-}
-async function ensurePackages(packages,status){
-  const py=await getPy(status);
-  const need=(packages||[]).filter(p=>!_loadedPkgs.has(p));
-  if(need.length){if(status)status('Loading '+need.join(', ')+'…');await py.loadPackage(need);need.forEach(p=>_loadedPkgs.add(p));}
-  return py;
-}
+// Pyodide used to run on this thread with no interrupt, so a learner's own
+// `while True:` froze the whole tab, Run button dead, nothing to click. The
+// interpreter now lives in a Web Worker: terminating that worker is the only
+// reliable way to stop Python mid-loop, which is why a stop or a timeout costs
+// a reload of Pyodide on the next run.
+const PYODIDE_URL='https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js';
+// Wall clock for the RUN phase only. Downloading Pyodide and its packages is
+// deliberately not counted, so a slow first load never trips this. Tune here.
+const RUN_TIMEOUT_MS=20000;
 const PY_HARNESS=`
 import json, io, sys, os, traceback
 os.environ.setdefault("MPLBACKEND", "Agg")
@@ -195,13 +184,110 @@ def _grade(code, tests):
     return res
 json.dumps(_grade(_CODE, json.loads(_TESTS_JSON)))
 `;
-async function runPython(code,tests,packages,status){
-  const py=await ensurePackages(packages,status);
-  try{await py.loadPackagesFromImports(code);}catch(e){/* unknown imports fail at exec with a clear Python error */}
-  py.globals.set('_CODE',code);
-  py.globals.set('_TESTS_JSON',JSON.stringify(tests||[]));
-  const out=await py.runPythonAsync(PY_HARNESS);
-  return JSON.parse(out);
+/* The worker's source is assembled here at runtime and handed over as a blob
+   URL, because the build inlines this whole app into a single HTML file: there
+   is no second .js file for a Worker to point at. */
+function pyWorkerSource(){
+  return [
+    'const PY_HARNESS='+JSON.stringify(PY_HARNESS)+';',
+    'importScripts('+JSON.stringify(PYODIDE_URL)+');',
+    // Pyodide normally works out where to fetch its own runtime from by reading
+    // a stack trace. This worker is a blob: URL, so tell it outright.
+    'const INDEX_URL='+JSON.stringify(PYODIDE_URL.slice(0,PYODIDE_URL.lastIndexOf('/')+1))+';',
+    'let py=null;const loaded=new Set();',
+    'function say(id,text){postMessage({id:id,type:"status",text:text});}',
+    'async function ready(id,packages){',
+    '  if(!py){say(id,"Loading Python (first run downloads ~10MB)…");py=await loadPyodide({indexURL:INDEX_URL});}',
+    '  const need=(packages||[]).filter(function(p){return !loaded.has(p);});',
+    '  if(need.length){say(id,"Loading "+need.join(", ")+"…");await py.loadPackage(need);need.forEach(function(p){loaded.add(p);});}',
+    '  return py;',
+    '}',
+    'self.onmessage=async function(ev){',
+    '  const m=(ev&&ev.data)||{};',
+    '  if(m.type!=="run")return;',
+    '  try{',
+    '    const p=await ready(m.id,m.packages);',
+    '    try{await p.loadPackagesFromImports(m.code);}catch(e){/* unknown imports fail at exec with a clear Python error */}',
+    '    postMessage({id:m.id,type:"running"});',
+    '    p.globals.set("_CODE",m.code);',
+    '    p.globals.set("_TESTS_JSON",JSON.stringify(m.tests||[]));',
+    '    const out=await p.runPythonAsync(PY_HARNESS);',
+    '    postMessage({id:m.id,ok:true,result:JSON.parse(out)});',
+    '  }catch(e){postMessage({id:m.id,ok:false,error:(e&&e.message)||String(e)});}',
+    '};'
+  ].join('\n');
+}
+let _pw=null,_pwSeq=0,_pwReloadWarned=false;
+const _pwJobs=new Map();
+function pyWorker(){
+  if(_pw)return _pw;
+  const url=URL.createObjectURL(new Blob([pyWorkerSource()],{type:'text/javascript'}));
+  const w=new Worker(url);
+  URL.revokeObjectURL(url);   // the worker keeps running; the URL stops being resolvable
+  w.onmessage=function(ev){
+    const d=(ev&&ev.data)||{},job=_pwJobs.get(d.id);
+    if(!job)return;
+    if(d.type==='status'){if(job.status)job.status(d.text);return;}
+    if(d.type==='running'){job.arm();return;}
+    _pwJobs.delete(d.id);job.clear();
+    if(d.ok){job.resolve(d.result);return;}
+    // Anything that breaks outside the student's own code (a blocked CDN, a
+    // half-built interpreter) makes this worker suspect, so drop it.
+    dropPyWorker();
+    job.reject(new Error(d.error||'Python stopped unexpectedly'));
+  };
+  w.onerror=function(ev){failAllPyJobs((ev&&ev.message)||'the Python worker stopped unexpectedly',false);};
+  _pw=w;
+  return w;
+}
+// Never cache a broken worker. One offline moment used to poison every later
+// Run with the same stale rejection until the learner reloaded the whole page.
+function dropPyWorker(){
+  if(_pw){try{_pw.terminate();}catch(e){}}
+  _pw=null;
+}
+function pyReloadNote(){
+  if(_pwReloadWarned)return '';
+  _pwReloadWarned=true;
+  return ' Python is reloading, the next run takes a few seconds longer.';
+}
+function failAllPyJobs(msg,stopped){
+  const jobs=Array.from(_pwJobs.values());
+  _pwJobs.clear();
+  dropPyWorker();
+  const note=jobs.length?pyReloadNote():'';
+  jobs.forEach(function(job){
+    job.clear();
+    const err=new Error(msg+note);err.stopped=!!stopped;
+    job.reject(err);
+  });
+}
+function stopPython(msg){failAllPyJobs(msg||'Stopped.',true);}
+// Run is disabled while Python works, so Stop is the learner's only way out.
+function armStop(b){if(b){b.hidden=false;b.disabled=false;b.onclick=function(){b.disabled=true;stopPython();};}}
+function disarmStop(b){if(b){b.hidden=true;b.disabled=false;b.onclick=null;}}
+function runPython(code,tests,packages,status){
+  const id=++_pwSeq;
+  return new Promise(function(resolve,reject){
+    let w;
+    try{w=pyWorker();}catch(e){dropPyWorker();reject(new Error('Could not start the Python worker: '+((e&&e.message)||e)));return;}
+    let timer=null;
+    const job={
+      status:status,resolve:resolve,reject:reject,
+      clear:function(){if(timer){clearTimeout(timer);timer=null;}},
+      // The clock starts only once Python is running the student's code, so a
+      // cold download of the interpreter is never counted against it.
+      arm:function(){
+        job.clear();
+        timer=setTimeout(function(){
+          stopPython('Stopped after '+Math.round(RUN_TIMEOUT_MS/1000)+'s. Check for a loop that never ends.');
+        },RUN_TIMEOUT_MS);
+      }
+    };
+    _pwJobs.set(id,job);
+    try{w.postMessage({id:id,type:'run',code:code,tests:tests||[],packages:packages||[]});}
+    catch(e){_pwJobs.delete(id);dropPyWorker();reject(new Error('Could not reach the Python worker: '+((e&&e.message)||e)));}
+  });
 }
 
 /* ------------------------------ nav / home ------------------------------ */
@@ -428,6 +514,7 @@ function renderExercise(l){
     ${editorHTML()}
     <div class="toolbar">
       <button class="primary" id="btnRun">▶ Run &amp; check (real Python)</button>
+      <button id="btnStop" hidden>■ Stop</button>
       <button id="btnHint">💡 Next step</button>
       <button id="btnSol">👀 Show me the solution</button>
       <button id="btnReset">↺ Reset code</button>
@@ -468,6 +555,7 @@ async function runExercise(l){
   const e=lessonExs(l)[0];const sid=l.id;
   const code=document.getElementById('ed').value;
   const btn=document.getElementById('btnRun');btn.disabled=true;
+  const stopBtn=document.getElementById('btnStop');armStop(stopBtn);
   // The first run downloads ~10MB, so the learner can be several lessons away
   // by the time it finishes. Every write to the page is scoped to the lesson
   // this run actually belongs to; progress storage is not, so it still records
@@ -495,9 +583,14 @@ async function runExercise(l){
       if(r.results.length>0&&passed===r.results.length){markComplete(l);}
     }
   }catch(err){
-    setHTML('io-tests',`<div class="tcase bad">✘ Could not run Python: ${esc(err.message||err)}</div>
-      <div class="cLine dim">If this persists, the Pyodide CDN may be blocked on your network. Fix the connection and hit Run again.</div>`);
+    if(err&&err.stopped){
+      setHTML('io-tests',`<div class="tcase bad">■ ${esc(err.message)}</div>`);
+    }else{
+      setHTML('io-tests',`<div class="tcase bad">✘ Could not run Python: ${esc(err.message||err)}</div>
+        <div class="cLine dim">If this persists, the Pyodide CDN may be blocked on your network. Fix the connection and hit Run again.</div>`);
+    }
   }
+  disarmStop(stopBtn);
   btn.disabled=false;
 }
 function markComplete(l){
@@ -620,6 +713,7 @@ function renderPlayground(){
     ${editorHTML()}
     <div class="toolbar">
       <button class="primary" id="btnRun">▶ Run</button>
+      <button id="btnStop" hidden>■ Stop</button>
       <button id="btnClear">↺ Clear scratchpad</button>
     </div>
     <div class="ioPanel"><div class="ioTabs"><div class="ioTab active">Output</div></div>
@@ -635,6 +729,7 @@ function renderPlayground(){
 async function runPlayground(){
   const code=document.getElementById('ed').value;
   const btn=document.getElementById('btnRun');btn.disabled=true;
+  const stopBtn=document.getElementById('btnStop');armStop(stopBtn);
   // Same rule as a lesson run: the playground's own pyStatus is the only one it
   // may touch, so a slow run cannot write into a lesson opened in the meantime.
   const onScreen=()=>cur.si===-2;
@@ -648,7 +743,10 @@ async function runPlayground(){
     if(r.figure)h+=`<img class="pyFig" src="data:image/png;base64,${r.figure}" alt="your plot">`;
     if(!r.ok)h+=`<div class="cLine err">${esc(r.error)}</div>`;
     setHTML('io-play',h);
-  }catch(err){setHTML('io-play',`<div class="cLine err">Could not run Python: ${esc(err.message||err)}</div>`);}
+  }catch(err){setHTML('io-play',err&&err.stopped
+    ?`<div class="cLine err">${esc(err.message)}</div>`
+    :`<div class="cLine err">Could not run Python: ${esc(err.message||err)}</div>`);}
+  disarmStop(stopBtn);
   btn.disabled=false;
 }
 

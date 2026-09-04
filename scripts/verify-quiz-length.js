@@ -20,7 +20,7 @@ const ABS = 20;              // and at least 20 characters longer, to ignore noi
 // baseline. A learner who knows nothing and always picks the longest option scores
 // about 49%. This is real, committed debt: lower it as questions are rewritten,
 // never raise it.
-const LONGEST_BUDGET = 170;
+const LONGEST_BUDGET = 0;
 const dir = 'content/streams';
 let tot = 0, biased = 0, longest = 0, expected = 0, variance = 0;
 for (const f of fs.readdirSync(dir).filter(x => /^\d.*\.js$/.test(x))) {
