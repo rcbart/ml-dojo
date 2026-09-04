@@ -185,7 +185,7 @@ An actual copy is <code>b = a[:]</code>.</p>
 for a slot that does not exist (like <code>nums[10]</code> in a 6-item list). Note the
 asymmetry: <i>indexing</i> past the end is an error, but <i>slicing</i> past the end is
 forgiven (<code>nums[2:100]</code> quietly stops at the end), a deliberate design choice
-that makes slice-based code robust.</div>`,
+that keeps slice-based code from crashing on short input.</div>`,
  docs:[['Python tutorial (lists)','https://docs.python.org/3/tutorial/introduction.html#lists']],
  quiz:{title:'Quick check',questions:[
    {q:'For nums = [10, 20, 30, 40, 50], what is nums[-1] and nums[1:3]?',
@@ -528,7 +528,7 @@ print("total =", total, " count =", count)
    tests:[
      {d:'total is 30 (2+4+6+8+10)',expr:'total == 30'},
      {d:'count is 5 (there are five evens)',expr:'count == 5'},
-     {d:'the program prints its results',expr:'"total" in _stdout'}
+     {d:'the program prints both results, 30 and 5',expr:'"total = 30" in _stdout and "count = 5" in _stdout'}
    ],
    hints:[
      'The even test is x % 2 == 0 (the remainder when divided by 2 is zero).',
@@ -785,7 +785,7 @@ print(count_positives([1, -2, 3]), first_negative([5, -7, 9]))
      {d:'count_positives counts ALL of a long list (return is after the loop)',expr:'count_positives([1, 2, 3, 4, -5]) == 4'},
      {d:'count_positives([]) is 0',expr:'count_positives([]) == 0'},
      {d:'first_negative([5, -7, 9]) is -7 (early return inside the if)',expr:'first_negative([5, -7, 9]) == -7'},
-     {d:'first_negative returns None when there is no negative',expr:'first_negative([1, 2, 3]) is None'}
+     {d:'first_negative returns None with no negative, and the FIRST negative otherwise',expr:'first_negative([1, 2, 3]) is None and first_negative([1, -2, -3]) == -2'}
    ],
    hints:[
      'Levels in count_positives: def=0, count/for/return=1, if=2, count+=1 at 3. The return de-dents back to level 1 so it runs after the whole loop.',
@@ -1163,7 +1163,7 @@ print(word_count("a b a"))
    tests:[
      {d:'"a b a" tallies to {"a":2,"b":1}',expr:'word_count("a b a") == {"a":2,"b":1}'},
      {d:'counts every distinct word',expr:'word_count("red red red blue") == {"red":3,"blue":1}'},
-     {d:'empty text gives an empty dict',expr:'word_count("") == {}'}
+     {d:'empty text gives an empty dict, and one word gives a tally of one',expr:'word_count("") == {} and word_count("solo") == {"solo": 1}'}
    ],
    hints:[
      'Loop over text.split() to get each word.',
@@ -1196,7 +1196,7 @@ unique_words = set(words)         # the classic one-liner: dedupe anything</div>
 instantly (a list checks item by item; a set jumps straight there, the difference between
 milliseconds and minutes on big data). The two everyday jobs: <b>dedupe</b> (how many
 <i>unique</i> users/words/labels?) and <b>fast membership</b> (is this email in the spam
-list?). Sets also do algebra: <code>a & b</code> (both), <code>a | b</code> (either),
+list?). Sets also do algebra: <code>a &amp; b</code> (both), <code>a | b</code> (either),
 <code>a - b</code> (in a, not b), handy for comparing groups.</p>
 
 <h3>The chooser, in one breath</h3>
@@ -1877,7 +1877,7 @@ builds an <i>object</i> from scikit-learn's <code>LinearRegression</code> <i>cla
 object, as <code>model.coef_</code>); <code>model.predict(...)</code> calls another. The
 fit/predict interface you met is just <b>objects with methods</b>. Understanding classes is
 what turns "magic library incantations" into "oh, it is an object, and these are its
-methods."</p></div>`,
+methods."</div>`,
  docs:[['Python tutorial (classes)','https://docs.python.org/3/tutorial/classes.html']],
  quiz:{title:'Quick check',questions:[
    {q:'When you write list.append(3) or model.predict(X), the dot means:',

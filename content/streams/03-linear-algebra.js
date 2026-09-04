@@ -153,8 +153,8 @@ subject is named after.</p>
 
 <h3>The two multiplications: do not confuse them</h3>
 <p>Vectors have <i>two</i> different "multiplications," and mixing them up is the classic bug:</p>
-<div class="codeSample">Element-wise (Hadamard):  [1, 2, 3] * [4, 5, 6] = [3, 10, 18]   # multiply matching entries
-Dot product:              [1, 2, 3] · [4, 5, 6] = 3+10+18 = 31   # ...then ADD → one number</div>
+<div class="codeSample">Element-wise (Hadamard):  [1, 2, 3] * [4, 5, 6] = [4, 10, 18]   # multiply matching entries
+Dot product:              [1, 2, 3] · [4, 5, 6] = 4+10+18 = 32   # ...then ADD → one number</div>
 <p><b>Element-wise</b> multiply keeps a vector (each entry times its partner);
 <b>dot product</b> goes one step further and sums, collapsing to a single number. In NumPy the
 distinction is a single character: <code>a * b</code> is <b>element-wise</b>, while
@@ -438,9 +438,9 @@ print(preds, unchanged, first_by_hand)
      {d:'first house by hand is 46, matching preds[0]',expr:'first_by_hand == 46 and preds[0] == 46'}
    ],
    hints:[
-     'The one-shot multiply is X @ w: NumPy lines up each row of X with w.',
-     'np.eye(2) builds the identity; I @ w should print [50. -2.].',
-     'First row dot: 1*50 + 2*(-2) = 50 - 4 = 46. Check it equals preds[0], that is the whole secret of @.'
+     'One prediction is a dot product: sum(row[j] * w[j] for j in range(len(w))). Wrap that in a comprehension over the rows of X.',
+     'The 2\u00d72 identity is a plain list of rows, [[1, 0], [0, 1]]. Apply it to w with the same dot-product line you just wrote.',
+     'Row 1 dotted with w is 1*50 + 2*(-2) = 50 - 4 = 46. Check that it equals preds[0], because that is all a matrix\u2013vector product does: one dot product per row.'
    ]}]},
 
 {id:'latf',
@@ -803,7 +803,7 @@ determinant. So "det = 6" literally means <b>this transformation makes every are
 A <b>det of 0</b> means area is crushed to nothing, the square is flattened onto a line, a
 dimension is lost, and (next lesson) that is precisely why the matrix has no inverse. A
 <b>negative</b> determinant means the transformation also <i>flips</i> orientation (a mirror
-image), and its size is still the area factor.</p></div>
+image), and its size is still the area factor.</div>
 
 <h3>Where it is used in the real world (and in ML)</h3>
 <p>Beyond a school exercise, the determinant earns its keep: (1) <b>Can it be reversed?</b>,
@@ -1214,7 +1214,7 @@ you: your columns are secretly redundant, go find the duplicated information.</d
     options:['Its determinant is non-zero, equivalently it has full rank','Every one of its entries is positive, so nothing can cancel out','It is large enough that its rows cannot all be linearly dependent','It is symmetric, so it equals its own transpose'],answer:0,whyWrong:['','Sign has nothing to do with it. Plenty of invertible matrices contain negatives.','Size is the shape. A large matrix can be singular just as easily as a small one.','Symmetric matrices can be singular, and asymmetric ones are often invertible.'],
     why:'One fact, five equivalent tests: det≠0 ⟺ full rank ⟺ independent columns ⟺ unique solution ⟺ no information lost.'},
    {q:'You add "price in euros" to a model that already has "price in dollars" (euros = 1.1 × dollars). The normal equations break because:',
-    options:['Regression cannot be applied to monetary quantities without a transform','The numbers grow large enough that the solver loses precision on them','The two columns are dependent, so XᵀX is singular and has no inverse','Euros are not a supported unit for the feature matrix'],answer:2,whyWrong:['Money is fine. It is the fixed conversion factor between the two columns that breaks it.','Magnitude is not the issue. The same failure occurs with small numbers.','','Euros are just a column of numbers. The currency is not what the maths sees.'],
+    options:['Regression cannot be applied to monetary quantities without a transform','The numbers grow large enough that the solver loses precision on them','The two columns are dependent, so XᵀX is singular and has no inverse','Euros are not a supported unit for the feature matrix'],answer:2,whyWrong:['Money is fine. It is the fixed conversion factor between the two columns that breaks it.','Magnitude is not the issue. The same failure occurs with small numbers.','','Euros are just a column of numbers. The currency is not what the math sees.'],
     why:'Redundant/collinear columns make XᵀX rank-deficient and non-invertible. This is THE classic real-world regression failure.'},
    {q:'How does ridge regression, (XᵀX + λI)⁻¹, help numerically?',
     options:['The λI nudge restores full rank, so the inverse always exists','It has no effect on invertibility, only on the size of the coefficients','It scales the data up, which moves it away from the singular case','It deletes the correlated features before the inverse is attempted'],answer:0,whyWrong:['','It has a decisive effect. It is what guarantees the inverse exists.','Nothing about the data changes. The penalty acts on the matrix being inverted.','Every feature is kept. Their coefficients are shrunk rather than removed.'],
@@ -1589,7 +1589,7 @@ matrix apart into its ranked ingredients: that is the whole thing.</div>`,
     options:['Equal to its number of rows, since every user is represented','0, since one factor cannot span any direction at all','1, since rank counts independent directions rather than size','Equal to its number of columns, since every column is present'],answer:2,whyWrong:['Row count is the shape. A million-row matrix built from one factor still has rank 1.','Rank zero means every entry is zero.','','That would be full rank, meaning every column adds a new direction.'],
     why:'Rank counts how many rank-1 pieces you need. One factor = rank 1, even at Netflix scale.'},
    {q:'SVD is useful in ML because it:',
-    options:['It replaces gradient descent for problems that have a closed form','It works only on square matrices, which is where the theory is cleanest','It rewrites any matrix as importance-ranked rank-1 pieces','It makes matrices larger, so more structure becomes visible in them'],answer:2,whyWrong:['It is a factorisation, not an optimizer. The two solve different problems.','It works on any shape, which is one of its main advantages over eigen-decomposition.','','It is used to make them smaller, by keeping only the leading pieces.'],
+    options:['It replaces gradient descent for problems that have a closed form','It works only on square matrices, which is where the theory is cleanest','It rewrites any matrix as importance-ranked rank-1 pieces','It makes matrices larger, so more structure becomes visible in them'],answer:2,whyWrong:['It is a factorization, not an optimizer. The two solve different problems.','It works on any shape, which is one of its main advantages over eigen-decomposition.','','It is used to make them smaller, by keeping only the leading pieces.'],
     why:'Keep the strongest pieces, drop the weak: recommenders, PCA, denoising, and the low-rank idea behind LoRA.'}
  ]},
  exs:[{title:'Build a rank-1 matrix with the outer product (by hand)',

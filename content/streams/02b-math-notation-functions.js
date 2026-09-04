@@ -12,11 +12,11 @@ readable. You will translate real ML notation into code you already write.</p></
 <p><b><code>f(x)</code></b>, "f of x", is just a machine: put <code>x</code> in, get
 <code>f(x)</code> out (you have been writing these as Python functions). <b>Subscripts</b>
 like <code>x&#8321;, x&#8322;, &#8230;, x&#8345;</code> are just the items of a list -
-<code>x&#8342;</code> is "the i-th x," i.e. <code>x[i]</code> (math counts from 1, Python from
+<code>x&#7522;</code> is "the i-th x," i.e. <code>x[i]</code> (math counts from 1, Python from
 0, the only catch). <code>n</code> almost always means "how many," i.e. <code>len(x)</code>.</p>
 
 <h3>Sigma (&Sigma;): summation: is a for-loop that adds</h3>
-<div class="codeSample">The notation:   &Sigma;&#7522;&#8331;&#8321;&#8319;  x&#7522;      "sum x&#7522; for i from 1 to n"
+<div class="codeSample">The notation:   &Sigma;&#7522;&#8332;&#8321;&#8319;  x&#7522;      "sum x&#7522; for i from 1 to n"
 
 In Python:      total = 0
                 for xi in x:
@@ -165,7 +165,7 @@ and functions were the missing vocabulary; now the earlier streams click togethe
 (or flat plane); <i>nonlinear</i> just means "not a straight line", it can bend. The whole
 power of neural networks comes from composing <i>nonlinear</i> functions (like the sigmoid):
 stack only linear ones and you collapse back to a single straight line, no matter how many
-layers.</p></div>`,
+layers.</div>`,
  docs:[['The sigmoid / logistic function','https://en.wikipedia.org/wiki/Logistic_function'],['Function composition (visual intuition)','https://www.mathsisfun.com/sets/functions-composition.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The sigmoid function 1/(1+e^(-x)) is used in ML because it:',

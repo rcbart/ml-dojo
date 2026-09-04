@@ -157,7 +157,7 @@ best-fit line.</div>
 accident ("regression to the mean"), today it simply means <b>predict a number</b>. And the
 sklearn one-liner <code>LinearRegression().fit(X, y)</code> does exactly the training loop you
 are about to write (via the closed-form normal equations from the linear-algebra stream); the
-from-scratch version is how you <i>understand</i> what that one line does.</p></div>`,
+from-scratch version is how you <i>understand</i> what that one line does.</div>`,
  docs:[['scikit-learn (LinearRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Linear regression finds its weights by:',
@@ -715,6 +715,205 @@ print("imbalanced: accuracy", round(acc_imb, 3), "majority baseline", round(majo
     why:'A model that learns nothing scores 90%. Precision, recall and the confusion matrix are informative here.'}
  ]}}
 ,
+
+{id:'mlmetrics',
+ title:'Beyond accuracy: precision, recall, F1, and what each one cannot see',
+ body:`
+<div class="ground"><span class="gTag">🎯 The number everyone reports, and the one most likely to mislead</span>
+<p>The small-data lesson ended with an instruction and no explanation: stop reporting accuracy,
+report precision, recall and the confusion matrix. Here is the explanation. Accuracy is one
+summary of a classifier, it is the crudest one available, and on any problem where one class is
+rarer than the other it can be excellent while the model is useless. Every metric in this lesson
+is built from the same four numbers, and each one is blind to something specific. Knowing what
+each is blind to is the whole skill.</p></div>
+
+<h3>The confusion matrix: four counts, and everything comes from them</h3>
+<p>Fix a threshold, make a prediction for every example, and compare it to the truth. There are
+exactly four possible outcomes, and counting them gives you the <b>confusion matrix</b>:</p>
+<div class="mathblock">                    predicted positive   predicted negative
+actually positive        TP                   FN   (a miss)
+actually negative        FP  (a false alarm)  TN</div>
+<p><b>TP</b> and <b>TN</b> are the two ways to be right. <b>FP</b> is a false alarm: you flagged
+something that was fine. <b>FN</b> is a miss: something real slipped through. Those two mistakes
+are not interchangeable, and almost every argument about which metric to use is really an argument
+about which of them costs more.</p>
+
+<div class="worked">✍️ <b>Worked, a spam filter.</b> 1,000 emails, of which 50 are spam. The
+filter flags 40 emails, and 30 of those really are spam.
+<div class="mathblock">TP = 30      FP = 40 &minus; 30 = 10
+FN = 50 &minus; 30 = 20      TN = 1000 &minus; 50 &minus; 10 = 940
+
+accuracy  = (30 + 940) / 1000 = 0.97
+precision = 30 / (30 + 10)    = 30/40 = 0.75
+recall    = 30 / (30 + 20)    = 30/50 = 0.60</div>
+A 97% accuracy sounds excellent. Now compute the accuracy of a filter that flags nothing at all:
+950/1000 = <b>0.95</b>. Two points of accuracy is the entire contribution of the model, and it is
+letting 20 of the 50 spam emails through. Accuracy hid all of that, because 95% of the answer was
+decided by the majority class before the model said anything.</div>
+
+<h3>Precision and recall, and the exact thing each cannot see</h3>
+<p><b>Precision = TP / (TP + FP)</b>: of the things you flagged, what share were real? It answers
+"can I trust an alert?" It is blind to what you missed: a filter that flags one email
+and gets it right has precision 1.0 and is worthless.</p>
+<p><b>Recall = TP / (TP + FN)</b>, also called sensitivity or the true positive rate: of the
+things that were real, what share did you catch? It answers "am I missing anything?" It is blind
+to false alarms: a filter that flags every email has recall 1.0 and is also worthless.</p>
+<p>Each metric ignores exactly one of the two mistakes, which is why quoting one of them alone is
+the oldest trick in the book. Notice too that neither uses TN at all. In the worked example the
+940 correctly-ignored emails, 94% of the dataset, contribute nothing to either number. That is
+deliberate: on a rare-event problem the true negatives are the part you were never in doubt
+about.</p>
+
+<h3>F1: one number, when you must have one</h3>
+<div class="mathblock">F1 = 2 &middot; (precision &middot; recall) / (precision + recall)</div>
+<p>F1 is the harmonic mean of the two, which is a mean that punishes imbalance: 0.75 and 0.60 give
+F1 = 2(0.45)/1.35 = <b>0.667</b>, but precision 1.0 with recall 0.02 gives F1 = 0.039, not the
+0.51 an ordinary average would report. Score one metric at 1.0 by wrecking the other and F1 does
+not reward you. Its blind spot is that it treats a false alarm and a miss as equally
+expensive, which they almost never are. When they are not, say so with weights (F&beta;) or report
+both numbers and let the reader do the arithmetic.</p>
+
+<h3>The threshold is your decision, not the model's</h3>
+<p>A classifier outputs a probability. The 0.5 cut that turns it into a decision is a convention,
+and moving it walks you along a trade: lower the threshold and recall rises while precision falls,
+because you flag more of everything. The model is unchanged. This is why quoting precision and
+recall without the threshold is meaningless, and why a request for "better recall" is usually
+answered by moving a number rather than by training anything.</p>
+
+<h3>ROC and AUC: the threshold-free summary, and its blind spot</h3>
+<p>Sweep the threshold from high to low, plot the true positive rate against the false positive
+rate <code>FP/(FP+TN)</code>, and you have the <b>ROC curve</b>. The area under it, <b>ROC
+AUC</b>, has an exact reading worth memorizing: it is the probability that a randomly chosen
+positive is scored above a randomly chosen negative. So 0.5 is coin-flipping and 1.0 is a perfect
+ranking, and the number does not depend on any threshold at all.</p>
+<div class="hardidea">🧠 <b>What AUC is blind to: how rare the positives are.</b> The false
+positive rate divides by the number of negatives, so a huge negative class quietly absorbs a huge
+number of false alarms. Take 1,000 negatives and 10 positives. A threshold catching 8 of the 10
+positives at a 5% false positive rate looks superb on a ROC curve. Count the alerts: 8 true and
+0.05 &times; 1000 = 50 false, so precision is 8/58 = <b>0.14</b>. Fifty of the fifty-eight alerts are false,
+and the ROC curve never mentioned it. On heavily imbalanced problems report the
+precision-recall curve and its average precision instead, because both of its axes divide by
+quantities that shrink when you make mistakes.</div>
+
+<div class="demystify">Demystify the vocabulary. Medicine, statistics and machine learning
+each named these independently, so the same four counts arrive under several names.
+<b>Sensitivity = recall = true positive rate</b>. <b>Specificity = TN/(TN+FP)</b>, the recall of
+the negative class. <b>Positive predictive value = precision</b>. <b>Type I error</b> is a false
+positive and <b>Type II error</b> is a false negative. Nothing new is being said; go back to the
+four counts and read off whichever ratio the paper means.</div>
+`,
+ docs:[['scikit-learn: classification metrics','https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics']],
+ exs:[{title:'Build every metric from the four counts, then AUC from its definition',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`Twenty emails, six of them spam, already scored by a filter. Build the metrics
+   yourself rather than importing them.
+   <ol>
+   <li>The four counts at threshold 0.5: <code>tp</code>, <code>fp</code>, <code>fn</code>, <code>tn</code>. They should come to 4, 3, 2 and 11.</li>
+   <li><code>precision</code>, <code>recall</code> and <code>f1</code>, from those four counts only.</li>
+   <li>Move the threshold to 0.3 and recompute <code>precision_low</code> and <code>recall_low</code>, to watch the trade move without retraining anything.</li>
+   <li><code>auc</code>, from the definition: over every positive-negative pair, the share in which the positive scores higher. There are 6 &times; 14 = 84 pairs.</li>
+   </ol>`,
+   starter:`import numpy as np
+
+# 20 emails, sorted from most to least suspicious.
+# y is the truth: 1 = spam. p is the model's predicted probability of spam.
+y = np.array([1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0])
+p = np.array([0.95, 0.88, 0.81, 0.74, 0.66, 0.58, 0.52, 0.47, 0.43, 0.39,
+              0.34, 0.30, 0.26, 0.21, 0.17, 0.13, 0.09, 0.06, 0.04, 0.02])
+
+# 1) The four counts at the usual threshold of 0.5.
+pred = (p >= 0.5).astype(int)
+tp =
+fp =
+fn =
+tn =
+
+# 2) The three metrics, built from those four counts alone.
+precision =
+recall =
+f1 =
+
+# 3) The same model at a threshold of 0.3, to see the trade move.
+pred_low = (p >= 0.3).astype(int)
+precision_low =
+recall_low =
+
+# 4) ROC AUC from its definition: over every positive-negative pair,
+#    the share in which the positive scores higher.
+pos = p[y == 1]
+neg = p[y == 0]
+wins = 0.0
+auc = 0.0
+
+print("tp fp fn tn:", tp, fp, fn, tn)
+print("precision", round(precision, 3), "recall", round(recall, 3), "f1", round(f1, 3))
+print("at 0.3: precision", round(precision_low, 3), "recall", round(recall_low, 3))
+print("auc", round(auc, 4))
+`,
+   solution:`import numpy as np
+
+# 20 emails, sorted from most to least suspicious.
+# y is the truth: 1 = spam. p is the model's predicted probability of spam.
+y = np.array([1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0])
+p = np.array([0.95, 0.88, 0.81, 0.74, 0.66, 0.58, 0.52, 0.47, 0.43, 0.39,
+              0.34, 0.30, 0.26, 0.21, 0.17, 0.13, 0.09, 0.06, 0.04, 0.02])
+
+# 1) The four counts at the usual threshold of 0.5.
+pred = (p >= 0.5).astype(int)
+tp = int(((pred == 1) & (y == 1)).sum())
+fp = int(((pred == 1) & (y == 0)).sum())
+fn = int(((pred == 0) & (y == 1)).sum())
+tn = int(((pred == 0) & (y == 0)).sum())
+
+# 2) The three metrics, built from those four counts alone.
+precision = tp / (tp + fp)
+recall = tp / (tp + fn)
+f1 = 2 * precision * recall / (precision + recall)
+
+# 3) The same model at a threshold of 0.3, to see the trade move.
+pred_low = (p >= 0.3).astype(int)
+precision_low = int(((pred_low == 1) & (y == 1)).sum()) / int((pred_low == 1).sum())
+recall_low = int(((pred_low == 1) & (y == 1)).sum()) / int((y == 1).sum())
+
+# 4) ROC AUC from its definition: over every positive-negative pair,
+#    the share in which the positive scores higher.
+pos = p[y == 1]
+neg = p[y == 0]
+wins = float((pos[:, None] > neg[None, :]).sum()) + 0.5 * float((pos[:, None] == neg[None, :]).sum())
+auc = wins / (len(pos) * len(neg))
+
+print("tp fp fn tn:", tp, fp, fn, tn)
+print("precision", round(precision, 3), "recall", round(recall, 3), "f1", round(f1, 3))
+print("at 0.3: precision", round(precision_low, 3), "recall", round(recall_low, 3))
+print("auc", round(auc, 4))
+`,
+   tests:[
+     {d:'the four counts are tp=4, fp=3, fn=2, tn=11, and they add up to all twenty emails',expr:'(tp, fp, fn, tn) == (4, 3, 2, 11) and tp + fp + fn + tn == 20'},
+     {d:'precision is 4/7 and recall is 4/6, so the filter is trusted less often than it is thorough',expr:'abs(precision - 4/7) < 1e-9 and abs(recall - 4/6) < 1e-9'},
+     {d:'F1 is the harmonic mean, 0.6154, which sits below the plain average of the two',expr:'abs(f1 - 2*(4/7)*(4/6)/((4/7)+(4/6))) < 1e-9 and f1 < (precision + recall) / 2'},
+     {d:'dropping the threshold to 0.3 catches every spam email, recall 1.0, and precision falls to 0.5',expr:'abs(recall_low - 1.0) < 1e-9 and abs(precision_low - 0.5) < 1e-9 and recall_low > recall and precision_low < precision'},
+     {d:'the positive scores beat the negative ones in 71 of the 84 pairs, so AUC is 71/84 = 0.845',expr:'abs(wins - 71.0) < 1e-9 and abs(auc - 71/84) < 1e-9'}
+   ],
+   hints:[
+     'A count is a sum over a boolean array: ((pred == 1) & (y == 1)).sum() counts the true positives. The & needs brackets around each comparison.',
+     'precision divides by everything you flagged, tp + fp; recall divides by everything that was real, tp + fn. Reuse those two for f1.',
+     'For the pairs, pos[:, None] > neg[None, :] builds a 6 by 14 grid of comparisons, one per pair. Summing it counts the wins; divide by 6 * 14.'
+   ]}],
+ quiz:{title:'Quick check, classification metrics',questions:[
+   {q:'A model scores 97% accuracy on a dataset where 95% of rows are negative. This tells you:',
+    options:['The model is close to perfect on this task','Almost nothing without the error counts','Recall must be at least 0.97 as well','The classes are close to balanced'],answer:1,
+    whyWrong:['Predicting the majority class every time already scores 95%, so the model contributed two points.','','Accuracy says nothing about recall. All of the errors can be misses of the rare class.','A 95% majority is severe imbalance, and it is what makes accuracy uninformative here.'],
+    why:'Compare against the majority-class baseline first. On a 95/5 split accuracy starts at 0.95 before the model does anything, so the confusion matrix is what carries the information.'},
+   {q:'Precision is 1.0 and recall is 0.02. In plain words, the model:',
+    options:['Flags almost everything, and is right about most of it','Is well calibrated but badly thresholded','Is right whenever it fires, and almost never fires','Has been evaluated on the wrong dataset'],answer:2,
+    whyWrong:['Flagging almost everything gives high recall and low precision, which is the opposite pattern.','Calibration is about whether the probabilities are honest, and neither number here measures it.','','Nothing about the pair of numbers points at the data. It is a description of where the threshold sits.'],
+    why:'Precision only looks at what you flagged; recall only looks at what was real. Perfect precision with recall near zero is a model that fires once, correctly, and misses everything else. F1 = 0.039 reports that honestly.'},
+   {q:'On a dataset with 1,000 negatives and 10 positives, a high ROC AUC can coexist with:',
+    options:['Precision so low that most alerts are false','An accuracy below the majority baseline','A recall of exactly zero at every threshold','A confusion matrix that does not sum to n'],answer:0,
+    whyWrong:['','Accuracy below the baseline would need the ranking to be worse than chance, which a high AUC rules out.','Zero recall at every threshold would mean no positive is ever ranked first, which is an AUC near zero.','The four counts always sum to the number of rows. That is arithmetic, not a property of the model.'],
+    why:'The false positive rate divides by 1,000 negatives, so 5% of them is 50 false alarms against 8 true ones: precision 0.14. Use a precision-recall curve when positives are rare.'}
+ ]}},
 
 {id:'mlzoo',
  title:'The classifier zoo: six ways to draw a boundary',
@@ -1660,5 +1859,375 @@ print("sum of squared coefficients:", round(plain_size, 1), "vs", round(ridge_si
    {q:'Gradient-boosted trees cannot extrapolate because:',
     options:['Their loss is only defined over the training range','They overfit before reaching the boundary','Each leaf returns a constant learned from data','Boosting stops once residuals are small'],answer:2,whyWrong:['The loss is defined anywhere. It is the prediction that cannot leave the range of the leaf values.','Overfitting is a separate risk. Even a perfectly fitted ensemble is flat beyond the data.','','Boosting stops when you tell it to, and small residuals inside the data range say nothing about outside it.'],
     why:'The surface is piecewise constant. Outside the training range you get the nearest leaf’s value, unchanged forever.'}
+ ]}},
+
+{id:'mlprep',
+ title:'Feature scaling and encoding, and the leak that hides inside them',
+ body:`
+<div class="ground"><span class="gTag">🎯 The step before the model, which decides how well the model can do</span>
+<p>Three lessons so far have told you to scale your features and moved on: the classifier zoo
+said distance-based methods fail silently without it, the clustering lesson said an unscaled
+distance is mostly the biggest column, and the regression lesson said a penalty on unscaled
+coefficients penalizes your choice of units. This lesson is the one that says what scaling
+actually is, which models need it, how to encode a column that is not a number, and the rule that
+keeps all of it honest.</p></div>
+
+<h3>Why scale at all</h3>
+<p>Put income in dollars next to age in years. Income runs to five figures and age to two, so any
+squared distance between two people is essentially the income difference with a rounding error
+attached. Nothing about the data said income matters five hundred times more. The units did.</p>
+<p>Three families of model are affected, for three different reasons. <b>Distance-based</b>
+methods (k-NN, k-means, SVMs with an RBF kernel) compare features through a norm, so the biggest
+column wins. <b>Gradient-based</b> methods take one learning rate for every weight, and a
+feature a thousand times larger produces gradients a thousand times larger, so no single rate
+can be right for both. <b>Penalized</b> models (ridge, lasso)
+sum coefficients, and a coefficient's size depends on its feature's units. <b>Trees are the
+exception</b>: a split asks "is this feature above a threshold?", and rescaling the feature
+rescales the threshold with it, so the tree is unchanged. That is one of the reasons
+gradient boosting is so easy to run on messy tabular data.</p>
+
+<h3>The three scalers, on the same column</h3>
+<div class="worked">✍️ <b>Worked, one column with one outlier.</b> Take
+<code>[10, 20, 30, 40, 100]</code>. Its mean is 40 and its standard deviation is
+&radic;1000 = 31.62; its median is 30 and its interquartile range is 40 &minus; 20 = 20.
+<div class="mathblock">standard (z-score)  (x &minus; 40)/31.62   &rarr;  [-0.949, -0.632, -0.316, 0.000, 1.897]
+min-max             (x &minus; 10)/90      &rarr;  [ 0.000,  0.111,  0.222, 0.333, 1.000]
+robust              (x &minus; 30)/20      &rarr;  [-1.000, -0.500,  0.000, 0.500, 3.500]</div>
+Read the three rows. Min-max forces everything into [0, 1], which sounds tidy and here crushes the
+four ordinary values into the bottom third while the outlier takes the whole top. Standardization
+gives mean 0 and spread 1 and leaves the outlier visible at 1.9. Robust scaling divides by the
+IQR, which the outlier barely moves, so the four ordinary values keep their spacing and the
+outlier is reported honestly at 3.5. The choice is not cosmetic: it decides how much of the
+model's attention one weird row gets.</div>
+<p>The defaults worth remembering: <b>standardization</b> unless you have a reason,
+<b>min-max</b> when a bounded range is required (image pixels, some neural network inputs),
+<b>robust</b> when the column has outliers you do not want to delete. And when a column is skewed
+over orders of magnitude, income again, take a log first: the logarithms stream showed that a log
+turns a multiplicative spread into an additive one, which is exactly what these scalers assume.</p>
+
+<h3>Columns that are not numbers</h3>
+<p><b>One-hot encoding</b> turns a category into one 0/1 column per value: red, green, blue
+becomes three columns with a single 1 in each row. Use it whenever the categories have no
+order. <b>Ordinal encoding</b> maps them to 0, 1, 2 instead, and is correct only when they really
+are ordered (small, medium, large), because the model will happily conclude that medium is halfway
+between small and large. Coding unordered categories as integers is the same quiet mistake the
+paradigms lesson flagged with the three doctors.</p>
+<p>One-hot has a trap the linear algebra stream already explained. Encode <code>k</code>
+categories as <code>k</code> columns and include an intercept, and those columns sum to the
+all-ones column: perfectly collinear, XᵀX singular, no unique solution. That is the
+<b>dummy variable trap</b>, and the fix is to drop one category and let it be absorbed into the
+intercept. Regularized models and trees do not care; a plain normal-equations solve does.</p>
+<p><b>Missing values</b> need a decision too. Dropping rows is fine when few and biased when
+many. Imputing with the column mean or median is the usual default. Whatever you choose, add a
+<code>was_missing</code> indicator column, because the fact that a value was absent is often
+itself informative, and imputing without it throws that signal away.</p>
+
+<h3>The rule that keeps all of it honest</h3>
+<p>Every one of these steps <i>learns</i> something from data: a mean, a standard deviation, a
+min and max, a median, a set of categories. Learn it from the training rows only, then
+apply it unchanged to validation and test. Fit the scaler on everything and your test rows have
+contributed their mean to the numbers your model trained on, which is <b>data leakage</b>: the
+score goes up, the deployed model does not.</p>
+<div class="hardidea">🧠 <b>How large is the leak, and why it survives review.</b> It is usually
+small enough to look like a good day. A model scoring 0.86 honestly might score 0.88 with a leaked
+scaler, which is exactly the size of improvement a team celebrates and ships. Nothing crashes,
+no warning is printed, and the gap only appears in production, where there is no test set to
+borrow statistics from. This is why the tool exists: put every learned step in a
+<code>Pipeline</code> and hand the pipeline to cross-validation, so the fitting happens inside
+each fold by construction rather than by your remembering.</div>
+
+<div class="demystify">Demystify "normalize" versus "standardize". The words are used
+inconsistently across fields and libraries, which is why they cause so much confusion.
+<b>Standardize</b> almost always means the z-score, subtract the mean and divide by the standard
+deviation. <b>Normalize</b> sometimes means min-max to [0, 1] and sometimes means scaling each
+<i>row</i> to unit length, which is a different operation on a different axis. When you read
+either word, check which formula is meant rather than which name was used.</div>
+`,
+ docs:[['scikit-learn: preprocessing data','https://scikit-learn.org/stable/modules/preprocessing.html']],
+ exs:[{title:'Scale the right way, then measure the leak',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`One feature, eight training rows and three test rows, one of which is an outlier.
+   <ol>
+   <li>Standardize using the <b>training</b> mean and standard deviation only: <code>mu</code>, <code>sd</code>, <code>z_train</code>, <code>z_test</code>. The training column should end up with mean 0 and spread 1.</li>
+   <li><code>mm_test</code>, the test rows under min-max fitted on the training range. Notice the outlier lands outside [0, 1], which is what min-max does to anything it did not see.</li>
+   <li>Now do it wrong: fit the mean and standard deviation on train and test together, and record <code>leak_shift</code>, the largest amount any training row moves as a result.</li>
+   <li><code>same_split</code>, checking that a threshold rule at 45 puts the training rows in exactly the same two groups before and after scaling, which is why trees do not need any of this.</li>
+   </ol>`,
+   starter:`import numpy as np
+
+train = np.array([10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0])
+test = np.array([25.0, 55.0, 500.0])
+
+# 1) Standardize with the TRAINING statistics only.
+mu =
+sd =
+z_train =
+z_test =
+
+# 2) Min-max on the training range. Where does the outlier land?
+lo, hi = float(train.min()), float(train.max())
+mm_test =
+
+# 3) The leak: fit the same two statistics on train and test together.
+both = np.concatenate([train, test])
+mu_leak, sd_leak = float(both.mean()), float(both.std())
+z_train_leak = (train - mu_leak) / sd_leak
+leak_shift =
+
+# 4) A threshold rule is unchanged by scaling, which is why trees do not care.
+def stump(x, thr):
+    return (x > thr).astype(int)
+
+same_split = False
+
+print("mu", round(mu, 3), "sd", round(sd, 3))
+print("z_test", np.round(z_test, 3))
+print("mm_test", np.round(mm_test, 3))
+print("leaked mean", round(mu_leak, 3), "worst shift", round(leak_shift, 3))
+print("same split after scaling:", same_split)
+`,
+   solution:`import numpy as np
+
+train = np.array([10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0])
+test = np.array([25.0, 55.0, 500.0])
+
+# 1) Standardize with the TRAINING statistics only.
+mu = float(train.mean())
+sd = float(train.std())
+z_train = (train - mu) / sd
+z_test = (test - mu) / sd
+
+# 2) Min-max on the training range. Where does the outlier land?
+lo, hi = float(train.min()), float(train.max())
+mm_test = (test - lo) / (hi - lo)
+
+# 3) The leak: fit the same two statistics on train and test together.
+both = np.concatenate([train, test])
+mu_leak, sd_leak = float(both.mean()), float(both.std())
+z_train_leak = (train - mu_leak) / sd_leak
+leak_shift = float(np.abs(z_train_leak - z_train).max())
+
+# 4) A threshold rule is unchanged by scaling, which is why trees do not care.
+def stump(x, thr):
+    return (x > thr).astype(int)
+
+same_split = bool(np.array_equal(stump(train, 45.0), stump(z_train, (45.0 - mu) / sd)))
+
+print("mu", round(mu, 3), "sd", round(sd, 3))
+print("z_test", np.round(z_test, 3))
+print("mm_test", np.round(mm_test, 3))
+print("leaked mean", round(mu_leak, 3), "worst shift", round(leak_shift, 3))
+print("same split after scaling:", same_split)
+`,
+   tests:[
+     {d:'the training statistics are the training ones: mean 45, standard deviation 22.913',expr:'abs(mu - 45.0) < 1e-9 and abs(sd - 22.9128784748) < 1e-6'},
+     {d:'the standardized training column has mean 0 and spread 1, which is the whole point of the z-score',expr:'abs(float(z_train.mean())) < 1e-12 and abs(float(z_train.std()) - 1.0) < 1e-12'},
+     {d:'the test rows are scaled with the training numbers, so the outlier shows up at about 19.9 standard deviations',expr:'abs(float(z_test[0]) + 0.8729) < 1e-3 and float(z_test[2]) > 19.0'},
+     {d:'min-max sends the outlier to 7.0, far outside [0, 1], because it was never in the training range',expr:'abs(float(mm_test[2]) - 7.0) < 1e-9 and 0.0 <= float(mm_test[0]) <= 1.0'},
+     {d:'fitting the scaler on train and test together moves every training row, by up to 1.57 standard deviations here',expr:'leak_shift > 1.5 and abs(mu_leak - 940/11) < 1e-9'},
+     {d:'the threshold rule splits the rows identically before and after scaling, so a tree is untouched by it',expr:'same_split is True'}
+   ],
+   hints:[
+     'mu and sd come from train alone. Then z_train = (train - mu) / sd and z_test uses the same two numbers, not the test ones.',
+     'leak_shift is the largest absolute difference between z_train_leak and z_train: np.abs(a - b).max().',
+     'For same_split, compare stump(train, 45.0) with stump(z_train, (45.0 - mu) / sd) using np.array_equal. The threshold moves with the data, so the grouping does not.'
+   ]}],
+ quiz:{title:'Quick check, preprocessing',questions:[
+   {q:'Which model is essentially unaffected by rescaling a feature?',
+    options:['k-nearest neighbors','A decision tree','Ridge regression','An RBF-kernel SVM'],answer:1,
+    whyWrong:['Its distances are dominated by whichever column has the largest units.','','The penalty sums coefficients, whose sizes depend on the units of their features.','The kernel is a function of distance, so the largest column dominates it too.'],
+    why:'A split asks whether a feature exceeds a threshold. Rescale the feature and the threshold rescales with it, so the same rows fall on the same side.'},
+   {q:'You fit a StandardScaler on the whole dataset, then cross-validate. The result is:',
+    options:['Correct, since scaling uses no labels','Slower to run, though the reported score is unchanged','Optimistic, because held-out rows shaped the scaler','An error raised by the pipeline'],answer:2,
+    whyWrong:['Leakage does not require labels. A mean computed from the held-out rows is still information from them.','Runtime is not what changed. The estimate is what changed.','','Nothing is raised. That silence is exactly why the mistake survives review.'],
+    why:'Every learned step, including a mean and a standard deviation, belongs inside the fold. Put it in a Pipeline and cross-validate the pipeline, so the fitting happens per fold by construction.'},
+   {q:'A column holds the categories red, green and blue. Encoding them as 0, 1, 2 tells the model:',
+    options:['That green sits between red and blue','That there are exactly three of them','Nothing at all, since the numbers are arbitrary','That the column should be dropped'],answer:0,
+    whyWrong:['','The count is visible either way, and it is not what the encoding asserts.','The numbers are anything but ignored. A linear model reads them as a scale.','Nothing suggests dropping it. One-hot encoding keeps the information without inventing an order.'],
+    why:'Ordinal codes assert an order and a spacing. For unordered categories use one-hot, and drop one column if you are also fitting an intercept, to avoid the dummy variable trap.'}
+ ]}},
+
+{id:'mltune',
+ title:'Hyperparameter search: grid, random, and the score you are not allowed to trust',
+ body:`
+<div class="ground"><span class="gTag">🎯 The knobs training does not turn</span>
+<p>Every model in this stream has two kinds of number. The <b>parameters</b> are what fitting
+finds: the coefficients of a regression, the thresholds in a tree. The <b>hyperparameters</b> are
+what you chose before fitting started: <code>k</code> in k-NN, the depth of a tree, ridge's
+<code>&lambda;</code>, the learning rate, the number of components in a mixture. Training cannot
+touch them, because they are the settings training runs under. The scikit-learn lesson gave you
+the tell: fitted parameters get a trailing underscore, <code>coef_</code>; hyperparameters are the
+plain arguments you passed to the constructor. Choosing them is a search, and this lesson is
+about running that search without lying to yourself about the result.</p></div>
+
+<h3>Grid search, and the arithmetic that stops it</h3>
+<p>List the values you want to try for each hyperparameter, try every combination, keep the best.
+It is exhaustive within the grid and completely predictable, which is its appeal. The cost is a
+product, not a sum:</p>
+<div class="mathblock">fits = (values per hyperparameter, multiplied together) &times; folds
+
+4 depths &times; 5 learning rates &times; 3 subsample rates = 60 configurations
+60 &times; 5-fold cross-validation                          = 300 fits
+300 fits &times; 20 seconds each                            = 100 minutes</div>
+<p>Add one more hyperparameter with three values and it is five hours. That multiplication is why
+grid search stops being usable at about three hyperparameters, and it is the whole reason the
+alternatives exist.</p>
+
+<h3>Why random search usually beats it on the same budget</h3>
+<p>Here is the observation that changed common practice, from Bergstra and Bengio in 2012. In
+almost every real problem, a couple of hyperparameters matter a great deal and the rest barely
+matter at all. You do not know in advance which ones.</p>
+<div class="worked">✍️ <b>Worked, 25 fits spent two ways.</b> Two hyperparameters, one that
+matters and one that does not. A 5 &times; 5 grid spends 25 fits and tries exactly <b>5 distinct
+values</b> of each axis, because every value is repeated five times as the other axis moves.
+Twenty-five independent random draws spend the same 25 fits and try <b>25 distinct values</b> of
+each axis. On the axis that matters, random search sampled five times as finely for the same
+money. The exercise runs both and compares the best score each finds.</div>
+<p>The same point in one line of probability. Suppose the top 5% of the important axis is where
+you need to land. Each independent draw misses it with probability 0.95, so
+<code>n</code> draws all miss with probability 0.95<sup>n</sup>:</p>
+<div class="mathblock">P(at least one of 60 draws lands in the best 5%) = 1 &minus; 0.95&#8310;&#8304; = 1 &minus; 0.046 = 0.954</div>
+<p>Sixty random configurations give you better than a 95% chance of finding the best 5% of
+<i>every</i> hyperparameter you sampled, however many there are, because the argument does not
+mention the dimension. A grid gets exponentially worse as dimensions are added; random search does
+not notice them.</p>
+
+<h3>Sample on the scale the hyperparameter lives on</h3>
+<p>A learning rate is not uniform over [0.00001, 0.1]. Draw uniformly from that range and 99.9% of
+your draws land above 0.0001, so you have searched one decade and ignored three. Rates,
+regularization strengths and anything else spanning orders of magnitude should be sampled
+<b>log-uniformly</b>: draw the exponent uniformly and raise 10 to it, which puts equal effort in
+every decade. This is the logarithms stream cashing out as a practical decision, and it is the
+single most common mistake in a first search.</p>
+<p>Two refinements worth naming. <b>Successive halving</b> (and Hyperband, which wraps it) starts
+many configurations with a small budget, throws away the worst half, and doubles the budget of the
+survivors, so most of the compute goes to candidates that already look good. <b>Bayesian
+optimization</b> fits a cheap model of "score as a function of hyperparameters", usually a
+Gaussian process from the probability stream, and picks the next point to try by balancing a high
+predicted score against high uncertainty. That is a trade between exploring where you are
+uncertain and exploiting where you already score well, and the reinforcement learning stream
+later gives it a lesson of its own.</p>
+
+<div class="hardidea">🧠 <b>The best cross-validation score is biased upward, and by a knowable
+amount.</b> You evaluated 200 configurations, each with noise in its estimate, and then reported
+the maximum. The maximum of many noisy numbers sits above the truth in expectation, and the more
+configurations you try the further above it sits. The same overestimation turns up later in the
+reinforcement learning stream, where Q-learning takes a max over noisy value estimates. The consequence is concrete: the winning
+configuration's cross-validation score is not an estimate of how it will perform, it is an
+estimate plus a selection bonus. Two fixes, both standard. Keep a final test set that no search
+ever touched and report its score once. Or use <b>nested cross-validation</b>, an inner loop that
+selects and an outer loop that scores, so the selection happens inside the thing being
+measured.</div>
+
+<div class="demystify">Demystify "tuning". It sounds like an adjustment to a trained model.
+It is not: every configuration is a <i>separate model, trained from scratch</i>. A search over
+200 configurations with 5-fold cross-validation trains a thousand models and keeps the settings of
+one. That is why the cost is measured in fits, why early stopping and successive halving matter so
+much, and why "we tuned it" is a claim about compute rather than about cleverness.</div>
+`,
+ docs:[['scikit-learn: tuning the hyper-parameters of an estimator','https://scikit-learn.org/stable/modules/grid_search.html']],
+ exs:[{title:'Spend the same budget two ways, and price the search',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`A scoring function that depends sharply on <code>a</code> and barely on <code>b</code>,
+   standing in for the usual situation where one hyperparameter matters and one does not.
+   <ol>
+   <li>Build the 5 &times; 5 grid over <code>axis</code>: <code>grid_fits</code> (25), <code>grid_distinct_a</code>, how many distinct values of <code>a</code> it actually tried, and <code>grid_best</code>, the best score it found.</li>
+   <li>Draw the same number of random configurations and record <code>rand_distinct_a</code> and <code>rand_best</code>.</li>
+   <li><code>hit_prob</code>, the probability that at least one of 60 independent draws lands in the best 5% of an axis.</li>
+   <li><code>share_below</code>, the fraction of log-uniform draws over 10<sup>&minus;5</sup> to 10<sup>&minus;1</sup> that fall below 10<sup>&minus;3</sup>. Half of them should, because that is half the decades.</li>
+   </ol>`,
+   starter:`import numpy as np
+
+# A score that depends strongly on one hyperparameter and barely on the other.
+def score(a, b):
+    return float(np.exp(-((a - 0.37) ** 2) / 0.01) + 0.05 * b)
+
+# 1) Grid search: 5 values per axis.
+axis = np.linspace(0.0, 1.0, 5)
+grid = [(a, b) for a in axis for b in axis]
+grid_fits = len(grid)
+grid_distinct_a = 0
+grid_best = 0.0
+
+# 2) Random search: the same number of fits, drawn independently.
+rng = np.random.default_rng(0)
+rand = [(float(rng.random()), float(rng.random())) for _ in range(grid_fits)]
+rand_distinct_a = 0
+rand_best = 0.0
+
+# 3) The chance that at least one of 60 independent draws lands in the best 5% of an axis.
+n = 60
+hit_prob = 0.0
+
+# 4) Log-uniform sampling, so every decade gets equal effort.
+lr = 10.0 ** rng.uniform(-5, -1, size=20000)
+share_below = 0.0
+
+print("grid:  ", grid_fits, "fits,", grid_distinct_a, "distinct a, best", round(grid_best, 4))
+print("random:", grid_fits, "fits,", rand_distinct_a, "distinct a, best", round(rand_best, 4))
+print("P(one of 60 draws in the top 5%):", round(hit_prob, 4))
+print("share of log-uniform draws below 1e-3:", round(share_below, 3))
+`,
+   solution:`import numpy as np
+
+# A score that depends strongly on one hyperparameter and barely on the other.
+def score(a, b):
+    return float(np.exp(-((a - 0.37) ** 2) / 0.01) + 0.05 * b)
+
+# 1) Grid search: 5 values per axis.
+axis = np.linspace(0.0, 1.0, 5)
+grid = [(a, b) for a in axis for b in axis]
+grid_fits = len(grid)
+grid_distinct_a = len(set(round(a, 12) for a, _ in grid))
+grid_best = max(score(a, b) for a, b in grid)
+
+# 2) Random search: the same number of fits, drawn independently.
+rng = np.random.default_rng(0)
+rand = [(float(rng.random()), float(rng.random())) for _ in range(grid_fits)]
+rand_distinct_a = len(set(round(a, 12) for a, _ in rand))
+rand_best = max(score(a, b) for a, b in rand)
+
+# 3) The chance that at least one of 60 independent draws lands in the best 5% of an axis.
+n = 60
+hit_prob = 1.0 - 0.95 ** n
+
+# 4) Log-uniform sampling, so every decade gets equal effort.
+lr = 10.0 ** rng.uniform(-5, -1, size=20000)
+share_below = float((lr < 1e-3).mean())
+
+print("grid:  ", grid_fits, "fits,", grid_distinct_a, "distinct a, best", round(grid_best, 4))
+print("random:", grid_fits, "fits,", rand_distinct_a, "distinct a, best", round(rand_best, 4))
+print("P(one of 60 draws in the top 5%):", round(hit_prob, 4))
+print("share of log-uniform draws below 1e-3:", round(share_below, 3))
+`,
+   tests:[
+     {d:'the 5 by 5 grid costs 25 fits and tries only 5 distinct values of the axis that matters',expr:'grid_fits == 25 and grid_distinct_a == 5'},
+     {d:'25 random draws cost the same 25 fits and try 25 distinct values of that axis',expr:'rand_distinct_a == 25'},
+     {d:'the grid never gets near the peak, topping out at 0.287, because 0.37 is not on it',expr:'abs(grid_best - 0.2869) < 1e-3'},
+     {d:'random search finds a far better configuration for the identical budget',expr:'rand_best > grid_best + 0.3'},
+     {d:'sixty independent draws reach the best 5% of an axis with probability 0.954, whatever the dimension',expr:'abs(hit_prob - (1 - 0.95 ** 60)) < 1e-12 and abs(hit_prob - 0.9539) < 1e-3'},
+     {d:'log-uniform sampling puts about half the draws below 1e-3, since that is two of the four decades',expr:'0.47 < share_below < 0.53'}
+   ],
+   hints:[
+     'Count distinct values with a set: len(set(round(a, 12) for a, _ in grid)). The rounding just keeps floating point from splitting one value into two.',
+     'grid_best and rand_best are both max(score(a, b) for a, b in ...) over the respective lists.',
+     'The 60 draws all miss with probability 0.95 ** 60, so hit_prob is one minus that. For the last part, (lr < 1e-3).mean() is the share of a boolean array that is True.'
+   ]}],
+ quiz:{title:'Quick check, hyperparameter search',questions:[
+   {q:'Which of these is a hyperparameter rather than a parameter?',
+    options:['A regression coefficient','A split threshold inside a tree','A cluster center found by k-means','The depth limit of a tree'],answer:3,
+    whyWrong:['That is fitted from the data, and scikit-learn writes it coef_ with a trailing underscore.','Thresholds are chosen by the fitting procedure, one per node, from the data.','Centers are what k-means computes. The k it computes them for is the hyperparameter.',''],
+    why:'Hyperparameters are the settings training runs under; parameters are what training finds. The trailing underscore in scikit-learn marks the second kind.'},
+   {q:'Random search usually beats grid search on the same budget because:',
+    options:['It is guaranteed to converge on the global optimum','Its draws are cheaper to evaluate','It tries more distinct values per axis','It needs no cross-validation'],answer:2,
+    whyWrong:['It has no convergence guarantee at all. It samples, it does not optimize.','Each fit costs exactly the same. The budget is the same in both.','','Both need cross-validation, and for the same reason: a single split is too noisy to choose on.'],
+    why:'A 5 by 5 grid spends 25 fits on 5 distinct values per axis. 25 random draws spend the same 25 fits on 25 distinct values per axis, which matters on whichever axis turns out to be the important one.'},
+   {q:'You search 200 configurations and report the best cross-validation score. That number is:',
+    options:['Unbiased, since cross-validation is unbiased','An estimate plus a selection bonus','Too low, because folds train on less data','Meaningless unless the folds were stratified'],answer:1,
+    whyWrong:['Each individual estimate is roughly unbiased. The maximum of 200 of them is not.','','Training on k-1 folds is a small pessimism, and it is swamped by the optimism of taking a maximum.','Stratification matters with imbalanced classes and is a separate issue from selection bias.'],
+    why:'The maximum of many noisy estimates sits above the truth, the same overestimation a max over noisy estimates always produces. Report an untouched test set once, or use nested cross-validation.'}
  ]}}
+
 ]});

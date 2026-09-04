@@ -1,4 +1,4 @@
-STREAMS.push({icon:'🧠',track:'ML & AI Track',title:'Neural Networks: from the perceptron to the transformer',blurb:'Every idea behind modern neural networks, in the order it was invented and in plain English first. One neuron, then many, then how they learn, then convolution, attention, and what these things still cannot do.',lessons:[
+STREAMS.push({icon:'🧠',track:'ML & AI Track',title:'Neural Networks: from the perceptron to the transformer',requires:'mlreg',requiresName:'Classic Machine Learning: Your First Models',blurb:'Every idea behind modern neural networks, in the order it was invented and in plain English first. One neuron, then many, then how they learn, then convolution, attention, and what these things still cannot do.',lessons:[
 
 {id:'nn0',
  title:'What a neuron actually is, and why the brain metaphor misleads you',
@@ -158,7 +158,7 @@ print(a, a_aug, per_sqft, a_zero, a_older)
     options:['The order in which the inputs arrive at the network','The programming language it runs in','The values stored in its weights and biases','The number of inputs it accepts'],answer:2,whyWrong:['Input order is a property of your data pipeline. Training never touches it.','The language is a choice you made before training, and nothing about it changes.','','The input count is fixed by the architecture. Changing it would mean a different network.'],
     why:'The structure stays fixed. Training searches for good numbers to put in the weights and biases.'},
    {q:'The bias term exists so that:',
-    options:['Errors are spread evenly across inputs','The network runs faster on a GPU','Weights are kept small enough for training to stay stable','The output can be nonzero when all inputs are zero'],answer:3,whyWrong:['Nothing spreads error evenly. The bias is one more learned parameter, not an error-handling device.','The bias adds one number per neuron and has no bearing on hardware speed.','That is regularisation, which is a separate mechanism entirely.',''],
+    options:['Errors are spread evenly across inputs','The network runs faster on a GPU','Weights are kept small enough for training to stay stable','The output can be nonzero when all inputs are zero'],answer:3,whyWrong:['Nothing spreads error evenly. The bias is one more learned parameter, not an error-handling device.','The bias adds one number per neuron and has no bearing on hardware speed.','That is regularization, which is a separate mechanism entirely.',''],
     why:'Without a bias the model is forced through the origin, which is rarely where the truth sits.'}
  ]}},
 
@@ -1533,6 +1533,240 @@ print(acc_train_reg, acc_test_reg, gap_reg)
  ]}}
 ,
 
+{id:'nndebug',
+ title:'When the network will not learn: an order to check things in',
+ body:`
+<div class="ground"><span class="gTag">🎯 The loss is flat, and you have no idea why</span>
+<p>You have the whole machine now: a forward pass, backpropagation, gradient descent, activation
+functions, and the tricks that stop overfitting. What nobody writes down is what to do when you
+assemble all of it and the loss sits there. The failure is almost never exotic, and it is almost
+never in the mathematics. This lesson is an order to check things in, cheapest and most
+informative first, and every item on it is something you have already met in this stream.</p></div>
+
+<h3>1. Is the loss at step zero the number it has to be?</h3>
+<p>Before any training, a classifier that has learned nothing should spread its probability evenly
+over the classes. Substitute that into cross-entropy from the probability stream and the starting
+loss is forced:</p>
+<div class="mathblock">uniform over K classes  &rarr;  loss = &minus;log(1/K) = log K
+
+K = 2   &rarr;  log 2  = 0.693
+K = 10  &rarr;  log 10 = 2.303
+K = 1000 &rarr; log 1000 = 6.908</div>
+<p>This is a free assertion that catches an enormous number of bugs in one line. If a ten-class
+model starts at 2.3, the labels line up with the inputs, the output layer has the right width and
+the loss is being applied to the right thing. If it starts at 7, something is wrong before
+training even begins: usually the labels are shifted or shuffled, the final layer has the wrong
+number of outputs, or a softmax is being applied twice. No amount of tuning fixes any of those,
+and no amount of training will tell you which one it is.</p>
+
+<h3>2. Can it overfit eight examples?</h3>
+<p>Take a single tiny batch, turn off every regularizer, and train on that batch alone for a few
+hundred steps. A correctly wired network <b>must</b> drive the loss to nearly zero, because it is
+allowed to memorize, and the overfitting lesson established that memorizing is the easy thing for
+a network to do. If it cannot memorize eight examples, no dataset is going to work.</p>
+<p>This is the single most informative test in this lesson, because of how cleanly it splits the
+problem. Loss goes to zero on one batch but not on the full set: the wiring is fine and you have
+an optimization or a capacity or a data problem. Loss will not go to zero even on one batch: the
+wiring is broken, and there is no point looking at the dataset at all.</p>
+
+<h3>3. The learning rate, which is the usual answer</h3>
+<p>The gradient-descent lesson said it plainly and it is worth repeating here as a diagnosis. Loss
+that climbs, oscillates violently, or turns to NaN within a few dozen steps means the rate is too
+large: you are stepping past the valley and landing higher up the far side. Loss that falls
+smoothly and far too slowly means it is too small. Sweep it by factors of ten, from
+10<sup>&minus;1</sup> down to 10<sup>&minus;5</sup>, and take the largest one that does not
+misbehave. Ten minutes of sweeping regularly beats a day of architecture changes.</p>
+
+<h3>4. The inputs, and the activations after them</h3>
+<p>Unscaled inputs are the quiet version of a learning rate that is too large. A feature in the
+thousands produces gradients in the thousands for the weights it touches, while a feature in the
+tenths produces tiny ones, and one learning rate has to serve both. The preprocessing lesson
+covers the fix; the symptom here is a run that either diverges or stalls at a loss well above what
+the same setup reaches on standardized inputs. The exercise measures exactly that gap.</p>
+<p>Then look at what the activations do, because the activation lesson already told you both
+failure modes. <b>Dead ReLUs</b>: if a large share of a layer's outputs are exactly zero for every
+example in the batch, those units have no slope and will never come back. Lower the learning rate
+that killed them, or use a leaky variant. <b>Saturated sigmoids or tanh</b>: if the pre-activations
+sit far from zero, the derivative is near zero, and the vanishing-gradient arithmetic applies from
+the very first layer rather than after ten of them.</p>
+
+<h3>5. Check the data last, and check it properly</h3>
+<p>Print the actual inputs and labels the model receives, after every transformation, and look at
+them. Shuffling the inputs without shuffling the labels alongside them produces a model that
+learns nothing and reports no error. A label column read as a string, or off by one, does the
+same. This check is last only because it is the tedious one; it is first in how often it turns out
+to be the answer.</p>
+
+<div class="hardidea">🧠 <b>The one test that tells you whether learning is possible at all.</b>
+Train the identical setup on <i>shuffled labels</i>. A network with enough capacity will still
+drive the training loss to near zero, because it can memorize noise, and its validation
+performance will sit exactly at chance. Now compare: if your real labels do not train
+appreciably better than random ones, the model is not failing to learn, it is learning that there
+is nothing in your features to learn. That is a data problem wearing a modeling problem's
+clothes, and no architecture change will touch it.</div>
+
+<div class="demystify">Demystify "it is not converging". The phrase covers four different
+situations that need four different responses, and naming which one you have is most of the work.
+The loss is <b>NaN</b>: numerical blow-up, so lower the rate and check for a log of zero or a
+division by a count that can be zero. The loss is <b>flat from step one</b>: no gradient is
+reaching the weights, so check the wiring and the step-zero loss. The loss <b>falls then
+plateaus high</b>: underfitting, so the model or the features are too weak. The loss
+<b>oscillates</b>: the rate is too large for the batch size. Four symptoms, four different
+lessons, and only one of them is about the architecture.</div>
+`,
+ docs:[['A recipe for training neural networks (Karpathy)','https://karpathy.github.io/2019/04/25/recipe/']],
+ exs:[{title:'Run the three diagnostics on one tiny network',
+   lang:'python',
+   packages:['numpy'],
+   prompt:`A two-layer network, ten classes, one batch of eight examples, and a
+   <code>train(lr, steps, scale)</code> helper that returns the loss at every step.
+   <ol>
+   <li><code>expected_start</code>, the loss a ten-class model must start at before it has learned anything, and <code>start_loss</code>, what this one actually starts at. They should agree to about three decimals.</li>
+   <li>The overfit-one-batch test at <code>lr = 0.5</code>: <code>final_loss</code> should reach nearly zero, which is what says the wiring is sound.</li>
+   <li><code>diverged</code>, whether a learning rate of 50 ends higher than it began.</li>
+   <li><code>unscaled_final</code>, the final loss when the identical setup is handed inputs 20 times too large.</li>
+   </ol>`,
+   starter:`import numpy as np
+
+K = 10                                              # ten classes
+X = np.random.default_rng(0).normal(size=(8, 4))    # one batch of eight examples
+y = np.arange(8) % K
+
+def softmax(a):
+    e = np.exp(a - a.max(axis=1, keepdims=True))
+    return e / e.sum(axis=1, keepdims=True)
+
+def train(lr, steps=400, scale=1.0):
+    """The same tiny two-layer net from the same initialization every time."""
+    r = np.random.default_rng(1)
+    W1 = r.normal(size=(4, 32)) * 0.05
+    b1 = np.zeros(32)
+    W2 = r.normal(size=(32, K)) * 0.05
+    b2 = np.zeros(K)
+    Xs = X * scale
+    losses = []
+    for _ in range(steps):
+        a1 = Xs @ W1 + b1
+        z1 = np.maximum(a1, 0.0)
+        p = softmax(z1 @ W2 + b2)
+        losses.append(float(-np.log(p[np.arange(len(y)), y] + 1e-12).mean()))
+        d = p.copy()
+        d[np.arange(len(y)), y] -= 1.0
+        d /= len(y)
+        gW2 = z1.T @ d
+        gb2 = d.sum(axis=0)
+        d1 = (d @ W2.T) * (a1 > 0)
+        gW1 = Xs.T @ d1
+        gb1 = d1.sum(axis=0)
+        W1 -= lr * gW1; b1 -= lr * gb1
+        W2 -= lr * gW2; b2 -= lr * gb2
+    return np.array(losses)
+
+# 1) The loss a ten-class model must start at, before it has learned anything.
+expected_start = 0.0
+
+# 2) The overfit-one-batch test, at a sensible learning rate.
+good = train(0.5)
+start_loss = 0.0
+final_loss = 0.0
+
+# 3) A learning rate a hundred times too large.
+huge = train(50.0)
+diverged = False
+
+# 4) The same rate, with the inputs left on a wild scale.
+unscaled = train(0.5, scale=20.0)
+unscaled_final = 0.0
+
+print("expected start", round(expected_start, 4), "actual start", round(start_loss, 4))
+print("overfit one batch, final loss:", round(final_loss, 6))
+print("lr = 50, first and last:", round(float(huge[0]), 3), round(float(huge[-1]), 3))
+print("inputs x20, final loss:", round(unscaled_final, 4))
+`,
+   solution:`import numpy as np
+
+K = 10                                              # ten classes
+X = np.random.default_rng(0).normal(size=(8, 4))    # one batch of eight examples
+y = np.arange(8) % K
+
+def softmax(a):
+    e = np.exp(a - a.max(axis=1, keepdims=True))
+    return e / e.sum(axis=1, keepdims=True)
+
+def train(lr, steps=400, scale=1.0):
+    """The same tiny two-layer net from the same initialization every time."""
+    r = np.random.default_rng(1)
+    W1 = r.normal(size=(4, 32)) * 0.05
+    b1 = np.zeros(32)
+    W2 = r.normal(size=(32, K)) * 0.05
+    b2 = np.zeros(K)
+    Xs = X * scale
+    losses = []
+    for _ in range(steps):
+        a1 = Xs @ W1 + b1
+        z1 = np.maximum(a1, 0.0)
+        p = softmax(z1 @ W2 + b2)
+        losses.append(float(-np.log(p[np.arange(len(y)), y] + 1e-12).mean()))
+        d = p.copy()
+        d[np.arange(len(y)), y] -= 1.0
+        d /= len(y)
+        gW2 = z1.T @ d
+        gb2 = d.sum(axis=0)
+        d1 = (d @ W2.T) * (a1 > 0)
+        gW1 = Xs.T @ d1
+        gb1 = d1.sum(axis=0)
+        W1 -= lr * gW1; b1 -= lr * gb1
+        W2 -= lr * gW2; b2 -= lr * gb2
+    return np.array(losses)
+
+# 1) The loss a ten-class model must start at, before it has learned anything.
+expected_start = float(np.log(K))
+
+# 2) The overfit-one-batch test, at a sensible learning rate.
+good = train(0.5)
+start_loss = float(good[0])
+final_loss = float(good[-1])
+
+# 3) A learning rate a hundred times too large.
+huge = train(50.0)
+diverged = bool(huge[-1] > huge[0])
+
+# 4) The same rate, with the inputs left on a wild scale.
+unscaled = train(0.5, scale=20.0)
+unscaled_final = float(unscaled[-1])
+
+print("expected start", round(expected_start, 4), "actual start", round(start_loss, 4))
+print("overfit one batch, final loss:", round(final_loss, 6))
+print("lr = 50, first and last:", round(float(huge[0]), 3), round(float(huge[-1]), 3))
+print("inputs x20, final loss:", round(unscaled_final, 4))
+`,
+   tests:[
+     {d:'a ten-class model has to start at log 10 = 2.3026, and this one does, so labels and output width line up',expr:'abs(expected_start - 2.302585092994046) < 1e-9 and abs(start_loss - expected_start) < 0.05'},
+     {d:'the overfit-one-batch test passes: eight examples are driven a hundredfold below the starting loss, so the wiring is sound',expr:'final_loss < 0.05 and final_loss < start_loss / 100'},
+     {d:'a learning rate of 50 sends the loss up rather than down, which is what overshooting looks like',expr:'diverged is True and float(huge[-1]) > 5.0'},
+     {d:'inputs 20 times too large stall the identical setup far above where it should land',expr:'unscaled_final > 0.5 and unscaled_final > 20 * final_loss'},
+     {d:'and the failure is the scale, not the network: the same code with scaled inputs learned fine',expr:'good[-1] < unscaled[-1] and abs(float(good[-1]) - final_loss) < 1e-12 and abs(float(unscaled[-1]) - unscaled_final) < 1e-12'}
+   ],
+   hints:[
+     'A model that has learned nothing spreads its probability evenly, so its cross-entropy is minus the log of one over K: float(np.log(K)).',
+     'good is the array of losses, so start_loss is good[0] and final_loss is good[-1]. Both need float() around them.',
+     'diverged compares the last loss with the first: bool(huge[-1] > huge[0]). unscaled_final is float(unscaled[-1]).'
+   ]}],
+ quiz:{title:'Quick check, debugging a network',questions:[
+   {q:'A ten-class classifier starts training at a loss of 7.0 rather than 2.3. The likeliest cause is:',
+    options:['The learning rate has been set far too small','A bug in the labels or output layer','It needs more training steps','The network is too shallow'],answer:1,
+    whyWrong:['The rate has had no chance to act yet. This is the loss before any step is taken.','','Steps have not started. The very first loss is already wrong.','Depth changes what it can learn, not the loss of an untrained model spreading probability evenly.'],
+    why:'An untrained model spreads probability evenly, forcing the first loss to log K = 2.303 for ten classes. A much larger value means the model is confidently wrong at step zero, which takes a wiring bug.'},
+   {q:'Your network cannot drive the loss to zero on a single batch of eight examples. This says:',
+    options:['You need more training data','Regularization has been set far too weakly','The wiring is broken, not the data','The batch size should be increased'],answer:2,
+    whyWrong:['More data cannot help a model that cannot fit eight rows. The problem is upstream of the dataset.','Weak regularization would make memorizing easier, not harder. Turn it off for this test.','','A larger batch makes the task harder, not easier. The point of the test is to make it trivial.'],
+    why:'Memorizing a tiny batch is the easiest thing a network does. Failing it means the forward pass, the loss or the gradient path is wrong, and no amount of data or tuning will fix that.'},
+   {q:'Training on deliberately shuffled labels reaches near-zero training loss and chance validation accuracy. That result:',
+    options:['Proves the model is broken','Proves the labels are corrupted','Shows the data pipeline is leaking','Is what a healthy setup does'],answer:3,
+    whyWrong:['It shows the opposite. A model that can memorize noise has enough capacity and a working gradient path.','The labels were shuffled on purpose, so their state is known rather than being diagnosed.','Leakage would show up as validation accuracy above chance on shuffled labels, which is not what happened.',''],
+    why:'A network with capacity memorizes noise, so near-zero training loss and chance validation is the expected outcome. The test earns its keep by comparison: real labels that do not beat this are telling you the features carry no signal.'}
+ ]}},
+
 {id:'nn8',
  title:'Convolution in plain English: sliding a stencil across a picture',
  body:`
@@ -2172,7 +2406,7 @@ print(grad_rnn, grad_gate, grad_gate_zero, grad_gate / grad_rnn)
     options:['Sigmoid outputs between 0 and 1, like a valve','Sigmoid avoids saturating at either of its extremes','Sigmoid has a larger maximum derivative','Sigmoid is cheaper to compute than tanh'],answer:0,whyWrong:['','Sigmoid does saturate at both ends. Here that is tolerable, because a gate wants to reach fully open or fully shut.','Tanh has the larger maximum derivative, 1 against sigmoid\'s 0.25.','The cost difference is negligible, and it is not why the choice was made.'],
     why:'A gate needs a fraction to let through. Zero blocks, one passes, and sigmoid produces exactly that range.'},
    {q:'Residual connections in very deep networks share which idea with LSTM gates?',
-    options:['Randomly dropping units during each training step','Reducing the total parameter count','Normalizing activations between layers','Creating a near-identity path for the gradient'],answer:3,whyWrong:['That is dropout, a regularisation technique with a different purpose.','Both add parameters rather than removing them, and gates add several matrices.','Normalization is what batch and layer norm do, and it is a separate mechanism.',''],
+    options:['Randomly dropping units during each training step','Reducing the total parameter count','Normalizing activations between layers','Creating a near-identity path for the gradient'],answer:3,whyWrong:['That is dropout, a regularization technique with a different purpose.','Both add parameters rather than removing them, and gates add several matrices.','Normalization is what batch and layer norm do, and it is a separate mechanism.',''],
     why:'y = F(x) + x has derivative 1 through the addition, so gradient always has a clear route back.'}
  ]}},
 

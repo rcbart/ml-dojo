@@ -1142,7 +1142,7 @@ calculus really has.</div>
     options:[
              'The covariance matrix must be inverted, and eigenvectors make the inverse stable','Eigenvectors of a symmetric matrix happen to be mutually orthogonal',
              'Eigen-decomposition is the numerically cheapest way to factor a covariance matrix',
-             'Maximizing uᵀΣu subject to uᵀu = 1 has exactly that as its stationary condition'],answer:3,whyWrong:['Nothing is inverted in PCA. The covariance matrix is decomposed, not solved.','Orthogonality is a consequence that makes the components independent, and it is not what produces the equation.','There are cheaper factorisations for many purposes. The eigenvectors are what the optimization demands.',''],
+             'Maximizing uᵀΣu subject to uᵀu = 1 has exactly that as its stationary condition'],answer:3,whyWrong:['Nothing is inverted in PCA. The covariance matrix is decomposed, not solved.','Orthogonality is a consequence that makes the components independent, and it is not what produces the equation.','There are cheaper factorizations for many purposes. The eigenvectors are what the optimization demands.',''],
     why:'Differentiate L = uᵀΣu − λ(uᵀu − 1) and the eigenvector equation falls out. Left-multiplying by uᵀ then shows λ is the captured variance.'},
    {q:'Complementary slackness (λ g(x) = 0) says that:',
     options:[
@@ -1205,7 +1205,7 @@ print(lam, sensitivity, area)
      {d:'the multiplier from the equations is 5',expr:'abs(lam - 5) < 1e-6'},
      {d:'the best area at P = 40 is 100',expr:'abs(area - 100) < 1e-6'},
      {d:'the measured sensitivity dA*/dP is about 5',expr:'abs(sensitivity - 5) < 1e-3'},
-     {d:'the multiplier and the sensitivity are the same number, which is the point of the exercise',expr:'abs(lam - sensitivity) < 1e-3'}
+     {d:'the multiplier and the sensitivity are the same number, and that number is 5, which is the point of the exercise',expr:'abs(lam - sensitivity) < 1e-3 and abs(sensitivity - 5) < 1e-3'}
    ],
    hints:[
      'lam = x / 2, and x is already computed for you as P / 4.',

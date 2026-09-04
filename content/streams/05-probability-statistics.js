@@ -15,7 +15,7 @@ weapon, and it's how we'll check every formula in this stream.</p></div>
 tomorrow", tomorrow happens once; the 70% describes your confidence, not a repeat count).
 Both are used everywhere in ML; the advanced part of this stream is built on the second.</p>
 
-<div class="notebox"><b>📐 Notation decoder, probability & statistics</b> (met across this
+<div class="notebox"><b>📐 Notation decoder, probability &amp; statistics</b> (met across this
 stream; refer back anytime):
 <table>
 <tr><td>P(A)</td><td>the <b>probability</b> of event A (a number from 0 to 1)</td></tr>
@@ -275,7 +275,7 @@ groups of <code>k</code> can I pick from <code>n</code>?", nothing more. Permuta
 arrangements (order matters); combinations count selections (order does not). Mixing them up is
 the classic counting mistake; the tell is the word "arrange/order" (permutation) vs
 "choose/select/group" (combination).</div>`,
- docs:[['Permutations and combinations','https://www.mathsisfun.com/combinatorics/combinations-permutations.html'],['Python math.comb / math.perm','https://docs.python.org/3/library/math.html#math.comb']],
+ docs:[['Permutations and combinations','https://www.mathisfun.com/combinatorics/combinations-permutations.html'],['Python math.comb / math.perm','https://docs.python.org/3/library/math.html#math.comb']],
  quiz:{title:'Quick check',questions:[
    {q:'The fundamental counting principle says that 3 shirts and 4 pants give how many outfits?',
     options:['12, three shirts times four pairs of trousers','1, since you can only wear one outfit at a time','7, adding the two counts together','It depends on which shirts go with which trousers'],answer:0,whyWrong:['','One outfit would mean the choices were fixed rather than free.','Adding counts the garments. Multiplying counts the combinations.','It does not depend on anything here. Every shirt can go with every pair of trousers.'],
@@ -581,7 +581,7 @@ the rarity of the disease (the <i>base rate</i>) overwhelms the accuracy of the 
 Because the disease is rare, false positives from the huge healthy crowd swamp the true ones.</p>
 
 <h3>Bayes' rule itself: where it comes from</h3>
-<p>The counting works, but we want the <b>formula</b>, and, crucially, to see it is not
+<p>The counting works, but we want the <b>formula</b>, and we want to see that it is not
 handed down from nowhere. It falls out of the conditional probability you already learned in
 two short steps.</p>
 <p><b>Step 1, conditional probability (from the earlier lesson):</b> the chance of A given B is
@@ -782,7 +782,7 @@ probability stream and the ML track are the same subject wearing two outfits.</d
     options:['It is a convention inherited from statistical physics','Logs are computed to higher precision than products are','Taking logs changes the answer to one that generalizes better on new data','Products of thousands of probabilities underflow, and logs give sums'],answer:3,whyWrong:['The reason is numerical, and it applies wherever probabilities are multiplied.','Logs are not more accurate in themselves. They avoid the underflow that destroys accuracy.','The maximizer is identical. The log is monotonic, so it moves nowhere.',''],
     why:'log is order-preserving: same winner, numerically sane. "Negative log likelihood" in ML code is exactly this, flipped to minimize.'},
    {q:'MAP differs from MLE by:',
-    options:['Multiplying in a prior, which is what makes regularisation a prior in disguise','Being defined only for simple models such as a coin flip','Fitting on a different dataset from the one MLE uses','Ignoring the likelihood entirely and using only what you believed before seeing the data'],answer:0,whyWrong:['','It applies to any model. Coins are just the easiest example to write out.','Both use the same data. What differs is what else is brought to it.','MAP keeps the likelihood and multiplies a prior into it.'],
+    options:['Multiplying in a prior, which is what makes regularization a prior in disguise','Being defined only for simple models such as a coin flip','Fitting on a different dataset from the one MLE uses','Ignoring the likelihood entirely and using only what you believed before seeing the data'],answer:0,whyWrong:['','It applies to any model. Coins are just the easiest example to write out.','Both use the same data. What differs is what else is brought to it.','MAP keeps the likelihood and multiplies a prior into it.'],
     why:'MAP = argmax likelihood × prior. L2 regularization = Gaussian prior on weights: the Bayes lesson and the ML track, connected.'}
  ]},
  exs:[{title:'Fit your first model by maximum likelihood',
@@ -1161,7 +1161,7 @@ print(py, cond, cov, gap)
     options:['Conditioning on the most likely value of the other variable','Discarding the least probable outcomes','Summing or integrating the other variable out','Normalizing so the total equals one'],answer:2,whyWrong:['That is conditioning on a value, which keeps the variable rather than removing it.','Nothing is discarded. Every outcome contributes to the sum.','','Normalizing rescales what is there. Marginalizing removes a dimension.'],
     why:'p(x) = Σ_y p(x,y). You remove a variable by summing over everything it could have been.'},
    {q:'Zero covariance between X and Y implies:',
-    options:['The joint distribution factorizes into its two marginals','X and Y must be statistically independent','One of the two has zero variance','No linear relationship, but possibly others'],answer:3,whyWrong:['Factorisation is independence, which is strictly stronger than zero covariance.','A parabola through the origin has zero covariance and total dependence.','Zero variance in one variable does force zero covariance, and it is not the only way to get it.',''],
+    options:['The joint distribution factorizes into its two marginals','X and Y must be statistically independent','One of the two has zero variance','No linear relationship, but possibly others'],answer:3,whyWrong:['Factorization is independence, which is strictly stronger than zero covariance.','A parabola through the origin has zero covariance and total dependence.','Zero variance in one variable does force zero covariance, and it is not the only way to get it.',''],
     why:'Y = X² with X symmetric about zero has zero covariance and total dependence.'},
    {q:'The quantity aᵀΣa represents:',
     options:['The correlation between the first two columns','The determinant of the covariance matrix','The mean of the data along direction a','The variance of the data along direction a'],answer:3,whyWrong:['That is one off-diagonal entry, and it does not involve a at all.','The determinant is a single scalar summarizing the whole matrix, with no direction attached.','The mean along a is aᵀμ, and it is linear rather than quadratic.',''],
@@ -1353,7 +1353,7 @@ print(S, lam_top, var_top, abs(float(top @ u_true)))
     options:['Has the smallest possible magnitude','Is perpendicular to the gradient vector at that point','Points along the first coordinate axis','Points in the same direction as the gradient'],answer:3,whyWrong:['Magnitude scales the whole quantity. The question is about direction, and u is normally taken to be a unit vector.','Perpendicular to the gradient gives exactly zero, which is the flattest direction rather than the steepest.','A coordinate axis is only best when the gradient happens to lie along it.',''],
     why:'∇fᵀu = ‖∇f‖cos θ, maximized at θ = 0. That is why gradient descent steps along −∇E.'},
    {q:'PCA finds eigenvectors of the covariance matrix because:',
-    options:['Maximizing uᵀΣu subject to ‖u‖=1 yields Σu = λu','Eigenvectors are always orthogonal to each other','The covariance matrix is expensive to invert','Eigen-decomposition is numerically the fastest route'],answer:0,whyWrong:['','Orthogonality is a consequence that makes the components independent, and it is not what produces the equation.','Nothing is inverted in PCA. The covariance matrix is decomposed.','There are faster factorisations for other purposes. The eigenvectors are what the constrained optimum demands.'],
+    options:['Maximizing uᵀΣu subject to ‖u‖=1 yields Σu = λu','Eigenvectors are always orthogonal to each other','The covariance matrix is expensive to invert','Eigen-decomposition is numerically the fastest route'],answer:0,whyWrong:['','Orthogonality is a consequence that makes the components independent, and it is not what produces the equation.','Nothing is inverted in PCA. The covariance matrix is decomposed.','There are faster factorizations for other purposes. The eigenvectors are what the constrained optimum demands.'],
     why:'The Lagrange condition for the constrained maximum is exactly the eigenvector equation.'}
  ]}}
 ,
@@ -2811,7 +2811,7 @@ print(np.round(bias2s, 5), np.round(vars_, 5), np.round(totals, 5))
     options:['The bias term of the decomposition','The irreducible noise in the labels','The variance term of the decomposition','The learning rate used during training'],answer:2,whyWrong:['Bias shows up as both errors being high together, not as a gap between them.','Irreducible noise appears in both errors equally and does not show up in the gap.','','The learning rate affects how you got here, and it is not what the gap measures.'],
     why:'Variance is how much the fitted model moves with the training sample, which is exactly what the gap reflects.'},
    {q:'Adding regularization typically:',
-    options:['Reduces variance while raising bias','Reduces both terms simultaneously','Affects only the irreducible error','Reduces bias while raising variance'],answer:0,whyWrong:['','If both fell you would simply have a better model. The trade is that one rises.','Irreducible error is a property of the problem and no model choice can touch it.','That is the trade run backwards. Regularisation constrains the model, which raises bias.'],
+    options:['Reduces variance while raising bias','Reduces both terms simultaneously','Affects only the irreducible error','Reduces bias while raising variance'],answer:0,whyWrong:['','If both fell you would simply have a better model. The trade is that one rises.','Irreducible error is a property of the problem and no model choice can touch it.','That is the trade run backwards. Regularization constrains the model, which raises bias.'],
     why:'It constrains the family, so the average fit moves further from the truth but varies less across samples.'},
    {q:'With a small dataset, the dominant term is usually:',
     options:['Variance, since fits move a lot per sample','Bias, since simple models are forced','Irreducible error, since noise dominates a short sample','All three contribute about equally'],answer:0,whyWrong:['','Simpler models are the response to the problem rather than its cause.','Irreducible error is fixed by the problem and does not grow as the sample shrinks.','They do not. Variance is the term a small sample inflates.'],

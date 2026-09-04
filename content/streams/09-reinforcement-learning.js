@@ -514,7 +514,7 @@ print(v_M, v_M_from_L, v_M_from_R, gap)
 `,
    tests:[
      {d:'every row of P sums to 1, which is what makes it a set of dynamics rather than a table of numbers',expr:'rows_ok and abs(float(row_sums.sum()) - 3.0) < 1e-12'},
-     {d:'averaged over all episodes, M looks worth about zero',expr:'abs(v_M) < 0.05'},
+     {d:'averaged over all episodes, M looks worth about zero, and that average really is the mean of the rewards',expr:'abs(v_M) < 0.05 and abs(v_M - float(rewards.mean())) < 1e-12'},
      {d:'conditioned on having arrived from L, M is worth exactly +1',expr:'abs(v_M_from_L - 1.0) < 1e-9'},
      {d:'conditioned on having arrived from R, the same state is worth exactly -1',expr:'abs(v_M_from_R + 1.0) < 1e-9'},
      {d:'gap is 2.0, so no single number V(M) is right and the average is wrong in both cases. That is the Markov property failing, and the repair is to fold the history into the state',expr:'abs(gap - 2.0) < 1e-9'}
@@ -688,7 +688,7 @@ print(vA, vB, check)
    tests:[
      {d:'V(A) converges to about 19.47',expr:'abs(vA - 19.4737) < 0.01'},
      {d:'V(B) converges to about 20.53',expr:'abs(vB - 20.5263) < 0.01'},
-     {d:'the Bellman residual at A is essentially zero, so this really is the fixed point',expr:'abs(check) < 1e-6'},
+     {d:'check really is the Bellman residual at A, and it is essentially zero, so this is the fixed point',expr:'abs(check) < 1e-6 and abs(check - (vA - (1 + gamma * vB))) < 1e-12'},
      {d:'B is worth more than A, because the larger reward comes sooner from B',expr:'vB > vA'}
    ],
    hints:[
@@ -924,8 +924,8 @@ analytic = -(1 - gamma ** 6) / (1 - gamma)
 print(sweeps, delta, V[0, 0], analytic, steps_to_goal)
 `,
    tests:[
-     {d:'it converges in a handful of sweeps, not hundreds, which is the geometric contraction at work',expr:'sweeps < 20'},
-     {d:'the loop stopped because the largest change at any state fell under the tolerance',expr:'delta < tol'},
+     {d:'it takes several sweeps and converges in a handful, not hundreds, which is the geometric contraction at work',expr:'1 < sweeps < 20'},
+     {d:'the loop stopped on the tolerance rather than the safety cap, and the values actually moved off zero',expr:'converged and delta < tol and float(np.abs(V).max()) > 1.0'},
      {d:'the start corner is worth -5.298, exactly the discounted cost of the six steps it takes to get out',expr:'abs(float(V[0, 0]) - analytic) < 1e-9'},
      {d:'following the greedy policy from the top left actually arrives at the goal',expr:'path[-1] == goal'},
      {d:'it gets there in 6 steps, the shortest route there is, so one greedy pass over a converged value function is already the optimal policy',expr:'steps_to_goal == 6'}
@@ -1695,7 +1695,7 @@ print(total, regret, best)
      {d:'the agent identifies arm 2 as the best',expr:'best == 2'},
      {d:'it collected more than 1400, so it is exploiting the good arm most of the time',expr:'total > 1400'},
      {d:'regret is positive, the price paid for the 10% of rounds spent exploring',expr:'regret > 0'},
-     {d:'regret stays under 200, so exploration is costing about what the schedule implies',expr:'regret < 200'}
+     {d:'regret is the best arm\u2019s take minus yours, and it stays under 200, about what the schedule implies',expr:'regret < 200 and abs(regret - (rounds * max(means) - total)) < 1e-9'}
    ],
    hints:[
      'The greedy choice is a = Q.index(max(Q)).',
@@ -2052,8 +2052,8 @@ print(float(stream.std()), float(batch.std()))
 `,
    tests:[
      {d:'consecutive steps of the raw stream are almost the same number, autocorrelation above 0.95',expr:'ac_stream > 0.95'},
-     {d:'the uniformly sampled minibatch is essentially uncorrelated',expr:'abs(ac_batch) < 0.1'},
-     {d:'the buffer kept every transition, so sampling discarded no data',expr:'len(buffer) == n'},
+     {d:'lag1 really measures autocorrelation, and the uniformly sampled minibatch is essentially uncorrelated',expr:'abs(ac_batch) < 0.1 and abs(lag1(batch) - ac_batch) < 1e-9 and lag1(stream) > 0.95'},
+     {d:'the buffer kept every transition, and the minibatch is drawn from right across it',expr:'len(buffer) == n and len(set(idx.tolist())) > 100'},
      {d:'the batch has much the same spread as the stream it came from, so the distribution is intact',expr:'abs(float(batch.std()) - float(stream.std())) < 0.3 * float(stream.std())'},
      {d:'same numbers, different order, and the correlation is gone by more than a factor of ten. Replay does not clean the data, it removes the ordering that broke the independence assumption',expr:'ac_stream > 10 * abs(ac_batch)'}
    ],
@@ -2095,7 +2095,7 @@ print(float(stream.std()), float(batch.std()))
  body:`
 <div class="ground"><span class="gTag">🎯 Skip the value function and adjust the behavior itself</span>
 <p>Everything so far learned a value function and read a policy off it. There is another route:
-parameterise the policy directly as <code>&pi;(a|s;&theta;)</code> and do gradient <i>ascent</i>
+parameterize the policy directly as <code>&pi;(a|s;&theta;)</code> and do gradient <i>ascent</i>
 on expected return. It sounds circular, since the return depends on the environment and you
 cannot differentiate through that. One identity makes it work, and it is the basis of every
 method used on large models today, including the one that fine-tunes chatbots.</p></div>
@@ -2269,7 +2269,7 @@ print(p_start, p_end)
 print(var_raw, var_base, mean_raw, mean_base)
 `,
    tests:[
-     {d:'it starts at 0.5, which is what equal parameters mean under a softmax',expr:'abs(p_start - 0.5) < 1e-12'},
+     {d:'it starts at 0.5, which is what equal parameters mean under a softmax, and training moves it off that',expr:'abs(p_start - 0.5) < 1e-12 and p_end > p_start + 0.01'},
      {d:'the probability of the better arm rises above 0.95 from nothing but sampled rewards',expr:'p_end > 0.95'},
      {d:'the raw gradient estimate has a variance above 20, nearly all of it from the size of the reward rather than the gap between the arms',expr:'var_raw > 20'},
      {d:'subtracting a constant cuts that variance by more than a factor of 100',expr:'var_base < var_raw / 100'},
@@ -2311,7 +2311,7 @@ print(var_raw, var_base, mean_raw, mean_base)
 <div class="ground"><span class="gTag">🎯 Combine the two families, then stop the update from going too far</span>
 <p>Value methods are sample-efficient and awkward with continuous actions. Policy methods handle
 anything but are noisy and throw their data away after one use. Actor-critic takes both: a
-policy that acts, and a value function that criticises. Add one more idea, a limit on how far the
+policy that acts, and a value function that criticizes. Add one more idea, a limit on how far the
 policy may move in a single update, and you have PPO, which is the default in most of the field
 and the algorithm behind RLHF.</p></div>
 
@@ -2436,10 +2436,10 @@ print([round(o, 4) for o in obj_down])
    tests:[
      {d:'V is 1.75, the value of behaving as usual in this state',expr:'abs(V - 1.75) < 1e-12'},
      {d:'action 1 has an advantage of 1.25, meaning it beats acting as usual by that much',expr:'abs(A[1] - 1.25) < 1e-12'},
-     {d:'the advantages average to zero under the policy, which is what makes an advantage a comparison against yourself rather than a score',expr:'abs(mean_A) < 1e-12'},
+     {d:'the bad action scores \u22120.75 and the advantages average to zero under the policy, which is what makes an advantage a comparison against yourself rather than a score',expr:'abs(A[0] + 0.75) < 1e-12 and abs(mean_A) < 1e-12'},
      {d:'inside the trust region the objective still rewards moving toward the good action',expr:'obj_up[3] > obj_up[2] > obj_up[1]'},
-     {d:'past a ratio of 1 + eps it stops improving entirely, so there is nothing left to gain by moving further',expr:'obj_up[4] == obj_up[5] == obj_up[6]'},
-     {d:'and a step in the wrong direction is never clipped: with a negative advantage at a ratio of 1.5 the objective is the full unclipped value, so the gradient still pulls you back',expr:'abs(ppo(1.5, A[0]) - 1.5 * A[0]) < 1e-12'}
+     {d:'past a ratio of 1 + eps it flattens at (1 + eps) times the advantage, so there is nothing left to gain by moving further',expr:'obj_up[4] == obj_up[5] == obj_up[6] and abs(obj_up[6] - (1 + eps) * 1.25) < 1e-12'},
+     {d:'and a step in the wrong direction is never clipped: with a negative advantage at a ratio of 1.5 the objective is the full unclipped value, so the gradient still pulls you back',expr:'abs(ppo(1.5, -0.75) - 1.5 * -0.75) < 1e-12 and abs(A[0] + 0.75) < 1e-12'}
    ],
    hints:[
      'V = sum(p * q for p, q in zip(pi, Q)), and A = [q - V for q in Q].',
@@ -2527,7 +2527,7 @@ being argued.</p>
 of principles. Constitutional AI is the well-known version. The motivation is cost and throughput:
 human preference data is slow and expensive, and it is the bottleneck.</p>
 
-<div class="hardidea">🧠 <b>RLHF optimizes what the labellers rewarded, which is not the same as
+<div class="hardidea">🧠 <b>RLHF optimizes what the labelers rewarded, which is not the same as
 what is true.</b> If annotators mildly prefer confident answers, the model learns to sound
 confident, including when it should not. If they prefer agreement, it learns to agree, which is
 where sycophancy comes from. If they prefer longer answers, everything gets longer, and length
@@ -2672,7 +2672,7 @@ print('learned', proxy_l, true_l)
              'A property of the pretraining corpus rather than the fine-tuning',
              'The model optimizing exactly what annotators rewarded',
              'Evidence that the KL penalty was set too high during training'],answer:2,whyWrong:['The clip constrains how far each update moves. It does not decide what the objective rewards.','Pretraining produces a text predictor, not an agreeable one. The agreeableness is learned in the preference stage.','','A high KL penalty would keep the model closer to where it started, which is the opposite of this drift.'],
-    why:'If labellers mildly prefer agreement, the trained model agrees. The algorithm worked. The specification was the aggregate of what a few thousand tired people clicked.'}
+    why:'If labelers mildly prefer agreement, the trained model agrees. The algorithm worked. The specification was the aggregate of what a few thousand tired people clicked.'}
  ]}}
 ,
 

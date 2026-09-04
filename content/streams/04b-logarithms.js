@@ -122,11 +122,11 @@ orders of magnitude for a linear scale to show.</p>
 <div class="demystify"><b>Demystify the notation:</b> <code>log</code> and its inverse
 <code>exp</code> (raising e to a power) undo each other, exactly like square and square-root:
 <code>exp(log(x)) = x</code> and <code>log(exp(x)) = x</code>. Whenever a log makes a number
-unrecognizably small or large, <code>exp</code> is the way back.</p></div>
+unrecognizably small or large, <code>exp</code> is the way back.</div>
 
-<div class="notebox"><b>📐 Notation decoder, logs & exponentials</b>:
+<div class="notebox"><b>📐 Notation decoder, logs &amp; exponentials</b>:
 <table>
-<tr><td>logₐ(x)</td><td>"log base b of x", the power you raise b to, to get x</td></tr>
+<tr><td>log_b(x)</td><td>"log base b of x", the power you raise b to, to get x</td></tr>
 <tr><td>ln(x)</td><td>the <b>natural log</b>, base e; in Python this is <code>math.log(x)</code></td></tr>
 <tr><td>log(x)</td><td>in ML, "log" almost always means <b>ln</b> (natural log)</td></tr>
 <tr><td>e</td><td>Euler's number ≈ <b>2.718</b>, the natural base</td></tr>
