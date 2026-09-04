@@ -13,6 +13,15 @@ Mirrors what the browser does, minus Pyodide: run `solution`, then evaluate each
 """
 import io, json, os, re, subprocess, sys, tempfile
 
+# Third-party roots the browser gets from Pyodide but a bare dev machine may not
+# have. A missing import is skipped ONLY when the whole absent package is one of
+# these. Anything else (a typo, a renamed module, a missing submodule of a package
+# that IS installed) is a real defect that reaches the learner as a hard error, so
+# it fails here. CI runs `pip install scikit-learn`, so these skips are an artifact
+# of the local machine, never a hole in the gate.
+OPTIONAL_ROOTS = {'sklearn', 'pandas', 'matplotlib', 'numpy', 'scipy'}
+MISSING_RE = re.compile(r"No module named '([^']+)'")
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STREAMS = os.path.join(ROOT, 'content', 'streams')
 
@@ -60,16 +69,33 @@ print(json.dumps({"stage": "tests", "results": results}))
 def main():
     verbose = '--verbose' in sys.argv
     streams = load()
-    total = passed = failed = skipped = 0
+    seen = total = passed = failed = skipped = warned = 0
     problems = []
     for s in streams:
         for l in s['lessons']:
+            # The app renders lessonExs(l)[0] and nothing else, so a second
+            # exercise is content no learner can reach and no one can grade.
+            # Loud, but not a build break: clearing it needs a content decision
+            # (promote the second exercise to its own lesson, or retire it), and
+            # a red deploy would not make that decision arrive sooner. Make this
+            # `failed += 1` the day mlzoo and mlcluster are resolved.
+            if len(l['exs']) > 1:
+                warned += 1
+                problems.append(('UNREACHABLE EX (warn)', l['id'],
+                                 '%d exercises declared, but src/app.js renders lessonExs(l)[0] only, '
+                                 'so exercise 2+ is unreachable. Promote it to its own lesson or retire it.'
+                                 % len(l['exs'])))
             for i, e in enumerate(l['exs']):
+                seen += 1
                 key = l['id'] + ('#%d' % i if len(l['exs']) > 1 else '')
                 tests = e.get('tests') or []
                 if not e.get('solution') or not tests:
-                    skipped += 1
-                    problems.append(('NO SOLUTION' if not e.get('solution') else 'NO TESTS', key, ''))
+                    # Not a skip. With no assertions the browser used to award the
+                    # lesson on any Run (0 of 0 checks passed), and with no reference
+                    # solution nothing about this exercise is checked at all.
+                    failed += 1
+                    problems.append(('NO SOLUTION' if not e.get('solution') else 'NO TESTS', key,
+                                     'every exercise needs a reference solution and at least one test'))
                     continue
                 total += 1
                 prog = ('SOLUTION = ' + repr(e['solution']) + '\n'
@@ -85,10 +111,18 @@ def main():
                     problems.append(('CRASH', key, (r.stderr or '').strip().splitlines()[-1:] or ['no output'])); continue
                 out = json.loads(r.stdout.strip().splitlines()[-1])
                 if out['stage'] == 'missing-module':
-                    # A library the browser has through Pyodide but this machine does not.
-                    # Counted and named, never silently passed.
-                    total -= 1; skipped += 1
-                    problems.append(('SKIP no module', key, out['error'])); continue
+                    m = MISSING_RE.search(out['error'] or '')
+                    name = m.group(1) if m else ''
+                    # Skip only when an entire optional third-party package is absent
+                    # from this machine. A dotted name means the package IS here and
+                    # the submodule does not exist, which is a typo or a rename.
+                    if name and '.' not in name and name in OPTIONAL_ROOTS:
+                        total -= 1; skipped += 1
+                        problems.append(('SKIP no module', key, out['error'] + ' (optional here, installed in CI)'))
+                    else:
+                        failed += 1
+                        problems.append(('BAD IMPORT', key, out['error'] + ' -- not an optional package, so this is a broken import'))
+                    continue
                 if out['stage'] == 'solution':
                     failed += 1
                     problems.append(('SOLUTION RAISED', key, out['error'].strip().splitlines()[-1])); continue
@@ -104,7 +138,9 @@ def main():
     for kind, key, detail in problems:
         print('%-16s %-12s %s' % (kind, key, detail if isinstance(detail, str) else ' '.join(detail)))
     print('\nexercises=%d run=%d passed=%d failed=%d skipped=%d'
-          % (total + skipped, total, passed, failed, skipped))
+          % (seen, total, passed, failed, skipped))
+    if skipped:
+        print('skips are optional packages missing on this machine only; CI installs them.')
     if failed:
         sys.exit(1)
 

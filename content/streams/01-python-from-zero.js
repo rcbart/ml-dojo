@@ -1937,7 +1937,7 @@ result = rm.mean()
 print(result)
 `,
    tests:[
-     {d:'RunningMean is a class you can instantiate',expr:'isinstance(RunningMean(), RunningMean)'},
+     {d:'a brand new RunningMean starts with total 0 and count 0',expr:'RunningMean().total == 0 and RunningMean().count == 0'},
      {d:'after adding 10, 20, 30 the mean is 20.0',expr:'abs(result - 20.0) < 1e-9'},
      {d:'a fresh object is independent (its own self.total)',expr:'(lambda r=RunningMean(): (r.add(5), r.mean())[1])() == 5.0'},
      {d:'add updates both total and count',expr:'(lambda r=RunningMean(): (r.add(2), r.add(4), r.total == 6 and r.count == 2)[2])()'}

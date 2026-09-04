@@ -16,8 +16,12 @@ for (const f of fs.readdirSync(dir).filter(x => /^\d.*\.js$/.test(x))) {
   let d = 0;
   for (const q of qs) {
     const w = q.whyWrong;
-    if (!w) continue;
-    if (w.length !== q.options.length || String(w[q.answer] || '').trim()) {
+    // No rebuttals at all is the biggest gap, not an exemption. Skipping it here
+    // meant a bank with zero whyWrong reported "0 malformed" and exited clean.
+    if (!w) {
+      bad++; console.error(`  ${f}: no whyWrong at all on "${String(q.q).slice(0, 60)}"`); continue;
+    }
+    if (!Array.isArray(w) || w.length !== q.options.length || String(w[q.answer] || '').trim()) {
       bad++; console.error(`  ${f}: malformed whyWrong on "${String(q.q).slice(0, 60)}"`); continue;
     }
     if (w.some((t, i) => i !== q.answer && !String(t).trim())) {

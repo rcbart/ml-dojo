@@ -816,8 +816,9 @@ theory holds.</div>
    <ol>
    <li>the value iteration update: <code>newV[r, c]</code> is the max over the four moves of
    <code>-1 + gamma * V(next cell)</code>.</li>
-   <li><code>delta</code>, the sup-norm change over the sweep, which is the only thing that stops
-   the loop.</li>
+   <li><code>delta</code>, the sup-norm change over the sweep, which is what stops the loop.
+   (There's a <code>MAX_SWEEPS</code> cap underneath it as a safety net, so an update that never
+   settles gives up and tells you, instead of freezing the tab.)</li>
    <li><code>policy</code>, greedy with respect to the converged values, then roll it out from
    the top left into <code>path</code>. <code>V[0, 0]</code> should come out to about
    <code>-5.298</code>.</li>
@@ -836,9 +837,11 @@ def step(r, c, m):
         return nr, nc
     return r, c          # a wall leaves you where you were
 
+MAX_SWEEPS = 500          # safety net, so a wrong update stops instead of hanging the tab
 V = np.zeros((rows, cols))
 sweeps = 0
-while True:
+converged = False
+for _ in range(MAX_SWEEPS):
     newV = np.zeros_like(V)
     for r in range(rows):
         for c in range(cols):
@@ -849,7 +852,10 @@ while True:
     V = newV
     sweeps += 1
     if delta < tol:
+        converged = True
         break
+if not converged:
+    print("hit the", MAX_SWEEPS, "sweep cap without converging, so check the update and delta")
 
 policy = {}
 for r in range(rows):
@@ -881,9 +887,11 @@ def step(r, c, m):
         return nr, nc
     return r, c          # a wall leaves you where you were
 
+MAX_SWEEPS = 500          # safety net, so a wrong update stops instead of hanging the tab
 V = np.zeros((rows, cols))
 sweeps = 0
-while True:
+converged = False
+for _ in range(MAX_SWEEPS):
     newV = np.zeros_like(V)
     for r in range(rows):
         for c in range(cols):
@@ -894,7 +902,10 @@ while True:
     V = newV
     sweeps += 1
     if delta < tol:
+        converged = True
         break
+if not converged:
+    print("hit the", MAX_SWEEPS, "sweep cap without converging, so check the update and delta")
 
 policy = {}
 for r in range(rows):

@@ -31,7 +31,9 @@ jobs:
         run: python3 scripts/verify-exercises.py
 
       # A correct answer that is conspicuously the longest option is answerable
-      # without knowing the material. Ratcheting budget, currently zero.
+      # without knowing the material. Two ratcheting budgets: per-question
+      # outliers (currently zero) and the aggregate longest-option share
+      # (currently 170 of 345, real debt that only ever comes down).
       - name: Verify quiz options are not length-biased
         run: node scripts/verify-quiz-length.js
 

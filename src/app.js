@@ -46,14 +46,20 @@ function wireEditor(initial,onChange,onRun){
     g.innerHTML=gh;
     const lc=document.getElementById('lnCol');if(lc)lc.textContent='Ln '+cur.line+', Col '+cur.col;
   };
-  const sync=()=>{paint();if(onChange)onChange(ed.value);};
+  // Saving re-serializes every saved lesson, so it is debounced. Painting the
+  // highlight and gutter stays immediate, which is what the typist sees.
+  let saveT=null;
+  const flushSave=()=>{if(saveT){clearTimeout(saveT);saveT=null;}if(onChange)onChange(ed.value);};
+  const queueSave=()=>{if(!onChange)return;clearTimeout(saveT);saveT=setTimeout(()=>{saveT=null;onChange(ed.value);},300);};
+  const sync=()=>{paint();queueSave();};
   const put=(val,caret)=>{ed.value=val;ed.selectionStart=ed.selectionEnd=caret;sync();};
   ed.addEventListener('input',sync);
   ed.addEventListener('keyup',paint);
   ed.addEventListener('click',paint);
+  ed.addEventListener('blur',flushSave);
   ed.addEventListener('keydown',e=>{
     const s=ed.selectionStart,epos=ed.selectionEnd,v=ed.value;
-    if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){e.preventDefault();if(onRun)onRun();return;}
+    if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){e.preventDefault();flushSave();if(onRun)onRun();return;}
     if(e.key==='Tab'){
       e.preventDefault();
       const ls=v.lastIndexOf('\n',s-1)+1;
@@ -97,7 +103,19 @@ const store={
   mem:{},
   persistent:(()=>{try{localStorage.setItem('__ml_t','1');localStorage.removeItem('__ml_t');return true}catch(e){return false}})(),
   get(){if(!this.persistent)return this.mem;try{return JSON.parse(localStorage.getItem('mldojo')||'{}')}catch(e){return this.mem}},
-  set(d){this.mem=d;if(this.persistent){try{localStorage.setItem('mldojo',JSON.stringify(d))}catch(e){this.persistent=false}}},
+  set(d){this.mem=d;
+    if(this.persistent){
+      try{localStorage.setItem('mldojo',JSON.stringify(d))}
+      catch(e){
+        this.persistent=false;
+        // Dropping to memory means the whole session is lost on reload. Say it
+        // out loud instead of letting the learner find out the hard way.
+        if(!this.warned){this.warned=true;
+          toast('⚠️ Your browser refused to save progress (storage full or blocked). Work stays in this tab only and is lost if you reload.');}
+      }
+    }
+  },
+  warned:false,
   lesson(id){return this.get()[id]||{};},
   patch(id,p){const d=this.get();d[id]=Object.assign({},d[id],p);this.set(d);}
 };
@@ -123,12 +141,16 @@ function toast(msg){
 let _py=null,_pyInit=null;const _loadedPkgs=new Set();
 function getPy(status){
   if(_pyInit)return _pyInit;
-  _pyInit=(async()=>{
+  const p=(async()=>{
     if(status)status('Loading Python (first run downloads ~10MB)…');
     _py=await loadPyodide();
     return _py;
   })();
-  return _pyInit;
+  // Never cache a failure. One offline moment used to poison every later Run
+  // with the same stale rejection until the learner reloaded the whole page.
+  p.catch(()=>{if(_pyInit===p)_pyInit=null;});
+  _pyInit=p;
+  return p;
 }
 async function ensurePackages(packages,status){
   const py=await getPy(status);
@@ -243,7 +265,7 @@ function renderHome(){
 
   <p style="margin-top:20px">
   <button class="primary" style="font-size:15px;padding:12px 22px" onclick="openLesson(0,0)">
-  ${done>0?'▶ Continue training, '+done+'/'+total+' lessons done':'▶ Begin: Python from Zero'}</button></p>
+  ${done>0?'▶ Continue training, '+done+'/'+total+' lessons done':'▶ Begin: Orientation'}</button></p>
   </div>`;
   renderNav();
 }
@@ -308,6 +330,10 @@ function openLesson(si,li){
   renderNav();
 }
 function lessonExs(l){return l.exs||(l.ex?[l.ex]:[]);}
+// The id of the lesson currently rendered, or null. Anything that finishes
+// asynchronously checks this before writing to the page, because the learner
+// may have moved on while it was running.
+function visibleLessonId(){const s=STREAMS[cur.si];const l=s&&s.lessons[cur.li];return l?l.id:null;}
 function flatLessons(){const a=[];STREAMS.forEach((s,si)=>s.lessons.forEach((l,li)=>a.push({si,li})));return a;}
 function siblingLesson(si,li,dir){const f=flatLessons();const i=f.findIndex(p=>p.si===si&&p.li===li);return f[i+dir]||null;}
 
@@ -441,37 +467,47 @@ function setTab(name){
 async function runExercise(l){
   const e=lessonExs(l)[0];const sid=l.id;
   const code=document.getElementById('ed').value;
-  const tests=document.getElementById('io-tests');
-  const con=document.getElementById('io-console');
   const btn=document.getElementById('btnRun');btn.disabled=true;
-  tests.innerHTML='<div class="cLine dim"><span class="spin"></span><span id="pyStatus">Starting Python…</span></div>';
-  const status=msg=>{const el=document.getElementById('pyStatus');if(el)el.textContent=msg;};
+  // The first run downloads ~10MB, so the learner can be several lessons away
+  // by the time it finishes. Every write to the page is scoped to the lesson
+  // this run actually belongs to; progress storage is not, so it still records
+  // the right lesson either way.
+  const onScreen=()=>visibleLessonId()===sid;
+  const node=id=>onScreen()?document.getElementById(id):null;
+  const setHTML=(id,html)=>{const n=node(id);if(n)n.innerHTML=html;};
+  setHTML('io-tests','<div class="cLine dim"><span class="spin"></span><span id="pyStatus">Starting Python…</span></div>');
+  const status=msg=>{const n=node('pyStatus');if(n)n.textContent=msg;};
   try{
     const r=await runPython(code,e.tests,e.packages,status);
-    con.innerHTML=(r.stdout?r.stdout.split('\n').map(x=>`<div class="cLine">${esc(x)}</div>`).join(''):'<span class="cLine dim">(no output)</span>')
-      +(r.figure?`<img class="pyFig" src="data:image/png;base64,${r.figure}" alt="your plot">`:'');
+    setHTML('io-console',(r.stdout?r.stdout.split('\n').map(x=>`<div class="cLine">${esc(x)}</div>`).join(''):'<span class="cLine dim">(no output)</span>')
+      +(r.figure?`<img class="pyFig" src="data:image/png;base64,${r.figure}" alt="your plot">`:''));
     if(!r.ok){
-      tests.innerHTML=`<div class="tcase bad">✘ Your code raised an error:</div><div class="cLine err">${esc(r.error)}</div>`;
-      con.innerHTML+=`<div class="cLine err">${esc(r.error)}</div>`;
-      setTab('console');
+      setHTML('io-tests',`<div class="tcase bad">✘ Your code raised an error:</div><div class="cLine err">${esc(r.error)}</div>`);
+      const c=node('io-console');if(c)c.innerHTML+=`<div class="cLine err">${esc(r.error)}</div>`;
+      if(onScreen())setTab('console');
     }else{
       const passed=r.results.filter(t=>t.pass).length;
-      tests.innerHTML=r.results.map(t=>`<div class="tcase ${t.pass?'ok':'bad'}">${t.pass?'✔':'✘'} ${esc(t.d)}${t.err?', '+esc(t.err):''}</div>`).join('')+
-        `<div class="aiBox">Passed ${passed} / ${r.results.length} checks.</div>`;
-      setTab('tests');
-      if(passed===r.results.length){markComplete(l);}
+      setHTML('io-tests',r.results.map(t=>`<div class="tcase ${t.pass?'ok':'bad'}">${t.pass?'✔':'✘'} ${esc(t.d)}${t.err?', '+esc(t.err):''}</div>`).join('')+
+        `<div class="aiBox">Passed ${passed} / ${r.results.length} checks.</div>`);
+      if(onScreen())setTab('tests');
+      // An exercise with no checks must never complete a lesson: 0 === 0 used to
+      // hand out the belt for an untouched starter.
+      if(r.results.length>0&&passed===r.results.length){markComplete(l);}
     }
   }catch(err){
-    tests.innerHTML=`<div class="tcase bad">✘ Could not run Python: ${esc(err.message||err)}</div>
-      <div class="cLine dim">If this persists, the Pyodide CDN may be blocked on your network.</div>`;
+    setHTML('io-tests',`<div class="tcase bad">✘ Could not run Python: ${esc(err.message||err)}</div>
+      <div class="cLine dim">If this persists, the Pyodide CDN may be blocked on your network. Fix the connection and hit Run again.</div>`);
   }
   btn.disabled=false;
 }
 function markComplete(l){
   const sid=l.id;
   if(!store.lesson(sid).done){store.patch(sid,{done:true,completedAt:Date.now()});
-    const banner=document.getElementById('doneBanner');if(banner)banner.style.display='block';
-    toast('✅ Lesson complete, '+doneCount()+'/'+totalLessons());
+    // Only stamp the page if this lesson is still the one being looked at.
+    if(visibleLessonId()===sid){
+      const banner=document.getElementById('doneBanner');if(banner)banner.style.display='block';
+      toast('✅ Lesson complete, '+doneCount()+'/'+totalLessons());
+    }
     refreshBelt();renderNav();
   }
 }
@@ -598,17 +634,21 @@ function renderPlayground(){
 }
 async function runPlayground(){
   const code=document.getElementById('ed').value;
-  const out=document.getElementById('io-play');
   const btn=document.getElementById('btnRun');btn.disabled=true;
-  out.innerHTML='<div class="cLine dim"><span class="spin"></span><span id="pyStatus">Starting Python…</span></div>';
-  const status=msg=>{const el=document.getElementById('pyStatus');if(el)el.textContent=msg;};
+  // Same rule as a lesson run: the playground's own pyStatus is the only one it
+  // may touch, so a slow run cannot write into a lesson opened in the meantime.
+  const onScreen=()=>cur.si===-2;
+  const node=id=>onScreen()?document.getElementById(id):null;
+  const setHTML=(id,html)=>{const n=node(id);if(n)n.innerHTML=html;};
+  setHTML('io-play','<div class="cLine dim"><span class="spin"></span><span id="pyStatus">Starting Python…</span></div>');
+  const status=msg=>{const n=node('pyStatus');if(n)n.textContent=msg;};
   try{
     const r=await runPython(code,[],[],status);
     let h=r.stdout?r.stdout.split('\n').map(x=>`<div class="cLine">${esc(x)}</div>`).join(''):'<span class="cLine dim">(no output, use print() to see results)</span>';
     if(r.figure)h+=`<img class="pyFig" src="data:image/png;base64,${r.figure}" alt="your plot">`;
     if(!r.ok)h+=`<div class="cLine err">${esc(r.error)}</div>`;
-    out.innerHTML=h;
-  }catch(err){out.innerHTML=`<div class="cLine err">Could not run Python: ${esc(err.message||err)}</div>`;}
+    setHTML('io-play',h);
+  }catch(err){setHTML('io-play',`<div class="cLine err">Could not run Python: ${esc(err.message||err)}</div>`);}
   btn.disabled=false;
 }
 
