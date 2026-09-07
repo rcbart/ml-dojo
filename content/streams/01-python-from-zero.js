@@ -2,71 +2,72 @@ STREAMS.push({icon:'🐍',track:'Foundations Track',title:'Python from Zero (Too
 {id:'py1',
  title:'Your first Python: variables, lists, and what a "dimension" is',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What Python even is</span>
-<p>Before the first line of code: <b>Python is a programming language</b>, a precise way of
-writing instructions that a computer executes. Specifically, it is a <b>general-purpose,
-interpreted</b> language: general-purpose meaning it runs everything from websites to
-telescopes (not just ML), and interpreted meaning a program called the <i>interpreter</i>
-reads your file and executes it line by line, immediately, no separate build step, which is
-a big part of why it feels so quick to think in. It was created by Guido van Rossum in 1991
-and designed around one value above all: <b>readability</b>, code that looks close to plain
-English. That design choice is exactly why it became the language of data science and ML.</p>
-<p>In ML, Python's role is precise: it is where ML solutions are <b>prototyped, designed, and
-orchestrated</b>, the heavy number-crunching itself runs in far more optimized compiled code
-that Python directs (a distinction this track makes precise in the ML Toolkit
-stream). ML work leans on words like <i>list</i>, <i>index</i>, and <i>dimension</i> as if
-everyone already knows them, so before we touch NumPy or a single dataset, we learn the tools
-of the trade from zero, starting with "what is a variable."</p></div>
+<p><b>Python is a programming language</b>: a precise way of writing instructions that a
+computer executes. It is <b>general-purpose</b> and <b>interpreted</b>. General-purpose means it
+runs everything from websites to telescopes, not only <b>ML</b> (machine learning: programs
+that fit a function to data instead of having every rule written by hand). Interpreted means a program called the
+<i>interpreter</i> reads your file and executes it line by line, immediately, with no separate
+build step. Guido van Rossum created it in 1991 and designed it around one value above all:
+<b>readability</b>, code that looks close to plain English. That choice is why it became the
+language of data science and ML.</p>
+<p>In ML, Python is where solutions are <b>prototyped, designed, and orchestrated</b>. The
+heavy number-crunching runs in far more optimized compiled code that Python directs. The ML
+Toolkit stream makes that distinction precise. ML work uses words like <i>list</i>,
+<i>index</i>, and <i>dimension</i> as if everyone knows them. So we learn the tools from
+zero, starting with "what is a variable," before NumPy or a single dataset.</p></div>
 
 <div class="demystify"><b>Demystify the name:</b> Python is named after <i>Monty Python's
-Flying Circus</i>, not the snake, van Rossum wanted a name that was short, unique, and
-slightly mischievous. The documentation is full of spam-and-eggs jokes for this reason.</div>
+Flying Circus</i>, not the snake. Van Rossum wanted a name that was short, unique, and
+slightly mischievous. That's why the documentation is full of spam-and-eggs jokes.</div>
 
 <p><b>Everything in this course runs right here in your browser</b>: nothing to install.
-But if you ever want to experiment further on your own machine, there is a step-by-step
-walkthrough for the standard professional setup:</p>
+If you want to experiment on your own machine, there's a step-by-step walkthrough for the
+standard professional setup:</p>
 <p><button class="primary" onclick="renderSetupGuide()">🛠 Set up Python for ML on my machine, step by step</button></p>
 
 <h3>A variable is a labeled box</h3>
-<p>A <b>variable</b> is just a name that points at a value, so you can use it later:</p>
+<p>A <b>variable</b> is a name that points at a value. That lets you use it later.</p>
 <div class="codeSample">age = 31
 name = "Ada"
 price = 4.50
 is_open = True</div>
-<p>Those four values show the everyday <b>types</b>: a whole number (<code>int</code>), text
-(<code>str</code>, always in quotes), a decimal (<code>float</code>), and a true/false
-(<code>bool</code>). You never declare the type: Python reads it from the value.</p>
+<p>Those four values show the everyday <b>types</b>. A whole number is an <code>int</code>. Text
+is a <code>str</code>, always in quotes. A decimal is a <code>float</code>. A true/false is a
+<code>bool</code>. You never declare the type. Python reads it from the value.</p>
 
 <h3>A list is an ordered collection: and your first "dimension"</h3>
-<p>A <b>list</b> holds several values in order, inside square brackets:</p>
+<p>A <b>list</b> holds several values in order, inside square brackets.</p>
 <div class="codeSample">scores = [80, 90, 100]
 scores[0]        # 80  - counting starts at 0! this is the "index"
 len(scores)      # 3   - how many items</div>
-<p>Here is the idea people quietly assume in ML: <b>dimension</b> just means <i>how many
-numbers (axes) it takes to describe your data</i>. A single value like <code>90</code> is one
-number. A flat <b>list</b> like <code>[80, 90, 100]</code> is <b>one-dimensional</b>, you need
-one index to reach an item. A <b>list of lists</b>, a grid, is <b>two-dimensional</b>: rows
-and columns, reached with two indices:</p>
+<p>In ML, <b>dimension</b> means <i>how many numbers (axes) it takes to describe your
+data</i>. A single value like <code>90</code> is one number. A flat <b>list</b> like
+<code>[80, 90, 100]</code> is <b>one-dimensional</b>: one index reaches an item. A <b>list of
+lists</b>, a grid, is <b>two-dimensional</b>: rows and columns. Two indices reach an item:</p>
 <div class="codeSample">grid = [[1, 2, 3],
         [4, 5, 6]]
 grid[1][2]       # 6  - row 1, column 2
 len(grid)        # 2  - number of rows
 len(grid[0])     # 3  - number of columns</div>
-<div class="demystify"><b>Demystify "dimension":</b> it is not a spooky word. A table of data
-with <b>n rows and m columns</b> is "n examples, each described by m numbers", that <i>m</i>
-is the number of dimensions (also called <i>features</i>) of each example. When later lessons
-say "a point in 3-dimensional space," they just mean a list of 3 numbers. When they say
-"300-dimensional," they mean a list of 300 numbers. Same idea, bigger list.</div>
+<div class="demystify"><b>Demystify "dimension":</b> A table of data with <b>n rows and m
+columns</b> is "n examples, each described by m numbers". That <i>m</i> is the number of
+dimensions (also called <i>features</i>) of each example. When later lessons say "a point in
+3-dimensional space," they mean a list of 3 numbers. "300-dimensional" means a list of 300
+numbers.</div>
 
 <h3>Loops and functions: doing something to every item</h3>
-<p>A <b>loop</b> repeats work; a <b>function</b> is a reusable named recipe that takes inputs and
+<p>A <b>loop</b> repeats work. A <b>function</b> is a reusable named recipe that takes inputs and
 <code>return</code>s a result:</p>
 <div class="codeSample">def average(nums):
     return sum(nums) / len(nums)
 
 average([80, 90, 100])   # 90.0</div>
-<p><code>sum()</code> and <code>len()</code> are built in. In the exercise you'll use exactly
-these tools, no libraries, just Python, to prove the ideas stuck.</p>`,
+<p><code>sum()</code> and <code>len()</code> are built in. The exercise uses only these tools,
+no libraries, to prove the ideas stuck.</p>`,
  docs:[['The Python Tutorial (official)','https://docs.python.org/3/tutorial/'],['Python for absolute beginners','https://wiki.python.org/moin/BeginnersGuide/NonProgrammers']],
  quiz:{title:'Quick check, the tools of the trade',questions:[
    {q:'What kind of thing is Python?',
@@ -147,44 +148,48 @@ print("avg =", avg, " rows =", rows, " cols =", cols)
 {id:'py8',
  title:'Lists in depth: slicing, negative indexes, and growing lists',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 Why go deeper on lists</span>
-<p>Lists are the container you will touch most, and three of their tricks, <b>slicing</b>,
-<b>negative indexes</b>, and <b>mutation</b>, appear constantly in real code (and NumPy
-borrows the exact same notation, so learning it here pays twice).</p></div>
+<p>Lists are the container you'll touch most. Three of their tricks, <b>slicing</b>,
+<b>negative indexes</b>, and <b>mutation</b>, appear everywhere in real code. NumPy borrows
+the same notation, so learning it here pays twice.</p></div>
 
 <h3>Negative indexes: counting from the end</h3>
 <div class="codeSample">nums = [10, 20, 30, 40, 50]
 nums[0]      # 10  - first
 nums[-1]     # 50  - LAST (minus means "from the end")
 nums[-2]     # 40  - second to last</div>
-<p><code>nums[-1]</code> is how Python code says "the last item" without knowing the length,
-you will see it everywhere.</p>
+<p><code>nums[-1]</code> is how Python code says "the last item" without knowing the length.
+You'll see it everywhere.</p>
 
 <h3>Slicing: a sub-list by range</h3>
 <div class="codeSample">nums[1:4]    # [20, 30, 40]  - start included, END EXCLUDED
 nums[:2]     # [10, 20]      - from the beginning
 nums[2:]     # [30, 40, 50]  - to the end
 nums[:]      # a COPY of the whole list</div>
-<p>The rule to burn in: <b>start included, end excluded</b>, the same convention as
+<p>The rule to burn in: <b>start included, end excluded</b>. It's the same convention as
 <code>range(a, b)</code>, and the same slice notation NumPy uses on whole datasets
-(<code>X[:, 0]</code> is this exact syntax, with a comma). Why exclusive ends? So
-<code>nums[:k]</code> and <code>nums[k:]</code> split a list cleanly with no overlap, you
-will use precisely this to split data into train and test sets later.</p>
+(<code>X[:, 0]</code> is this syntax, with a comma). Exclusive ends mean
+<code>nums[:k]</code> and <code>nums[k:]</code> split a list cleanly with no overlap. You'll
+use this to split data into train and test sets later: the <b>training set</b> is the part a
+model learns from, and the <b>test set</b> is the part held back to check it on data it has
+never seen.</p>
 
 <h3>Mutation: lists can change</h3>
 <div class="codeSample">nums.append(60)      # grows the list in place → [10, 20, 30, 40, 50, 60]
 nums[0] = 99         # replaces an item in place
 30 in nums           # True - membership test</div>
 <p>A list is a living object: <code>append</code> grows it, assignment by index rewrites a
-slot. Contrast with numbers and strings, which never change in place. One classic
-consequence, flagged now so it never bites you: <code>b = a</code> does <b>not</b> copy a
-list, both names point at the <i>same</i> list, and changing one "changes" the other.
-An actual copy is <code>b = a[:]</code>.</p>
+slot. Numbers and strings, by contrast, never change in place. One classic consequence,
+flagged now so it never bites you: <code>b = a</code> does <b>not</b> copy a list. Both names
+point at the <i>same</i> list, and changing one "changes" the other. An actual copy is
+<code>b = a[:]</code>.</p>
 
-<div class="demystify"><b>Demystify "index out of range":</b> the error just means you asked
-for a slot that does not exist (like <code>nums[10]</code> in a 6-item list). Note the
+<div class="demystify"><b>Demystify "index out of range":</b> the error means you asked
+for a slot that doesn't exist (like <code>nums[10]</code> in a 6-item list). Note the
 asymmetry: <i>indexing</i> past the end is an error, but <i>slicing</i> past the end is
-forgiven (<code>nums[2:100]</code> quietly stops at the end), a deliberate design choice
+forgiven. <code>nums[2:100]</code> stops at the end. That's a deliberate design choice
 that keeps slice-based code from crashing on short input.</div>`,
  docs:[['Python tutorial (lists)','https://docs.python.org/3/tutorial/introduction.html#lists']],
  quiz:{title:'Quick check',questions:[
@@ -270,6 +275,7 @@ print(last, middle, n, train, test, copy_differs)
 {id:'py2',
  title:'Making decisions: booleans and if / elif / else',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>Programs make choices. A <b>boolean</b> is a value that is either <code>True</code> or
 <code>False</code>, and comparisons produce them: <code>3 > 5</code> is <code>False</code>,
@@ -283,27 +289,27 @@ elif temp > 15:
 else:
     label = "cold"
 # label is "hot"</div>
-<p>Read it top to bottom: Python checks each condition in order and runs the <b>first</b> one
-that is true, skipping the rest. <code>elif</code> means "else, if…"; <code>else</code> is the
+<p>Read it top to bottom. Python checks each condition in order and runs the <b>first</b> one
+that is true, skipping the rest. <code>elif</code> means "else, if…". <code>else</code> is the
 catch-all. The comparison operators produce booleans: <code>==</code> (equal), <code>!=</code>
 (not equal), <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>.</p>
 
 <h3>Logical operators: combining conditions</h3>
-<p>Real decisions need more than one test at a time, and the three <b>logical operators</b>
+<p>Real decisions need more than one test at a time. The three <b>logical operators</b>
 join booleans together:</p>
 <div class="codeSample">and   True only if BOTH sides are true     age >= 18 and has_ticket
 or    True if EITHER side is true          is_weekend or is_holiday
 not   flips a boolean                      not is_empty</div>
-<p>So <code>if age >= 13 and age &lt;= 19:</code> is "a teenager"; <code>if not found:</code>
-runs when <code>found</code> is False. A handy shortcut Python allows: <code>13 &lt;= age &lt;= 19</code>
-chains comparisons directly. In ML you will write these constantly, "keep the row if it is
-<i>not</i> missing <b>and</b> the value is positive." Two quiet rules worth knowing:
+<p>So <code>if age >= 13 and age &lt;= 19:</code> is "a teenager". <code>if not found:</code>
+runs when <code>found</code> is False. A handy shortcut: <code>13 &lt;= age &lt;= 19</code>
+chains comparisons directly. In ML you'll write these all the time: "keep the row if it is
+<i>not</i> missing <b>and</b> the value is positive." Two quiet rules.
 <code>and</code>/<code>or</code> read left to right and <b>stop early</b> once the answer is
-decided (short-circuit), and any value can be treated as truthy/falsy, <code>0</code>, an
+decided (short-circuit). And any value can be treated as truthy/falsy: <code>0</code>, an
 empty list <code>[]</code>, and an empty string <code>""</code> all count as <b>False</b>.</p>
 
-<div class="demystify"><b>Watch out:</b> <code>=</code> assigns a value; <code>==</code> asks
-"are these equal?". Mixing them up is the single most common beginner bug. And
+<div class="demystify"><b>Watch out:</b> <code>=</code> assigns a value. <code>==</code> asks
+"are these equal?". Mixing them up is the most common beginner bug. And
 <code>and</code>/<code>or</code>/<code>not</code> are words in Python, not <code>&amp;&amp;</code>,
 <code>||</code>, <code>!</code> as in some other languages.</div>`,
  quiz:{title:'Quick check',questions:[
@@ -360,9 +366,12 @@ print(classify(5), classify(-2), classify(0), passing)
 {id:'pyop',
  title:'Operators: assignment shortcuts, division, and the one-line if',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>A handful of compact operators show up in almost every program (and every loop you are about
-to write). None is hard; they are just shorthand. Meeting them now means the code ahead reads
+<p>A handful of compact operators show up in almost every program, and in every loop you're
+about to write. None is hard. They're shorthand. Meeting them now means the code ahead reads
 smoothly instead of looking cryptic.</p></div>
 
 <h3>Augmented assignment: update a variable in place</h3>
@@ -371,17 +380,19 @@ total += 5     # same as  total = total + 5   →  15
 total -= 3     #                              →  12
 total *= 2     #                              →  24
 total /= 4     #                              →  6.0</div>
-<p><code>+=</code> reads "add to." It is the exact pattern behind an <b>accumulator</b>, start
-at a value and keep updating it, which is how a loop builds a sum, a count, or (later) how
-training keeps adjusting a weight: <code>weight -= learning_rate * gradient</code>. You will use
-<code>+=</code> in the very next lesson.</p>
+<p><code>+=</code> reads "add to." It's the pattern behind an <b>accumulator</b>: start
+at a value and keep updating it. That's how a loop builds a sum or a count, and later how
+training keeps adjusting a weight: <code>weight -= learning_rate * gradient</code>. You'll use
+<code>+=</code> in the next lesson.</p>
 
 <h3>Integer division // and remainder %</h3>
 <div class="codeSample">17 / 5    # 3.4   - normal division (always a float)
 17 // 5   # 3     - floor division: how many whole 5s fit
 17 % 5    # 2     - modulo: the remainder left over</div>
-<p>These two are workhorses in ML plumbing: <code>%</code> tests divisibility
-(<code>n % 2 == 0</code> means "even"), and both split data into <b>batches</b>, "how many
+<p>These two are workhorses in ML plumbing. <code>%</code> tests divisibility
+(<code>n % 2 == 0</code> means "even"). Both split data into <b>batches</b>. A batch is the
+slice of the training data used for one update of the model, since training rarely looks at
+the whole dataset at once. "How many
 full batches of 32?" is <code>n // 32</code>, and <code>i % 32</code> tells you your position
 inside the current batch.</p>
 
@@ -389,14 +400,14 @@ inside the current batch.</p>
 <div class="codeSample">label = "even" if n % 2 == 0 else "odd"</div>
 <p>The <b>conditional expression</b> (nicknamed the "ternary") is a compact
 <code>if</code>/<code>else</code> that <i>produces a value</i>. Read it as: "<code>label</code>
-is <code>"even"</code> <b>if</b> the condition holds, <b>else</b> <code>"odd"</code>." It is the
-same logic as a full if-block, squeezed into one expression, handy when you just need to pick
+is <code>"even"</code> <b>if</b> the condition holds, <b>else</b> <code>"odd"</code>." It's the
+same logic as a full if-block, squeezed into one expression. It's handy when you need to pick
 between two values.</p>
 
-<div class="demystify"><b>Demystify <code>%</code>:</b> "modulo" is just the remainder from
-division, the thing you learned as "17 divided by 5 is 3 remainder 2." Nothing more, but that
-remainder is secretly everywhere: even/odd, wrapping around a clock, cycling through colors,
-and slicing data into batches.</div>`,
+<div class="demystify"><b>Demystify <code>%</code>:</b> "modulo" is the remainder from
+division. You learned it as "17 divided by 5 is 3 remainder 2." That remainder is
+everywhere: even/odd, wrapping around a clock, cycling through colors, and slicing data into
+batches.</div>`,
  docs:[['Python operators','https://docs.python.org/3/reference/expressions.html#operator-precedence']],
  quiz:{title:'Quick check',questions:[
    {q:'After total = 10; total += 5; total *= 2, what is total?',
@@ -459,9 +470,10 @@ print(total, whole, rem, parity)
 {id:'py3',
  title:'Repeating work: loops',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>A <b>loop</b> does something once for each item, so you never copy-paste the same line.
-A <code>for</code> loop walks through a collection; <code>range(a, b)</code> generates the
+A <code>for</code> loop walks through a collection. <code>range(a, b)</code> generates the
 numbers <code>a, a+1, …, b-1</code> (the end is <i>excluded</i>).</p></div>
 <div class="codeSample">total = 0
 for x in [10, 20, 30]:
@@ -472,26 +484,26 @@ for i in range(1, 4):
     print(i)          # prints 1, 2, 3</div>
 <p>The pattern <code>total += x</code> (short for <code>total = total + x</code>) is an
 <b>accumulator</b>: start at a base value, then update it each pass. Summing, counting, and
-finding a maximum are all accumulators, and later, <i>training a model</i> is one too.</p>
-<p>You can loop over <i>any</i> collection this way, not just lists, including a <b>dictionary
-(a map)</b>, where you often want each key <i>and</i> its value together with
+finding a maximum are all accumulators. Later, <i>training a model</i> is one too.</p>
+<p>You can loop over <i>any</i> collection this way, not only lists. That includes a
+<b>dictionary (a map)</b>, where you often want each key <i>and</i> its value together with
 <code>for key, value in d.items()</code>. Dictionaries come a couple of lessons from now, so we
-cover that pattern in full there, just know that <code>for</code> is not list-only.</p>
+cover that pattern in full there. For now, know that <code>for</code> isn't list-only.</p>
 
 <h3>while: loop until a condition changes</h3>
 <p><code>for</code> is for "once per item." Its sibling <code>while</code> is for "as long as
-this is true", when you do not know in advance how many repetitions you need:</p>
+this is true", when you don't know in advance how many repetitions you need:</p>
 <div class="codeSample">x = 100.0
 steps = 0
 while x > 1:          # keep going as long as the condition holds
     x = x / 2
     steps += 1
 # x is 0.78125, steps is 7</div>
-<p>That shape, <i>repeat until good enough</i>, is exactly how model training loops work
+<p>That shape, <i>repeat until good enough</i>, is how model training loops work
 ("keep stepping downhill while the error is still improving"). Two control words work in any
-loop: <code>break</code> exits the loop immediately; <code>continue</code> skips to the next
-pass. And the classic hazard, named now: a <code>while</code> whose condition never becomes
-false runs forever, always make sure something inside the loop moves it toward stopping.</p>`,
+loop. <code>break</code> exits the loop immediately. <code>continue</code> skips to the next
+pass. And the classic hazard: a <code>while</code> whose condition never becomes false runs
+forever. Always make sure something inside the loop moves it toward stopping.</p>`,
  quiz:{title:'Quick check',questions:[
    {q:'When do you reach for while instead of for?',
     options:['When the number of repetitions is not known in advance','When looping over a list, because for cannot reach the index','Never, since anything a while loop does a for loop can do as well','Only when you deliberately want a loop that never terminates'],answer:0,whyWrong:['','Looping over a list is what for is built for.','They differ. for walks a known sequence, while repeats on a condition.','Infinite loops are one use, and the common case is repeating until a condition is met.'],
@@ -539,11 +551,13 @@ print("total =", total, " count =", count)
 {id:'pycomp',
  title:'Comprehensions: building lists in one line (the ML workhorse)',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>You just wrote loops that build a result, start an empty list, loop, append. That pattern is
-so common Python gives it a one-line form: the <b>comprehension</b>. It is the single most
-common line of code in data and ML work, every dataset transformation you will read uses it,
-so learning to write and read it now pays off on every lesson after this one.</p></div>
+<p>You just wrote loops that build a result: start an empty list, loop, append. That pattern is
+so common Python gives it a one-line form, the <b>comprehension</b>. It's the most common line
+of code in data and ML work. Every dataset transformation you'll read uses it, so learning to
+write and read it now pays off in every lesson after this one.</p></div>
 
 <h3>From a loop to a comprehension</h3>
 <div class="codeSample"># the long way - build a list with a loop
@@ -553,49 +567,49 @@ for x in range(5):
 
 # the same thing, as a comprehension
 squares = [x * x for x in range(5)]     # [0, 1, 4, 9, 16]</div>
-<p>Read it left to right: "<code>x * x</code>, <b>for each</b> <code>x</code> <b>in</b>
-<code>range(5)</code>." The <i>expression</i> comes first (what to put in the list), then the
-loop. It builds the whole list in one readable line.</p>
+<p>The <i>expression</i> comes first (what to put in the list), then the loop. Read it left
+to right: "<code>x * x</code>, <b>for each</b> <code>x</code> <b>in</b> <code>range(5)</code>."
+It builds the whole list in one line.</p>
 
 <h3>Filtering: add an <code>if</code></h3>
 <div class="codeSample">evens = [x for x in range(10) if x % 2 == 0]     # [0, 2, 4, 6, 8]
 big = [n for n in [4, 120, 7, 300] if n > 100]   # [120, 300]</div>
-<p>A trailing <code>if</code> keeps only the items that pass, "for each x, <b>if</b> it is even,
-include it." This is exactly how you will filter rows of data later.</p>
+<p>A trailing <code>if</code> keeps only the items that pass. Read it as "for each x, <b>if</b> it is even,
+include it." This is how you'll filter rows of data later.</p>
 
 <h3>The <code>_</code> throwaway, and "do this N times"</h3>
 <div class="codeSample">zeros = [0 for _ in range(4)]                    # [0, 0, 0, 0]
 rolls = [random.randint(1, 6) for _ in range(1000)]   # roll a die 1000 times</div>
-<p>When you do <b>not need the loop variable</b>, you just want to repeat something a set number
-of times, the convention is to name it <code>_</code> (a plain underscore), Python's way of
-saying "I am ignoring this." That <code>[... for _ in range(n)]</code> reads as "do this
+<p>Sometimes you <b>don't need the loop variable</b> and only want to repeat something a set number
+of times. The convention is to name it <code>_</code> (a plain underscore). That's Python's way of
+saying "I am ignoring this." <code>[... for _ in range(n)]</code> reads as "do this
 <code>n</code> times and collect the results."</p>
 
-<h3>Generator expressions: feeding <code>sum</code>, <code>min</code>, <code>max</code></h3>
+<h3>Generator expressions</h3>
 <div class="codeSample">total = sum(x * x for x in nums)          # no [ ] needed inside sum()
 count_big = sum(1 for x in nums if x > 100)   # COUNT the items over 100</div>
-<p>Drop the square brackets and you have a <b>generator expression</b>, the same idea, but it
+<p>Drop the square brackets and you have a <b>generator expression</b>. Same idea, but it
 feeds values one at a time straight into <code>sum</code>/<code>min</code>/<code>max</code>
-without building a list first (lighter on memory for big data). One idiom is worth memorizing
-because it appears constantly: <code>sum(1 for x in items if condition)</code> <b>counts</b> how
-many items match, you add <code>1</code> for each one that passes. (You will see this exact line
-counting die rolls and matching data in the probability stream.)</p>
+without building a list first, which is lighter on memory for big data. One idiom to memorize
+because it appears so often: <code>sum(1 for x in items if condition)</code> <b>counts</b> how
+many items match. You add <code>1</code> for each one that passes. You'll see this line
+counting die rolls and matching data in the probability stream.</p>
 
 <h3>Nested comprehensions: building a grid (a matrix)</h3>
 <p>Put a comprehension <i>inside</i> another and you build a <b>list of lists</b>, a grid. This
-is exactly how you will build matrices in the linear-algebra stream:</p>
+is how you'll build matrices in the linear-algebra stream:</p>
 <div class="codeSample">grid = [[r * c for c in range(3)] for r in range(2)]
 # [[0, 0, 0], [0, 1, 2]]   - outer loop makes rows, inner loop makes each row</div>
-<p>Read it outside-in: the <b>outer</b> <code>for r in range(2)</code> makes two rows; for each
-row, the <b>inner</b> <code>[... for c in range(3)]</code> builds that row's three cells. It is
-two nested loops folded together. A related move you will see is looping twice to <i>flatten</i>,
+<p>Read it outside-in. The <b>outer</b> <code>for r in range(2)</code> makes two rows. For each
+row, the <b>inner</b> <code>[... for c in range(3)]</code> builds that row's three cells. It's
+two nested loops folded together. A related move is looping twice to <i>flatten</i>:
 <code>[x for row in grid for x in row]</code> walks every row, then every cell in it, into one
-flat list. (These are the fanciest comprehensions we use; if one is hard to read, unfold it into
-plain nested for-loops.)</p>
+flat list. These are the fanciest comprehensions we use. If one is hard to read, unfold it into
+plain nested for-loops.</p>
 
-<div class="demystify"><b>Demystify the comprehension:</b> it is <i>just a for-loop folded onto
-one line</i>, nothing new is happening, the machine still loops. If a comprehension ever looks
-confusing, mentally unfold it back into the empty-list-loop-append form and it becomes obvious.
+<div class="demystify"><b>Demystify the comprehension:</b> it is <i>a for-loop folded onto
+one line</i>. Nothing new is happening. The machine still loops. If a comprehension looks
+confusing, unfold it back into the empty-list-loop-append form.
 Dicts and sets have the same shorthand: <code>{k: v for ...}</code> and <code>{x for ...}</code>.</div>`,
  docs:[['Python tutorial (list comprehensions)','https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions']],
  quiz:{title:'Quick check',questions:[
@@ -673,26 +687,28 @@ for word in ["cat", "dog", "bird"]:
 {id:'py9',
  title:'Indentation: how Python knows where a block begins and ends',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 The rule everything else sits on</span>
 <p>Before <code>if</code> and loops, you must know Python's most distinctive rule:
-<b>indentation is not decoration, it is grammar.</b> Where other languages wrap a block of
+<b>indentation is grammar, not decoration.</b> Where other languages wrap a block of
 code in braces <code>{ }</code>, Python defines a block by <b>how far its lines are indented</b>.
-The visual structure IS the logical structure, get the spacing wrong and the program either
-crashes or, worse, quietly does the wrong thing.</p></div>
+The visual structure IS the logical structure. Get the spacing wrong and the program either
+crashes or, worse, does the wrong thing.</p></div>
 
 <h3>The two-part rule</h3>
 <p><b>1. A colon <code>:</code> announces a block.</b> Lines ending in <code>:</code>
 (<code>if …:</code>, <code>for …:</code>, <code>def …:</code>) promise that a block follows.
 <b>2. The block is every following line indented one level deeper.</b> The block ends at the
-first line that returns to the old indentation. Convention (used by virtually all Python on
-earth): one level = <b>4 spaces</b>.</p>
+first line that returns to the old indentation. Convention, used by virtually all Python on
+earth: one level = <b>4 spaces</b>.</p>
 <div class="codeSample">temperature = 30
 if temperature > 25:
     print("hot")          # inside the if - indented 4 spaces
     print("stay hydrated")  # still inside - same indentation
 print("done")            # back to column 0 → OUTSIDE the if, always runs</div>
 <p>Move that last print 4 spaces right and it becomes part of the if, printed only on hot
-days. <b>Same characters, different program.</b> That is what "indentation is grammar" means.</p>
+days. <b>Same characters, different program.</b></p>
 
 <h3>Nesting: levels inside levels</h3>
 <div class="codeSample">def count_positives(nums):      # level 0: the def line
@@ -701,32 +717,32 @@ days. <b>Same characters, different program.</b> That is what "indentation is gr
         if x > 0:               # level 2: inside the for
             count += 1          # level 3: inside the if
     return count                # level 1: for is over - back out</div>
-<p>Read the levels like an outline: each colon opens a deeper level; de-denting closes it.
-The <code>return</code> sits at level 1, so it runs after the loop finishes, indent it to
-level 3 by accident and the function returns during the first positive number. (This exact
-bug has shipped to production at real companies.)</p>
+<p>Read the levels like an outline. Each colon opens a deeper level. De-denting closes it.
+The <code>return</code> sits at level 1, so it runs after the loop finishes. Indent it to
+level 3 by accident and the function returns during the first positive number. This bug
+has shipped to production at real companies.</p>
 
 <div class="demystify"><b>Demystify <code>IndentationError</code>:</b> Python telling you the
-outline is malformed, a line indented where no block was announced ("unexpected indent"), or
-a block promised by a colon but never provided ("expected an indented block"). It is the
-easiest error family to fix: make the indentation match the structure you meant. Two rules of
+outline is malformed. Either a line is indented where no block was announced ("unexpected indent"), or
+a block promised by a colon was never provided ("expected an indented block"). It's the
+easiest error family to fix. Make the indentation match the structure you meant. Two rules of
 hygiene: never mix tabs and spaces (our editor inserts 4 spaces for Tab), and keep every line
-of a block at exactly the same depth.</div>
+of a block at the same depth.</div>
 
 <h3>The <code>pass</code> keyword: a do-nothing placeholder</h3>
-<p>Since every block promised by a colon <b>must</b> contain at least one line, Python gives you
+<p>Every block promised by a colon <b>must</b> contain at least one line. So Python gives you
 <code>pass</code>, a statement that does <i>nothing at all</i>. Its only job is to be a valid,
 empty body while you decide what to write:</p>
 <div class="codeSample">def not_written_yet():
     pass          # a placeholder - the function is legal but empty (returns None)</div>
-<p>You will see <code>pass</code> in the starter code of exercises: it marks the spot where
-<b>your code goes</b>, delete it and write the real body. It is not printed and does nothing
-when run; it simply keeps the block from being empty until you fill it in.</p>
+<p>You'll see <code>pass</code> in the starter code of exercises. It marks the spot where
+<b>your code goes</b>: delete it and write the real body. It isn't printed and does nothing
+when run. It keeps the block from being empty until you fill it in.</p>
 
 <div class="hardidea">🧠 <b>Why Python chose this.</b> In brace languages, programmers indent
 <i>anyway</i> for readability, so code has two structures: the braces (what the machine
-reads) and the indentation (what humans read), and they can silently disagree. Python removes
-the duplication: one structure, readable by both. It is why Python looks like runnable
+reads) and the indentation (what humans read). They can silently disagree. Python removes
+the duplication: one structure, readable by both. That's why Python looks like runnable
 pseudocode, and why it won data science.</div>`,
  docs:[['Python tutorial, first steps (indentation)','https://docs.python.org/3/tutorial/introduction.html#first-steps-towards-programming'],['PEP 8, indentation style','https://peps.python.org/pep-0008/#indentation']],
  quiz:{title:'Quick check',questions:[
@@ -796,10 +812,11 @@ print(count_positives([1, -2, 3]), first_negative([5, -7, 9]))
 {id:'py4',
  title:'Functions: reusable recipes',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>A <b>function</b> is a named recipe: give it inputs (<i>parameters</i>), it does work and
 hands back a result with <code>return</code>. Functions let you name an idea once and reuse it
-everywhere, the way real programs stay manageable.</p></div>
+everywhere. That's how real programs stay manageable.</p></div>
 <div class="codeSample">def average(nums):
     return sum(nums) / len(nums)
 
@@ -810,13 +827,13 @@ written with commas): <code>return smallest, largest</code>. You unpack it with
 <code>len()</code> save you writing loops for the common cases.</p>
 
 <h3>Scope: variables inside a function stay inside</h3>
-<p>A variable created inside a function (including its parameters) is <b>local</b>, it exists
+<p>A variable created inside a function (including its parameters) is <b>local</b>. It exists
 only while that call runs, and vanishes after. The same name outside is a different variable.
-This is a feature, not a nuisance: it means a function is a <b>sealed workshop</b>, you can
-call it a thousand times without its internal scratch variables leaking out or colliding with
-yours. Reading outer ("global") variables from inside works, but the professional habit is:
-<b>pass things in as parameters, hand results back with return</b>, functions that secretly
-depend on outside variables are the ones that break mysteriously later.</p>`,
+This is a feature. It makes a function a <b>sealed workshop</b>: you can call it a thousand
+times without its internal scratch variables leaking out or colliding with yours. Reading
+outer ("global") variables from inside works, but the professional habit is to <b>pass things
+in as parameters and hand results back with return</b>. Functions that secretly depend on
+outside variables are the ones that break mysteriously later.</p>`,
  quiz:{title:'Quick check',questions:[
    {q:'What does return do inside a function?',
     options:['Prints the value to the screen so the caller can read it','Saves the value to a file so it survives the call','Hands a value back to the caller, and ends the function','Starts a loop that repeats the body of the function'],answer:2,whyWrong:['Printing is print. return hands the value back to the caller instead.','Saving needs a file to be opened and written.','','Loops are started by for and while.'],
@@ -862,18 +879,20 @@ print("min", lo, "max", hi, "avg", avg)
 {id:'pyret',
  title:'Return values in depth: giving results back (including several at once)',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>A function's <b>return value</b> is the answer it hands back to whoever called it. Getting
 comfortable with returns, including Python's ability to return <i>several</i> values at once,
-is what lets you build programs out of small, reusable pieces instead of one giant blob.</p></div>
+lets you build programs out of small, reusable pieces instead of one giant blob.</p></div>
 
 <h3>return hands a value back AND ends the function</h3>
 <div class="codeSample">def double(x):
     return x * 2      # hand back x*2, and stop here
 
 y = double(5)         # y is now 10</div>
-<p>Two things happen at <code>return</code>: the value is sent back to the caller, and the
-function <b>stops immediately</b>, any code after it does not run. That "stop immediately" is
+<p>Two things happen at <code>return</code>. The value is sent back to the caller, and the
+function <b>stops immediately</b>. Any code after it doesn't run. That "stop immediately" is
 useful: an <b>early return</b> handles a special case up front and exits, so the rest of the
 function can assume the normal case.</p>
 <div class="codeSample">def safe_divide(a, b):
@@ -882,11 +901,10 @@ function can assume the normal case.</p>
     return a / b          # the normal case</div>
 
 <h3>No return? You get None</h3>
-<p>A function that never hits a <code>return</code> (or says just <code>return</code> with
-nothing after) hands back the special value <b>None</b>: Python's "nothing here." A common
+<p>A function that never hits a <code>return</code> (or says <code>return</code> with
+nothing after) hands back <b>None</b>, Python's special "nothing here" value. A common
 beginner bug: <code>print</code>ing inside a function but forgetting to <code>return</code>, so
-the caller receives <code>None</code>. <b>print shows a value; return gives it back.</b> They
-are not the same.</p>
+the caller receives <code>None</code>. <b>print shows a value; return gives it back.</b></p>
 
 <h3>Multiple return values: a Python superpower</h3>
 <div class="codeSample">def min_and_max(nums):
@@ -894,15 +912,15 @@ are not the same.</p>
 
 lo, hi = min_and_max([4, 1, 9, 2])  # unpack into two names: lo=1, hi=9</div>
 <p>Unlike many languages, a Python function can return <b>as many values as you like</b> at
-once, just separate them with commas. Under the hood they travel as a <b>tuple</b>
+once. Separate them with commas. Under the hood they travel as a <b>tuple</b>
 (the fixed group you met), and the caller <b>unpacks</b> them into separate names. This is
-everywhere in ML: scikit-learn's <code>train_test_split</code> returns four things at once;
-a model might return <i>both</i> a prediction and its confidence. If you only want some of
+everywhere in ML: scikit-learn's <code>train_test_split</code> returns four things at once,
+and a model might return <i>both</i> a prediction and its confidence. If you only want some of
 them, the convention is <code>_</code> for "ignore this one": <code>lo, _ = min_and_max(xs)</code>.</p>
 
-<div class="demystify"><b>Demystify "returning multiple values":</b> nothing magic: Python
-bundles them into one tuple on the way out (<code>return a, b</code> is <code>return (a, b)</code>),
-and unpacks it on the way in (<code>x, y = ...</code>). It just <i>reads</i> like returning
+<div class="demystify"><b>Demystify "returning multiple values":</b> nothing magic. Python
+bundles them into one tuple on the way out (<code>return a, b</code> is <code>return (a, b)</code>).
+Then it unpacks the tuple on the way in (<code>x, y = ...</code>). It <i>reads</i> like returning
 several things, which is why Python code leans on it so heavily.</div>`,
  docs:[['Python tutorial (defining functions)','https://docs.python.org/3/tutorial/controlflow.html#defining-functions']],
  quiz:{title:'Quick check',questions:[
@@ -972,6 +990,8 @@ print(square(4), q, r, first_negative([3, -2, 5]), first_negative([1, 2]))
 {id:'pypat',
  title:'Intermediate patterns: zip, enumerate, lambda, any & all',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>A short toolkit of intermediate idioms that show up throughout ML code. None is hard once
 named, and meeting them here means the math and ML streams never surprise you with unfamiliar
@@ -984,43 +1004,43 @@ for p, a in zip(preds, actual):     # pairs them up: (3,2), (5,5), (7,8)
     print(p - a)
 # common one-liner - the error on each example:
 errors = [p - a for p, a in zip(preds, actual)]   # [1, 0, -1]</div>
-<p><code>zip(a, b)</code> pairs up matching items so you can loop over both at once. It is
-everywhere in ML: comparing predictions to actual labels, pairing features with weights. (You
-saw the by-hand version, <code>a[i] * b[i] for i in range(len(a))</code>; <code>zip</code> is
-the cleaner way to say the same thing.)</p>
+<p><code>zip(a, b)</code> pairs up matching items so you can loop over both at once. It's
+everywhere in ML: comparing predictions to actual labels, pairing features with weights. You
+saw the by-hand version, <code>a[i] * b[i] for i in range(len(a))</code>. <code>zip</code> is
+the cleaner way to say the same thing.</p>
 
 <h3><code>enumerate</code>: the item AND its position</h3>
 <div class="codeSample">for i, name in enumerate(["ada", "alan", "grace"]):
     print(i, name)      # 0 ada / 1 alan / 2 grace</div>
-<p>When you need both the index and the value, <code>enumerate</code> hands you both, cleaner
-than tracking a counter yourself.</p>
+<p>When you need both the index and the value, <code>enumerate</code> hands you both. It's
+cleaner than tracking a counter yourself.</p>
 
 <h3><code>lambda</code>: a tiny throwaway function</h3>
 <div class="codeSample">square = lambda x: x * x     # same as: def square(x): return x * x
 square(4)                     # 16</div>
-<p>A <b>lambda</b> is a one-line, unnamed function, just <code>lambda args: expression</code>.
-Its main use is passing a little function as an argument, most often the <code>key=</code> of
-<code>sorted</code>/<code>max</code>/<code>min</code> to say "compare by <i>this</i>":</p>
+<p>A <b>lambda</b> is a one-line, unnamed function: <code>lambda args: expression</code>.
+Its main use is passing a little function as an argument. Usually it's the <code>key=</code> of
+<code>sorted</code>/<code>max</code>/<code>min</code>, to say "compare by <i>this</i>":</p>
 <div class="codeSample">words = ["cat", "hippo", "dog"]
 longest = max(words, key=lambda w: len(w))     # compare words BY length → "hippo"
 by_length = sorted(words, key=lambda w: len(w))  # ['cat', 'dog', 'hippo']</div>
-<p>Read <code>key=lambda w: len(w)</code> as "when comparing, look at each word's length." The
-same trick sorts by any property you name. (You do not have to use lambda, a named function
-works too, but this compact form is the convention you will read everywhere, including when we
-sort records by a field later.)</p>
+<p>Read <code>key=lambda w: len(w)</code> as: when comparing, look at each word's length. The
+same trick sorts by any property you name. You don't have to use lambda. A named function
+works too, but this compact form is the convention you'll read everywhere, including when we
+sort records by a field later.</p>
 
 <h3><code>any</code> and <code>all</code>: is ANY / are ALL true?</h3>
 <div class="codeSample">nums = [4, 0, 7]
 any(n < 0 for n in nums)    # False - none is negative
 all(n >= 0 for n in nums)   # True  - every one is >= 0</div>
-<p><code>any(...)</code> is True if at least one item passes; <code>all(...)</code> is True only
+<p><code>any(...)</code> is True if at least one item passes. <code>all(...)</code> is True only
 if every item does. Fed a generator expression (last lesson), they answer "does this hold
-anywhere / everywhere?" in one readable line, handy for validating data.</p>
+anywhere / everywhere?" in one line, handy for validating data.</p>
 
 <div class="demystify"><b>Demystify these:</b> every one is a <i>shorthand for a loop you could
-write by hand</i>. <code>zip</code> = "index both lists together," <code>enumerate</code> =
-"count as you go," <code>lambda</code> = "a function too small to name," <code>any</code>/<code>all</code>
-= "loop and check." If any confuses you, expand it back into a plain for-loop and it is obvious.</div>`,
+write by hand</i>. If any confuses you, expand it back into a plain for-loop. <code>zip</code> =
+"index both lists together," <code>enumerate</code> = "count as you go," <code>lambda</code> =
+"a function too small to name," <code>any</code>/<code>all</code> = "loop and check."</div>`,
  docs:[['Python built-in functions','https://docs.python.org/3/library/functions.html']],
  quiz:{title:'Quick check',questions:[
    {q:'zip([1, 2, 3], [10, 20, 30]) lets you:',
@@ -1088,6 +1108,7 @@ print(diffs, longest, all_pass)
 {id:'py5',
  title:'Dictionaries and text',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>A <b>dictionary</b> maps <i>keys</i> to <i>values</i>, a labeled lookup, like a real
 dictionary maps a word to its meaning. Written with braces:
@@ -1100,15 +1121,15 @@ counts["a"] = counts.get("a", 0) + 1   # .get returns a default if the key is mi
 text = "the cat sat"
 words = text.split()     # ["the", "cat", "sat"]  - split on spaces
 f"{len(words)} words"    # "3 words"  - an f-string drops values into text</div>
-<p>Two everyday text tools appear here: <code>.split()</code> breaks a string into a list of
+<p>Two everyday text tools appear here. <code>.split()</code> breaks a string into a list of
 words, and an <b>f-string</b> (<code>f"…{value}…"</code>) builds text with values plugged in.
-The <code>.get(key, default)</code> trick, return a default when a key isn't there yet, is
-exactly how you tally things up.</p>
+The <code>.get(key, default)</code> trick, returning a default when a key isn't there yet, is
+how you tally things up.</p>
 
 <h3>Looping over a dictionary (both key and value at once)</h3>
-<p>You know how to loop over a list; looping over a <b>dictionary</b> is just as common. A plain
-<code>for</code> loop over a dict walks its <b>keys</b>; <code>.values()</code> walks the values;
-and the one you will use most, <code>.items()</code>, hands you <b>each key and its value
+<p>You know how to loop over a list. Looping over a <b>dictionary</b> is just as common. A plain
+<code>for</code> loop over a dict walks its <b>keys</b>. <code>.values()</code> walks the values.
+The one you'll use most, <code>.items()</code>, hands you <b>each key and its value
 together</b>, using the tuple-unpacking you met with functions:</p>
 <div class="codeSample">prices = {"apple": 3, "pear": 5, "plum": 2}
 
@@ -1120,15 +1141,15 @@ for cost in prices.values():         # values: 3, 5, 2
 
 for fruit, cost in prices.items():   # BOTH at once - the everyday one
     print(fruit, "costs", cost)      # apple costs 3 / pear costs 5 / plum costs 2</div>
-<p>That <code>for key, value in d.items()</code> pattern is how you process every entry of a map,
-summing values, finding the biggest, transforming a table. You will reach for it constantly
+<p>That <code>for key, value in d.items()</code> pattern is how you process every entry of a map:
+summing values, finding the biggest, transforming a table. You'll reach for it all the time
 in data and ML code (a dictionary of word counts, of per-category totals, of model settings). It
 combines two things you already know: looping, and unpacking a pair into two names.</p>
 
-<div class="demystify"><b>Demystify <code>.items()</code>:</b> a dictionary does not loop over
-pairs by default, a bare <code>for x in d</code> gives you only the keys (a frequent surprise).
-<code>.items()</code> is what asks for the key-and-value pair each time, and
-<code>for k, v in …</code> unpacks that pair into two handy names.</div>`,
+<div class="demystify"><b>Demystify <code>.items()</code>:</b> a dictionary doesn't loop over
+pairs by default. A bare <code>for x in d</code> gives you only the keys, a frequent surprise.
+<code>.items()</code> asks for the key-and-value pair each time, and
+<code>for k, v in …</code> unpacks that pair into two names.</div>`,
  quiz:{title:'Quick check',questions:[
    {q:'Looping with  for k, v in prices.items()  gives you, each pass:',
     options:['A key and its value together, unpacked into k and v','Only the keys, in the order they were inserted','Only the values, with the keys left out entirely','The whole dictionary again, once for every entry in it'],answer:0,whyWrong:['','Keys alone is for k in prices, or prices.keys().','Values alone is prices.values().','Each pass gives one entry. The whole dictionary is what you started with.'],
@@ -1174,27 +1195,28 @@ print(word_count("a b a"))
 {id:'py12',
  title:'The other containers: tuples, sets, and choosing the right one',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>You know lists (ordered, changeable) and dicts (key → value). Python has two more everyday
-containers, and real code, including all the ML libraries, uses each where it shines. Being
-able to <b>choose the right container</b> is a quiet mark of competence.</p></div>
+containers, and real code, including all the ML libraries, uses each where it shines.
+Choosing the right container is a quiet mark of competence.</p></div>
 
 <h3>Tuples: ordered and locked</h3>
 <div class="codeSample">point = (3, 5)          # like a list, but IMMUTABLE - cannot change
 x, y = point            # unpacking - you met this with return a, b
 shape = (150, 4)        # you have seen this: NumPy's .shape IS a tuple</div>
 <p>A <b>tuple</b> is a list that cannot change. Why would you *want* that? For fixed-size
-records where each position has a meaning, a coordinate, a (rows, columns) shape, a
+records where each position has a meaning: a coordinate, a (rows, columns) shape, a
 (min, max, mean) result. Immutability is a promise to the reader: this grouping is a fact,
-not a work-in-progress. (It also lets tuples serve as dict keys, which lists cannot.)</p>
+not a work-in-progress. It also lets tuples serve as dict keys, which lists cannot.</p>
 
 <h3>Sets: membership, uniqueness, no order</h3>
 <div class="codeSample">seen = {"ada", "alan", "ada"}     # duplicates collapse → {"ada", "alan"}
 "ada" in seen                     # True - and FAST, even with millions of items
 unique_words = set(words)         # the classic one-liner: dedupe anything</div>
 <p>A <b>set</b> holds each value at most once and answers <code>in</code> questions almost
-instantly (a list checks item by item; a set jumps straight there, the difference between
-milliseconds and minutes on big data). The two everyday jobs: <b>dedupe</b> (how many
+instantly. A list checks item by item. A set jumps straight there, the difference between
+milliseconds and minutes on big data. The two everyday jobs: <b>dedupe</b> (how many
 <i>unique</i> users/words/labels?) and <b>fast membership</b> (is this email in the spam
 list?). Sets also do algebra: <code>a &amp; b</code> (both), <code>a | b</code> (either),
 <code>a - b</code> (in a, not b), handy for comparing groups.</p>
@@ -1202,11 +1224,11 @@ list?). Sets also do algebra: <code>a &amp; b</code> (both), <code>a | b</code> 
 <h3>The chooser, in one breath</h3>
 <p>Order matters and it will change → <b>list</b>. Fixed record, positions have meaning →
 <b>tuple</b>. Lookup by name/key → <b>dict</b>. Uniqueness or fast membership → <b>set</b>.
-That single sentence covers most container decisions you will ever make.</p>
+That covers most container decisions you'll ever make.</p>
 
 <div class="demystify"><b>Demystify "hashable/immutable":</b> when an error says "unhashable
-type: list," it means: only <i>unchangeable</i> values (tuples, strings, numbers) can be dict
-keys or set members, because a value that could change underneath the lookup table would
+type: list," it means only <i>unchangeable</i> values (tuples, strings, numbers) can be dict
+keys or set members. A value that could change underneath the lookup table would
 corrupt it. Swap the list for a tuple and the error goes away.</div>`,
  docs:[['Python tutorial (tuples and sets)','https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences']],
  quiz:{title:'Quick check',questions:[
@@ -1278,11 +1300,12 @@ print(unique_users, n_unique, returned, total, uniq)
 {id:'py6',
  title:'Working with data, a dataset by hand',
  body:`
+
 <div class="ground"><span class="gTag">🎯 Why this is the finish line</span>
 <p>Real data is usually a <b>table</b>: rows of records, each with named fields. In pure Python
 we represent that as a <b>list of dictionaries</b>, one dict per row. Everything pandas does
-later (filter, aggregate, group) you can do here by hand, and doing it by hand once is what
-makes the library feel like a shortcut instead of magic.</p></div>
+later (filter, aggregate, group) you can do here by hand. Doing it by hand once makes the
+library feel like a shortcut instead of magic.</p></div>
 <div class="codeSample">people = [
     {"name": "Ada", "age": 36, "city": "London"},
     {"name": "Alan", "age": 41, "city": "London"},
@@ -1300,7 +1323,7 @@ oldest = max(people, key=lambda p: p["age"])["name"]      # "Grace"</div>
 <p>That's the whole craft in miniature: <b>select</b> columns (<code>p["age"]</code>),
 <b>filter</b> rows (<code>if p["city"] == "London"</code>), and <b>aggregate</b>
 (<code>sum</code>, <code>len</code>, <code>max</code>). <code>key=lambda p: p["age"]</code>
-just tells <code>max</code> "compare people <i>by</i> their age." You are now working with
+tells <code>max</code> "compare people <i>by</i> their age." You are now working with
 data.</p>`,
  docs:[['Python data structures (the tutorial)','https://docs.python.org/3/tutorial/datastructures.html']],
  quiz:{title:'Quick check',questions:[
@@ -1355,34 +1378,35 @@ print(avg_age, londoners, oldest)
 {id:'py7',
  title:'Reading errors: tracebacks, exceptions, and how to debug',
  body:`
+
 <div class="ground"><span class="gTag">🎯 Why this is a real skill</span>
 <p>Every programmer, junior or principal, spends serious time reading error messages. The
 difference is that experienced people <b>read them as information</b>, not as failure. A
 Python error report (a <b>traceback</b>) tells you three things: <i>where</i> it happened
 (file + line), <i>what kind</i> of thing went wrong (the exception type), and <i>what</i>
-exactly (the message). Read bottom-up: the last line is the punchline.</p></div>
+exactly (the message). Read bottom-up. The last line is the punchline.</p></div>
 
-<h3>The exception types you will actually meet</h3>
+<h3>The exception types you will meet</h3>
 <p><code>TypeError</code>, mixed incompatible types ("can't add str and int").
 <code>ValueError</code>, right type, bad value (<code>int("abc")</code>).
 <code>IndexError</code>, asked a list for a position it doesn't have.
 <code>KeyError</code>, asked a dict for a missing key.
 <code>ZeroDivisionError</code>, divided by zero. Knowing these five by sight solves most
-beginner debugging on the spot, and later, a "singular matrix" or "shapes don't match" error
-from NumPy is read with exactly the same skill.</p>
+beginner debugging on the spot. Later, a "singular matrix" or "shapes don't match" error
+from NumPy is read with the same skill.</p>
 
 <h3>Handling errors on purpose: try / except</h3>
 <div class="codeSample">try:
     result = int(user_input)     # may raise ValueError
 except ValueError:
     result = 0                   # a chosen fallback, not a crash</div>
-<p><code>try</code> runs the risky code; if the named exception occurs, the <code>except</code>
-block runs instead of crashing. Rule of craft: catch the <b>specific</b> exception you expect,
-a bare <code>except:</code> that swallows everything hides real bugs (including your typos).</p>
+<p><code>try</code> runs the risky code. If the named exception occurs, the <code>except</code>
+block runs instead of crashing. Rule of craft: catch the <b>specific</b> exception you expect.
+A bare <code>except:</code> that swallows everything hides real bugs, including your typos.</p>
 
 <div class="demystify"><b>Demystify "exception":</b> not an insult, an <i>exceptional
 situation</i>, packaged as an object and thrown up the call chain until someone handles it.
-The traceback is just the trail it left while flying.</div>`,
+The traceback is the trail it left while flying.</div>`,
  docs:[['Python tutorial (errors and exceptions)','https://docs.python.org/3/tutorial/errors.html']],
  quiz:{title:'Quick check',questions:[
    {q:'int("hello") raises which exception?',
@@ -1459,13 +1483,13 @@ print(safe_divide(10, 2), safe_divide(1, 0), parse_int("42"), parse_int("abc"), 
 {id:'py10',
  title:'Imports: using other people’s code (the gateway to the whole ML ecosystem)',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>No one writes ML from a blank file. Real projects stand on <b>other people's code</b>:
 Python's built-in <b>standard library</b> (math, random, files, dates, installed with
 Python itself) and third-party <b>packages</b> like NumPy, pandas, and scikit-learn. The
-<code>import</code> statement is how your file gains access to them, and since every ML
-project starts with a block of imports, reading and writing them fluently is a core skill,
-not a footnote.</p></div>
+<code>import</code> statement is how your file gains access to them. Every ML project starts
+with a block of imports, so reading and writing them fluently is a core skill.</p></div>
 
 <h3>The three forms you will read every day</h3>
 <div class="codeSample">import math                  # 1) bring in the whole module
@@ -1478,54 +1502,49 @@ import numpy as np           # 3) import under a short ALIAS
 np.array([1, 2, 3])          #    "np" is a nickname you chose</div>
 <p>Form 3 is the one ML lives in. The aliases are universal, near-mandatory conventions:
 <code>import numpy as np</code>, <code>import pandas as pd</code>,
-<code>import matplotlib.pyplot as plt</code>. Any ML code you read anywhere will use exactly
-these, which is why our NumPy stream opens with that precise line, and now you know exactly
-what it does: load the package once, and give it a two-letter name.</p>
+<code>import matplotlib.pyplot as plt</code>. Any ML code you read will use these. Our NumPy
+stream opens with that line: load the package once, and give it a two-letter name.</p>
 
 <h3>Modules vs packages: and where they come from</h3>
-<p>A <b>module</b> is one importable file; a <b>package</b> is a bundle of them under one
-name (scikit-learn is a package; <code>sklearn.linear_model</code> is a module inside it,
-the dots mirror folders). Standard-library modules ship with Python. Third-party packages
-must be <b>installed once</b> into your environment, on your own machine that is
-<code>pip install scikit-learn</code>, and then imported in code. Two different verbs:
-<i>install</i> fetches the code onto the machine; <i>import</i> loads it into your program.
-The classic error decoded: <code>ModuleNotFoundError: No module named 'sklearn'</code>
-does not mean your import line is wrong, it means the package is not installed in the
-environment you are running. (Here in MLDojo, the browser fetches packages for you
-automatically on first use; in a real project, installing them, usually into a per-project
-<i>virtual environment</i>, is your job, and the ML Toolkit stream picks that story up.)</p>
+<p>A <b>module</b> is one importable file. A <b>package</b> is a bundle of them under one
+name. Scikit-learn is a package, <code>sklearn.linear_model</code> is a module inside it,
+and the dots mirror folders. Standard-library modules ship with Python. Third-party packages
+must be <b>installed once</b> into your environment (on your own machine,
+<code>pip install scikit-learn</code>) and then imported in code. Two different verbs:
+<i>install</i> fetches the code onto the machine, <i>import</i> loads it into your program.
+So <code>ModuleNotFoundError: No module named 'sklearn'</code> doesn't mean your import line
+is wrong. It means the package isn't installed in the environment you're running. Here in
+MLDojo, the browser fetches packages for you on first use. In a real project, installing
+them, usually into a per-project <i>virtual environment</i>, is your job. The ML Toolkit
+stream picks that up.</p>
 
 <div class="demystify"><b>Demystify "from x import y" vs "import x":</b> both load the same
-code; they differ only in what name lands in your file, the whole module (<code>math.sqrt</code>,
-clear where things come from) or one name (<code>sqrt</code>, shorter). Style guidance you can
-trust: whole-module or aliased imports for big libraries (<code>np.</code>, <code>pd.</code>,
-everyone instantly knows what they are reading), <code>from</code>-imports for a few specific
-tools (<code>from sklearn.linear_model import LinearRegression</code>). Avoid
-<code>from x import *</code>, it dumps unknown names into your file and real codebases ban it.</div>
+code. They differ only in what name lands in your file: the whole module (<code>math.sqrt</code>,
+clear where things come from) or one name (<code>sqrt</code>, shorter). Use whole-module or
+aliased imports for big libraries (<code>np.</code>, <code>pd.</code>) and
+<code>from</code>-imports for a few specific tools
+(<code>from sklearn.linear_model import LinearRegression</code>). Avoid
+<code>from x import *</code>. It dumps unknown names into your file and real codebases ban it.</div>
 
 <h3>The <code>if __name__ == "__main__":</code> line (a.k.a. "dunder main")</h3>
-<p>Open almost any Python script and you will find this near the bottom:</p>
+<p>Open almost any Python script and you'll find this near the bottom. It's the most common
+idiom there is:</p>
 <div class="codeSample">def main():
     print("running the program")
 
 if __name__ == "__main__":
     main()</div>
-<p>Here is the whole story. When Python runs a file, it sets a hidden variable
+<p>When Python runs a file, it sets a hidden variable
 <code>__name__</code> (a <b>dunder</b>, double-underscore, name). If you <b>run the file
 directly</b> (<code>python myfile.py</code>), Python sets <code>__name__ == "__main__"</code>.
-But if another file <b>imports</b> yours, then <code>__name__</code> is instead the module's
-name (<code>"myfile"</code>). So the line <code>if __name__ == "__main__":</code> means: <b>"only
-do this when I am the file being run, not when I am imported."</b></p>
-<p>Why it matters: it lets a file be <i>both</i> a reusable module (you can
+If another file <b>imports</b> yours, <code>__name__</code> is instead the module's
+name (<code>"myfile"</code>). So <code>if __name__ == "__main__":</code> means: <b>"only
+do this when I am the file being run, not when I am imported."</b> The guard is a plain
+<code>if</code> comparing a string.</p>
+<p>This lets a file be <i>both</i> a reusable module (you can
 <code>import</code> its functions without side effects) <i>and</i> a runnable script. Without the
 guard, any top-level code (like <code>main()</code>) would fire the moment someone imported the
-file just to reuse one function, a classic surprise. Putting your "run it" code under the guard
-keeps importing safe.</p>
-
-<div class="demystify"><b>Demystify "dunder main":</b> <code>__main__</code> is just the name
-Python gives the file you launched. The guard is a plain <code>if</code> comparing a string,
-nothing magical, and it is the single most common idiom you will see at the bottom of Python
-scripts. Read it as "if this file is the one being run, start here."</div>`,
+file to reuse one function. Putting your "run it" code under the guard keeps importing safe.</p>`,
  docs:[['Python tutorial, modules','https://docs.python.org/3/tutorial/modules.html'],['pip, installing packages','https://packaging.python.org/en/latest/tutorials/installing-packages/']],
  quiz:{title:'Quick check',questions:[
    {q:'What does "import numpy as np" do?',
@@ -1600,12 +1619,12 @@ print(root, circle_area, pick, forms)
 {id:'pyproj',
  title:'Multiple files & packages: structuring a real project',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Real programs are not one giant file, they are <b>many small files</b>, each with one job,
-that import each other. Learning to split code across files (and group files into <b>packages</b>)
-is what lets a project grow past a toy. Good news: you already know the tool, it is the same
-<code>import</code> you used for libraries, because <b>a library is just modules someone else
-wrote</b>.</p></div>
+<p>Real programs are <b>many small files</b>, each with one job, that import each other.
+Splitting code across files (and grouping files into <b>packages</b>) is what lets a project
+grow past a toy. You already know the tool. It's the same <code>import</code> you used for
+libraries, because <b>a library is modules someone else wrote</b>.</p></div>
 
 <h3>Your own modules: a module is just a .py file</h3>
 <p>Put related functions in their own file, then import them from another. Say two files sit in
@@ -1619,7 +1638,7 @@ from helpers import clean          # import ONE name from your file
 import helpers                     # or the whole module, used as helpers.clean(...)
 
 print(clean("  Hello  "))          # hello</div>
-<p>That is the exact syntax you used for <code>math</code> and <code>numpy</code>, because
+<p>That's the syntax you used for <code>math</code> and <code>numpy</code>, because
 <code>helpers.py</code> <i>is</i> a module, no different from a library except that you wrote it.
 Python finds it because it looks in the <b>current file's folder</b> first (part of the module
 search path). Split a program by responsibility, <code>data.py</code>, <code>model.py</code>,
@@ -1627,7 +1646,7 @@ search path). Split a program by responsibility, <code>data.py</code>, <code>mod
 
 <h3>Packages: a folder of modules</h3>
 <p>When you have many modules, group them into a <b>package</b>: a <i>folder</i> of <code>.py</code>
-files. Historically you mark the folder as a package by adding a (often empty) <code>__init__.py</code>
+files. Historically you mark the folder as a package by adding an (often empty) <code>__init__.py</code>
 file inside it. Then you import with <b>dots that mirror the folders</b>, the same dotted paths
 you saw in <code>sklearn.linear_model</code>:</p>
 <div class="codeSample">myproject/
@@ -1661,15 +1680,15 @@ def main():
 
 if __name__ == "__main__":     # only runs when you launch train.py directly
     main()</div>
-<p>Notice how <code>train.py</code> is small, it just wires together modules that each do one
-thing, and how <code>if __name__ == "__main__":</code> (last lesson) marks it as the file you
-<i>run</i>, while <code>data.py</code> and <code>model.py</code> are files you <i>import</i>.</p>
+<p><code>train.py</code> is small. It wires together modules that each do one thing.
+<code>if __name__ == "__main__":</code> (last lesson) marks it as the file you <i>run</i>,
+while <code>data.py</code> and <code>model.py</code> are files you <i>import</i>.</p>
 
 <div class="demystify"><b>Demystify "my code vs a library":</b> there is no real difference.
-<code>numpy</code> and your <code>helpers.py</code> are both just modules, importable files of
-Python. A library is only "modules someone else wrote and installed into your environment." Once
-you can import your own files, you understand exactly what importing a library does. <i>(Note:
-this is a project-structure skill you practice on your own machine, the in-browser Playground
+<code>numpy</code> and your <code>helpers.py</code> are both modules, importable files of
+Python. A library is "modules someone else wrote and installed into your environment." Once
+you can import your own files, you understand what importing a library does. <i>(Note:
+this is a project-structure skill you practice on your own machine. The in-browser Playground
 runs a single file. The setup guide shows how to make a project folder.)</i></div>`,
  docs:[['Python tutorial (modules & packages)','https://docs.python.org/3/tutorial/modules.html#packages']],
  quiz:{title:'Quick check',questions:[
@@ -1687,11 +1706,12 @@ runs a single file. The setup guide shows how to make a project folder.)</i></di
 {id:'py11',
  title:'Files, input & output: getting data in and results out',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>An ML application is a pipeline with two ends: <b>data comes in</b> (usually from files,
 almost always CSV, "comma-separated values") and <b>results go out</b> (formatted numbers, a
 report, a saved file). This lesson covers both ends in pure Python, so when pandas reads a
-CSV in one line later, you know exactly what it just did for you.</p></div>
+CSV in one line later, you know what it did for you.</p></div>
 
 <h3>Writing and reading files</h3>
 <div class="codeSample">with open("scores.csv", "w") as f:      # "w" = write mode
@@ -1702,9 +1722,9 @@ CSV in one line later, you know exactly what it just did for you.</p></div>
 with open("scores.csv") as f:           # default mode = read
     text = f.read()                     # the whole file as one string
     # or: for line in f:  - one line at a time (big files!)</div>
-<p>The <code>with</code> block is the professional habit worth copying from day 1: it opens
-the file, and <b>guarantees it closes</b> when the block ends, even if an error strikes
-mid-way (it is try/finally, packaged). Note it is also our old friend: a colon and an
+<p>The <code>with</code> block is the professional habit to copy from day 1. It opens
+the file and <b>guarantees it closes</b> when the block ends, even if an error strikes
+mid-way. It's try/finally, packaged. It's also our old friend: a colon and an
 indented block.</p>
 
 <h3>Parsing CSV by hand: once</h3>
@@ -1715,23 +1735,23 @@ for line in lines[1:]:                   # skip the header - a slice!
     name, score = line.split(",")        # split each line on commas
     rows.append({"name": name, "score": int(score)})</div>
 <p>Split lines, split commas, convert types, build the list-of-dicts from your capstone.
-That is all a CSV is, and every tool from pandas up is automating this exact loop.</p>
+That's all a CSV is. Every tool from pandas up is automating this loop.</p>
 
 <h3>Output: formatted printing, and input()</h3>
 <p>Results deserve better than raw floats. F-strings take a format spec after a colon:
 <code>f"{avg:.1f}"</code> → one decimal place; <code>f"{n:,}"</code> → thousands separators
 (1,234,567); <code>f"{share:.0%}"</code> → a percentage. For interactive terminal programs,
-<code>input("prompt")</code> pauses and returns what the user types (always as a
-<i>string</i>, convert with <code>int()</code>/<code>float()</code>, and guard with the
-try/except you learned, because users type "abc"). Note: <code>input()</code> belongs
-to terminal apps; in browsers and web apps, user input arrives through UI events instead,
-here in MLDojo, your "input" is the code and data you provide.</p>
+<code>input("prompt")</code> pauses and returns what the user types, always as a
+<i>string</i>. Convert with <code>int()</code>/<code>float()</code>, and guard with the
+try/except you learned, because users type "abc". <code>input()</code> belongs
+to terminal apps. In browsers and web apps, user input arrives through UI events instead.
+Here in MLDojo, your "input" is the code and data you provide.</p>
 
 <div class="demystify"><b>Demystify "file handle":</b> the <code>f</code> in
-<code>open(...) as f</code> is not the file's contents, it is a <i>connection</i> to the
-file (a bookmark with methods). <code>f.read()</code> pulls contents through it;
-closing it (which <code>with</code> does for you) releases the connection. Forgetting to
-close files is a classic slow leak in long-running programs, <code>with</code> makes the
+<code>open(...) as f</code> isn't the file's contents. It's a <i>connection</i> to the
+file (a bookmark with methods). <code>f.read()</code> pulls contents through it.
+Closing it (which <code>with</code> does for you) releases the connection. Forgetting to
+close files is a classic slow leak in long-running programs. <code>with</code> makes the
 mistake impossible.</div>`,
  docs:[['Python tutorial (reading and writing files)','https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files'],['f-string format specs','https://docs.python.org/3/library/string.html#format-specification-mini-language']],
  quiz:{title:'Quick check',questions:[
@@ -1816,12 +1836,14 @@ print(report)
 {id:'py13',
  title:'Objects & classes: the shape of everything in Python',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Here is a fact that reorganizes everything you have learned: <b>in Python, everything is an
-object</b>. A list, a string, a number, a DataFrame, a trained model, each is an object, which
+<p>Here is a fact that reorganizes everything you've learned: <b>in Python, everything is an
+object</b>. A list, a string, a number, a DataFrame, a trained model: each is an object. That
 means each bundles <b>data</b> together with <b>methods</b> (functions you call on it with a
-dot). You have been using objects the whole time: <code>list.append()</code>,
-<code>str.split()</code>, <code>array.mean()</code>, those dots are you calling an object's
+dot). You've been using objects the whole time. <code>list.append()</code>,
+<code>str.split()</code>, <code>array.mean()</code>: those dots are you calling an object's
 methods. This lesson names the pattern and shows you how to make your own.</p></div>
 
 <h3>A class is a blueprint; an object is one built from it</h3>
@@ -1839,16 +1861,16 @@ rm = RunningMean()             # build an object from the blueprint
 rm.add(10); rm.add(20)         # call its methods
 rm.mean()                      # 15.0</div>
 <p>A <b>class</b> defines a new kind of object. <code>__init__</code> is the setup routine that
-runs when you create one. <code>self</code> is the automatic first parameter of every method,
-it <i>is</i> the particular object being worked on, so <code>self.total</code> is "this
-object's own total." You rarely need to write classes as a beginner, but you will <b>read</b>
-them constantly, because the whole ML ecosystem is built from them.</p>
+runs when you create one. <code>self</code> is the automatic first parameter of every method.
+It <i>is</i> the particular object being worked on. So <code>self.total</code> is "this
+object's own total." You rarely need to write classes as a beginner, but you'll <b>read</b>
+them all the time. The whole ML ecosystem is built from them.</p>
 
 <h3>Dunder methods: the special <code>__names__</code></h3>
 <p>You already met one: <code>__init__</code>. Those double-underscore-wrapped names,
 pronounced <b>"dunder"</b> (short for <b>d</b>ouble <b>under</b>score), are Python's
-<b>special methods</b>: methods Python calls <i>automatically</i> in certain situations, so your
-objects can plug into the language's built-in behavior. You do not call them by name; Python
+<b>special methods</b>. Python calls them <i>automatically</i> in certain situations, so your
+objects can plug into the language's built-in behavior. You don't call them by name. Python
 does, behind a friendlier syntax:</p>
 <div class="codeSample">class Money:
     def __init__(self, cents):      # runs at   Money(500)
@@ -1864,19 +1886,19 @@ m = Money(500)
 print(m)          # 5.00 dollars  ← Python called __str__ for you
 m == Money(500)   # True         ← Python called __eq__
 len(m)            # 500          ← Python called __len__</div>
-<p>So <code>len(x)</code> secretly calls <code>x.__len__()</code>, <code>a + b</code> calls
+<p>So <code>len(x)</code> calls <code>x.__len__()</code>, <code>a + b</code> calls
 <code>a.__add__(b)</code>, <code>print(x)</code> calls <code>x.__str__()</code>, and so on.
-That is <i>why</i> the same <code>len()</code>, <code>+</code>, and <code>[]</code> work on
-lists, strings, and NumPy arrays alike, each type implements the matching dunder. Defining a few
-dunders makes your own objects feel like built-in ones. (You will rarely write them as a
-beginner, but recognizing them turns confusing library code into something readable.)</p>
+That's <i>why</i> the same <code>len()</code>, <code>+</code>, and <code>[]</code> work on
+lists, strings, and NumPy arrays alike: each type implements the matching dunder. Defining a few
+dunders makes your own objects feel like built-in ones. You'll rarely write them as a
+beginner, but recognizing them turns confusing library code into something readable.</p>
 
 <div class="demystify"><b>Why this matters for ML:</b> <code>model = LinearRegression()</code>
-builds an <i>object</i> from scikit-learn's <code>LinearRegression</code> <i>class</i>;
-<code>model.fit(X, y)</code> calls its method (which stashes the learned numbers inside the
-object, as <code>model.coef_</code>); <code>model.predict(...)</code> calls another. The
-fit/predict interface you met is just <b>objects with methods</b>. Understanding classes is
-what turns "magic library incantations" into "oh, it is an object, and these are its
+builds an <i>object</i> from scikit-learn's <code>LinearRegression</code> <i>class</i>.
+<code>model.fit(X, y)</code> calls its method, which stashes the learned numbers inside the
+object as <code>model.coef_</code>. <code>model.predict(...)</code> calls another. The
+fit/predict interface you met is <b>objects with methods</b>. Understanding classes
+turns "magic library incantations" into "oh, it is an object, and these are its
 methods."</div>`,
  docs:[['Python tutorial (classes)','https://docs.python.org/3/tutorial/classes.html']],
  quiz:{title:'Quick check',questions:[
@@ -1951,41 +1973,42 @@ print(result)
 {id:'py14',
  title:'You cannot memorize Python, how to learn any function or library',
  body:`
+
 <div class="ground"><span class="gTag">🎯 The most important skill of all</span>
 <p>Here is the premise this course is built on: <b>nobody knows all of Python.</b> The
-standard library alone has hundreds of modules; NumPy, pandas, and scikit-learn have thousands
-of functions between them; the wider ecosystem has hundreds of thousands of packages. No
+standard library alone has hundreds of modules. NumPy, pandas, and scikit-learn have thousands
+of functions between them. The wider ecosystem has hundreds of thousands of packages. No
 course could cover them all, and no professional has them memorized. What separates competent
-programmers from stuck ones is not memory, it is knowing <b>how to find and understand what
-you need, right when you need it.</b> That skill is the real deliverable of this stream.</p></div>
+programmers from stuck ones is knowing <b>how to find and understand what you need, right
+when you need it.</b> That skill is the real deliverable of this stream.</p></div>
 
 <h3>The four moves, in order</h3>
-<p><b>1. Ask the object what it can do.</b> Two built-ins work on <i>anything</i>:
-<code>dir(x)</code> lists the methods available on <code>x</code>; <code>help(x)</code> prints
+<p><b>1. Ask the object what it can do.</b> Two built-ins work on <i>anything</i>.
+<code>dir(x)</code> lists the methods available on <code>x</code>. <code>help(x)</code> prints
 its documentation, including what arguments it takes. Forgot what a string can do?
 <code>dir("")</code>. Unsure how <code>sorted</code> works? <code>help(sorted)</code>. The
 answer is inside Python itself.</p>
 <div class="codeSample">help(str.replace)     # shows: replace(old, new, count=-1) and what it does
 dir([])               # every method a list has: append, sort, count, index, ...</div>
 <p><b>2. Read the official documentation.</b> Every serious library has real docs with
-examples, <a href="https://docs.python.org/3/" target="_blank" rel="noopener">docs.python.org</a>,
-the NumPy/pandas/sklearn sites. Learning to skim a function's signature (its arguments and
-their defaults) and copy an example is a core professional skill, not cheating.</p>
+examples: <a href="https://docs.python.org/3/" target="_blank" rel="noopener">docs.python.org</a>,
+the NumPy/pandas/sklearn sites. Skimming a function's signature (its arguments and
+their defaults) and copying an example is a core professional skill, not cheating.</p>
 <p><b>3. Read the error, then search it.</b> When something breaks, the traceback (Python
 stream: "Reading errors") usually names the problem. Pasting an unfamiliar error message into
-a search engine lands you on a solution more often than not, every professional does this
+a search engine lands you on a solution more often than not. Every professional does this
 daily.</p>
 <p><b>4. Ask the tutor.</b> Right here in MLDojo, the <b>Ask the Tutor</b> panel will explain
 any function, decode any error, or walk you through any algorithm step by step. Use it as your
 always-available pair programmer.</p>
 
-<div class="demystify"><b>Reframe what "knowing Python" means:</b> it is not a full dictionary
-in your head. It is <b>fluency with the core</b> (which this stream gives you) plus <b>the
+<div class="demystify"><b>Reframe what "knowing Python" means:</b> it isn't a full dictionary
+in your head. It's <b>fluency with the core</b> (which this stream gives you) plus <b>the
 reflexes to look up the rest</b>. When you meet <code>np.argsort</code> or
-<code>df.pivot_table</code> in a later lesson and think "I have never seen that", good. You are
-not supposed to have. You are supposed to know it is a method on an object, that
+<code>df.pivot_table</code> in a later lesson and think "I have never seen that", good. You're
+not supposed to have. You're supposed to know it's a method on an object, that
 <code>help()</code> and the docs will explain it, and that you can try it in the Playground in
-ten seconds. That posture is competence.</div>`,
+ten seconds.</div>`,
  docs:[['The Python standard library (you will never memorize it (bookmark it))','https://docs.python.org/3/library/'],['How to read Python documentation','https://docs.python.org/3/tutorial/']],
  quiz:{title:'Quick check',questions:[
    {q:'You meet an unfamiliar function, df.groupby, in a lesson. The competent first move is:',

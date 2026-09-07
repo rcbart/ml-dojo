@@ -3,18 +3,19 @@ STREAMS.push({icon:'🕹',track:'ML & AI Track',title:'Reinforcement Learning: l
 {id:'rl0',
  title:'What reinforcement learning is, and why it is not supervised learning',
  body:`
-<div class="ground"><span class="gTag">🎯 Nobody hands you the answers</span>
-<p>Supervised learning gets a stack of examples with the right answer written next to each one.
-Unsupervised learning gets a stack of examples with no answers and looks for structure.
-<b>Reinforcement learning gets neither.</b> It gets a world it can act in, and a number that
-occasionally tells it how well things are going. It has to work out for itself which of its own
-past choices earned that number.</p></div>
 
-<h3>The loop, which is the whole setup</h3>
+
+<div class="ground"><span class="gTag">🎯 Nobody hands you the answers</span>
+<p>Supervised learning gets examples with the right answer attached. Unsupervised learning
+gets examples with no answers and looks for structure. <b>Reinforcement learning gets
+neither.</b> It gets a world it can act in, and a number that occasionally says how well things
+are going. It has to work out which of its own past choices earned that number.</p></div>
+
+<h3>The loop</h3>
 <p>An <b>agent</b> observes the <b>state</b> of an <b>environment</b>, picks an <b>action</b>,
 and the environment responds with a <b>reward</b> and a new state. Then it happens again. That
-is the entire framework, and everything in this stream is a different answer to one question:
-given only that loop, how do you get better at it?</p>
+is the entire framework. Everything in this stream answers one question: given only that loop,
+how do you get better at it?</p>
 <div class="figure"><svg viewBox="0 0 440 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A loop: the agent sends an action to the environment, the environment returns a state and a reward to the agent">
   <rect x="40" y="60" width="140" height="70" rx="10" fill="#ede9fe" stroke="#6d28d9" stroke-width="2"/>
   <text x="110" y="100" font-size="15" fill="#4c1d95" text-anchor="middle" font-weight="600">Agent</text>
@@ -31,51 +32,46 @@ given only that loop, how do you get better at it?</p>
   </defs>
 </svg><div class="figCap">One step of the loop. Run it a few million times and the agent is supposed to get good.</div></div>
 
-<h3>Three things that make this genuinely harder</h3>
+<h3>Three things that make this harder</h3>
 <p><b>The feedback is evaluative, not instructive.</b> A supervised label says "the answer was
-cat". A reward says "that went 3 units well". It never tells you what you should have done
-instead, so you cannot compute an error and correct toward it. You can only try things and
-compare.</p>
+cat". A reward says "that went 3 units well". It never says what you should have done instead,
+so you can't compute an error and correct toward it. You can only try things and compare.</p>
 <p><b>The reward is delayed.</b> In chess the only unambiguous signal arrives at move sixty, and
-the move that actually decided the game was move twelve. Working out which earlier choices
-deserve the credit is called the <b>credit assignment problem</b>, and most of the algorithms in
-this stream exist to solve it.</p>
+the move that decided the game was move twelve. Working out which earlier choices deserve the
+credit is the <b>credit assignment problem</b>. Most algorithms in this stream exist to solve
+it.</p>
 <p><b>Your data depends on your behavior.</b> Supervised learning gets a fixed dataset. An RL
-agent generates its own, and a bad policy visits bad states and learns from them. If it never
-tries the corridor on the left it will never find out the treasure is down there. That tension
-has a name, <b>exploration versus exploitation</b>, and it gets its own lesson.</p>
+agent generates its own, and a bad <b>policy</b>, the agent's rule for choosing actions, visits
+bad states and learns from them. If it never tries the corridor on the left it never finds the
+treasure down there. That tension is <b>exploration versus exploitation</b>, trying new actions
+to learn versus taking the best-known one to score, and it gets its own lesson.</p>
 
 <div class="demystify"><b>"Reinforcement" is borrowed from animal psychology.</b> Thorndike's
 law of effect, 1911: behavior followed by a satisfying result becomes more likely to recur.
-Skinner built a career on it. The computational version keeps the name and the shape of the
-idea, and drops the biology. When you read that an agent was "rewarded", nothing was
-experienced. A number was added to a running total.</div>
+Skinner built a career on it. The computational version keeps the name and drops the biology.
+When an agent is "rewarded", nothing was experienced. A number was added to a running total.</div>
 
-<h3>Where it earns its keep, and where it does not</h3>
-<p>RL is the right tool when the thing you want cannot be demonstrated, only judged.
-Nobody can label the correct action for every board position in Go, but anyone can score the
-final position, and that was enough for AlphaGo. Nobody can write down the correct torque for
-every joint angle of a walking robot, but you can measure how far it got. Nobody can label the
-single best reply to a prompt, but a person can say which of two replies they prefer, which is
-the whole basis of RLHF at the end of this stream.</p>
-<p>It is the wrong tool when a labeled dataset already exists or could exist. RL is spectacularly
-sample-hungry: the Atari results that made the field famous needed tens of millions of frames to
-learn games a person picks up in ten minutes. If you can pose your problem as supervised
-learning, do that instead. Reach for RL when you genuinely cannot.</p>
+<h3>Where it earns its keep, and where it doesn't</h3>
+<p>RL is the right tool when the thing you want can't be demonstrated, only judged.
+Nobody can label the correct action for every Go position, but anyone can score the final
+position, and that was enough for AlphaGo. Nobody can write down the correct torque for every
+joint of a walking robot, but you can measure how far it got. Nobody can label the best reply
+to a prompt, but a person can say which of two replies they prefer. That is the basis of
+<b>RLHF</b> (reinforcement learning from human feedback) at the end of this stream: train a
+model to predict which reply people prefer, then tune a language model to score well on it.</p>
+<p>It is the wrong tool when a labeled dataset exists or could exist. RL is sample-hungry: the
+Atari results that made the field famous needed tens of millions of frames to learn games a
+person picks up in ten minutes. If you can pose your problem as supervised learning, do that.</p>
 
 <div class="hardidea">🧠 <b>The reward function is the specification, and it is where the bodies
-are buried.</b> You are not telling the agent what to do, you are telling it what to score, and
-it will find the highest-scoring behavior whether or not that behavior is what you meant. A
-boat-racing agent trained on race score famously discovered it could ignore the race entirely
-and spin in a lagoon collecting respawning pickups forever. It was not broken. It won. Every
-practitioner has a story like this, and they all start with a reward function that seemed
-obviously fine.</div>
+are buried.</b> You aren't telling the agent what to do, you're telling it what to score, and
+it will find the highest-scoring behavior whether or not that is what you meant. A boat-racing
+agent trained on race score discovered it could ignore the race and spin in a lagoon collecting
+respawning pickups forever. It wasn't broken. It won.</div>
 
 <h3>What you should be able to say now</h3>
 <p>RL learns from consequences rather than from answers. The signal is evaluative, delayed, and
-generated by the agent's own behavior. That combination is what makes it a separate field with
-its own machinery, rather than supervised learning with extra steps.</p>
-`,
+generated by the agent's own behavior.</p>`,
  docs:[['Sutton and Barto, Reinforcement Learning: An Introduction, the standard text and free online','http://incompleteideas.net/book/the-book-2nd.html']],
  exs:[{title:'Imitate the log, or learn from the rewards in it',
    lang:'python',
@@ -201,10 +197,13 @@ print(pi_imitate, Qhat, best, v_imitate, v_rl)
 {id:'rl1',
  title:'The vocabulary: states, actions, returns, and why the future is discounted',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Six words, and one of them is doing the real work</span>
-<p>Every RL paper uses the same handful of terms. Learn them once here and the notation in the
-rest of the stream reads itself. Five are straightforward. The sixth, the <b>return</b>, is the
-one that carries all the difficulty, because it is about the future rather than the present.</p></div>
+<p>Every <b>RL</b> (reinforcement learning) paper uses the same handful of terms. Learn them once and the notation in the rest
+of the stream reads itself. Five are straightforward. The sixth, the <b>return</b>, carries
+all the difficulty, because it is about the future.</p></div>
 
 <h3>The five easy ones</h3>
 <ul>
@@ -217,40 +216,38 @@ be zero for a long time, and usually is.</li>
 <li><b>Policy</b> <code>&pi;</code>: the agent's behavior, a rule from states to actions.
 Deterministic, <code>a = &pi;(s)</code>, or stochastic,
 <code>&pi;(a|s)</code>, a probability over actions. <b>The policy is the thing you are
-actually trying to learn.</b> Everything else is scaffolding for improving it.</li>
+trying to learn.</b></li>
 <li><b>Episode</b>: one run from a start state to a terminal state. One game, one delivery, one
-conversation. Some problems have no terminal state and simply continue, which matters more than
-it sounds.</li>
+conversation. Some problems have no terminal state and simply continue.</li>
 </ul>
 
 <h3>The hard one: the return</h3>
-<p>The agent should not maximize the next reward, it should maximize the total reward from here
-on. That total has a name, the <b>return</b>:</p>
+<p>The agent shouldn't maximize the next reward. It should maximize the total reward from here
+on. That total is the <b>return</b>:</p>
 <div class="mathblock">G<sub>t</sub> = r<sub>t+1</sub> + r<sub>t+2</sub> + r<sub>t+3</sub> + &hellip;</div>
-<p>Which is fine for a game of chess and immediately broken for anything that does not end. A
-thermostat runs forever, so that sum is infinite for every policy, and comparing two infinities
-tells you nothing. Every policy is equally good, which is obviously wrong.</p>
+<p>That is fine for a game of chess and broken for anything that doesn't end. A thermostat runs
+forever, so the sum is infinite for every policy, and comparing two infinities tells you
+nothing.</p>
 <p>The fix is to shrink each future reward by a constant factor per step:</p>
 <div class="mathblock">G<sub>t</sub> = r<sub>t+1</sub> + &gamma;r<sub>t+2</sub> + &gamma;&sup2;r<sub>t+3</sub> + &hellip; = &Sigma;<sub>k=0..&infin;</sub> &gamma;<sup>k</sup> r<sub>t+k+1</sub>&nbsp;&nbsp;&nbsp;&nbsp;0 &le; &gamma; &lt; 1</div>
 <p><code>&gamma;</code> is the <b>discount factor</b>. If every reward is bounded by
 <code>R<sub>max</sub></code>, the sum is bounded by
 <code>R<sub>max</sub>/(1&minus;&gamma;)</code>, which is finite. That is the mathematical reason
-it exists, and it is not the interesting one.</p>
+it exists, not the interesting one.</p>
 
-<h3>What γ actually chooses</h3>
+<h3>What γ chooses</h3>
 <p><code>&gamma;</code> sets how far ahead the agent cares. Read
-<code>1/(1&minus;&gamma;)</code> as a rough planning horizon in steps:</p>
+<code>1/(1&minus;&gamma;)</code> as a rough planning horizon in steps.</p>
 <div class="mathblock">&gamma; = 0&nbsp;&nbsp;&nbsp;&rarr;&nbsp; horizon 1 step&nbsp;&nbsp;&nbsp;&nbsp;purely greedy, next reward only
 &gamma; = 0.9&nbsp;&rarr;&nbsp; horizon about 10 steps
 &gamma; = 0.99&nbsp;&rarr;&nbsp; horizon about 100 steps
 &gamma; = 0.999 &rarr;&nbsp; horizon about 1000 steps</div>
-<p>This is a modeling decision disguised as a hyperparameter, and getting it wrong looks like an
-algorithm failure. Too low and the agent will not accept a small cost now for a large payoff
-later, which is exactly the behavior you wanted. Too high and the return becomes a nearly flat
-sum over thousands of steps, the differences between good and bad policies shrink into the
-noise, and learning slows to a crawl. Choose it by asking how many steps separate an action from
-its consequence in <i>your</i> problem, then set <code>&gamma;</code> so that horizon fits
-comfortably inside it.</p>
+<p>This is a modeling decision disguised as a <b>hyperparameter</b>, a setting you choose by hand
+rather than a value the agent learns. Getting it wrong looks like an algorithm failure. Too low and the agent won't accept a small cost now for a large payoff
+later. Too high and the return becomes a nearly flat sum over thousands of steps, the
+differences between policies shrink into the noise, and learning slows to a crawl. Ask how
+many steps separate an action from its consequence in <i>your</i> problem, then set
+<code>&gamma;</code> so that horizon fits inside it.</p>
 
 <div class="worked"><b>Why the discount changes the answer.</b>
 <p>Two doors. Door A pays 1 immediately and ends the episode. Door B pays 0 for four steps and
@@ -262,20 +259,19 @@ are hunting for a bug in the update rule, check <code>&gamma;</code> first.</p><
 
 <h3>Two flavors of problem</h3>
 <p><b>Episodic</b> tasks end. Chess, a maze, a delivery route. The return is a finite sum and
-you can set <code>&gamma; = 1</code> if you want, treating all future reward equally.</p>
-<p><b>Continuing</b> tasks do not end. Server autoscaling, portfolio management, a thermostat.
-Here <code>&gamma; &lt; 1</code> is not optional, it is what makes the objective well defined.
-The alternative formulation, maximizing average reward per step, exists and is used in some
-operations-research settings, but discounting is the default everywhere in this stream.</p>
+you can set <code>&gamma; = 1</code>, treating all future reward equally.</p>
+<p><b>Continuing</b> tasks don't end. Server autoscaling, portfolio management, a thermostat.
+Here <code>&gamma; &lt; 1</code> is what makes the objective well defined. The alternative,
+maximizing average reward per step, is used in some operations-research settings, but
+discounting is the default in this stream.</p>
 
-<div class="hardidea">🧠 <b>Discounting is not "money is worth more today".</b> That analogy is
-everywhere and it misleads. In finance the discount rate reflects a real interest rate. In RL
-<code>&gamma;</code> mostly encodes uncertainty and horizon: a reward five hundred steps away is
+<div class="hardidea">🧠 <b>Discounting is not "money is worth more today".</b> That analogy
+misleads. In finance the discount rate reflects a real interest rate. In RL
+<code>&gamma;</code> mostly encodes uncertainty and horizon. A reward five hundred steps away is
 downweighted because the world may have changed, the episode may have ended, and your estimate
-of it is bad anyway. A useful way to read it: at each step, the episode continues with
-probability <code>&gamma;</code>. Under that reading the discounted return is exactly the
-expected undiscounted return of an episode with a geometric length. Same formula, and now the
-number means something you can reason about.</div>
+of it is bad anyway. A better reading: at each step, the episode continues with probability
+<code>&gamma;</code>. Then the discounted return is the expected undiscounted return of an
+episode with a geometric length.</div>
 
 <h3>Notation you will meet</h3>
 <div class="mathblock">S, A&nbsp;&nbsp;&nbsp;&nbsp;the sets of states and actions
@@ -283,10 +279,9 @@ s<sub>t</sub>, a<sub>t</sub>, r<sub>t+1</sub>&nbsp;&nbsp;&nbsp;&nbsp;state and a
 &pi;(a|s)&nbsp;&nbsp;&nbsp;&nbsp;the policy, a distribution over actions given a state
 G<sub>t</sub>&nbsp;&nbsp;&nbsp;&nbsp;the discounted return from t onward
 &gamma;&nbsp;&nbsp;&nbsp;&nbsp;the discount factor</div>
-<p>The reward index catches people out. <code>r<sub>t+1</sub></code>, not
-<code>r<sub>t</sub></code>, because the reward arrives <i>after</i> the action, as a response
-from the environment. Sutton and Barto are strict about this and so is most of the literature.</p>
-`,
+<p>The reward index catches people out. It is <code>r<sub>t+1</sub></code>, not
+<code>r<sub>t</sub></code>, because the reward arrives <i>after</i> the action. Sutton and
+Barto are strict about this and so is most of the literature.</p>`,
  exs:[{title:'Make gamma flip the decision',
    lang:'python',
    prompt:`Two doors. Door A pays 1 immediately and ends the episode. Door B pays nothing for
@@ -380,23 +375,24 @@ print(horizon_lo, horizon_hi)
 {id:'rl2',
  title:'Markov decision processes: the formal object underneath all of it',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 One assumption buys you the whole theory</span>
-<p>Everything so far was description. This lesson names the mathematical object, the <b>Markov
-decision process</b>, and states the one assumption that makes it tractable. Every algorithm in
-the rest of the stream is a way of solving an MDP, either exactly or approximately.</p></div>
+<p>This lesson names the mathematical object, the <b>Markov decision process</b> (MDP), and the
+one assumption that makes it tractable. Every algorithm in the rest of the stream solves an MDP,
+exactly or approximately.</p></div>
 
 <h3>The Markov property, in plain English</h3>
 <p>A state is <b>Markov</b> if it contains everything you need to predict what happens next. The
 history that got you there adds nothing. Formally:</p>
 <div class="mathblock">P(s<sub>t+1</sub>, r<sub>t+1</sub> | s<sub>t</sub>, a<sub>t</sub>) = P(s<sub>t+1</sub>, r<sub>t+1</sub> | s<sub>t</sub>, a<sub>t</sub>, s<sub>t-1</sub>, a<sub>t-1</sub>, &hellip;, s<sub>0</sub>, a<sub>0</sub>)</div>
-<p>A chess position is Markov, near enough. Where the pieces are is all you need, and the order
-they arrived in does not change what is legal or what is good. A single frame of Pong is
-<b>not</b> Markov, because the frame shows where the ball is but not which way it is moving. Two
-identical-looking frames can demand opposite actions.</p>
-<p>That example also shows the standard repair. The original DQN paper stacked the last four
-frames and called the stack the state. Velocity is recoverable from four frames, so the stacked
-state is Markov even though a single frame is not. <b>When the Markov property fails, the usual
-fix is to put more history into the state rather than to abandon the framework.</b></p>
+<p>A chess position is Markov, near enough: where the pieces are is all you need, whatever order
+they arrived in. A single frame of Pong is <b>not</b> Markov. The frame shows where the ball is
+but not which way it is moving, so two identical-looking frames can demand opposite actions.</p>
+<p>The original <b>DQN</b> (deep Q-network, the Atari-playing method later in this stream) paper
+stacked the last four frames and called the stack the state. Velocity
+is recoverable from four frames, so the stacked state is Markov. <b>When the Markov property
+fails, the usual fix is to put more history into the state, not to abandon the framework.</b></p>
 
 <h3>The formal object</h3>
 <p>A finite MDP is a five-tuple <code>(S, A, P, R, &gamma;)</code>:</p>
@@ -406,47 +402,47 @@ P(s&prime; | s, a)&nbsp;&nbsp;&nbsp;&nbsp;transition probabilities, the dynamics
 R(s, a, s&prime;)&nbsp;&nbsp;&nbsp;&nbsp;the expected reward for that transition
 &gamma; &isin; [0, 1)&nbsp;&nbsp;&nbsp;&nbsp;the discount factor</div>
 <p><code>P</code> and <code>R</code> together are the <b>model</b> of the environment. Whether
-you have them is the single biggest fork in this stream:</p>
+you have them is the biggest fork in this stream:</p>
 <ul>
-<li><b>Model known.</b> You can compute the answer by dynamic programming without ever acting.
+<li><b>Model known.</b> You can compute the answer by <b>dynamic programming</b>, working the values
+out state by state from the rules alone, without ever acting.
 That is the next lesson, policy iteration and value iteration.</li>
 <li><b>Model unknown.</b> You have to learn from experience. That is everything after it:
 Monte Carlo, temporal difference, Q-learning, policy gradients. This is the realistic case.</li>
 </ul>
 
-<div class="demystify"><b>"Stochastic" here means the world, not the agent.</b> Two different
-things in RL can be random and the notation looks similar. <code>&pi;(a|s)</code> random means the
-agent deliberately varies its choices, usually to explore. <code>P(s&prime;|s,a)</code> random
-means the environment does not always do the same thing when you take the same action: the robot
-wheel slips, the market moves, the opponent picks something else. You can have either without
-the other.</div>
+<div class="demystify"><b>"Stochastic" here means the world, not the agent.</b>
+<code>&pi;(a|s)</code> random means the agent deliberately varies its choices, usually to
+explore. <code>P(s&prime;|s,a)</code> random means the environment doesn't always do the same
+thing for the same action: the wheel slips, the market moves, the opponent picks something else.
+You can have either without the other.</div>
 
 <h3>What "solving" an MDP means</h3>
-<p>Find a policy that maximizes the expected return from every state. Two facts about MDPs make
-this a well-posed problem rather than an open-ended search, and both are worth holding onto.</p>
+<p>Find a <b>policy</b>, a rule for choosing an action in each state, that maximizes the expected
+return from every state. Two facts make this well
+posed.</p>
 <p><b>An optimal deterministic policy always exists.</b> For a finite MDP with
 <code>&gamma; &lt; 1</code> there is at least one policy <code>&pi;*</code> that is at least as
-good as every other policy in <i>every</i> state simultaneously, and it needs no randomness. So
-when you see a stochastic policy in later lessons, it is there for exploration or because the
-state is not really Markov, not because randomness is required for optimality.</p>
-<p><b>The optimal policy depends only on the current state.</b> It does not need the history and
-it does not need a clock. That is the Markov property paying for itself: it collapses the search
-from "a rule over every possible history" to "one action per state", which is a finite table.</p>
+good as every other policy in <i>every</i> state. It needs no randomness. When you see a
+stochastic policy in later lessons, it is there for exploration or because the state isn't
+really Markov.</p>
+<p><b>The optimal policy depends only on the current state.</b> No history, no clock. That is
+the Markov property paying for itself: the search collapses from "a rule over every possible
+history" to "one action per state", a finite table.</p>
 
 <h3>Partial observability, briefly</h3>
-<p>When the agent sees an <b>observation</b> rather than the true state, you have a POMDP, and
-the guarantees above weaken considerably: the optimal policy may need memory, and it may need to
-be stochastic. Poker is the standard example, where you cannot see the opponent's cards and any
-deterministic strategy can be read and exploited. In practice most systems handle this with the
-frame-stacking trick, or by feeding a recurrent network the observation sequence and letting the
-hidden state stand in for a belief state.</p>
+<p>When the agent sees an <b>observation</b> rather than the true state, you have a <b>POMDP</b> (partially observable MDP), and
+the guarantees above weaken: the optimal policy may need memory, and it may need to be
+stochastic. Poker is the standard example. You can't see the opponent's cards, and any
+deterministic strategy can be read and exploited. Most systems handle this with frame stacking,
+or by feeding a recurrent network the observation sequence and letting the hidden state stand
+in for a belief state.</p>
 
 <div class="hardidea">🧠 <b>Most real RL failures are state-representation failures.</b> Before
 blaming the algorithm, ask whether your state is Markov. If two situations that look identical
-to the agent demand different actions, no algorithm in this stream can succeed, because you have
-asked it to learn a function that is not a function. Debugging usually means adding to the state:
-velocities, recent history, elapsed time, inventory, whatever you forgot.</div>
-`,
+to the agent demand different actions, no algorithm in this stream can succeed. You have asked
+it to learn a function that isn't a function. Debugging usually means adding to the state:
+velocities, recent history, elapsed time, inventory, whatever you forgot.</div>`,
  exs:[{title:'Check the rows, then break the Markov property',
    lang:'python',
    packages:['numpy'],
@@ -555,10 +551,14 @@ print(v_M, v_M_from_L, v_M_from_R, gap)
 {id:'rl3',
  title:'Value functions and the Bellman equation, the recursion at the center of the field',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 How good is it to be here?</span>
-<p>You cannot improve a policy without a way to say which states and actions are better. That
-measure is the <b>value function</b>, and it satisfies a recursion that almost every algorithm in
-RL is a version of. If you take one equation from this stream, take this one.</p></div>
+<p>You can't improve a <b>policy</b>, the agent's rule for choosing actions, without a way to say
+which states and actions are better. That
+measure is the <b>value function</b>, and it satisfies a recursion that almost every algorithm
+in RL is a version of.</p></div>
 
 <h3>Two value functions</h3>
 <p>The <b>state-value</b> function says how good it is to be in state s and follow policy
@@ -566,24 +566,23 @@ RL is a version of. If you take one equation from this stream, take this one.</p
 state s and follow &pi; afterwards:</p>
 <div class="mathblock">V<sup>&pi;</sup>(s) = E<sub>&pi;</sub>[ G<sub>t</sub> | s<sub>t</sub> = s ]
 Q<sup>&pi;</sup>(s, a) = E<sub>&pi;</sub>[ G<sub>t</sub> | s<sub>t</sub> = s, a<sub>t</sub> = a ]</div>
-<p>Both are expectations, because the environment and possibly the policy are random. And both
-are tied to a specific policy, which is easy to forget: a state is not good in the abstract, it
-is good <i>if you play well from here</i>. The same board position is worth very different
-amounts to a grandmaster and to a beginner.</p>
-<p><b>Q is the more useful of the two in practice,</b> for a reason worth stating plainly. If you
-have <code>V</code> and want to act, you need to know where each action leads, which means you
-need the model. If you have <code>Q</code>, you compare
-<code>Q(s, a)</code> across the available actions and pick the best. No model needed. That single
-fact is why Q-learning became the workhorse of model-free RL.</p>
+<p>Both are expectations, because the environment and possibly the policy are random. Both are
+tied to a specific policy. A state isn't good in the abstract, it is good <i>if you play well
+from here</i>. The same board position is worth very different amounts to a grandmaster and to
+a beginner.</p>
+<p><b>Q is the more useful of the two in practice.</b> If you have <code>V</code> and want to
+act, you need to know where each action leads, which means you need the model. If you have
+<code>Q</code>, you compare <code>Q(s, a)</code> across the available actions and pick the best.
+No model needed. That is why Q-learning became the workhorse of <b>model-free</b> RL, learning
+without knowing the rules of the environment.</p>
 
 <h3>The Bellman equation</h3>
-<p>Here is the idea in one sentence, before any notation. <b>The value of where you are is the
-reward you get next, plus the discounted value of wherever you end up.</b> The future is not one
-enormous sum to evaluate, it is one step plus the same problem again.</p>
+<p>The idea in one sentence: <b>the value of where you are is the reward you get next, plus the
+discounted value of wherever you end up.</b></p>
 <div class="mathblock">V<sup>&pi;</sup>(s) = &Sigma;<sub>a</sub> &pi;(a|s) &Sigma;<sub>s&prime;</sub> P(s&prime;|s,a) [ R(s,a,s&prime;) + &gamma; V<sup>&pi;</sup>(s&prime;) ]</div>
-<p>Read it right to left and it is exactly the sentence. Take the reward for this transition, add
-the discounted value of the state you land in, average over where the environment might put you,
-then average over what your policy might do. The same relation for Q:</p>
+<p>Read it right to left. Take the reward for this transition and add the discounted value of
+the state you land in. Average over where the environment might put you, then over what your
+policy might do. The same relation for Q:</p>
 <div class="mathblock">Q<sup>&pi;</sup>(s,a) = &Sigma;<sub>s&prime;</sub> P(s&prime;|s,a) [ R(s,a,s&prime;) + &gamma; &Sigma;<sub>a&prime;</sub> &pi;(a&prime;|s&prime;) Q<sup>&pi;</sup>(s&prime;,a&prime;) ]</div>
 
 <div class="worked"><b>Deriving it, which takes two lines.</b>
@@ -598,45 +597,45 @@ recursion is not a clever trick, it is the geometric structure of the discounted
 
 <h3>Why this is such a big deal</h3>
 <p>Without the recursion, evaluating a policy means simulating every possible future and
-averaging, which is exponential in the horizon and hopeless. With it, you have one linear
-equation per state. For a finite MDP that is a linear system in
-<code>|S|</code> unknowns:</p>
+averaging, which is exponential in the horizon. With it, you have one linear equation per
+state. For a finite <b>MDP</b> (Markov decision process: the formal setup of states, actions,
+rewards and a rule for what state comes next) that is a linear system in <code>|S|</code>
+unknowns.</p>
 <div class="mathblock">v = r<sup>&pi;</sup> + &gamma;P<sup>&pi;</sup>v&nbsp;&nbsp;&nbsp;&rarr;&nbsp;&nbsp;&nbsp;v = (I &minus; &gamma;P<sup>&pi;</sup>)<sup>-1</sup> r<sup>&pi;</sup></div>
 <p>The inverse exists whenever <code>&gamma; &lt; 1</code>, because <code>P<sup>&pi;</sup></code>
 is a stochastic matrix, so its spectral radius is 1 and <code>&gamma;P<sup>&pi;</sup></code> has
-spectral radius <code>&gamma; &lt; 1</code>. The discount factor is not just a modeling choice,
-it is what makes the algebra work.</p>
+spectral radius <code>&gamma; &lt; 1</code>. The <b>discount factor</b>, how much a reward one
+step later is worth compared with now, is what makes the algebra work.</p>
 
 <h3>Iterative policy evaluation</h3>
 <p>Inverting an <code>|S| &times; |S|</code> matrix is fine for a gridworld and out of the
-question for anything real. So instead, turn the equation into an assignment and apply it over
+question for anything real. Instead, turn the equation into an assignment and apply it over
 and over:</p>
 <div class="mathblock">V<sub>k+1</sub>(s) &larr; &Sigma;<sub>a</sub> &pi;(a|s) &Sigma;<sub>s&prime;</sub> P(s&prime;|s,a)[ R + &gamma;V<sub>k</sub>(s&prime;) ]</div>
 <p>Start from anything, apply the update to every state, repeat. This converges to
-<code>V<sup>&pi;</sup></code> from any starting point, and the reason is the piece of theory worth
-knowing.</p>
+<code>V<sup>&pi;</sup></code> from any starting point.</p>
 
 <h3>Why it converges: the Bellman operator is a contraction</h3>
-<p>Write the update as an operator <code>T<sup>&pi;</sup></code> acting on value functions. The
-claim is that it shrinks distances:</p>
+<p>Write the update as an operator <code>T<sup>&pi;</sup></code> acting on value functions. It
+shrinks distances:</p>
 <div class="mathblock">&#8214; T<sup>&pi;</sup>u &minus; T<sup>&pi;</sup>v &#8214;<sub>&infin;</sub> &le; &gamma; &#8214; u &minus; v &#8214;<sub>&infin;</sub></div>
 <p>where <code>&#8214;&middot;&#8214;<sub>&infin;</sub></code> is the largest difference at any
-single state. The proof is short: the rewards cancel when you subtract, leaving
-<code>&gamma;</code> times an average of differences, and an average is never larger than the
-maximum. So each sweep multiplies the worst-case error by at most <code>&gamma;</code>.</p>
+single state. The rewards cancel when you subtract, leaving <code>&gamma;</code> times an
+average of differences, and an average is never larger than the maximum. So each sweep
+multiplies the worst-case error by at most <code>&gamma;</code>.</p>
 <p>Banach's fixed point theorem then gives you everything at once: a unique fixed point exists,
 iteration converges to it from any starting value, and the error falls geometrically. That fixed
 point is <code>V<sup>&pi;</sup></code>. This one argument underwrites value iteration,
-Q-learning, and the convergence proofs for most of the tabular methods in this stream.</p>
+Q-learning, and the convergence proofs for most <b>tabular</b> methods in this stream, the ones
+that store one value per state in a table.</p>
 
 <div class="hardidea">🧠 <b>The contraction is why bootstrapping works at all.</b> Every method
 from here on updates an estimate using another estimate, which sounds like it should compound
-errors and diverge. It does not, in the tabular case, precisely because each application shrinks
-the error by γ. Once you leave the tabular case and approximate the value function with a
-network, the contraction guarantee goes away. That is not a footnote, it is the root of the
-instability that DQN had to engineer around, and it comes back in the function-approximation
-lesson under the name "the deadly triad".</div>
-`,
+errors and diverge. In the tabular case it doesn't, because each application shrinks the error
+by γ. Once you approximate the value function with a network, the contraction guarantee goes
+away. That is the root of the instability <b>DQN</b> (deep Q-network, Q-learning with a neural
+network in place of the table) had to engineer around. It comes back in the
+function-approximation lesson as "the deadly triad".</div>`,
  exs:[{title:'Solve a two-state MDP by iterating the Bellman equation',
    lang:'python',
    prompt:`Two states, <code>A</code> and <code>B</code>, one action each, so the policy is
@@ -727,70 +726,75 @@ print(vA, vB, check)
 {id:'rl4',
  title:'Optimality: the Bellman optimality equation, policy iteration and value iteration',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 From evaluating a policy to finding the best one</span>
 <p>The last lesson worked out how good a given policy is. This one finds the best policy there
-is. Two algorithms do it, both are short, and both assume you know the model. That assumption is
-unrealistic, which is the point: understand the exact solution first, then every method after
-this is a way of approximating it from experience.</p></div>
+is. Two algorithms do it, both are short, and both assume you know the model, the rules for
+which state and reward follow each action. That assumption is
+unrealistic, which is the point: understand the exact solution first. Every method after this
+approximates it from experience.</p></div>
 
 <h3>One change to the equation</h3>
-<p>The Bellman equation averaged over what the policy might do. The optimal policy does not
-average, it takes the best. Replace the sum over actions with a max:</p>
+<p>The Bellman equation averaged over what the policy might do. The optimal policy takes the
+best instead. Replace the sum over actions with a max:</p>
 <div class="mathblock">V*(s) = max<sub>a</sub> &Sigma;<sub>s&prime;</sub> P(s&prime;|s,a) [ R(s,a,s&prime;) + &gamma; V*(s&prime;) ]
 Q*(s,a) = &Sigma;<sub>s&prime;</sub> P(s&prime;|s,a) [ R(s,a,s&prime;) + &gamma; max<sub>a&prime;</sub> Q*(s&prime;,a&prime;) ]</div>
-<p>These are the <b>Bellman optimality equations</b>. Note what changed and what did not: the
-recursion is the same shape, but the equation is no longer linear, because <code>max</code> is
-not a linear operation. So you cannot solve it by matrix inversion any more. You iterate.</p>
+<p>These are the <b>Bellman optimality equations</b>. The recursion is the same shape, but the
+equation is no longer linear, because <code>max</code> isn't a linear operation. So you can't
+solve it by matrix inversion. You iterate.</p>
 <p>Once you have <code>Q*</code> the optimal policy is free:</p>
 <div class="mathblock">&pi;*(s) = argmax<sub>a</sub> Q*(s,a)</div>
-<p>Acting optimally is one greedy lookup. All the difficulty is in getting <code>Q*</code>.</p>
+<p>Acting optimally is then one greedy lookup. The difficulty is getting <code>Q*</code>.</p>
 
 <h3>Policy iteration</h3>
 <p>Two steps, alternated until nothing changes.</p>
 <ol>
 <li><b>Evaluate.</b> Given the current policy &pi;, compute <code>V<sup>&pi;</sup></code> by
-iterating the Bellman equation to convergence, exactly as in the last lesson.</li>
+iterating the Bellman equation to convergence, as in the last lesson.</li>
 <li><b>Improve.</b> Build a new policy that acts greedily with respect to that value function:
 <code>&pi;&prime;(s) = argmax<sub>a</sub> &Sigma;<sub>s&prime;</sub> P(s&prime;|s,a)[R + &gamma;V<sup>&pi;</sup>(s&prime;)]</code>.</li>
 </ol>
 <p>Repeat. When the improve step returns the policy you already had, stop: you are at the
 optimum.</p>
-<p>The step that makes this work is the <b>policy improvement theorem</b>, and it is worth
-seeing because the argument recurs throughout RL. If <code>&pi;&prime;</code> is greedy with
-respect to <code>V<sup>&pi;</sup></code>, then
+<p>The step that makes this work is the <b>policy improvement theorem</b>. If <code>&pi;&prime;</code> is greedy with respect to
+<code>V<sup>&pi;</sup></code>, then
 <code>Q<sup>&pi;</sup>(s, &pi;&prime;(s)) &ge; V<sup>&pi;</sup>(s)</code> at every state, by
 construction of the argmax. Unroll that inequality one step at a time and you get
-<code>V<sup>&pi;&prime;</sup>(s) &ge; V<sup>&pi;</sup>(s)</code> everywhere. Greedy improvement
-never makes things worse, at any state, ever. And because a finite MDP has finitely many
-deterministic policies and each round strictly improves unless it has stopped, policy iteration
-terminates at the exact optimum in a finite number of rounds.</p>
+<code>V<sup>&pi;&prime;</sup>(s) &ge; V<sup>&pi;</sup>(s)</code> everywhere. A finite <b>MDP</b>
+(Markov decision process, the states-actions-rewards setup from two lessons back) has finitely
+many deterministic policies, and each round strictly
+improves unless it has stopped. So policy iteration terminates at the exact optimum in a finite
+number of rounds.</p>
 
 <h3>Value iteration</h3>
-<p>Policy iteration runs an inner loop to convergence before improving. That turns out to be
-wasteful: the intermediate value function is only ever used to decide an argmax, and the argmax
-usually settles long before the numbers do. So collapse the two steps into one and fold the max
-directly into the update:</p>
+<p>Policy iteration runs an inner loop to convergence before improving. That is wasteful. The
+intermediate value function is only used to decide an argmax, which usually settles long
+before the numbers do. So collapse the two steps into one and fold the max into the
+update:</p>
 <div class="mathblock">V<sub>k+1</sub>(s) &larr; max<sub>a</sub> &Sigma;<sub>s&prime;</sub> P(s&prime;|s,a) [ R(s,a,s&prime;) + &gamma; V<sub>k</sub>(s&prime;) ]</div>
-<p>No explicit policy at all during the run. Sweep until the values stop moving, then read the
-policy off with one greedy pass at the end. The optimality operator is a &gamma;-contraction by
-the same argument as before, since a max of contractions is a contraction, so this converges to
+<p>No explicit policy during the run. Sweep until the values stop moving, then read the policy
+off with one greedy pass at the end. The optimality operator is a &gamma;-contraction by the
+same argument as before, since a max of contractions is a contraction, so this converges to
 <code>V*</code> from any starting point.</p>
 
 <div class="demystify"><b>The two are the same algorithm at different settings.</b> Policy
 iteration evaluates to convergence then improves once. Value iteration improves every sweep, with
-exactly one evaluation step in between. In between sits <b>modified policy iteration</b>, which
-does k evaluation sweeps then improves. Nobody needs to memorize three algorithms, there is one
-knob: how much evaluation you do before you act on it.</div>
+one evaluation step in between. In between sits <b>modified policy iteration</b>, which does k
+evaluation sweeps then improves. There is one knob: how much evaluation you do before you act
+on it.</div>
 
-<h3>Why this does not scale, and what survives</h3>
+<h3>Why this doesn't scale, and what survives</h3>
 <p>Every sweep touches every state, so the cost is
 <code>O(|S|&sup2;|A|)</code> per sweep. Backgammon has around 10<sup>20</sup> states. Go has more
-positions than atoms in the observable universe. Sweeping the state space is not slow, it is
-impossible, and this is Bellman's own phrase, the <b>curse of dimensionality</b>.</p>
-<p>Three ideas survive intact and carry into everything that follows:</p>
+positions than atoms in the observable universe. Sweeping the state space isn't slow, it is
+impossible. Bellman's own phrase for this is the <b>curse of dimensionality</b>.</p>
+<p>What survives:</p>
 <ul>
 <li><b>Bootstrapping</b>: update an estimate using other estimates rather than waiting for a
-final outcome. TD learning is this idea applied to sampled experience.</li>
+final outcome. <b>TD</b> (temporal difference) learning is this idea applied to sampled
+experience: update a value estimate from the next step's estimate instead of waiting for the
+episode to end.</li>
 <li><b>Generalized policy iteration</b>: any interleaving of "make the value function match the
 policy" and "make the policy greedy for the value function" converges. Almost every RL algorithm
 is an instance of this, including the actor-critic methods at the end of the stream.</li>
@@ -801,10 +805,8 @@ This is what licenses the argmax in Q-learning.</li>
 <div class="hardidea">🧠 <b>Asynchronous updates are allowed, and that is what makes the rest
 possible.</b> Nothing in the convergence argument requires you to sweep states in order, or to
 update them all equally often. As long as every state keeps being updated eventually, the
-iteration still converges. That is the permission slip for everything that follows: a real agent
-updates only the states it actually visits, in whatever order it happens to visit them, and the
-theory holds.</div>
-`,
+iteration still converges. So a real agent can update only the states it visits, in whatever
+order it visits them, and the theory holds.</div>`,
  exs:[{title:'Value iteration on a gridworld, then read the policy off',
    lang:'python',
    packages:['numpy'],
@@ -966,25 +968,29 @@ print(sweeps, delta, V[0, 0], analytic, steps_to_goal)
 {id:'rl5',
  title:'Monte Carlo methods: learn from finished episodes',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The first method that needs no model</span>
-<p>Dynamic programming needed <code>P</code> and <code>R</code>. You almost never have them. But
-notice what the value function actually is: an <i>average</i> return. And there is an obvious way
-to estimate an average without knowing any probabilities at all. Run the thing many times and
-take the mean.</p></div>
+<p>Dynamic programming, the sweep-every-state method of the last two lessons, needed
+<code>P</code> and <code>R</code>. You almost never have them. But
+the value function is an <i>average</i> return, and there is an obvious way to estimate an
+average without knowing any probabilities. Run the thing many times and take the mean.</p></div>
 
 <h3>The method, in full</h3>
 <p>Play a complete episode using the current policy. Write down the sequence of states, actions
 and rewards. Then walk backwards from the end computing the actual return that followed each
 state, and average those returns across all the episodes you have run:</p>
 <div class="mathblock">V(s) &larr; average of G<sub>t</sub> over every visit to s across all episodes</div>
-<p>That is it. No transition probabilities, no reward function, no model of anything. The
-environment can be a black box or the real world, and you are estimating an expectation the way
-statistics has always estimated expectations, by sampling.</p>
-<p>Two variants, and the distinction matters when a state recurs inside one episode.
+<p>That is it. No transition probabilities, no reward function, no model. The environment can be
+a black box or the real world. You are estimating an expectation the way statistics always has,
+by sampling.</p>
+<p>Two variants of <b>MC</b> (short for Monte Carlo, the name for estimating an average by
+sampling), and the distinction matters when a state recurs inside one episode.
 <b>First-visit MC</b> averages the return following only the first time s appears in each
 episode. <b>Every-visit MC</b> averages over every appearance. First-visit gives independent
-samples and is the easier one to prove things about, and both converge to
-<code>V<sup>&pi;</sup></code> as the number of visits grows.</p>
+samples and is easier to prove things about. Both converge to <code>V<sup>&pi;</sup></code> as
+the number of visits grows.</p>
 
 <div class="worked"><b>One episode, worked through.</b>
 <p>States and rewards: <code>A &rarr;(r=0) B &rarr;(r=0) C &rarr;(r=10) end</code>, with
@@ -997,35 +1003,36 @@ backwards pass is doing the credit assignment, at a cost of one multiply per ste
 
 <h3>Incremental form, which you will see everywhere</h3>
 <p>Storing every return to average them is wasteful. The running mean has a standard incremental
-form, and it is worth writing out because its shape recurs in every update rule from here on:</p>
+form. Its shape recurs in every update rule from here on.</p>
 <div class="mathblock">V(s) &larr; V(s) + (1/N(s)) [ G<sub>t</sub> &minus; V(s) ]</div>
 <p>Read it as: nudge the estimate toward the sample, by an amount proportional to how wrong it
 was. Replace <code>1/N(s)</code> with a fixed step size <code>&alpha;</code> and you get a
-running average that forgets old data, which is what you want in a non-stationary problem, and
-which is exactly the form every update in the rest of this stream takes:</p>
+running average that forgets old data. That's what you want in a <b>non-stationary</b>
+problem, one whose rules drift over time.
+Every update in the rest of this stream takes this form:</p>
 <div class="mathblock">NewEstimate &larr; OldEstimate + &alpha; [ Target &minus; OldEstimate ]</div>
 
-<h3>What is good about it, and what is not</h3>
-<p><b>Unbiased.</b> Each return is an actual sample of the thing you are estimating. Nothing is
+<h3>What is good about it, and what isn't</h3>
+<p><b>Unbiased.</b> Each return is a real sample of the thing you are estimating. Nothing is
 assumed, nothing bootstraps off another guess, so there is no systematic error to accumulate.</p>
-<p><b>Indifferent to Markov violations.</b> Since it never uses a successor state's estimate, it
-does not care whether the state representation is Markov. In a partially observed problem MC
+<p><b>Indifferent to Markov violations.</b> It never uses a successor state's estimate, so it
+doesn't care whether the state representation is Markov. In a partially observed problem MC
 often degrades more gracefully than the methods in the next lesson.</p>
-<p><b>You can start anywhere.</b> To evaluate one state you simply run episodes from it. Nothing
-requires you to compute values for the whole state space, which is a genuine advantage when only
-a small part of it matters.</p>
-<p>Now the costs. <b>You must wait for the end of the episode</b> before you can learn anything
-at all, so a task with long episodes learns slowly, and a continuing task with no episodes cannot
-use MC at all. <b>Variance is high</b>, because a single return is the sum of many random
-rewards along one particular path, and that sum swings wildly from episode to episode. It is
-unbiased but noisy, and you may need a great many episodes before the average settles.</p>
+<p><b>You can start anywhere.</b> To evaluate one state, run episodes from it. Nothing requires
+you to compute values for the whole state space, an advantage when only a small part of it
+matters.</p>
+<p>Now the costs. <b>You must wait for the end of the episode</b> before you can learn anything.
+A task with long episodes learns slowly, and a continuing task with no episodes can't use MC at
+all. <b>Variance is high</b>, because a single return is the sum of many random rewards along
+one path, and that sum swings wildly from episode to episode. You may need a great many episodes
+before the average settles.</p>
 
 <h3>Control, and the exploration problem in the open</h3>
-<p>To improve a policy rather than just evaluate one, estimate <code>Q</code> instead of
-<code>V</code> and act greedily on it. That immediately exposes a problem you cannot dodge: a
-greedy policy never takes an action it currently believes is bad, so it never gathers the
-evidence that would change its mind. An action that looks poor from two unlucky samples is
-abandoned forever.</p>
+<p>To improve a policy rather than evaluate one, estimate <code>Q</code> instead of
+<code>V</code> and act <b>greedily</b> on it. Greedy means always picking the action with the highest estimate.
+That exposes a problem you can't dodge. A greedy policy
+never takes an action it currently believes is bad, so it never gathers the evidence that would
+change its mind. An action that looks poor from two unlucky samples is abandoned forever.</p>
 <p>The simplest fix is <b>&epsilon;-greedy</b>: take the greedy action with probability
 1&minus;&epsilon;, and a uniformly random action otherwise. Crude, effective, and still the
 default in a lot of production code. The next lesson but one treats exploration properly.</p>
@@ -1033,9 +1040,8 @@ default in a lot of production code. The next lesson but one treats exploration 
 <div class="hardidea">🧠 <b>Bias and variance again, in a new costume.</b> Monte Carlo is
 unbiased with high variance: it uses the real outcome, and the real outcome is noisy. Dynamic
 programming was biased with zero variance: it used an estimate, and estimates are wrong but
-stable. That is the trade-off the whole field lives on, and the next lesson introduces the method
-that sits between the two and, in practice, beats both.</div>
-`,
+stable. The next lesson introduces the method that sits between the two and, in practice,
+beats both.</div>`,
  exs:[{title:'First-visit Monte Carlo on a random walk',
    lang:'python',
    prompt:`Five states in a line numbered 1 to 5, terminal states at 0 and 6, and a policy that
@@ -1149,63 +1155,63 @@ print([round(true[s], 3) for s in range(1, 6)], err)
 {id:'rl6',
  title:'Temporal difference learning: the central idea in reinforcement learning',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 Learn from a guess, before you know the outcome</span>
-<p>Monte Carlo waits for the end of the episode to find out what actually happened. Dynamic
-programming does not wait at all, but needs a model. <b>Temporal difference learning takes one
-step, looks at where it landed, and updates immediately using its own estimate of that state.</b>
-No model, no waiting. Sutton has called it the one idea most central to RL, and it is the piece
-that most people find genuinely strange the first time.</p></div>
+<p>Monte Carlo waits for the end of the episode to find out what happened. Dynamic programming
+doesn't wait, but needs a model. <b>Temporal difference learning takes one step, looks at where
+it landed, and updates immediately using its own estimate of that state.</b> No model, no
+waiting. Sutton has called it the one idea most central to RL.</p></div>
 
 <h3>The update</h3>
 <p>Monte Carlo moved the estimate toward the actual return <code>G<sub>t</sub></code>, which you
-only know at the end. TD replaces that target with a one-step guess: the reward you just got,
+only know at the end. <b>TD</b> (temporal difference) replaces that target with a one-step guess: the reward you just got,
 plus your current estimate of where you landed.</p>
 <div class="mathblock">MC:&nbsp;&nbsp;V(s<sub>t</sub>) &larr; V(s<sub>t</sub>) + &alpha;[ G<sub>t</sub> &minus; V(s<sub>t</sub>) ]
 TD:&nbsp;&nbsp;V(s<sub>t</sub>) &larr; V(s<sub>t</sub>) + &alpha;[ r<sub>t+1</sub> + &gamma;V(s<sub>t+1</sub>) &minus; V(s<sub>t</sub>) ]</div>
 <p>The bracketed quantity in the second line is the <b>TD error</b>, written &delta;:</p>
 <div class="mathblock">&delta;<sub>t</sub> = r<sub>t+1</sub> + &gamma;V(s<sub>t+1</sub>) &minus; V(s<sub>t</sub>)</div>
-<p>It is the surprise. How much better or worse did this step turn out than I expected? A
+<p>It is the surprise: how much better or worse did this step turn out than expected? A
 positive &delta; means things went better than predicted, so raise the value of where you were. A
-negative &delta; means the opposite. That is the whole algorithm, and it runs online, one step at
-a time, on a stream of experience that never has to end.</p>
+negative &delta; means the opposite. That is the whole algorithm. It runs online, one step at a
+time, on a stream of experience that never has to end.</p>
 
-<div class="demystify"><b>Bootstrapping means learning from a guess.</b> It sounds like it
-should not work, and the objection is reasonable: you are updating one estimate toward another
-estimate, and both are wrong. What saves it is that the target contains one piece of real
-information, the observed reward <code>r<sub>t+1</sub></code>. Every update injects a little bit
-of truth, and the &gamma;-contraction from the Bellman lesson spreads that truth backwards
-through the estimates until they are consistent with it. Guesses corrected by facts, repeatedly,
-converge on the facts.</div>
+<div class="demystify"><b>Bootstrapping means learning from a guess.</b> The objection is
+reasonable: you are updating one estimate toward another estimate, and both are wrong. What
+saves it is that the target contains one piece of real information, the observed reward
+<code>r<sub>t+1</sub></code>. Every update injects a little truth, and the &gamma;-contraction
+from the Bellman lesson spreads that truth backwards through the estimates until they are
+consistent with it.</div>
 
-<h3>The driving-home example, which is the one that makes it click</h3>
+<h3>The driving-home example</h3>
 <p>You leave the office predicting a thirty-minute drive. Five minutes in you hit unexpected
 traffic and revise your arrival estimate upward by fifteen minutes.</p>
-<p>Monte Carlo does nothing with that. It waits until you are actually home, then adjusts. TD
-updates the moment you see the traffic, because the revised prediction <i>is</i> the evidence. You
-did not need to arrive to learn that leaving at that hour is worse than you thought.</p>
-<p>People do this constantly and it is obviously the right behavior. If a chess position turns
-out badly at move thirty, you do not wait for checkmate to conclude that move twenty-two was a
-mistake, you update as soon as the position sours. TD is that instinct written as an update
-rule.</p>
+<p>Monte Carlo does nothing with that. It waits until you are home, then adjusts. TD updates the
+moment you see the traffic, because the revised prediction <i>is</i> the evidence. You didn't
+need to arrive to learn that leaving at that hour is worse than you thought.</p>
+<p>People do this constantly. If a chess position turns out badly at move thirty, you don't wait
+for checkmate to conclude that move twenty-two was a mistake. TD is that instinct written as an
+update rule.</p>
 
 <h3>Why TD usually wins</h3>
 <ul>
 <li><b>It learns online.</b> Every step produces an update, so it works in continuing tasks with
-no episode boundaries, and it starts improving immediately rather than after the first episode
-finishes.</li>
-<li><b>Much lower variance.</b> The MC target sums many random rewards along one path. The TD
-target contains exactly one random reward plus a stable estimate. Less noise per update means
-faster convergence in practice, and this is usually the dominant effect.</li>
+no episode boundaries, and it starts improving before the first episode finishes.</li>
+<li><b>Much lower variance.</b> The MC (Monte Carlo) target sums many random rewards along one
+path. The TD
+target contains one random reward plus a stable estimate. Less noise per update means faster
+convergence in practice, and this is usually the dominant effect.</li>
 <li><b>It exploits the Markov property.</b> TD converges to the value function of the
-maximum-likelihood MDP implied by the data. Where the state really is Markov this is a real
-advantage, and it is why TD is more data-efficient than MC on well-posed problems.</li>
+maximum-likelihood <b>MDP</b> (Markov decision process: the states, actions, rewards and
+transition rule) implied by the data. Where the state really is Markov, that makes TD
+more data-efficient than MC.</li>
 </ul>
 <p>The cost is bias. The target <code>r + &gamma;V(s&prime;)</code> uses a current estimate, so
 early in training every target is wrong. TD is biased with low variance, MC is unbiased with high
 variance, and on most problems the variance reduction is worth far more than the bias costs.</p>
 
 <h3>The middle ground: n-step and TD(λ)</h3>
-<p>One step is not sacred. Take n real rewards before you bootstrap:</p>
+<p>One step isn't sacred. Take n real rewards before you bootstrap:</p>
 <div class="mathblock">G<sub>t</sub><sup>(n)</sup> = r<sub>t+1</sub> + &gamma;r<sub>t+2</sub> + &hellip; + &gamma;<sup>n-1</sup>r<sub>t+n</sub> + &gamma;<sup>n</sup>V(s<sub>t+n</sub>)</div>
 <p>n = 1 is TD, n = &infin; is Monte Carlo, and the interesting values are in between. Rather
 than picking one n, <b>TD(&lambda;)</b> takes a geometrically weighted average of all of them,
@@ -1213,19 +1219,18 @@ with weight <code>(1&minus;&lambda;)&lambda;<sup>n-1</sup></code> on the n-step 
 &lambda; = 0 recovers TD, &lambda; = 1 recovers MC, and intermediate values usually beat both
 ends.</p>
 <p>Implemented naively that requires looking into the future. The <b>eligibility trace</b>
-formulation gets the same result running forwards: keep a decaying trace
-<code>e(s)</code> of how recently each state was visited, and apply every TD error to every state
-in proportion to its trace. Recently visited states get most of the credit, older ones get a
-geometrically smaller share. One backward pass, same answer.</p>
+formulation gets the same result running forwards. Keep a decaying trace <code>e(s)</code> of
+how recently each state was visited, and apply every TD error to every state in proportion to
+its trace. Recently visited states get most of the credit, older ones a geometrically smaller
+share.</p>
 
 <div class="hardidea">🧠 <b>TD was validated in a place nobody expected: the brain.</b> In the
 1990s Schultz, Dayan and Montague found that dopamine neurons in the primate midbrain fire in a
-pattern that matches the TD error remarkably closely. They fire on an unexpected reward, stop
-firing on a fully predicted one, and dip below baseline when a predicted reward fails to arrive.
-That is not a reward signal, it is a <i>prediction error</i> signal, which is exactly &delta;. An
-algorithm derived from dynamic programming turned out to describe one of the better understood
-signals in neuroscience, and the finding has held up.</div>
-`,
+pattern that closely matches the TD error. They fire on an unexpected reward, stop firing on a
+fully predicted one, and dip below baseline when a predicted reward fails to arrive. That is a
+<i>prediction error</i> signal, which is &delta;. An algorithm derived from dynamic programming
+turned out to describe one of the better understood signals in neuroscience, and the finding
+has held up.</div>`,
  exs:[{title:'Watch a TD estimate converge, one step at a time',
    lang:'python',
    prompt:`A single state <code>s</code> that always transitions to a terminal state and pays a
@@ -1306,31 +1311,35 @@ print(v, first_delta)
 {id:'rl7',
  title:'SARSA and Q-learning: on-policy and off-policy control',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Two algorithms that differ by one symbol</span>
-<p>Apply TD to Q instead of V and you can control, not just predict. There are two ways to write
+<p><b>TD</b> (temporal difference) is the last lesson's rule of updating an estimate from the
+next step's estimate. Apply it to Q instead of V and you can control, not only predict. There are two ways to write
 the target, they differ by a single term, and that difference produces two algorithms with
 visibly different behavior. Understanding why is the cleanest way into the on-policy versus
-off-policy distinction that organizes the whole field.</p></div>
+off-policy distinction.</p></div>
 
 <h3>The two updates, side by side</h3>
 <div class="mathblock">SARSA:&nbsp;&nbsp;&nbsp;&nbsp;Q(s,a) &larr; Q(s,a) + &alpha;[ r + &gamma;Q(s&prime;, a&prime;) &minus; Q(s,a) ]
 Q-learning:&nbsp;&nbsp;Q(s,a) &larr; Q(s,a) + &alpha;[ r + &gamma; max<sub>a&prime;</sub> Q(s&prime;, a&prime;) &minus; Q(s,a) ]</div>
-<p>SARSA uses <code>a&prime;</code>, the action the agent <b>actually took next</b>. Q-learning
-uses the max, the value of the best action available, <b>whether or not the agent takes it</b>.
-That is the entire difference.</p>
-<p>The name SARSA is just the tuple it needs:
-<code>(s, a, r, s&prime;, a&prime;)</code>. You have to choose the next action before you can
-update, which is worth noticing when you implement it.</p>
+<p>SARSA uses <code>a&prime;</code>, the action the agent <b>took next</b>. Q-learning uses the
+max, the value of the best action available, <b>whether or not the agent takes it</b>. That is
+the entire difference.</p>
+<p>The name SARSA is the tuple it needs: <code>(s, a, r, s&prime;, a&prime;)</code>. You have
+to choose the next action before you can update.</p>
 
 <h3>On-policy and off-policy</h3>
 <p><b>On-policy</b> methods learn the value of the policy they are following, exploration and
 all. SARSA is learning "how good is this state-action pair, given that I will keep taking random
 actions 10% of the time".</p>
 <p><b>Off-policy</b> methods learn the value of one policy while following another. Q-learning
-follows an &epsilon;-greedy behavior policy but the max in its target means it learns
+follows an &epsilon;-greedy behavior policy (best-known action, except for a random one a small
+fraction of the time). But the max in its target means it learns
 <code>Q*</code>, the value of the fully greedy policy. It learns about optimal play from
-non-optimal experience, which is a considerable thing to be able to do. It is what lets an agent
-learn from a replay buffer, from another agent's games, or from a human demonstration.</p>
+non-optimal experience. That is what lets an agent learn from a <b>replay buffer</b>, a store of
+past experiences it re-learns from, from another agent's games, or from a human demonstration.</p>
 
 <div class="worked"><b>The cliff, where the difference becomes visible.</b>
 <p>Standard gridworld. A path along the edge of a cliff is the shortest route to the goal.
@@ -1346,18 +1355,19 @@ different questions: Q-learning asks what is optimal, SARSA asks what is best <i
 going to keep making mistakes</i>. If exploration will continue in deployment, or mistakes are
 expensive, SARSA is often the one you want.</p></div>
 
-<h3>Convergence, and what it actually guarantees</h3>
-<p>Tabular Q-learning converges to <code>Q*</code> with probability 1, under two conditions.
+<h3>Convergence, and what it guarantees</h3>
+<p><b>Tabular</b> Q-learning, one stored number per state-action pair, converges to
+<code>Q*</code> with probability 1, under two conditions.
 Every state-action pair must be visited infinitely often, and the step sizes must satisfy the
-Robbins-Monro conditions:</p>
+Robbins-Monro conditions.</p>
 <div class="mathblock">&Sigma;<sub>t</sub> &alpha;<sub>t</sub> = &infin;&nbsp;&nbsp;&nbsp;&nbsp;&Sigma;<sub>t</sub> &alpha;<sub>t</sub>&sup2; &lt; &infin;</div>
 <p>The first says the steps must stay large enough for long enough to reach anywhere. The second
 says they must shrink fast enough to settle. <code>&alpha;<sub>t</sub> = 1/t</code> satisfies
-both. Note that this holds regardless of the behavior policy, as long as it keeps exploring,
-which is the formal content of "off-policy".</p>
-<p>The theorem is about tables. Replace the table with a neural network and it does not apply.
-That is not pedantry, it is the reason DQN needed several engineering tricks before Atari worked,
-which is two lessons from here.</p>
+both. This holds regardless of the behavior policy, as long as it keeps exploring, which is the
+formal content of "off-policy".</p>
+<p>The theorem is about tables. Replace the table with a neural network and it doesn't apply.
+That is why <b>DQN</b> (deep Q-network, Q-learning with a neural network in place of the table)
+needed several engineering tricks before Atari worked, two lessons from here.</p>
 
 <div class="hardidea">🧠 <b>The max makes Q-learning optimistic, and that is a real bug.</b>
 <code>max<sub>a</sub> Q(s,a)</code> over noisy estimates is biased upward: with several actions
@@ -1365,18 +1375,17 @@ whose true values are equal, the max of their noisy estimates is above the true 
 expectation. So Q-learning systematically overestimates, and the error compounds through
 bootstrapping. <b>Double Q-learning</b> is the standard fix: keep two independent estimates, use
 one to choose the action and the other to evaluate it. The noise in the choice is then independent
-of the noise in the evaluation, and the bias largely cancels. This is not a small correction,
-Double DQN was a clear improvement on DQN across the Atari suite.</div>
+of the noise in the evaluation, and the bias largely cancels. Double DQN was a clear improvement
+on DQN across the Atari suite.</div>
 
 <h3>Expected SARSA, briefly</h3>
-<p>A third option sits between them. Instead of the action actually taken, or the max, use the
-expectation over the policy:</p>
+<p>A third option sits between them. Instead of the action taken, or the max, use the
+expectation over the policy.</p>
 <div class="mathblock">Q(s,a) &larr; Q(s,a) + &alpha;[ r + &gamma;&Sigma;<sub>a&prime;</sub> &pi;(a&prime;|s&prime;)Q(s&prime;,a&prime;) &minus; Q(s,a) ]</div>
-<p>This removes the variance caused by randomly sampling <code>a&prime;</code>, at the cost of a
-sum over actions. It generally performs at least as well as SARSA and can be run on-policy or
+<p>This removes the variance from randomly sampling <code>a&prime;</code>, at the cost of a sum
+over actions. It generally performs at least as well as SARSA and can be run on-policy or
 off-policy depending on which &pi; you put in the sum. With &pi; greedy it <i>is</i>
-Q-learning, which is a tidy way to see that these three are one family.</p>
-`,
+Q-learning, so these three are one family.</p>`,
  exs:[{title:'SARSA and Q-learning on the cliff',
    lang:'python',
    prompt:`The 4 by 12 cliff walk. Start at the bottom left, goal at the bottom right, and the
@@ -1554,46 +1563,49 @@ print('SARSA     ', len_s, edge_s, ret_s)
 {id:'rl8',
  title:'Exploration and exploitation: bandits, and the cost of not knowing',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The only decision every RL agent has to make</span>
 <p>Take the action that looks best, or take one you know less about? Exploit and you may keep
-collecting a mediocre reward forever, never having discovered the better option. Explore and you
-pay for the information with reward you could have banked. There is no way to have both, and
-the tension appears in every RL algorithm ever written. It is cleanest to study on its own, in a
-setting stripped of everything else.</p></div>
+collecting a mediocre reward forever, never having found the better option. Explore and you pay
+for the information with reward you could have banked. There is no way to have both. The
+tension is cleanest to study in a setting stripped of everything else.</p></div>
 
 <h3>The multi-armed bandit</h3>
 <p>One state. <code>k</code> actions, called arms. Each arm pays from its own fixed but unknown
 distribution. Pull arms, maximize total reward. No transitions, no delayed consequences, no
-credit assignment. The name is from slot machines, and the canonical application is which of
-three headlines to show a reader, or which of five drug doses to assign the next patient.</p>
+credit assignment. The name is from slot machines. The canonical application is which of three
+headlines to show a reader, or which of five drug doses to assign the next patient.</p>
 <p>The measure of success is <b>regret</b>: how much worse you did than always pulling the best
 arm.</p>
 <div class="mathblock">L<sub>T</sub> = T&middot;&mu;* &minus; &Sigma;<sub>t=1..T</sub> E[ r<sub>t</sub> ]</div>
-<p>Regret that grows linearly in T means you never found the best arm and are losing a fixed
-amount every round. The goal is <b>sublinear</b> regret, so the average loss per round goes to
-zero. Lai and Robbins showed in 1985 that no algorithm can do better than logarithmic regret, and
-the good algorithms achieve it.</p>
+<p>Regret that grows linearly in T means you never found the best arm and lose a fixed amount
+every round. The goal is <b>sublinear</b> regret, so the average loss per round goes to zero.
+Lai and Robbins showed in 1985 that no algorithm can beat logarithmic regret, and the good
+algorithms achieve it.</p>
 
-<h3>Four strategies, in order of sophistication</h3>
+<h3>Four strategies</h3>
 <p><b>&epsilon;-greedy.</b> Best arm with probability 1&minus;&epsilon;, uniformly random
 otherwise. Trivial to implement, and it has linear regret because it keeps spending &epsilon; of
-its pulls on arms it has already established are bad. Decaying &epsilon; toward zero fixes the
-asymptotics and is what most people actually run.</p>
+its pulls on arms it already knows are bad. Decaying &epsilon; toward zero fixes the asymptotics
+and is what most people run.</p>
 <p><b>Optimistic initialization.</b> Set every initial estimate far above any plausible value.
 Every arm then looks brilliant until tried, so the agent sweeps through all of them early and
-settles down on its own. One line of code, no parameter to tune, no explicit randomness. It only
-works in a stationary problem, since the optimism is spent once and never returns.</p>
-<p><b>Upper confidence bound.</b> Do not choose by the estimate, choose by an optimistic bound on
-it:</p>
+settles down on its own. One line of code, no parameter, no explicit randomness. It only works
+in a stationary problem, since the optimism is spent once.</p>
+<p><b>Upper confidence bound</b> (UCB). Choose by an optimistic bound on the estimate, not the
+estimate itself:</p>
 <div class="mathblock">a<sub>t</sub> = argmax<sub>a</sub> [ Q&#770;(a) + c &radic;( ln t / N(a) ) ]</div>
-<p>The second term is large for arms tried rarely and shrinks as evidence accumulates. So an arm
-gets tried either because it looks good or because you are unsure about it, which is the right
-principle: <b>be optimistic in the face of uncertainty</b>. UCB achieves the logarithmic regret
-bound, and the same idea is the tree-search rule inside AlphaGo.</p>
-<p><b>Thompson sampling.</b> Keep a posterior distribution over each arm's value. Each round,
+<p>The second term is large for arms tried rarely and shrinks as evidence accumulates. An arm
+gets tried either because it looks good or because you are unsure about it: <b>be optimistic in
+the face of uncertainty</b>. UCB achieves the logarithmic regret bound, and the same idea is the
+tree-search rule inside AlphaGo.</p>
+<p><b>Thompson sampling.</b> Keep a <b>posterior</b> distribution over each arm's value: what you
+believe about that value after the pulls so far, as a spread of possibilities. Each round,
 draw one sample from each posterior and pull the arm with the highest draw. An arm with a wide
-posterior sometimes draws high and gets tried; as its posterior narrows it stops winning by luck.
-Exploration falls out of the Bayesian bookkeeping with no exploration parameter at all. It is
+posterior sometimes draws high and gets tried. As its posterior narrows it stops winning by
+luck. Exploration falls out of the Bayesian bookkeeping with no exploration parameter. It is
 from 1933, it was ignored for eighty years, and it is now often the best-performing option in
 practice.</p>
 
@@ -1605,13 +1617,14 @@ Decaying &epsilon; as <code>1/t</code> recovers logarithmic regret, which is why
 implementation you will read decays it.</p></div>
 
 <h3>Back to the full problem</h3>
-<p>In a real MDP exploration is harder than in a bandit, for a reason worth naming. In a bandit
-every arm is one pull away. In an MDP the interesting state may be <b>fifty coordinated actions
-deep</b>, and no amount of per-step randomness will stumble into it. Random exploration is a
-random walk, and a random walk covers distance proportional to the square root of the number of
-steps, which is hopeless when the reward is a hundred steps away behind a specific sequence.</p>
-<p>This is the hard-exploration problem, and Montezuma's Revenge became its benchmark: an Atari
-game where DQN scored zero for years, because the first reward requires a specific long sequence
+<p>In a bandit every arm is one pull away. In an <b>MDP</b> (Markov decision process, the full
+problem where states lead to other states) the interesting state may be <b>fifty
+coordinated actions deep</b>. No amount of per-step randomness will stumble into it. Random
+exploration is a random walk, which covers distance proportional to the square root of the
+number of steps. That is hopeless when the reward is a hundred steps away behind a specific
+sequence.</p>
+<p>This is the hard-exploration problem. Montezuma's Revenge became its benchmark: an Atari
+game where <b>DQN</b> (deep Q-network, the Atari agent two lessons on) scored zero for years. The first reward requires a long specific sequence
 of moves that random play never produces. The approaches that work add a second, internal reward
 for novelty:</p>
 <ul>
@@ -1619,22 +1632,19 @@ for novelty:</p>
 rarely visited states are intrinsically attractive. Extended to large state spaces with
 pseudo-counts from a density model.</li>
 <li><b>Curiosity</b>: keep a model that predicts the next state, and reward the agent in
-proportion to that model's error. Prediction error is high where the agent does not yet understand
-the dynamics, which is where learning is available.</li>
+proportion to that model's error. Prediction error is high where the agent doesn't yet
+understand the dynamics, which is where learning is available.</li>
 <li><b>Random network distillation</b>: reward the error of a small network trying to match a
-fixed random network on the current state. That error is high on states the predictor has not seen
-and near zero on familiar ones, which gives a novelty signal that is cheap and hard to game.</li>
+fixed random network on the current state. That error is high on states the predictor hasn't
+seen and near zero on familiar ones, a novelty signal that is cheap and hard to game.</li>
 </ul>
 
-<div class="hardidea">🧠 <b>Curiosity has a failure mode that is worth remembering, because it
-generalizes.</b> An agent rewarded for prediction error will happily park itself in front of a
-source of unpredictable noise, a television showing static, and collect intrinsic reward forever.
-Nothing is learned and the error never falls. This is called the noisy-TV problem, and it is the
-same failure as the boat spinning in the lagoon from the first lesson: <b>the agent optimized
-exactly what you asked for, and what you asked for was not what you wanted.</b> Every objective
-you write down is a proxy, and a sufficiently capable optimizer will find where the proxy comes
-apart from the intent.</div>
-`,
+<div class="hardidea">🧠 <b>Curiosity has a failure mode that generalizes.</b> An agent
+rewarded for prediction error will happily park itself in front of a source of unpredictable
+noise, a television showing static, and collect intrinsic reward forever. Nothing is learned and
+the error never falls. This is the noisy-TV problem. It is the same failure as the boat spinning
+in the lagoon from the first lesson. <b>The agent optimized what you asked for, and what you
+asked for wasn't what you wanted.</b></div>`,
  exs:[{title:'Regret: ε-greedy against a decaying schedule',
    lang:'python',
    prompt:`Three arms with true means <code>[0.2, 0.5, 0.75]</code>, and rewards that are
@@ -1733,40 +1743,43 @@ print(total, regret, best)
 {id:'rl9',
  title:'Function approximation: leaving the table behind, and the deadly triad',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What breaks when Q stops being a lookup table</span>
 <p>Everything so far assumed one stored number per state, or per state-action pair. Backgammon
-has 10<sup>20</sup> states. A camera image has more states than you can enumerate in any
-notation. So you replace the table with a function, usually a neural network, and you get
-generalization for free. You also lose every convergence guarantee in this stream, and it is
-worth being precise about why.</p></div>
+has 10<sup>20</sup> states. A camera image has more states than you can enumerate. So you
+replace the table with a function, usually a neural network, and you get generalization for
+free. You also lose every convergence guarantee in this stream.</p></div>
 
 <h3>The change</h3>
 <div class="mathblock">tabular:&nbsp;&nbsp;&nbsp;&nbsp;Q(s,a) is a stored number
 approximate:&nbsp; Q(s,a;&theta;) is a function with parameters &theta;</div>
-<p>The update stops being an assignment and becomes a gradient step. Treat the TD target as if
-it were a supervised label and do regression on it:</p>
+<p>The update stops being an assignment and becomes a gradient step. Treat the <b>TD</b>
+(temporal difference) target, the one-step guess of reward plus discounted next-state value, as
+a supervised label and do regression on it:</p>
 <div class="mathblock">L(&theta;) = E[ ( r + &gamma; max<sub>a&prime;</sub> Q(s&prime;,a&prime;;&theta;) &minus; Q(s,a;&theta;) )&sup2; ]
 &theta; &larr; &theta; &minus; &alpha; &nabla;<sub>&theta;</sub> L(&theta;)</div>
-<p>The gain is generalization, and it is not a small one. Updating one state now moves nearby
-states too, which is the only reason learning from images is possible at all. You will never
-visit the same camera frame twice, so without generalization you would learn nothing.</p>
+<p>The gain is generalization. Updating one state now moves nearby states too, which is the
+only reason learning from images is possible. You will never visit the same camera frame twice,
+so without generalization you would learn nothing.</p>
 
 <h3>What breaks</h3>
-<p>Three things go wrong, and they compound.</p>
+<p>The failures compound.</p>
 <p><b>The target moves.</b> In supervised learning the labels sit still. Here the target
 <code>r + &gamma;max Q(s&prime;;&theta;)</code> is computed from the same parameters you are
-updating, so every gradient step changes the thing you were regressing toward. You are chasing a
-target that runs away as you approach it.</p>
+updating, so every gradient step changes the thing you were regressing toward.</p>
 <p><b>The data is correlated and non-stationary.</b> Consecutive frames of experience are nearly
-identical, which violates the independence that stochastic gradient descent assumes. Worse, as
-the policy improves the agent visits different states, so the input distribution shifts under
-the learner.</p>
+identical, which violates the independence that stochastic gradient descent assumes. And as the
+policy improves the agent visits different states, so the input distribution shifts under the
+learner.</p>
 <p><b>The contraction is gone.</b> The Bellman operator shrinks distances in the max norm.
-Function approximation projects the result back onto what your network can represent, and that
-projection is a contraction in a <i>different</i> norm, the weighted L2 norm. Composing two
-contractions in two different norms is not a contraction in either. The proof does not merely
-fail to apply, the conclusion is false: there are small, explicit counterexamples where TD with
-linear function approximation diverges to infinity.</p>
+Function approximation projects the result back onto what your network can represent. That
+projection is a contraction in a <i>different</i> norm, the weighted <b>L2</b> norm (size measured
+as the square root of a weighted sum of squares). Composing two
+contractions in two different norms is not a contraction in either. The conclusion isn't merely
+unproven, it is false: there are small, explicit counterexamples where TD with linear function
+approximation diverges to infinity.</p>
 
 <h3>The deadly triad</h3>
 <p>Sutton and Barto name the three ingredients whose combination causes divergence:</p>
@@ -1775,29 +1788,31 @@ linear function approximation diverges to infinity.</p>
 <li><b>Bootstrapping</b>, updating an estimate from another estimate rather than a real outcome.</li>
 <li><b>Off-policy training</b>, learning about one policy from data generated by another.</li>
 </ol>
-<p><b>Any two are safe. All three together can diverge.</b> That is the useful form of the
-result, because it tells you what to give up when things blow up. Drop bootstrapping and use
-Monte Carlo returns: stable, higher variance. Drop off-policy and use SARSA or a policy gradient
-method: stable, less sample-efficient because you cannot reuse old data. Drop function
-approximation: not an option on anything interesting.</p>
-<p>Notice that plain DQN is all three at once. It is squarely inside the danger zone, which is
-why the next lesson is mostly a list of engineering devices for surviving there.</p>
+<p><b>Any two are safe. All three together can diverge.</b> That form of the result tells you
+what to give up when things blow up. Drop bootstrapping and use Monte Carlo returns: stable,
+higher variance. Drop off-policy and use <b>SARSA</b> (the method from two lessons back that
+learns from the action it actually took next) or a policy gradient method. That's stable, but less
+sample-efficient because you can't reuse old data. Drop function approximation: not an option
+on anything interesting.</p>
+<p>Plain <b>DQN</b> (deep Q-network: Q-learning with a neural network standing in for the table)
+is all three at once. That is why the next lesson is mostly a list of engineering
+devices for surviving there.</p>
 
 <div class="demystify"><b>Linear approximation is not a toy, and it is where the theory lives.</b>
 Write <code>Q(s,a) = w<sup>T</sup>x(s,a)</code> with hand-built features <code>x</code>. On-policy
-TD with linear features has a genuine convergence guarantee, to within a bounded factor of the
+TD with linear features has a real convergence guarantee, to within a bounded factor of the
 best representable value function. Tile coding and radial basis functions were the standard
-feature constructions for years, and gradient-TD methods extended the guarantees to the off-policy
-case. If you need a system whose behavior you can argue about rather than merely test, linear
-features are still a defensible choice.</div>
+feature constructions for years, and gradient-TD methods extended the guarantees to the
+off-policy case. If you need a system whose behavior you can argue about rather than only test,
+linear features are still a defensible choice.</div>
 
 <div class="hardidea">🧠 <b>"It diverged" is usually a triad problem, not a bug.</b> When
 Q-values climb to 10<sup>8</sup> and the policy collapses, the instinct is to hunt for an
-indexing error. Check for one, then stop: the loop is often correct and the algorithm is doing
-what the triad predicts. The fixes are structural, not textual. Slow the target down with a
-separate target network, decorrelate the data with a replay buffer, clip the TD error, or step
-back to a method that only has two of the three.</div>
-`,
+indexing error. Check for one, then stop. The loop is often correct and the algorithm is doing
+what the triad predicts. The fixes are structural. Slow the target down with a separate target
+network. Decorrelate the data with a <b>replay buffer</b>, a store of past experiences the agent
+re-learns from. Clip the TD error. Or step back to a method
+that only has two of the three.</div>`,
  exs:[{title:'Watch linear TD diverge where a table does not',
    lang:'python',
    prompt:`The standard two-state counterexample, and nothing in it is random. One transition,
@@ -1914,62 +1929,69 @@ print(tab_final, lin_final, ratio, w_mc)
 {id:'rl10',
  title:'Deep Q-networks: what it took to make Atari work',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Q-learning plus a convolutional network, plus two tricks that mattered more than either</span>
-<p>In 2013 and 2015 DeepMind trained a single architecture to play forty-nine Atari games from
-raw pixels and a score, reaching human level or better on most of them. The algorithm was
-Q-learning, which was twenty-six years old. The network was a convnet, which was older than
-that. What was new were two engineering devices for surviving the deadly triad, and they are
-worth understanding because the same devices show up everywhere since.</p></div>
+<p>In 2013 and 2015 DeepMind trained a single architecture to play forty-nine Atari games. The
+input was raw pixels and a score. It reached human level or better on most of them. That system is the
+<b>DQN</b> (deep Q-network): Q-learning with a neural network in place of the lookup table. The
+algorithm was Q-learning, which was twenty-six years old. The network was a convnet, the
+convolutional image network from the neural-networks stream, which was older than
+that. What was new were two engineering devices for surviving the deadly triad, and the same
+devices show up everywhere since.</p></div>
 
 <h3>The setup</h3>
-<p>Input: four consecutive game frames, greyscaled and downsampled to 84 by 84, stacked so that
-velocity is recoverable and the state is Markov. Output: one Q-value per joystick action, all of
-them from a single forward pass, so the argmax costs nothing. Reward: the change in game score,
-clipped to &minus;1, 0 or +1 so that one set of hyperparameters works across games with wildly
-different scoring scales. One architecture, one hyperparameter set, forty-nine games, no
-per-game tuning.</p>
+<p>Input: four consecutive game frames, grayscaled and downsampled to 84 by 84, stacked so that
+velocity is recoverable and the state is Markov. Output: one <b>Q-value</b>, how good each
+action is from this state, per joystick action, all from a single forward pass, so the argmax
+(picking the highest) costs nothing. Reward: the change in game score, clipped to &minus;1, 0 or +1. That
+way one set of <b>hyperparameters</b>, the settings chosen by hand rather than learned, works
+across games with wildly different scoring scales. No per-game tuning.</p>
 
 <h3>Trick one: experience replay</h3>
-<p>Do not learn from the transition you just took. Push
-<code>(s, a, r, s&prime;)</code> into a buffer of the last million transitions and train on
-random minibatches drawn from it.</p>
-<p>Three things this buys, and the third is the one people forget:</p>
+<p>Don't learn from the transition you just took. Push
+<code>(s, a, r, s&prime;)</code> into a buffer of the last million transitions. Train on
+random <b>minibatches</b> drawn from it, small slices of the buffer, one per update. This buys
+three things, and the third is the one people
+forget:</p>
 <ul>
 <li><b>Decorrelation.</b> A random minibatch spans thousands of different moments, which restores
-something close to the independence that stochastic gradient descent assumes. Learning from
-consecutive frames is learning from a near-duplicate sample over and over.</li>
+something close to the independence that stochastic gradient descent assumes.</li>
 <li><b>Sample efficiency.</b> Each transition is reused many times instead of being used once and
-discarded. In an environment where interaction is the expensive part, this alone is worth a great
-deal.</li>
+discarded.</li>
 <li><b>Smoothing the data distribution.</b> Without replay, a policy drifting toward one behavior
 sees only the states that behavior produces, and the training distribution swings with it.
 Averaging over a large buffer damps that feedback loop.</li>
 </ul>
-<p>Replay only works because Q-learning is off-policy. The transitions in the buffer were
-generated by older, worse policies, and an on-policy method could not legitimately learn from
-them. This is the clearest practical payoff of the distinction from the SARSA lesson.</p>
-<p><b>Prioritized replay</b> is the standard refinement: sample transitions in proportion to the
-size of their TD error, so surprising transitions get revisited more. It needs an importance-
+<p>Replay only works because Q-learning is <b>off-policy</b>: it can learn about the best policy
+from data that some other policy generated. The transitions in the buffer were
+generated by older, worse policies, and an on-policy method couldn't legitimately learn from
+them.</p>
+<p><b>Prioritized replay</b> is the standard refinement. Sample transitions in proportion to the
+size of their <b>TD</b> (temporal difference) error, the gap between the one-step target and
+the current estimate. Surprising transitions then get revisited more. It needs an importance-
 sampling correction, because non-uniform sampling biases the expectation.</p>
 
 <h3>Trick two: the target network</h3>
-<p>The moving-target problem from the last lesson, addressed directly. Keep a second copy of the
-network, <code>&theta;<sup>-</sup></code>, frozen. Compute targets from the frozen copy and
+<p>This addresses the moving-target problem from the last lesson directly. Keep a second copy of
+the network, <code>&theta;<sup>-</sup></code>, frozen. Compute targets from the frozen copy and
 update only the live one:</p>
 <div class="mathblock">L(&theta;) = E[ ( r + &gamma; max<sub>a&prime;</sub> Q(s&prime;,a&prime;;&theta;<sup>-</sup>) &minus; Q(s,a;&theta;) )&sup2; ]</div>
 <p>Copy <code>&theta;</code> into <code>&theta;<sup>-</sup></code> every ten thousand steps.
 Between copies the target sits still, so each interval is an ordinary supervised regression
-problem with fixed labels. The chase becomes a sequence of short, stable pursuits.</p>
-<p>It is a crude device and it works remarkably well. The soft variant, used by DDPG and most
-continuous-control methods since, updates the target continuously with
+problem with fixed labels.</p>
+<p>The soft variant updates the target continuously with
 <code>&theta;<sup>-</sup> &larr; &tau;&theta; + (1&minus;&tau;)&theta;<sup>-</sup></code> for
-small &tau;, which achieves the same lag without the discontinuity.</p>
+small &tau;. That gives the same lag without the discontinuity. <b>DDPG</b> (deep deterministic
+policy gradient, the DQN-style method for continuous actions such as motor torques) uses it, and
+so do most continuous-control methods since.</p>
 
 <h3>What came after</h3>
 <ul>
 <li><b>Double DQN</b>: use the live network to choose the action and the target network to
-evaluate it, canceling most of the max-operator overestimation from the Q-learning lesson.</li>
-<li><b>Duelling architecture</b>: split the head into a state-value stream and an advantage
+evaluate it. That cancels most of the max-operator overestimation from the Q-learning lesson.</li>
+<li><b>Dueling architecture</b>: split the head into a state-value stream and an advantage
 stream, <code>Q = V + A</code>. In states where the action barely matters, the network can learn
 V once instead of learning k nearly identical Q-values.</li>
 <li><b>Distributional RL (C51)</b>: predict the whole distribution of returns rather than its
@@ -1983,12 +2005,11 @@ component, which is not usually how these things go.</li>
 <div class="hardidea">🧠 <b>Read the Atari result carefully, because it was oversold at the
 time.</b> DQN needed roughly 200 million frames, about 39 days of game time, to reach human level
 on games a person is competent at within minutes. It learned nothing transferable: forty-nine
-separate agents, no shared knowledge, and a network trained on Breakout was useless at Pong. And
-it failed completely on the games that need exploration or long-horizon planning, scoring zero on
-Montezuma's Revenge for years. The achievement was real and it was narrow: one algorithm learning
-many tasks from pixels, not one agent that understood games. Sample efficiency remains the
-field's central unsolved problem.</div>
-`,
+separate agents, no shared knowledge, and a network trained on Breakout was useless at Pong. It
+failed completely on the games that need exploration or long-horizon planning, scoring zero on
+Montezuma's Revenge for years. The achievement was real and narrow: one algorithm learning many
+tasks from pixels, not one agent that understood games. Sample efficiency remains the field's
+central unsolved problem.</div>`,
  exs:[{title:'Measure what a replay buffer actually fixes',
    lang:'python',
    packages:['numpy'],
@@ -2093,77 +2114,79 @@ print(float(stream.std()), float(batch.std()))
 {id:'rl11',
  title:'Policy gradients: optimize the policy directly',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Skip the value function and adjust the behavior itself</span>
-<p>Everything so far learned a value function and read a policy off it. There is another route:
-parameterize the policy directly as <code>&pi;(a|s;&theta;)</code> and do gradient <i>ascent</i>
-on expected return. It sounds circular, since the return depends on the environment and you
-cannot differentiate through that. One identity makes it work, and it is the basis of every
+<p>Everything so far learned a <b>value function</b>, a score for how good each state or action
+is. Then it read a policy off it. There is another route: parameterize the policy directly as
+<code>&pi;(a|s;&theta;)</code> and do gradient <i>ascent</i> on expected return, stepping in
+the direction that raises the return fastest. It sounds circular, since the return depends on the environment and you
+can't differentiate through that. One identity makes it work, and it is the basis of every
 method used on large models today, including the one that fine-tunes chatbots.</p></div>
 
 <h3>Why bother, when Q-learning exists</h3>
 <ul>
 <li><b>Continuous actions.</b> <code>max<sub>a</sub> Q(s,a)</code> over a continuous action space
-is itself an optimization problem at every single step. A policy network just outputs the action,
-or the parameters of a distribution over actions.</li>
-<li><b>Stochastic policies come naturally.</b> Sometimes randomness is genuinely optimal, in
-poker or rock-paper-scissors or any partially observed setting, and a value-greedy policy cannot
-express it.</li>
+is itself an optimization problem at every step. A policy network outputs the action, or the
+parameters of a distribution over actions.</li>
+<li><b>Stochastic policies come naturally.</b> Sometimes randomness is optimal, in poker or
+rock-paper-scissors or any partially observed setting, and a value-greedy policy can't express
+it.</li>
 <li><b>Smooth improvement.</b> A small parameter change produces a small behavior change. With
-&epsilon;-greedy on Q, a tiny value change can flip an argmax and change the policy discontinuously,
-which is a real source of instability.</li>
+&epsilon;-greedy on Q, a tiny value change can flip an argmax and change the policy
+discontinuously, a real source of instability.</li>
 <li><b>Direct optimization.</b> You are ascending the objective you care about, rather than
 minimizing a value error and hoping the argmax follows.</li>
 </ul>
 
 <h3>The objective, and the problem</h3>
 <div class="mathblock">J(&theta;) = E<sub>&tau;~&pi;<sub>&theta;</sub></sub>[ G(&tau;) ]&nbsp;&nbsp;&nbsp;&nbsp;maximize over &theta;</div>
-<p>The expectation is over trajectories, and the distribution over trajectories depends on
-&theta;. So you cannot push the gradient inside the expectation, which is what you would normally
-do. You also cannot differentiate through the environment, which is a black box and possibly the
-physical world.</p>
+<p>The expectation is over <b>trajectories</b>, whole runs of states, actions and rewards, and the
+distribution over trajectories depends on
+&theta;. So you can't push the gradient inside the expectation. You also can't differentiate
+through the environment, which is a black box and possibly the physical world.</p>
 
 <h3>The score function trick</h3>
 <p>The identity that unlocks it is three lines. Start with the gradient of an expectation,
-multiply and divide by the density, and recognize the derivative of a logarithm:</p>
+multiply and divide by the density, and recognize the derivative of a logarithm.</p>
 <div class="mathblock">&nabla;<sub>&theta;</sub> E[f(x)] = &nabla;<sub>&theta;</sub> &int; p<sub>&theta;</sub>(x) f(x) dx = &int; &nabla;<sub>&theta;</sub>p<sub>&theta;</sub>(x) f(x) dx
 &nbsp;&nbsp;&nbsp;&nbsp;= &int; p<sub>&theta;</sub>(x) [&nabla;<sub>&theta;</sub>p<sub>&theta;</sub>(x) / p<sub>&theta;</sub>(x)] f(x) dx
 &nbsp;&nbsp;&nbsp;&nbsp;= E[ f(x) &nabla;<sub>&theta;</sub> log p<sub>&theta;</sub>(x) ]</div>
 <p>The gradient of an expectation became an expectation of a gradient, which you can estimate by
 sampling. Apply it to trajectories, and the environment dynamics drop out of the log because they
-do not depend on &theta;. What survives is the <b>policy gradient theorem</b>:</p>
+don't depend on &theta;. What survives is the <b>policy gradient theorem</b>:</p>
 <div class="mathblock">&nabla;<sub>&theta;</sub>J(&theta;) = E[ &Sigma;<sub>t</sub> G<sub>t</sub> &nabla;<sub>&theta;</sub> log &pi;(a<sub>t</sub>|s<sub>t</sub>;&theta;) ]</div>
-<p>No model, no differentiating through physics. Just the log-probability of the actions you
-actually took, weighted by how well things went.</p>
+<p>No model, no differentiating through physics. Only the log-probability of the actions you
+took, weighted by how well things went.</p>
 
 <h3>REINFORCE, and how to read it</h3>
-<p>The algorithm is four steps: run an episode with the current policy, compute the return
-following each step, take a gradient ascent step on
-<code>G<sub>t</sub> &nabla; log &pi;(a<sub>t</sub>|s<sub>t</sub>)</code>, repeat.</p>
-<p>The plain-English reading is short and it is worth saying out loud. <b>If the episode went
-well, make every action you took more likely. If it went badly, make them all less likely.</b>
-That is obviously crude, since a good episode probably contained some bad moves and they all get
-reinforced together. It works because over many episodes the bad moves appear in poor episodes
-too, and the effects average out. Slowly.</p>
+<p>Four steps. Run an episode with the current policy. Compute the return following each step.
+Take a gradient ascent step on
+<code>G<sub>t</sub> &nabla; log &pi;(a<sub>t</sub>|s<sub>t</sub>)</code>. Repeat.</p>
+<p>In plain English: <b>if the episode went well, make every action you took more likely. If it
+went badly, make them all less likely.</b> That is crude, since a good episode probably
+contained some bad moves and they all get reinforced together. It works because over many
+episodes the bad moves appear in poor episodes too, and the effects average out. Slowly.</p>
 
 <h3>Variance, and the baseline</h3>
-<p>REINFORCE is unbiased and extremely noisy, because the return of a whole episode is a very
-rough measure of one action's quality. The standard fix is to subtract a <b>baseline</b>:</p>
+<p>REINFORCE is unbiased and extremely noisy, because the return of a whole episode is a rough
+measure of one action's quality. The standard fix is to subtract a <b>baseline</b>:</p>
 <div class="mathblock">&nabla;<sub>&theta;</sub>J = E[ (G<sub>t</sub> &minus; b(s<sub>t</sub>)) &nabla;<sub>&theta;</sub> log &pi;(a<sub>t</sub>|s<sub>t</sub>;&theta;) ]</div>
 <p>Any function of the state works, because
 <code>E[b(s)&nabla;log&pi;] = b(s)&nabla;&Sigma;<sub>a</sub>&pi;(a|s) = b(s)&nabla;1 = 0</code>.
-The baseline is free: it changes nothing in expectation and can cut the variance dramatically.</p>
+The baseline changes nothing in expectation and can cut the variance dramatically.</p>
 <p>The natural choice is <code>b(s) = V(s)</code>, the average return from that state. Then the
 weight becomes <code>G<sub>t</sub> &minus; V(s<sub>t</sub>)</code>, an estimate of the
-<b>advantage</b>: how much better this action was <i>than average from here</i>. That is a far
-more informative signal than the raw return. An action worth 100 in a state where everything is
-worth 100 deserves no reinforcement at all, and the baseline is what encodes that.</p>
+<b>advantage</b>: how much better this action was <i>than average from here</i>. An action worth
+100 in a state where everything is worth 100 deserves no reinforcement at all, and the baseline
+is what encodes that.</p>
 
 <div class="hardidea">🧠 <b>The baseline is why "reward everything in a winning episode" stops
 being absurd.</b> Without it, in a game where every score is between 900 and 1000, every action
 gets a large positive push and the policy barely moves in any useful direction. Subtract the
 average and only the actions that beat the average get reinforced. Same information, a different
-zero point, and the difference between an algorithm that works and one that does not.</div>
-`,
+zero point, and the difference between an algorithm that works and one that doesn't.</div>`,
  exs:[{title:'REINFORCE on two arms, then pay for a baseline',
    lang:'python',
    packages:['numpy'],
@@ -2308,78 +2331,85 @@ print(var_raw, var_base, mean_raw, mean_base)
 {id:'rl12',
  title:'Actor-critic, advantage, and PPO: what everyone actually runs',
  body:`
+
+
+
+
 <div class="ground"><span class="gTag">🎯 Combine the two families, then stop the update from going too far</span>
 <p>Value methods are sample-efficient and awkward with continuous actions. Policy methods handle
 anything but are noisy and throw their data away after one use. Actor-critic takes both: a
-policy that acts, and a value function that criticizes. Add one more idea, a limit on how far the
-policy may move in a single update, and you have PPO, which is the default in most of the field
-and the algorithm behind RLHF.</p></div>
+policy that acts, and a value function that criticizes. Add a limit on how far the policy may
+move in a single update and you have <b>PPO</b> (proximal policy optimization). It's a policy-gradient
+method that limits how far each update can move the policy. It's the default in most of the field,
+and the algorithm behind <b>RLHF</b> (reinforcement learning from human feedback, the way chat
+models are tuned against human preferences).</p></div>
 
 <h3>The two components</h3>
 <p>The <b>actor</b> is the policy <code>&pi;(a|s;&theta;)</code>. It chooses. The <b>critic</b> is
-a value function <code>V(s;w)</code>. It evaluates. Each trains the other: the critic learns by
-TD on the actor's experience, and the actor takes policy-gradient steps weighted by the critic's
+a value function <code>V(s;w)</code>. It evaluates. Each trains the other. The critic learns by
+<b>TD</b> (temporal difference, updating its estimate from the next step's estimate) on the
+actor's experience. The actor takes policy-gradient steps weighted by the critic's
 assessment.</p>
-<p>The point is that the critic replaces the whole-episode return with a one-step estimate. Use
-the TD error as the advantage:</p>
+<p>The critic replaces the whole-episode return with a one-step estimate. Use the TD error as
+the <b>advantage</b>, how much better the action was than average from that state:</p>
 <div class="mathblock">A&#770;<sub>t</sub> = r<sub>t+1</sub> + &gamma;V(s<sub>t+1</sub>) &minus; V(s<sub>t</sub>) = &delta;<sub>t</sub>
 &theta; &larr; &theta; + &alpha; &delta;<sub>t</sub> &nabla;<sub>&theta;</sub> log &pi;(a<sub>t</sub>|s<sub>t</sub>;&theta;)
 w &larr; w + &beta; &delta;<sub>t</sub> &nabla;<sub>w</sub> V(s<sub>t</sub>;w)</div>
-<p>The same &delta; drives both updates, which is neat and also a good way to remember them.
-Because the advantage is available after one step, the actor can update online rather than
-waiting for the episode to finish, and the variance is far below REINFORCE's.</p>
+<p>The same &delta; drives both updates. Because the advantage is available after one step, the
+actor can update online rather than waiting for the episode to finish, and the variance is far
+below REINFORCE's.</p>
 <p>Between one-step TD and the full return sits <b>generalized advantage estimation</b>, which
 takes an exponentially weighted average of n-step advantages with parameter &lambda;. It is the
-same bias-variance dial as TD(&lambda;), applied to the advantage, and in practice GAE with
-&lambda; around 0.95 is close to universal.</p>
+same bias-variance dial as TD(&lambda;), applied to the advantage. GAE with &lambda; around 0.95
+is close to universal.</p>
 
 <h3>The problem PPO exists to solve</h3>
-<p>Policy gradient steps are dangerous in a way supervised steps are not. A step that is too
-large produces a much worse policy, that worse policy collects worse data, and you learn from the
+<p>Policy gradient steps are dangerous in a way supervised steps aren't. A step that is too large
+produces a much worse policy, that worse policy collects worse data, and you learn from the
 worse data. There is no fixed dataset to fall back on. A single bad update can destroy a run that
-took hours, and recovery is not guaranteed.</p>
-<p><b>TRPO</b> attacked this properly: maximize the objective subject to a constraint that the new
-policy stays within a KL-divergence trust region of the old one. It works and the theory is good.
+took hours.</p>
+<p><b>TRPO</b> attacked this properly. Maximize the objective subject to a constraint: the new
+policy stays within a trust region of the old one, measured by <b>KL divergence</b>. KL divergence
+is a measure of how different one probability distribution is from another, zero when they match. It works and
+the theory is good.
 It is also awkward, requiring a conjugate-gradient solve and a line search inside every update.</p>
 <p><b>PPO</b> gets most of the benefit with a clip. Let
 <code>r<sub>t</sub>(&theta;)</code> be the probability ratio between the new and old policy for the
-action actually taken:</p>
+action taken:</p>
 <div class="mathblock">r<sub>t</sub>(&theta;) = &pi;(a<sub>t</sub>|s<sub>t</sub>;&theta;) / &pi;(a<sub>t</sub>|s<sub>t</sub>;&theta;<sub>old</sub>)
 L(&theta;) = E[ min( r<sub>t</sub>A&#770;<sub>t</sub>,&nbsp; clip(r<sub>t</sub>, 1&minus;&epsilon;, 1+&epsilon;)A&#770;<sub>t</sub> ) ]</div>
-<p>Read the min carefully, because the asymmetry is the whole design. If the advantage is
-positive and the ratio has already grown past <code>1+&epsilon;</code>, the clipped term is
-smaller, the min selects it, and the gradient vanishes: you have moved far enough toward this
-action, stop. If the advantage is negative and the ratio has fallen below
-<code>1&minus;&epsilon;</code>, the same logic stops you pushing further away. But if the ratio
-has moved in the <i>wrong</i> direction, the unclipped term is smaller and the min selects it, so
-the correction is not clipped. <b>PPO limits how far you can go on purpose and never limits how
-far you can come back.</b></p>
-<p>With the clip in place, the same batch of data can be reused for several gradient epochs
-without the policy running away from the data that generated it. That is where PPO's sample
-efficiency comes from, and &epsilon; is typically 0.2.</p>
+<p>The asymmetry of the min is the whole design. If the advantage is positive and the ratio has
+already grown past <code>1+&epsilon;</code>, the clipped term is smaller, the min selects it,
+and the gradient vanishes. You have moved far enough toward this action, stop. If the advantage
+is negative and the ratio has fallen below <code>1&minus;&epsilon;</code>, the same logic stops
+you pushing further away. But if the ratio has moved in the <i>wrong</i> direction, the
+unclipped term is smaller and the min selects it, so the correction isn't clipped. <b>PPO limits
+how far you can go on purpose and never limits how far you can come back.</b></p>
+<p>With the clip in place, the same batch of data can be reused for several gradient <b>epochs</b>, full passes over that
+batch. The policy doesn't run away from the data that generated it. That is where PPO's sample
+efficiency comes from. &epsilon; is typically 0.2.</p>
 
 <h3>The full objective, as implemented</h3>
 <div class="mathblock">L = L<sup>clip</sup> &minus; c<sub>1</sub>L<sup>value</sup> + c<sub>2</sub>H[&pi;]</div>
 <p>Three terms. The clipped policy objective. A value-function regression loss for the critic,
 usually sharing a trunk with the actor. And an <b>entropy bonus</b>, which rewards the policy for
 staying uncertain and is the standard defense against premature collapse onto one action. Drop
-the entropy term and a run will often converge confidently to something mediocre.</p>
+it and a run will often converge confidently to something mediocre.</p>
 
 <div class="demystify"><b>The alphabet soup, sorted.</b> <b>A2C</b> is advantage actor-critic run
 across parallel environments. <b>A3C</b> is the older asynchronous version, largely superseded
 once people realized the synchronous variant was simpler and no worse. <b>DDPG</b>, <b>TD3</b> and
-<b>SAC</b> are the off-policy continuous-control family; SAC adds an entropy term to the objective
+<b>SAC</b> are the off-policy continuous-control family. SAC adds an entropy term to the objective
 itself rather than as a bonus, and is the usual first choice for robotics. <b>PPO</b> is on-policy
 and is the default for almost everything else, including language models. If you need one
 algorithm to try first, it is PPO.</div>
 
 <div class="hardidea">🧠 <b>PPO is not the best algorithm, it is the most forgiving one.</b> On
 many benchmarks SAC or TD3 beat it on sample efficiency, and the clip has no strong theoretical
-guarantee of the kind TRPO has. What PPO has is robustness: it works across an unusually wide
+guarantee of the kind TRPO has. What PPO has is robustness. It works across an unusually wide
 range of problems without much tuning, and it degrades gently when the hyperparameters are wrong.
-For a field where reproducing published results is notoriously hard, that is worth more than a
-few points on a benchmark, and it is why it became the default.</div>
-`,
+In a field where reproducing published results is hard, that is worth more than a few points on
+a benchmark, and it is why PPO became the default.</div>`,
  exs:[{title:'Advantage from a table, and where the PPO clip bites',
    lang:'python',
    prompt:`One state, three actions, action values <code>[1, 3, 2]</code>, and a policy that puts
@@ -2474,16 +2504,20 @@ print([round(o, 4) for o in obj_down])
 {id:'rl13',
  title:'RLHF: how reinforcement learning ended up inside language models',
  body:`
-<div class="ground"><span class="gTag">🎯 When you cannot write the reward, learn it</span>
+
+
+
+<div class="ground"><span class="gTag">🎯 When you can't write the reward, learn it</span>
 <p>Every algorithm in this stream assumed a reward function existed. For "write a helpful,
 honest reply" no such function can be written down. But a person can look at two replies and say
-which is better, reliably and quickly. <b>Reinforcement learning from human feedback</b> turns
-those comparisons into a reward model and then optimizes against it. It is the step that turned
+which is better, reliably and quickly. <b>RLHF</b> (reinforcement learning from human feedback)
+turns those comparisons into a reward model and then optimizes against it. It is the step that turned
 a text predictor into something you can hold a conversation with.</p></div>
 
 <h3>Three stages</h3>
-<p><b>1. Supervised fine-tuning.</b> Start from a pretrained language model and fine-tune it on a
-few thousand high-quality demonstrations of the behavior you want. Ordinary supervised learning,
+<p><b>1. Supervised fine-tuning.</b> Start from a pretrained language model and fine-tune it,
+meaning continue its training, on a few thousand high-quality demonstrations of the behavior
+you want. Ordinary supervised learning,
 no RL yet. This gets the model into the right neighborhood, and skipping it makes everything
 after it harder.</p>
 <p><b>2. Train a reward model.</b> Sample several responses to the same prompt and ask people to
@@ -2491,51 +2525,49 @@ rank them. Train a model <code>r<sub>&phi;</sub>(prompt, response)</code> to sco
 that the ranking is reproduced. The standard loss comes from the Bradley-Terry model of pairwise
 preference:</p>
 <div class="mathblock">L(&phi;) = &minus;E<sub>(x, y<sub>w</sub>, y<sub>l</sub>)</sub>[ log &sigma;( r<sub>&phi;</sub>(x, y<sub>w</sub>) &minus; r<sub>&phi;</sub>(x, y<sub>l</sub>) ) ]</div>
-<p>where <code>y<sub>w</sub></code> won the comparison and <code>y<sub>l</sub></code> lost. Note
-that only the <i>difference</i> of scores is constrained, so the absolute scale is arbitrary,
-which is fine because policy gradients only ever use differences too.</p>
+<p>where <code>y<sub>w</sub></code> won the comparison and <code>y<sub>l</sub></code> lost. Only
+the <i>difference</i> of scores is constrained, so the absolute scale is arbitrary. That is fine
+because policy gradients only ever use differences too.</p>
 <p><b>Why rankings rather than scores.</b> Ask ten people to rate a response out of ten and you
 get ten incompatible scales, drifting within each person across a session. Ask which of two is
-better and agreement is far higher. The preference format is chosen because it is the question
-humans answer consistently.</p>
-<p><b>3. Optimize the policy with PPO.</b> The language model is the policy. A state is the
-prompt plus the tokens generated so far, an action is the next token, and the reward model scores
-the completed response. This is a proper RL problem with an enormous action space, one reward at
-the end of the episode, and it is exactly what PPO was built to survive.</p>
+better and agreement is far higher. Preferences are the question humans answer consistently.</p>
+<p><b>3. Optimize the policy with PPO</b> (proximal policy optimization, the clipped
+policy-gradient method from the last lesson). The language model is the <b>policy</b>, the rule
+that picks each next action. A state is the prompt plus the <b>tokens</b> (words, or pieces of
+words) generated so far, an action is the next token, and the reward model scores
+the completed response. This is a proper RL problem with an enormous action space and one reward
+at the end of the episode, which is what PPO was built to survive.</p>
 
 <h3>The KL penalty, which is the part that matters</h3>
 <p>Optimize the reward model hard enough and the policy finds its flaws. The reward model is a
-neural network trained on a finite sample of human judgements, and it is wrong in places; a
-sufficiently determined optimizer will locate those places and camp there. The output scores
-brilliantly and reads as gibberish, sycophancy, or a particular phrase repeated. This is
-<b>reward hacking</b>, and it is the boat spinning in the lagoon from the first lesson, in a
-different suit.</p>
+neural network trained on a finite sample of human judgments, and it is wrong in places. A
+determined optimizer will locate those places and camp there. The output scores brilliantly and
+reads as gibberish, sycophancy, or a particular phrase repeated. This is <b>reward hacking</b>,
+the boat spinning in the lagoon from the first lesson in a different suit.</p>
 <p>The standard defense is a penalty for drifting away from the model you started from:</p>
 <div class="mathblock">R(x, y) = r<sub>&phi;</sub>(x, y) &minus; &beta; KL[ &pi;<sub>&theta;</sub>(y|x) &#8214; &pi;<sub>SFT</sub>(y|x) ]</div>
-<p>The reward model is only trustworthy near the distribution it was trained on. The KL term
-keeps the policy in that neighborhood, and &beta; is the dial between "optimize the proxy" and
-"stay somewhere the proxy is still measuring the right thing". Set it too low and you get reward
-hacking. Set it too high and the model barely changes.</p>
+<p>The reward model is only trustworthy near the distribution it was trained on. The <b>KL</b>
+term (KL divergence: a measure of how different one probability distribution is from another,
+zero when they match) keeps the policy in that neighborhood. &beta; is the dial between "optimize the proxy" and
+"stay where the proxy still measures the right thing". Too low and you get reward hacking. Too
+high and the model barely changes.</p>
 
 <h3>What came after, and why</h3>
-<p><b>DPO</b> (direct preference optimization) observes that the PPO stage has a closed-form
-optimum given the reward model, and that you can therefore optimize the policy on the preference
-data directly, with a supervised-looking loss and no reward model and no RL loop. It is much
-simpler and much cheaper, and it is now common. Whether it fully matches PPO at scale is still
-being argued.</p>
+<p><b>DPO</b>, direct preference optimization, observes that the PPO stage has a closed-form
+optimum given the reward model. That's an answer you can write down as a formula rather than search for. So you can optimize the policy on the preference data directly,
+with a supervised-looking loss, no reward model and no RL loop. It is much simpler and cheaper,
+and it is now common. Whether it fully matches PPO at scale is still argued.</p>
 <p><b>RLAIF</b> replaces some human labels with model-generated ones, judged against a written set
-of principles. Constitutional AI is the well-known version. The motivation is cost and throughput:
-human preference data is slow and expensive, and it is the bottleneck.</p>
+of principles. Constitutional AI is the well-known version. The motivation is cost and
+throughput: human preference data is slow and expensive, and it is the bottleneck.</p>
 
 <div class="hardidea">🧠 <b>RLHF optimizes what the labelers rewarded, which is not the same as
 what is true.</b> If annotators mildly prefer confident answers, the model learns to sound
-confident, including when it should not. If they prefer agreement, it learns to agree, which is
+confident, including when it shouldn't. If they prefer agreement, it learns to agree, which is
 where sycophancy comes from. If they prefer longer answers, everything gets longer, and length
-bias in preference data is well documented. None of this is a bug in the algorithm. The algorithm
-did exactly what it was asked. <b>The reward function is the specification</b>, which is where
-this stream started, and at this scale the specification is the aggregate of what a few thousand
-people clicked while tired.</div>
-`,
+bias in preference data is well documented. None of this is a bug in the algorithm. <b>The
+reward function is the specification</b>, which is where this stream started. At this scale the
+specification is the aggregate of what a few thousand people clicked while tired.</div>`,
  exs:[{title:'Reward hacking, made reproducible',
    lang:'python',
    prompt:`A cleaning robot. State 0 is a tidy room and state 1 has a mess in it. Three actions:
@@ -2679,26 +2711,30 @@ print('learned', proxy_l, true_l)
 {id:'rl14',
  title:'What reinforcement learning is still bad at, and when not to use it',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Where it stands</span>
 <p>RL has produced some of the most striking results in machine learning and it remains difficult
-to deploy. Knowing where the difficulty lives is what separates someone who has read about it
-from someone who has shipped it. Most of what follows is not solved, and being clear about that
-is more useful than a list of successes.</p></div>
+to deploy. Knowing where the difficulty lives separates someone who has read about it from
+someone who has shipped it. Most of what follows isn't solved.</p></div>
 
 <h3>Sample efficiency</h3>
-<p>This is the central problem. DQN needed around 200 million Atari frames. OpenAI Five played
+<p>This is the central problem. <b>DQN</b> (deep Q-network, the Atari agent from earlier in the
+stream) needed around 200 million Atari frames. OpenAI Five played
 the equivalent of hundreds of years of Dota per day. AlphaStar's training consumed decades of
 StarCraft. Humans reach competence in these games in hours.</p>
-<p>The consequence is practical rather than philosophical: <b>RL is mostly restricted to problems
-you can simulate</b>. If every interaction costs a real robot movement, a real advertising spend,
-or a real patient, you cannot afford millions of them. Model-based RL and offline RL are the two
-serious lines of attack, and neither is finished.</p>
+<p>The consequence is practical: <b>RL is mostly restricted to problems you can simulate</b>. If
+every interaction costs a real robot movement, a real advertising spend, or a real patient, you
+can't afford millions of them. Model-based RL (learn how the environment behaves, then plan
+inside that model) and offline RL (learn from a fixed log of past interactions) are the two
+serious lines of attack. Neither is finished.</p>
 
 <h3>Reward specification</h3>
-<p>You are not specifying behavior, you are specifying a score, and the agent will find the
+<p>You aren't specifying behavior, you are specifying a score, and the agent will find the
 highest-scoring behavior whether or not it resembles what you meant. Every practitioner
-collects examples: the boat spinning in the lagoon, the simulated robot that learned to fall over
-in the direction of the goal rather than walk, the cleaning agent that learned to knock things
+collects examples. The boat spinning in the lagoon. The simulated robot that learned to fall over
+in the direction of the goal rather than walk. The cleaning agent that learned to knock things
 over so it could tidy them again.</p>
 <p><b>Reward shaping</b>, adding intermediate rewards to guide learning, is the usual response and
 it is dangerous. Add a reward for approaching the ball and the agent may learn to approach the
@@ -2710,39 +2746,49 @@ Anything else changes what is optimal, and you had better be sure you meant to.<
 <p>Deep RL results are unusually hard to reproduce. Published papers have shown the same algorithm
 with different random seeds producing performance ranges wider than the gaps between algorithms.
 Implementation details that appear in the code but not the paper often matter more than the
-stated contribution: observation normalization, advantage normalization, learning rate annealing,
+stated contribution. Examples: observation normalization, advantage normalization, learning rate annealing,
 how the last step of a truncated episode is handled.</p>
-<p>The practical advice that follows is unglamorous and it is real. Run several seeds and report
-the spread, never a single curve. Start from a maintained implementation rather than writing your
-own. And when comparing algorithms, be suspicious of any gap smaller than the seed variance.</p>
+<p>The practical advice is plain. Run several seeds and report the spread, never a single curve.
+Start from a maintained implementation rather than writing your own. When comparing algorithms,
+be suspicious of any gap smaller than the seed variance.</p>
 
 <h3>Safety during learning</h3>
 <p>An agent learns by making mistakes. In a simulator that is free. On a real robot, a real
-network, or a real financial position, some mistakes are not recoverable. Constrained MDPs, safe
-exploration and shielding all address this, and the state of the art is that most
-production deployments avoid the problem instead: train in simulation, transfer to reality, and
-never let the live system explore.</p>
+network, or a real financial position, some mistakes aren't recoverable. Constrained MDPs
+(Markov decision processes with limits the agent must never cross), safe exploration and
+shielding all address this. In practice most production deployments avoid the
+problem instead: train in simulation, transfer to reality, and never let the live system
+explore.</p>
 
 <h3>When to use it, and when not to</h3>
-<p><b>Reach for RL when</b>: the decision is sequential and early choices constrain later ones;
-you can judge outcomes but cannot demonstrate correct behavior; you can simulate cheaply, or you
-have a large log of past decisions and their outcomes; and the objective is genuinely capturable
-as a number.</p>
-<p><b>Do not reach for RL when</b>: a labeled dataset exists or could be built, which makes
-supervised learning both easier and better; each interaction is expensive or irreversible;
-you cannot state the objective precisely enough to defend it under optimization pressure; or a
-simple rule, a bandit, or an optimizer would do. A great many problems described as reinforcement
-learning are contextual bandits, and contextual bandits are far easier to get right.</p>
+<p><b>Reach for RL when</b>:</p>
+<ul>
+<li>the decision is sequential and early choices constrain later ones.</li>
+<li>you can judge outcomes but can't demonstrate correct behavior.</li>
+<li>you can simulate cheaply, or you have a large log of past decisions and their outcomes.</li>
+<li>the objective can be captured as a number.</li>
+</ul>
+<p><b>Don't reach for RL when</b>:</p>
+<ul>
+<li>a labeled dataset exists or could be built, which makes supervised learning both easier and
+better.</li>
+<li>each interaction is expensive or irreversible.</li>
+<li>you can't state the objective precisely enough to defend it under optimization pressure.</li>
+<li>a simple rule, a bandit, or an optimizer would do.</li>
+</ul>
+<p>A great many problems described as reinforcement learning are <b>contextual bandits</b>.
+Those are one-step problems: you pick an action for the situation in front of you, get a reward, and
+nothing carries over to the next step. Contextual bandits are far easier to get right.</p>
 
 <div class="notebox">📌 <b>What to take away from the stream.</b> The loop is agent, action,
 state, reward. The return is the discounted sum, and &gamma; is a modeling decision rather than a
 knob. The Bellman equation turns an exponential lookahead into one linear equation per state, and
-its contraction property is why bootstrapping works. TD learns from a guess corrected by a fact.
-Q-learning learns the optimal policy from non-optimal behavior, which is what makes replay
-possible. Policy gradients optimize behavior directly, and a baseline turns a crude signal into
-an advantage. PPO limits how far one update may move. And the reward function is the
-specification, which is the sentence to keep if you keep only one.</div>
-`,
+its contraction property is why bootstrapping works. <b>TD</b> (temporal difference) learns from
+a guess corrected by a fact. Q-learning learns the optimal policy from non-optimal behavior,
+which is what makes replay possible. Policy gradients optimize behavior directly, and a
+baseline turns a crude signal into an advantage. <b>PPO</b> (proximal policy optimization)
+limits how far one update may move. And the reward function is the
+specification, which is the sentence to keep if you keep only one.</div>`,
  exs:[{title:'Count what the evaluative signal costs',
    lang:'python',
    prompt:`Ten states, four actions, one correct action per state. No sequential structure, no

@@ -2,11 +2,14 @@ STREAMS.push({icon:'📈',track:'Foundations Track',title:'Logarithms & Exponent
 {id:'log0',
  title:'Fundamentals: exponents & powers, the ground logs are built on',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>A logarithm is "an exponent asked backwards," so before logs we need exponents solid. A
 <b>power</b> <code>xⁿ</code> means multiply <code>x</code> by itself <code>n</code> times:
 <code>2³ = 2·2·2 = 8</code>. Here <code>x</code> is the <b>base</b> and <code>n</code> the
-<b>exponent</b>. This lesson locks down the handful of rules that make exponents, and therefore
+<b>exponent</b>. This lesson locks down the handful of rules that make exponents, and so
 logs, growth, decay, softmax, and sigmoids, behave predictably.</p></div>
 
 <h3>The rules (each is just counting the multiplications)</h3>
@@ -16,22 +19,24 @@ xᵃ / xᵇ = xᵃ⁻ᵇ        divide → SUBTRACT exponents   (2⁵ / 2² = 2�
 x⁰ = 1               anything to the 0 is 1
 x⁻ⁿ = 1 / xⁿ         negative exponent → reciprocal (2⁻¹ = 0.5)
 x^(1/2) = √x         fractional exponent → a root   (9^(1/2) = 3)</div>
-<p>Notice the top rule: <b>multiplying powers adds their exponents.</b> Hold onto that, it is
-the exact mirror of the log property "log of a product is a sum," and it is <i>why</i> logs
+<p>Notice the top rule: <b>multiplying powers adds their exponents.</b> Hold onto that. It is
+the mirror of the log property "log of a product is a sum," and it is <i>why</i> logs
 turn multiplication into addition. Exponents and logs are the same staircase, walked in
 opposite directions.</p>
 
 <h3>Why ML cares</h3>
-<p><b>Exponential growth/decay</b> shows up in learning-rate schedules (decay a rate each step)
-and in probabilities that compound. The base <b>e ≈ 2.718</b> (the "natural" base) appears
+<p><b>Exponential growth/decay</b> shows up in learning-rate schedules and in probabilities
+that compound. The <b>learning rate</b> is the size of each training step. A schedule shrinks
+it a little every step. The base <b>e ≈ 2.718</b> (the "natural" base) appears
 everywhere: <code>eˣ</code> in <b>softmax</b> (turning scores into probabilities) and
-<code>e⁻ˣ</code> in the <b>sigmoid</b>. Get comfortable with powers now and those later formulas
+<code>e⁻ˣ</code> in the <b>sigmoid</b>. The sigmoid is the S-shaped curve that squashes any
+number into a value between zero and one. Get comfortable with powers now and those later formulas
 read as arithmetic, not hieroglyphs.</p>
 
 <div class="demystify"><b>Demystify "to the power":</b> for whole numbers it is repeated
-multiplication; the rules then <i>extend</i> that idea consistently to zero, negative, and
-fractional exponents (so that <code>xᵃ·xᵇ = xᵃ⁺ᵇ</code> keeps working). That is why
-<code>x⁰ = 1</code> and <code>x^(1/2) = √x</code> are not arbitrary, they are forced by keeping
+multiplication. The rules then <i>extend</i> that idea to zero, negative, and
+fractional exponents so that <code>xᵃ·xᵇ = xᵃ⁺ᵇ</code> keeps working. That is why
+<code>x⁰ = 1</code> and <code>x^(1/2) = √x</code> aren't arbitrary: they are forced by keeping
 one rule true.</div>`,
  docs:[['Exponent rules (a refresher)','https://www.mathsisfun.com/algebra/exponent-laws.html']],
  quiz:{title:'Quick check',questions:[
@@ -89,38 +94,39 @@ print(cube, recip, root, rule_holds)
 {id:'log1',
  title:'Fundamentals: a logarithm is just an exponent (asked backwards)',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>Logarithms scare people only because no one says the one-sentence version:
 <b>a logarithm is an exponent.</b> Exponentiation asks "what is 10 to the power 3?" (answer:
 1000). A logarithm asks the <i>same question backwards</i>: "10 to <b>what power</b> gives
-1000?" (answer: 3). So <code>log10(1000) = 3</code>. That is the whole definition,
+1000?" (answer: 3). So <code>log10(1000) = 3</code>. That is the whole definition:
 <code>log_b(x)</code> is <b>the power you raise b to, to get x</b>. If you can read
-<code>2³ = 8</code>, you can read <code>log2(8) = 3</code>; they are the same fact, viewed
+<code>2³ = 8</code>, you can read <code>log2(8) = 3</code>. Same fact, viewed
 from two ends.</p></div>
 
 <h3>The three bases you will meet</h3>
 <p><b>log10</b>: "how many orders of magnitude?" (1, 10, 100, 1000 → 0, 1, 2, 3).
-<b>log2</b>, "how many doublings?" (the language of bits and halving).
-<b>ln</b>, the <i>natural log</i>, base <code>e ≈ 2.718</code>. This is the one ML uses almost
-everywhere; in Python, plain <code>math.log(x)</code> means <b>ln</b>. Different bases just
+<b>log2</b>: "how many doublings?" (the language of bits and halving).
+<b>ln</b>: the <i>natural log</i>, base <code>e ≈ 2.718</code>. This is the one ML uses almost
+everywhere. In Python, plain <code>math.log(x)</code> means <b>ln</b>. Different bases
 rescale each other by a constant, so the <i>shape</i> of every log is the same.</p>
 
-<h3>The magic property: the reason logs matter at all</h3>
+<h3>The magic property: the reason logs matter</h3>
 <div class="codeSample">log(a * b) = log(a) + log(b)      # multiplication BECOMES addition
 log(a ** n) = n * log(a)          # powers BECOME multiplication</div>
-<p>This is the property everything downstream rests on: <b>a logarithm turns multiplication
-into addition.</b> It is why slide rules worked, and, as the next lesson shows, it is
-exactly why ML replaces "multiply a thousand probabilities" (which breaks computers) with
-"add a thousand logs" (which does not).</p>
+<p>Everything downstream rests on this: <b>a logarithm turns multiplication
+into addition.</b> It is why slide rules worked. As the next lesson shows, it is
+why ML replaces "multiply a thousand probabilities" (which breaks computers) with
+"add a thousand logs" (which doesn't).</p>
 
 <h3>Logs compress huge ranges</h3>
-<p>The values 1, 10, 100, 1000, 1,000,000 are wildly far apart, but their logs are
-0, 1, 2, 3, 6: evenly spaced. That is what a "log scale" on a chart does, and why earthquakes
-(Richter), sound (decibels), and acidity (pH) are all measured in logs, they span too many
+<p>The values 1, 10, 100, 1000, 1,000,000 are wildly far apart. Their logs are
+0, 1, 2, 3, 6: evenly spaced. That is what a "log scale" on a chart does. It is why earthquakes
+(Richter), sound (decibels), and acidity (pH) are all measured in logs: they span too many
 orders of magnitude for a linear scale to show.</p>
 
 <div class="demystify"><b>Demystify the notation:</b> <code>log</code> and its inverse
-<code>exp</code> (raising e to a power) undo each other, exactly like square and square-root:
+<code>exp</code> (raising e to a power) undo each other, like square and square-root:
 <code>exp(log(x)) = x</code> and <code>log(exp(x)) = x</code>. Whenever a log makes a number
 unrecognizably small or large, <code>exp</code> is the way back.</div>
 
@@ -203,45 +209,51 @@ print(l1000, l8, prod, summed, roundtrip)
 {id:'log2',
  title:'Advanced: why ML uses logs everywhere (log-likelihood, log-loss, surprise)',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The four reasons, grounded before the probability stream needs them</span>
 <p>ML is soaked in logs: <b>log-likelihood</b>, <b>log-loss</b> (cross-entropy), log-odds,
-entropy. It is not decoration, there are four concrete reasons, and once you see them you
-will never be surprised by a log again.</p></div>
+entropy. There are four concrete reasons, and once you see them you
+won't be surprised by a log again.</p></div>
 
-<h3>Reason 1: products of probabilities destroy computers; sums of logs survive</h3>
+<h3>Reason 1: products of probabilities destroy computers, sums of logs survive</h3>
 <p>The probability of many independent things is a product: multiply all their individual
-probabilities. But probabilities are below 1, and multiplying hundreds of them drives the
-result toward zero until the computer literally rounds it to <b>0.0</b>, "numerical
+probabilities. But probabilities are below 1. Multiplying hundreds of them drives the
+result toward zero until the computer rounds it to <b>0.0</b>. That is "numerical
 underflow," and now every answer is 0, useless. The fix is the log property from last lesson:
 <code>log(p1 · p2 · … · pn) = log(p1) + log(p2) + … + log(pn)</code>. The product that
 underflowed to 0 becomes a <b>sum</b>, a normal, finite negative number. This is the entire
-reason models maximize <b>log</b>-likelihood instead of likelihood (the MLE lesson, next
-stream, now you know why it takes the log).</p>
+reason models maximize <b>log</b>-likelihood instead of likelihood. The <b>likelihood</b> is
+how probable the data you saw is under one setting of the model's knobs. The
+<b>MLE</b> (maximum likelihood estimation) lesson, next stream, picks the setting that makes
+the data most probable and takes the log to do it. You'll know why.</p>
 
-<h3>Reason 2: logs do not move the answer (monotonic)</h3>
+<h3>Reason 2: logs don't move the answer (monotonic)</h3>
 <p>A log is <b>order-preserving</b>: if <code>a > b</code> then <code>log(a) > log(b)</code>,
-always. So the setting that <i>maximizes</i> the likelihood is the exact same setting that
-maximizes the log-likelihood. You gain numerical safety and lose <b>nothing</b>, the winner
-does not change. That is why taking logs is always "allowed."</p>
+always. So the setting that <i>maximizes</i> the likelihood is the same setting that
+maximizes the log-likelihood. You gain numerical safety and lose <b>nothing</b>. The winner
+doesn't change. So taking logs is always "allowed."</p>
 
 <h3>Reason 3: logs make the calculus easy</h3>
-<p>The derivative of a giant product is a nightmare; the derivative of a <i>sum</i> is trivial
-(differentiate each term). Since training means taking derivatives (gradient descent!),
-turning the product into a sum of logs is what makes the gradient computable at all.</p>
+<p>The derivative of a giant product is a nightmare. The derivative of a <i>sum</i> is trivial:
+differentiate each term. Training means taking derivatives (gradient descent!). So
+turning the product into a sum of logs is what makes the gradient computable at all. The gradient
+is the slope of the loss with respect to every knob.</p>
 
 <h3>Reason 4: log is the natural measure of "surprise"</h3>
 <p>How surprising is an event of probability <code>p</code>? Define surprise as
-<code>log(1/p) = −log(p)</code>. A certain event (<code>p = 1</code>) has zero surprise; a
-one-in-a-million event has a lot. This is not arbitrary, it is the only measure where the
-surprise of two independent events <i>adds up</i> (there is that product-to-sum property
-again). Averaged over outcomes, surprise is <b>entropy</b>; measured against a model's guesses,
-it is <b>cross-entropy</b>, the standard classification loss you will meet as "log-loss." So
-logs are not just a numerical trick; they are the language information itself is written in.</p>
+<code>log(1/p) = −log(p)</code>. A certain event (<code>p = 1</code>) has zero surprise. A
+one-in-a-million event has a lot. This is the only measure where the
+surprise of two independent events <i>adds up</i> (the product-to-sum property
+again). Averaged over outcomes, surprise is <b>entropy</b>. Measured against a model's guesses,
+it is <b>cross-entropy</b>, the standard classification loss you'll meet as "log-loss." So
+logs are the language information itself is written in.</p>
 
 <div class="hardidea">🧠 <b>The one picture to keep:</b> <i>likelihood multiplies, log-likelihood
-adds.</i> Everywhere ML would multiply many probabilities, training a classifier, fitting a
-distribution, scoring a language model, it takes logs and adds instead: stable, order-preserving,
-differentiable, and information-meaningful, all at once. That is why the log is everywhere.</div>`,
+adds.</i> Training a classifier, fitting a distribution, scoring a language model: everywhere
+ML would multiply many probabilities, it takes logs and adds instead. Stable, order-preserving,
+differentiable, and information-meaningful, all at once.</div>`,
  docs:[['Log-likelihood and why we use it (StatQuest)','https://www.youtube.com/watch?v=Dn6b9fCIUpM']],
  quiz:{title:'Quick check',questions:[
    {q:'Why does ML maximize the LOG-likelihood instead of the likelihood itself?',

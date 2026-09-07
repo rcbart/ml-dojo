@@ -2,43 +2,45 @@ STREAMS.push({icon:'🧰',track:'Scientific Python (after the math)',title:'The 
 {id:'tk1',
  title:'Python’s real role in ML: the control room, not the engine room',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What actually runs</span>
-<p>Let's correct a myth before it takes root: <b>"ML is written in Python" is only half
-true.</b> Python is where ML solutions are <b>prototyped, designed, and orchestrated</b>,
-where you express ideas, wire pipelines, and explore data. But the actual number-crunching,
-the millions of matrix multiplies, would be hopelessly slow in pure Python. The real work
-runs in <b>highly optimized compiled code</b>: C and C++ inside NumPy and scikit-learn,
-CUDA kernels on GPUs inside PyTorch, Fortran-descended linear-algebra libraries (BLAS/LAPACK)
-underneath them all. Python is the <b>control room</b>; the engine room is compiled, parallel,
-and brutally optimized for the computational demands of ML.</p></div>
+<p><b>"ML is written in Python" is only half true.</b> Python is where ML solutions are
+<b>prototyped, designed, and orchestrated</b>, where you express ideas, wire pipelines, and
+explore data. But the number-crunching, the millions of matrix multiplies, would be
+hopelessly slow in pure Python. The real work runs in <b>optimized compiled code</b>: C and
+C++ inside NumPy and scikit-learn, CUDA kernels on GPUs inside PyTorch, Fortran-descended
+linear-algebra libraries (BLAS/LAPACK) underneath them all. Python is the <b>control
+room</b>. The engine room is compiled, parallel, and built for the computational demands
+of ML.</p></div>
 
 <h3>Why Python then?</h3>
-<p>Because thinking speed matters more than looping speed. Python is the fastest mainstream
+<p>Thinking speed matters more than looping speed. Python is the fastest mainstream
 language to <i>express an idea in</i>, and its ML ecosystem is unmatched. The division of
-labor is deliberate: you write 10 readable lines; each line dispatches tons of work to
-compiled kernels. When people say "NumPy is fast," they mean: <i>the Python you wrote is a
-thin steering layer over a compiled engine</i>. That is also why loops over arrays are the
-cardinal sin, every trip back into the Python interpreter abandons the engine.</p>
+labor is deliberate: you write 10 readable lines, and each line dispatches tons of work to
+compiled kernels. When people say "NumPy is fast," they mean <i>the Python you wrote is a
+thin steering layer over a compiled engine</i>. That is why loops over arrays are the
+cardinal sin. Every trip back into the Python interpreter abandons the engine.</p>
 
 <h3>And in production?</h3>
-<p>The same applies at the far end: serious production systems often go further,
-inference servers in C++ or Rust, models exported to optimized runtimes (ONNX, TensorRT),
-specialized hardware. The pattern to internalize: <b>design and validate in Python, execute
-in whatever the computation demands.</b> Knowing this makes you better at both, you will
-write Python that stays on the fast path, and you will understand what the tools beneath you
-are doing.</p>
+<p>Serious production systems often go further: <b>inference</b> servers (inference is
+running a trained model to produce predictions) in C++ or Rust, models
+exported to optimized runtimes (ONNX, TensorRT), specialized hardware. The pattern:
+<b>design and validate in Python, execute in whatever the computation demands.</b> Knowing
+this, you'll write Python that stays on the fast path, and you'll understand what the tools
+beneath you are doing.</p>
 
 <h3>The toolkit you are about to meet</h3>
-<p><b>NumPy</b> (done, arrays and vectorized math), <b>pandas</b> (next lesson, labeled
-tables), <b>scikit-learn</b> (the one after, classic ML with a fit/predict interface),
-<b>matplotlib</b> (plotting, heavily used in the ML track ahead), and later
-<b>PyTorch</b> (deep learning, Phase 2, where the GPU story becomes central). Each is a
+<p><b>NumPy</b>: done, arrays and vectorized math. <b>pandas</b>: next lesson, labeled
+tables. <b>scikit-learn</b>: the one after, classic ML with a fit/predict interface.
+<b>matplotlib</b>: plotting, heavily used in the ML track ahead. Later,
+<b>PyTorch</b>: deep learning, Phase 2, where the GPU story becomes central. Each is a
 Python face on a compiled engine.</p>
 
-<div class="demystify"><b>Demystify "Python is slow":</b> both things are true, the Python
+<div class="demystify"><b>Demystify "Python is slow":</b> both things are true. The Python
 <i>interpreter</i> is slow, and Python <i>programs</i> doing ML are fast, because a
 well-written ML program spends ~99% of its time inside compiled kernels. The skill is keeping
-it there: vectorize, batch, never loop over elements. You will measure this yourself, right
+it there: vectorize, batch, never loop over elements. You'll measure this yourself, right
 now.</div>`,
  docs:[['Why NumPy is fast (NumPy docs)','https://numpy.org/doc/stable/user/whatisnumpy.html#why-is-numpy-fast']],
  quiz:{title:'Quick check',questions:[
@@ -135,12 +137,13 @@ print("agree:", agree, " speedup: {:.0f}x".format(speedup))
 {id:'tk2',
  title:'pandas: the labeled table (your capstone, industrialized)',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>Remember the Python capstone, a dataset as a list of dictionaries, filtered and
-aggregated by hand? <b>pandas</b> is that idea industrialized: the <b>DataFrame</b> is a
+aggregated by hand? <b>pandas</b> is that idea industrialized. The <b>DataFrame</b> is a
 table with <i>named columns</i> and fast NumPy arrays underneath (engine room again). It is
-the tool for the unglamorous 80% of real ML, loading, cleaning, joining, and summarizing
-data, and the reason you did it by hand first is so none of what follows is magic.</p></div>
+the tool for the 80% of real ML that is loading, cleaning, joining, and summarizing
+data. You did it by hand first so none of what follows is magic.</p></div>
 
 <h3>The moves you already know, in their industrial form</h3>
 <div class="codeSample">import pandas as pd
@@ -152,10 +155,10 @@ df = pd.DataFrame({
 df["age"].mean()                  # aggregate a column        (capstone: sum/len)
 df[df["city"] == "London"]        # filter rows by condition  (capstone: comprehension)
 df.groupby("city")["age"].mean()  # split into groups, aggregate each - the new superpower</div>
-<p>Filtering uses exactly the boolean-mask idea from NumPy, <code>df["city"] == "London"</code>
-is a mask; indexing with it keeps the True rows. <b>groupby</b> is the one genuinely new move:
-split the table by a key, apply an aggregate per group, get one row per group. "Average age
-per city," "revenue per customer," "error rate per model", most business questions are a
+<p>Filtering uses the boolean-mask idea from NumPy. <code>df["city"] == "London"</code>
+is a mask, and indexing with it keeps the True rows. <b>groupby</b> is the one new move.
+Split the table by a key, apply an aggregate per group, get one row per group. "Average age
+per city," "revenue per customer," "error rate per model": most business questions are a
 groupby.</p>
 
 <div class="demystify"><b>Demystify "DataFrame":</b> the exotic name means "a table whose
@@ -242,13 +245,15 @@ print(avg_age, londoners, oldest, by_city)
 {id:'tk3',
  title:'scikit-learn: the fit/predict interface (the math you already did, packaged)',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p><b>scikit-learn</b> is the standard library of classic ML: regression, classification,
-clustering, evaluation, everything the ML Track ahead teaches, behind one tiny, uniform
-interface: <code>model.fit(X, y)</code> to learn, <code>model.predict(X)</code> to use.
-Here is the demystifying punchline: for linear regression, <b>you have already implemented
-what <code>.fit()</code> does</b>, it solves the least-squares problem from the linear
-algebra stream. The library is not magic; it is the math you did, packaged, tested, and
+clustering, evaluation, everything the ML Track ahead teaches. It all sits behind one tiny,
+uniform interface: <code>model.fit(X, y)</code> to learn, <code>model.predict(X)</code> to use.
+The punchline: for linear regression, <b>you have already implemented
+what <code>.fit()</code> does</b>. It solves the least-squares problem from the linear
+algebra stream: pick the line whose squared misses add up to the least. The library is the math you did, packaged, tested, and
 running in the engine room (compiled solvers underneath).</p></div>
 
 <h3>The interface that carries the whole ML track</h3>
@@ -258,15 +263,17 @@ model.fit(X, y)          # learn: internally solves least squares
 model.coef_              # the learned slope(s)  - your w[1] from the normal equations
 model.intercept_         # the learned intercept - your w[0]
 model.predict([[5.0]])   # use the model on new data</div>
-<p>Every scikit-learn model, trees, SVMs, clustering, speaks this same fit/predict dialect,
-which is why the ML track can move fast: learn a concept, ground it, then wield it through an
-interface you already know. The trailing underscore convention (<code>coef_</code>) marks
-"learned from data, exists only after fit", a small idiom worth knowing.</p>
+<p>Every scikit-learn model speaks this same fit/predict dialect: trees, clustering,
+<b>SVMs</b> (support vector machines, which draw the boundary with the widest gap between the
+classes).
+That is why the ML track can move fast: learn a concept, ground it, then wield it through an
+interface you already know. The trailing underscore (<code>coef_</code>) marks
+"learned from data, exists only after fit".</p>
 
 <div class="demystify"><b>Demystify "training a model":</b> for linear regression,
 <code>.fit()</code> = solve the normal equations (or an equivalent, more numerically careful
 routine). You watched the residual go perpendicular with your own eyes in the linear algebra
-stream; sklearn just does that reliably, at scale, for every model family. When the ML track
+stream. sklearn does that reliably, at scale, for every model family. When the ML track
 says "train," picture the bowl and the walk downhill, never an incantation.</div>`,
  docs:[['scikit-learn (getting started)','https://scikit-learn.org/stable/getting_started.html']],
  quiz:{title:'Quick check',questions:[
@@ -353,13 +360,14 @@ print(w, slope, intercept, pred_5)
 {id:'tk4',
  title:'matplotlib: seeing your data (your first real plot, rendered right here)',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>In ML, <b>if you have not plotted your data, you do not know your data</b>. Summary
-numbers lie by omission (four wildly different datasets can share identical means, variances,
-and correlations, the famous Anscombe quartet); a plot exposes in one glance what tables
+<p>In ML, <b>if you haven't plotted your data, you don't know your data</b>. Summary
+numbers lie by omission: four wildly different datasets can share identical means, variances,
+and correlations (the Anscombe quartet). A plot exposes in one glance what tables
 hide: curvature, outliers, clusters, nonsense. <b>matplotlib</b> is Python's standard
-plotting library, pandas and seaborn draw <i>through</i> it, and from this lesson on,
-your plots render <b>directly below your code</b>, exactly like a real notebook.</p></div>
+plotting library. pandas and seaborn draw <i>through</i> it. From this lesson on,
+your plots render <b>directly below your code</b>, like a real notebook.</p></div>
 
 <h3>The 90% you will actually use</h3>
 <div class="codeSample">import matplotlib.pyplot as plt     # THE conventional alias
@@ -370,13 +378,13 @@ plt.xlabel("size (100m²)")          # ALWAYS label your axes
 plt.ylabel("price (100k)")
 plt.title("Housing: data vs fitted line")</div>
 <p><code>scatter</code> for raw data points, <code>plot</code> for lines (fits, trends,
-loss curves), plus histograms (<code>hist</code>) for distributions, those three cover the
+loss curves), plus histograms (<code>hist</code>) for distributions. Those three cover the
 vast majority of working ML plotting: exploratory looks, model-vs-data comparisons, and
-training curves. The labels are not decoration; an unlabeled plot is a bug in professional
+training curves. The labels aren't decoration. An unlabeled plot is a bug in professional
 work.</p>
 
 <div class="demystify"><b>Demystify "the figure":</b> matplotlib holds an invisible canvas
-(the <i>figure</i>) that your commands draw onto; <code>show()</code>, or MLDojo's runner,
+(the <i>figure</i>) that your commands draw onto. <code>show()</code>, or MLDojo's runner,
 renders it when you are done. That is why calls stack: scatter, then plot, then labels all
 land on the same canvas until it is displayed.</div>`,
  docs:[['matplotlib, quick start','https://matplotlib.org/stable/users/explain/quick_start.html'],['Anscombe quartet, why plotting matters','https://en.wikipedia.org/wiki/Anscombe%27s_quartet']],

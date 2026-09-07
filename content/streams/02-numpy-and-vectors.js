@@ -2,25 +2,26 @@ STREAMS.push({icon:'🧮',track:'Scientific Python (after the math)',title:'NumP
 {id:'vec1',
  title:'What is a vector? (and why "Support Vector Machine" is just math)',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Before a single symbol: a <b>vector</b> is just an <b>ordered list of numbers</b>. That's it.
+<p>A <b>vector</b> is an <b>ordered list of numbers</b>. That's it.
 <code>[height, weight, age]</code> = <code>[178, 74, 31]</code> is a vector describing a person.
-Every row of every dataset you will ever touch in ML, a house, a customer, an image, a
-sentence, is stored as a vector. If you understand "a list of numbers," you already have
-the thing; the rest is what we <i>do</i> with it.</p></div>
+Every row of every dataset you'll touch in ML (machine learning), a house, a customer, an image, a
+sentence, is stored as a vector. The rest is what we <i>do</i> with it.</p></div>
 
 <h3>Where it's used</h3>
-<p>ML runs on vectors because a vector lets us hand a computer a <i>thing</i> as numbers it can
+<p>A vector hands a computer a <i>thing</i> as numbers it can
 compare and compute with. A house becomes <code>[bedrooms, sqft, age, ...]</code>. A movie you
-watched becomes a vector; recommending films is finding vectors that point the same way.
-A word in a language model becomes a vector (an "embedding"). Learn vectors and you've learned
-the container ML puts <i>everything</i> in.</p>
+watched becomes a vector, and recommending films is finding vectors that point the same way.
+A word in a language model becomes a vector (an "embedding"). An <b>embedding</b> is a learned
+vector that stands for a word, item or user, placed so that similar things sit close together.</p>
 
 <h3>Two pictures of the same thing</h3>
-<p>A vector has two mental images, and both are useful. (1) A <b>list</b>: <code>[3, 4]</code>.
+<p>A vector has two mental images. (1) A <b>list</b>: <code>[3, 4]</code>.
 (2) An <b>arrow</b> (or a point) in space: start at the origin, go 3 right and 4 up. The arrow
-picture is why we can talk about a vector's <i>length</i> and its <i>direction</i>, and why
-"similar things point the same way" is a real, computable idea and not a metaphor.</p>
+picture gives a vector a <i>length</i> and a <i>direction</i>, and makes
+"similar things point the same way" computable rather than a metaphor.</p>
 <div class="figure"><svg viewBox="0 0 250 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The vector [3,4] as an arrow from the origin, with components 3 and 4 and length 5">
   <defs><marker id="va" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#0d9488"/></marker></defs>
   <!-- grid -->
@@ -49,27 +50,25 @@ picture is why we can talk about a vector's <i>length</i> and its <i>direction</
 <div class="figCap"><b>The vector [3, 4].</b> The same list of two numbers, drawn as an arrow: 3 across and 4 up. Its <b>length</b> is √(3²+4²) = 5 (Pythagoras), and its <b>direction</b> is where it points, the two things the arrow picture makes visible.</div></div>
 
 <h3>The intuition: length and the dot product</h3>
-<p>Two operations carry a huge amount of ML. The <b>length</b> (or "norm") of <code>[3, 4]</code>
-is <code>5</code>, literally the arrow's length, from Pythagoras: √(3² + 4²) = 5. It's how far
-the point is from the origin, and it's how models measure <i>how big</i> an error or a weight is.</p>
-<p>The <b>dot product</b> lines two vectors up, multiplies them element-by-element, and adds the
+<p>The <b>length</b> (or "norm") of <code>[3, 4]</code>
+is <code>5</code>, from Pythagoras: √(3² + 4²) = 5. It's how far
+the point is from the origin, and how models measure <i>how big</i> an error or a weight is.</p>
+<p>The <b>dot product</b> multiplies two vectors element by element and adds the
 results into a <i>single number</i> that measures <b>how aligned they are</b>. Same direction →
 big positive number; perpendicular → zero; opposite → negative. This one operation <i>is</i> a
-neuron (inputs · weights), <i>is</i> the "similarity" behind search and recommendations, and
-shows up in nearly every model you'll meet.</p>
+neuron (inputs · weights: the basic unit of a neural network, which multiplies its inputs by
+weights and adds them up) and <i>is</i> the "similarity" behind search and recommendations.</p>
 
 <div class="demystify"><b>Demystify:</b> a "<b>Support Vector Machine</b>" sounds like a
-spaceship. It isn't a machine and there's nothing to be afraid of: it's a method that draws the
+spaceship. It isn't a machine. It's a method that draws the
 <i>line (or plane) that best separates two groups, as far from both as possible</i>. The
-"vectors" are just the data points; the "support" vectors are the few points sitting closest to
-the dividing line, the ones holding it in place. A bombastic name for a piece of geometry you
-can picture. We'll do this every time a scary name shows up: name it, then reduce it to the
-simple operation it really is.</div>
+"vectors" are the data points. The "support" vectors are the few points closest to
+the dividing line, holding it in place. We'll do this every time a scary name shows up: name it, then reduce it to the
+operation.</div>
 
 <div class="hardidea">🧠 <b>The math, made simple.</b> The dot product of
 <code>a = [a₁, a₂]</code> and <code>b = [b₁, b₂]</code> is <code>a·b = a₁b₁ + a₂b₂</code>.
-The length of <code>a</code> is <code>‖a‖ = √(a·a)</code>. Everything above is those two little
-formulas, and in the exercise you'll compute both on real vectors, in real Python, running in
+The length of <code>a</code> is <code>‖a‖ = √(a·a)</code>. In the exercise you'll compute both in real Python, in
 your browser.</div>`,
  deepDive:`<b>📖 Dive deeper: the dot product, rigorously (but in plain English).</b>
 <p>We said the dot product measures <i>alignment</i>. Here is why that is literally true, built up one step at a time.</p>
@@ -173,10 +172,13 @@ print("length =", length, "  dot =", dot)
 {id:'vec2',
  title:'Slicing & boolean masks: asking questions of data without loops',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Real data work is mostly questions: <i>"give me the prices column," "which houses cost more
+<p>Real data work is mostly questions. <i>"Give me the prices column," "which houses cost more
 than 200k?", "what is the average?"</i> In pure Python those are loops. In NumPy each is one
-readable expression, and this notation is the daily bread of every ML practitioner, pandas
+readable expression. This notation is the daily bread of every ML practitioner, pandas
 user, and paper-reproducer. Learn to read it and half of real-world ML code opens up.</p></div>
 
 <h3>Slicing: rows and columns by position</h3>
@@ -189,27 +191,28 @@ X[0]        # first row  → [120, 300]     (one house)
 X[:, 0]     # ALL rows, column 0 → [120, 90, 150, 60]   (all sizes)
 X[:, 1]     # all prices
 X[1:3]      # rows 1 and 2 (end excluded, like range)</div>
-<p>The comma reads "rows, columns" and <code>:</code> means "all of them",
-<code>X[:, 0]</code> is "every row, column 0." That one idiom unlocks most NumPy you will
+<p>The comma reads "rows, columns" and <code>:</code> means "all of them". So
+<code>X[:, 0]</code> is "every row, column 0." That one idiom unlocks most NumPy you'll
 ever read.</p>
 
 <h3>Boolean masks: filter by condition, no loop</h3>
 <div class="codeSample">X[:, 1] > 200          # [True, True, True, False]  - a question per row
 X[X[:, 1] > 200]       # the rows where it is True - the expensive houses</div>
 <p>A comparison on an array asks the question <i>everywhere at once</i>, producing a
-<b>mask</b> of booleans; indexing with the mask keeps the True rows. "Select the spam
-emails," "drop the outliers," "take the test set", all one-line masks in real code.</p>
+<b>mask</b> of booleans. Indexing with the mask keeps the True rows. "Select the spam
+emails," "drop the outliers," "take the test set": all one-line masks in real code. The test
+set is the rows held back from training to check the model on data it has never seen.</p>
 
 <h3>Aggregation with axes</h3>
-<p><code>X.mean()</code> averages everything; <code>X.mean(axis=0)</code> averages <i>down</i>
-each column (per-feature means, you used it in linear algebra); <code>.max()</code>,
+<p><code>X.mean()</code> averages everything. <code>X.mean(axis=0)</code> averages <i>down</i>
+each column (per-feature means, which you used in linear algebra). <code>.max()</code>,
 <code>.min()</code>, <code>.sum()</code>, <code>.std()</code> all take the same
 <code>axis</code>. Rule of thumb: <b>axis=0 collapses rows</b> (one answer per column),
 <b>axis=1 collapses columns</b> (one answer per row).</p>
 
 <div class="demystify"><b>Demystify "vectorized":</b> when people say "vectorize your code"
-they just mean "replace the Python loop with one whole-array operation." Nothing about
-vectors-the-arrows, an unfortunate double use of the word, flagged here so it never trips
+they mean "replace the Python loop with one whole-array operation." Nothing to do with
+vectors-the-arrows. It's an unfortunate double use of the word, flagged here so it never trips
 you.</div>`,
  docs:[['NumPy (indexing and slicing)','https://numpy.org/doc/stable/user/basics.indexing.html']],
  quiz:{title:'Quick check',questions:[
@@ -290,35 +293,36 @@ print(sizes, n_expensive, avg_price, biggest_cheap)
 {id:'vec3',
  title:'Broadcasting & vectorization: why NumPy is fast (standardize a dataset)',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p><b>Broadcasting</b> is NumPy's rule for combining arrays of different shapes: the smaller
 one is "stretched" to fit, without copying. <code>X - col_means</code> subtracts a
-2-number row from every row of a 4×2 matrix in one shot. This single rule is why real ML code
-has almost no loops: the loop is implicit, and it runs in compiled C instead of Python,
-routinely 100–1000× faster on real data.</p></div>
+2-number row from every row of a 4×2 matrix in one shot. This one rule is why real ML code
+has almost no loops. The loop is implicit, and it runs in compiled C instead of Python,
+often 100–1000× faster on real data.</p></div>
 
 <h3>The one transformation every dataset gets: standardization</h3>
-<p>Features come in wildly different units, size in m² (60–150), price in thousands
-(150–400). Many models silently assume features are comparable, so step one of countless
-pipelines is the <b>z-score</b>: subtract each column's mean, divide by its standard
-deviation. Result: every feature has mean 0 and spread 1, same ruler for everything.</p>
+<p>Features come in different units: size in m² (60–150), price in thousands
+(150–400). Many models assume features are comparable, so step one of countless
+pipelines is the <b>z-score</b>. Subtract each column's mean, divide by its standard
+deviation. Every feature now has mean 0 and spread 1, the same ruler for everything.</p>
 <div class="codeSample">Z = (X - X.mean(axis=0)) / X.std(axis=0)
 # one line. mean row broadcast down, std row broadcast down.
 # Z.mean(axis=0) → [0, 0]    Z.std(axis=0) → [1, 1]</div>
-<p>Read what broadcasting did: <code>X.mean(axis=0)</code> is a 2-number row; subtracting it
-from the 4×2 matrix stretched it across all 4 rows. Then the same for the division. You will
-write this exact line for the rest of your ML life (sklearn calls it
-<code>StandardScaler</code>, now you know what is inside).</p>
+<p>Read what broadcasting did. <code>X.mean(axis=0)</code> is a 2-number row. Subtracting it
+from the 4×2 matrix stretched it across all 4 rows. Then the same for the division. You'll
+write this line for the rest of your ML life. sklearn calls it
+<code>StandardScaler</code>, and now you know what's inside.</p>
 
-<div class="hardidea">🧠 <b>The shape rule, precisely.</b> Two shapes are compatible when,
-comparing dimensions from the right, each pair is equal or one of them is 1 (or missing);
-size-1 dimensions get stretched. (4,2) vs (2,) → compatible: the (2,) row is stretched down
+<div class="hardidea">🧠 <b>The shape rule.</b> Two shapes are compatible when,
+comparing dimensions from the right, each pair is equal or one of them is 1 (or missing).
+Size-1 dimensions get stretched. (4,2) vs (2,) → compatible: the (2,) row is stretched down
 4 rows. (4,2) vs (4,) → NOT compatible, a classic gotcha: a length-4 column must be reshaped
 to (4,1) first. When a "shapes don't match" error hits, this rule is the whole explanation.</div>
 
-<div class="demystify"><b>Demystify "broadcasting":</b> nothing is being transmitted, the
-term just means "pretend the small array is repeated to match, without actually copying it."
-A memory-free virtual copy plus a compiled loop. That is the entire magic of NumPy.</div>`,
+<div class="demystify"><b>Demystify "broadcasting":</b> nothing is being transmitted. The
+term means "pretend the small array is repeated to match, without copying it."
+A memory-free virtual copy plus a compiled loop.</div>`,
  docs:[['NumPy (broadcasting)','https://numpy.org/doc/stable/user/basics.broadcasting.html']],
  quiz:{title:'Quick check',questions:[
    {q:'X is 4×2 and m = X.mean(axis=0) has shape (2,). X - m works because:',

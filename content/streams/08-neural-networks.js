@@ -3,18 +3,19 @@ STREAMS.push({icon:'🧠',track:'ML & AI Track',title:'Neural Networks: from the
 {id:'nn0',
  title:'What a neuron actually is, and why the brain metaphor misleads you',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Start here before any diagram of a brain</span>
 <p>Almost every introduction to neural networks opens with a picture of a biological neuron
 and an arrow pointing at a computer. That picture has done more damage than good. A neural
-network is not a small brain, it is <b>a pile of multiplications and additions with one
-bend in it</b>. Understanding it as arithmetic is what lets you reason about it. Understanding
-it as a brain is what leads people to believe it thinks.</p></div>
+network is <b>a pile of multiplications and additions with one bend in it</b>. Seeing it as
+arithmetic lets you reason about it. Seeing it as a brain leads people to believe it thinks.</p></div>
 
 <h3>The whole of one neuron, in one sentence</h3>
 <p>A single artificial neuron takes some numbers in, multiplies each one by its own
 <b>weight</b>, adds the results together, adds one extra number called the <b>bias</b>, and
-passes the total through one simple function. That is all of it. If you can multiply and add,
-you already understand a neuron.</p>
+passes the total through one simple function. That's all of it.</p>
 <p>Say the inputs are the size of a house and its age, so <code>x1 = 1800</code> and
 <code>x2 = 12</code>. The neuron holds two weights, say <code>w1 = 95</code> and
 <code>w2 = -400</code>, and a bias, say <code>b = 20000</code>. It computes:</p>
@@ -22,47 +23,47 @@ you already understand a neuron.</p>
        = 171000 - 4800 + 20000
        = 186200</code></pre>
 <p>A predicted price of 186,200. The weights are the knobs from the orientation lesson.
-<b>Training a network is nothing more than finding good numbers to put in those knobs.</b></p>
+<b>Training a network is finding good numbers to put in those knobs.</b></p>
 
 <h3>Why weights are the interesting part</h3>
-<p>Notice what the weights are saying. <code>w1 = 95</code> means every extra square foot adds
-95 to the prediction. <code>w2 = -400</code> means every year of age takes 400 off. The
-weights encode what the neuron has learned about how the inputs relate to the answer. Nobody
-wrote those numbers by hand. The whole field exists to work out how to find them.</p>
-<p>The bias is the offset, what the neuron predicts when every input is zero. It is what lets
-the line sit somewhere other than through the origin. Without it, a house of size zero and
-age zero would have to be worth exactly nothing, and every prediction would be dragged toward
-that assumption.</p>
+<p><code>w1 = 95</code> means every extra square foot adds 95 to the prediction.
+<code>w2 = -400</code> means every year of age takes 400 off. The weights encode what the
+neuron has learned about how the inputs relate to the answer. Nobody wrote those numbers by
+hand. The whole field exists to work out how to find them.</p>
+<p>The bias is the offset: what the neuron predicts when every input is zero. It lets the line
+sit somewhere other than through the origin. Without it, a house of size zero and age zero
+would have to be worth nothing.</p>
 
 <h3>Where the brain metaphor comes from, and where it breaks</h3>
-<p>The metaphor is historical. In 1943 Warren McCulloch and Walter Pitts wrote down a
-mathematical model of a nerve cell: inputs arrive, they are weighted, and if the total crosses
-a threshold the cell fires. That is a fair sketch of a biological neuron at the level of detail
-anyone had in 1943, and it is where the vocabulary comes from.</p>
-<p>Here is where it stops being useful. A real neuron is a living cell with chemistry, timing,
-and a physical shape that all matter. An artificial neuron is a weighted sum. Real learning in
-brains does not work like backpropagation, which you will meet in a few lessons. And a
-network with a billion parameters is not "closer to a brain" than one with a thousand, it is
-just a bigger pile of arithmetic.</p>
+<p>In 1943 Warren McCulloch and Walter Pitts wrote down a mathematical model of a nerve cell.
+Inputs arrive, they are weighted, and if the total crosses a threshold the cell fires. That
+was a fair sketch at the level of detail anyone had in 1943, and it's where the vocabulary
+comes from.</p>
+<p>Here it stops being useful. A real neuron is a living cell with chemistry, timing, and a
+physical shape that all matter. An artificial neuron is a weighted sum. Learning in brains
+doesn't work like <b>backpropagation</b>, the procedure that works out how much each weight
+contributed to the error, layer by layer from the output backward. You'll meet it in a few
+lessons. And a network with a
+billion parameters isn't "closer to a brain" than one with a thousand. It's a bigger pile of
+arithmetic.</p>
 <p>Keep the word "neuron" because everyone uses it. Drop the mental image.</p>
 
 <h3>What you should be able to say now</h3>
 <p>A neuron is a weighted sum plus a bias, followed by one function. Weights are learned, not
-written. The rest of this stream is about three questions: what happens when you connect many
-of these together, how the weights get found, and what shapes of connection work best for
-different kinds of data.</p>
+written. The rest of this stream asks what happens when you connect many neurons, how the
+weights get found, and what shapes of connection suit different kinds of data.</p>
 <h3>The same neuron, written properly</h3>
-<p>Everything above was one neuron with two inputs. Write it for <code>D</code> inputs and the
-notation you will meet in every textbook falls out immediately. Collect the inputs into a
-vector <code>x</code> and the weights into a vector <code>w</code>, both of length
-<code>D</code>:</p>
+<p>Write the neuron for <code>D</code> inputs and the textbook notation falls out. Collect the
+inputs into a vector <code>x</code> and the weights into a vector <code>w</code>, both of
+length <code>D</code>:</p>
 <div class="mathblock">a = w<sup>T</sup>x + b = &Sigma;<sub>i=1..D</sub> w<sub>i</sub> x<sub>i</sub> + b
 
 z = h(a)</div>
-<p>Read it back in English: <code>a</code> is the weighted sum, called the
-<b>pre-activation</b>. <code>h</code> is the activation function. <code>z</code> is what the
-neuron actually emits. The superscript T is transpose, which is bookkeeping so that a column of
-weights times a column of inputs produces a single number rather than a grid.</p>
+<p><code>a</code> is the weighted sum, called the <b>pre-activation</b>. <code>h</code> is the
+<b>activation</b> function, the function applied after the weighted sum, which is what lets a
+network bend rather than stay a straight line. <code>z</code> is what the neuron emits. The superscript T is transpose,
+bookkeeping so that a column of weights times a column of inputs produces a single number
+rather than a grid.</p>
 <div class="worked"><b>Worked, with the house.</b> <code>x = [1800, 12]<sup>T</sup></code>,
 <code>w = [95, -400]<sup>T</sup></code>, <code>b = 20000</code>.
 <code>w<sup>T</sup>x = 95(1800) + (-400)(12) = 171000 - 4800 = 166200</code>, so
@@ -72,9 +73,8 @@ chapter 5.</div>
 <div class="demystify"><b>Why the bias is often hidden.</b> Many texts drop <code>b</code> from
 the formula by adding a fake input <code>x<sub>0</sub> = 1</code> with weight
 <code>w<sub>0</sub> = b</code>. Then <code>a = w<sup>T</sup>x</code> with no separate bias
-term, and the sum runs from 0 instead of 1. Nothing changed, it is the same model with tidier
-algebra. When you see a formula with no bias, look for the constant input.</div>
-`,
+term, and the sum runs from 0 instead of 1. Same model, tidier algebra. When you see a formula
+with no bias, look for the constant input.</div>`,
  docs:[['McCulloch & Pitts, the 1943 paper that started the vocabulary','https://www.cs.cmu.edu/~./epxing/Class/10715/reading/McCulloch.and.Pitts.pdf']],
  exs:[{title:'Run one neuron by hand, three ways',
    lang:'python',
@@ -165,6 +165,9 @@ print(a, a_aug, per_sqft, a_zero, a_older)
 {id:'nn1',
  title:'The perceptron, 1958: one neuron that could learn',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The first machine that adjusted its own weights</span>
 <p>The neuron in the last lesson had weights, but nothing said where they came from. In 1958
 Frank Rosenblatt added the missing half: <b>a rule for changing the weights when the answer
@@ -172,67 +175,61 @@ comes out wrong</b>. That rule is the ancestor of everything in this stream.</p>
 
 <h3>What a perceptron does</h3>
 <p>A perceptron is one neuron doing a yes-or-no job. It takes the weighted sum from the last
-lesson, and instead of returning the number, it returns <b>1 if the total is above zero and 0
-if it is not</b>. That is called a <b>step function</b>, and it turns a number into a decision.</p>
+lesson and, instead of returning the number, returns <b>1 if the total is above zero and 0
+if it isn't</b>. That's a <b>step function</b>, and it turns a number into a decision.</p>
 <p>Is this email spam. Is this shape a circle. One neuron, one line drawn through the data,
 everything on one side gets a 1 and everything on the other gets a 0.</p>
 
-<h3>The learning rule, which is simpler than you expect</h3>
+<h3>The learning rule</h3>
 <p>Show it an example where you know the right answer. If it gets it right, change nothing. If
 it gets it wrong, nudge every weight a little in the direction that would have helped:</p>
 <pre><code>new weight = old weight + (learning rate × error × input)</code></pre>
-<p>Where <code>error</code> is the true answer minus what the perceptron said, so it is
-<code>+1</code> when the perceptron said 0 and should have said 1, and <code>-1</code> the
-other way round. The <b>learning rate</b> is a small number, maybe 0.01, deciding how big each
-nudge is.</p>
-<p>Read the formula in words: when the perceptron is wrong, push each weight in proportion to
-how much that input contributed. An input that was large gets a large correction, an input
-that was zero gets none, because it was not responsible.</p>
+<p><code>error</code> is the true answer minus what the perceptron said. It's <code>+1</code> when
+the perceptron said 0 and should have said 1, <code>-1</code> the other way round. The
+<b>learning rate</b> is a small number, maybe 0.01, deciding how big each nudge is.</p>
+<p>In words: when the perceptron is wrong, push each weight in proportion to how much that
+input contributed. A large input gets a large correction. An input that was zero gets none,
+because it wasn't responsible.</p>
 
-<h3>Why this was a genuine breakthrough</h3>
+<h3>Why this was a breakthrough</h3>
 <p>Before this, getting a machine to classify something meant a human writing the rule. The
 perceptron replaced the human with a loop: show examples, correct mistakes, repeat. Rosenblatt
-also proved something reassuring, the <b>perceptron convergence theorem</b>: if a straight line
-exists that separates your two classes, this rule is guaranteed to find one, in a finite
-number of steps.</p>
+also proved the <b>perceptron convergence theorem</b>. If a straight line exists that separates
+your two classes, this rule is guaranteed to find one in a finite number of steps.</p>
 <p>The press coverage was, in hindsight, unhinged. The New York Times reported in 1958 that
 the Navy expected an electronic computer that would "walk, talk, see, write, reproduce itself
 and be conscious of its existence." It was a single neuron classifying shapes.</p>
 
-<h3>The catch, stated plainly</h3>
+<h3>The catch</h3>
 <p>Look at that guarantee again: <i>if a straight line exists</i>. A perceptron draws one
-straight boundary. If your data cannot be split by a straight line, the rule never converges,
-it just keeps oscillating. That sounds like an edge case. It is not, and the next lesson is
-about the very small example that stopped the field for over a decade.</p>
-<h3>The learning rule, derived rather than asserted</h3>
-<p>The rule above was handed to you. Here is where it comes from. Write the perceptron output
-as <code>y = f(w<sup>T</sup>x)</code> where <code>f</code> is the step. Using the convention
-that targets are <code>t &isin; {-1, +1}</code>, a point is classified correctly exactly when
-<code>t<sub>n</sub> w<sup>T</sup>x<sub>n</sub> &gt; 0</code>, because the sign of the sum
+straight boundary. If your data can't be split by a straight line, the rule never converges.
+It keeps oscillating. That sounds like an edge case. It isn't, and the next lesson is about
+the very small example that stopped the field for over a decade.</p>
+<h3>The learning rule, derived</h3>
+<p>Write the perceptron output as <code>y = f(w<sup>T</sup>x)</code> where <code>f</code> is
+the step. With targets <code>t &isin; {-1, +1}</code>, a point is classified correctly when
+<code>t<sub>n</sub> w<sup>T</sup>x<sub>n</sub> &gt; 0</code>. That's because the sign of the sum
 agrees with the sign of the label.</p>
 <p>So define a loss that is zero for correct points and grows with how badly wrong the others
-are. That is the <b>perceptron criterion</b>, summing only over the misclassified set
+are. That's the <b>perceptron criterion</b>, summing only over the misclassified set
 <code>M</code>:</p>
 <div class="mathblock">E<sub>P</sub>(w) = -&Sigma;<sub>n &isin; M</sub> t<sub>n</sub> w<sup>T</sup>x<sub>n</sub></div>
-<p>Every term in that sum is positive, because for a misclassified point
-<code>t<sub>n</sub>w<sup>T</sup>x<sub>n</sub></code> is negative and the leading minus flips
-it. Now differentiate with respect to <code>w</code>. The only place <code>w</code> appears is
-linearly, so:</p>
+<p>Every term in that sum is positive. For a misclassified point
+<code>t<sub>n</sub>w<sup>T</sup>x<sub>n</sub></code> is negative, and the leading minus flips
+it. Now differentiate with respect to <code>w</code>. <code>w</code> appears only linearly, so:</p>
 <div class="mathblock">&nabla;<sub>w</sub> E<sub>P</sub> = -&Sigma;<sub>n &isin; M</sub> t<sub>n</sub> x<sub>n</sub></div>
-<p>Gradient descent says step against the gradient, and taking one misclassified point at a
-time:</p>
+<p>The <b>gradient</b> is the direction in which the loss climbs fastest, and gradient descent
+says step the other way. Taking one misclassified point at a time:</p>
 <div class="mathblock">w &larr; w - &eta; &nabla;<sub>w</sub> E<sub>P</sub> = w + &eta; t<sub>n</sub> x<sub>n</sub></div>
-<p>That is the rule from the top of the lesson. With 0/1 labels rather than &plusmn;1, the term
-<code>t<sub>n</sub></code> becomes <code>(t<sub>n</sub> - y<sub>n</sub>)</code>, which is the
-error, and you recover the version written earlier.</p>
-<div class="hardidea">🧠 <b>Why the step function is the whole problem.</b> Look at what we did:
-we differentiated the <i>pre-activation</i>, never the step function itself. We could not have
-differentiated the step. It is flat everywhere and undefined at zero, so its derivative carries
-no information about which way to move. The perceptron criterion is a workaround that dodges
-the activation entirely. It only works because there is a single layer. The moment you stack
-layers you must push derivatives back <i>through</i> the activations, and a step function
-blocks that completely. This is the real reason smooth activations had to be invented.</div>
-`,
+<p>That's the rule from the top of the lesson. With 0/1 labels rather than &plusmn;1, the term
+<code>t<sub>n</sub></code> becomes <code>(t<sub>n</sub> - y<sub>n</sub>)</code>, the error, and
+you recover the version written earlier.</p>
+<div class="hardidea">🧠 <b>Why the step function is the whole problem.</b> We differentiated
+the <i>pre-activation</i>, never the step function itself. We couldn't have. The step is flat
+everywhere and undefined at zero, so its derivative carries no information about which way to
+move. The perceptron criterion dodges the activation entirely, and that only works with a
+single layer. Stack layers and you must push derivatives back <i>through</i> the activations,
+which a step function blocks. This is the real reason smooth activations had to be invented.</div>`,
  docs:[['Rosenblatt 1958, the original perceptron paper','https://psycnet.apa.org/record/1959-09865-001']],
  exs:[{title:'Teach a perceptron the AND function',
    lang:'python',
@@ -336,30 +333,33 @@ print(w, b, updates, epochs_used, preds, acc)
 {id:'nn2',
  title:'Why one neuron was not enough: XOR and the first AI winter',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The four data points that stalled a field</span>
-<p>In 1969 Marvin Minsky and Seymour Papert published a book called <i>Perceptrons</i>
-containing a proof about a problem with four rows of data. Funding dried up, researchers moved
-on, and neural networks went quiet for most of the 1970s. The problem is worth understanding
-exactly, because the fix is the entire idea of a deep network.</p></div>
+<p>In 1969 Marvin Minsky and Seymour Papert published a book called <i>Perceptrons</i>.
+It contained a proof about a problem with four rows of data. Funding dried up, researchers moved
+on, and neural networks went quiet for most of the 1970s. Understand the problem, because the
+fix is the entire idea of a deep network.</p></div>
 
 <h3>The problem: exclusive or</h3>
-<p><b>XOR</b> means "one or the other, but not both." Two inputs, each 0 or 1:</p>
+<p><b>XOR</b> means "one or the other, but not both." There are two inputs, each 0 or 1.</p>
 <pre><code>0, 0  ->  0
 0, 1  ->  1
 1, 0  ->  1
 1, 1  ->  0</code></pre>
 <p>Now try to draw one straight line on a square that puts the two 1s on one side and the two
-0s on the other. The 1s sit at opposite corners. So do the 0s. There is no such line. Not a
-hard line to find, <b>no line exists</b>.</p>
-<p>A perceptron draws exactly one straight boundary, so a perceptron cannot learn XOR. Ever.
-Not with more data, not with more training, not with a better learning rate.</p>
+0s on the other. The 1s sit at opposite corners. So do the 0s. <b>No line exists</b>.</p>
+<p>A perceptron draws one straight boundary, so a perceptron can't learn XOR. Ever. Not with
+more data, not with more training, not with a better <b>learning rate</b>, the setting for how
+big each correction is.</p>
 
 <h3>Why this mattered more than it should have</h3>
-<p>XOR is not an exotic function, it is one of the basic operations in logic. If the leading
-machine learning method of the day could not represent something that simple, the case for
-funding it became hard to make. The book was rigorous and its proof was correct. What it did
-not emphasize enough was that the limitation applied to <b>one layer</b>, and that people
-already suspected more layers would fix it.</p>
+<p>XOR is one of the basic operations in logic. If the leading machine learning method of the
+day couldn't represent something that simple, the case for funding it became hard to make. The
+book was rigorous and its proof was correct. What it didn't emphasize enough was that the
+limitation applied to <b>one layer</b>, and that people already suspected more layers would
+fix it.</p>
 
 <h3>The fix, and why nobody could use it yet</h3>
 <p>Stack the neurons. Have a first layer compute two intermediate facts, and a second layer
@@ -370,20 +370,19 @@ output neuron:   "A is true AND B is false"</code></pre>
 <p>Check it against the table. Both zero: A false, so output 0. One of each: A true, B false,
 so output 1. Both one: A true but B also true, so output 0. XOR, solved, with three neurons in
 two layers.</p>
-<p>So why did the field stall for a decade if the answer was three neurons? Because nobody had
-a working method for <b>training</b> a stack. The perceptron rule needs to know how wrong each
-neuron was, and for a neuron in the middle there is no answer sheet. Nobody tells hidden
-neuron A what it should have said. That is the credit assignment problem, and solving it took
-until 1986.</p>
+<p>The field stalled for a decade anyway, because nobody had a working method for
+<b>training</b> a stack. The perceptron rule needs to know how wrong each neuron was, and for
+a neuron in the middle there is no answer sheet. Nobody tells hidden neuron A what it should
+have said. That's the credit assignment problem, and solving it took until 1986.</p>
 
 <h3>The idea to carry forward</h3>
-<p>A single layer draws one straight boundary. A layer of neurons feeding another layer can
-draw a boundary made of pieces, and with enough pieces you can enclose any region you like.
-Depth buys you shape. The next lesson makes that precise.</p>
+<p>A single layer draws one straight boundary. A layer feeding another layer can draw a
+boundary made of pieces, and with enough pieces you can enclose any region you like. Depth
+buys you shape. The next lesson makes that precise.</p>
 <h3>Proving no line exists</h3>
-<p>"You cannot draw the line" deserves a proof rather than a picture. Suppose some perceptron
-solves XOR. Then there exist weights <code>w<sub>1</sub>, w<sub>2</sub></code> and a bias
-<code>b</code> such that <code>w<sub>1</sub>x<sub>1</sub> + w<sub>2</sub>x<sub>2</sub> + b &gt; 0</code>
+<p>Suppose some perceptron solves XOR. Then there exist weights
+<code>w<sub>1</sub>, w<sub>2</sub></code> and a bias <code>b</code>. They satisfy
+<code>w<sub>1</sub>x<sub>1</sub> + w<sub>2</sub>x<sub>2</sub> + b &gt; 0</code>
 exactly for the two positive cases. Write out all four constraints:</p>
 <div class="mathblock">(0,0) &rarr; 0 :   b &le; 0
 (0,1) &rarr; 1 :   w<sub>2</sub> + b &gt; 0
@@ -393,13 +392,13 @@ exactly for the two positive cases. Write out all four constraints:</p>
 <code>w<sub>1</sub> + w<sub>2</sub> + 2b &gt; 0</code>. From the first,
 <code>b &le; 0</code>, so <code>-b &ge; 0</code> and therefore
 <code>w<sub>1</sub> + w<sub>2</sub> + b &gt; -b &ge; 0</code>. That says
-<code>w<sub>1</sub> + w<sub>2</sub> + b &gt; 0</code>, which directly contradicts the fourth
-constraint. No such weights exist, for any real numbers whatsoever.</p>
+<code>w<sub>1</sub> + w<sub>2</sub> + b &gt; 0</code>, which contradicts the fourth
+constraint. No such weights exist, for any real numbers.</p>
 <div class="demystify"><b>What the proof is really saying.</b> Nothing here is about neural
-networks. It is a statement about <b>linear separability</b>: the positive set and the negative
-set have overlapping convex hulls, because the segment joining (0,0) to (1,1) crosses the
-segment joining (0,1) to (1,0). Two sets whose convex hulls intersect cannot be separated by a
-hyperplane, in any number of dimensions. XOR is just the smallest example.</div>
+networks. It's a statement about <b>linear separability</b>: the positive set and the negative
+set have overlapping convex hulls. That's because the segment joining (0,0) to (1,1) crosses the
+segment joining (0,1) to (1,0). Two sets whose convex hulls intersect can't be separated by a
+hyperplane, in any number of dimensions. XOR is the smallest example.</div>
 <div class="worked"><b>The two-layer solution, in numbers.</b> Take hidden units
 <code>h<sub>1</sub> = step(x<sub>1</sub> + x<sub>2</sub> - 0.5)</code> (an OR) and
 <code>h<sub>2</sub> = step(x<sub>1</sub> + x<sub>2</sub> - 1.5)</code> (an AND), then
@@ -407,8 +406,7 @@ hyperplane, in any number of dimensions. XOR is just the smallest example.</div>
 Check (1,1): <code>h<sub>1</sub>=1, h<sub>2</sub>=1</code>, so
 <code>y = step(1-1-0.5) = 0</code>. Check (0,1): <code>h<sub>1</sub>=1, h<sub>2</sub>=0</code>,
 so <code>y = step(0.5) = 1</code>. The hidden layer has bent the space so that a line
-suffices.</div>
-`,
+suffices.</div>`,
  docs:[['Minsky & Papert, Perceptrons (1969), the book that paused the field','https://mitpress.mit.edu/9780262534772/perceptrons/']],
  exs:[{title:'Fail on XOR with one neuron, then succeed with two layers',
    lang:'python',
@@ -535,62 +533,63 @@ print(acc_perceptron, best_line_acc, H, out, acc_two_layer)
 {id:'nn3',
  title:'Layers, and what "deep" actually means',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Deep is a description of shape, not a compliment</span>
 <p>"Deep learning" sounds like it might mean profound. It means the network has more than a
-couple of layers between the input and the output. That is the whole definition, and it is
-worth deflating early.</p></div>
+couple of layers between the input and the output. That's the whole definition.</p></div>
 
 <h3>The three kinds of layer</h3>
-<p><b>The input layer</b> is not really a layer of neurons, it is just your data arriving. One
-slot per feature. A 28 by 28 pixel image flattened out gives 784 inputs.</p>
-<p><b>Hidden layers</b> sit in the middle. They are called hidden because nothing outside the
-network ever sees their values. You do not know what they should output, which is exactly the
-credit assignment problem from the last lesson.</p>
+<p><b>The input layer</b> isn't really a layer of neurons. It's your data arriving, one slot
+per feature. A 28 by 28 pixel image flattened out gives 784 inputs.</p>
+<p><b>Hidden layers</b> sit in the middle. They're called hidden because nothing outside the
+network ever sees their values. You don't know what they should output, which is the credit
+assignment problem from the last lesson.</p>
 <p><b>The output layer</b> produces the answer, and its shape is decided by the question. One
 neuron for a price. One neuron for a yes or no. Ten neurons for "which digit is this," one
 per possible digit.</p>
 
-<h3>What actually happens between two layers</h3>
-<p>Every neuron in a layer looks at <b>every</b> value from the layer before it. That is why
-this arrangement is called <b>fully connected</b>, or a <b>dense</b> layer. So if a layer of
+<h3>What happens between two layers</h3>
+<p>Every neuron in a layer looks at <b>every</b> value from the layer before it. That's why
+this arrangement is called <b>fully connected</b>, or a <b>dense</b> layer. If a layer of
 784 inputs feeds a layer of 100 neurons, each of those 100 neurons has 784 weights, and the
 whole connection holds 78,400 weights plus 100 biases.</p>
-<p>You will see this written as a matrix multiplication, because that is what it is. Stack the
-weights into a grid, and computing the whole layer at once is one multiply. This is not a
-notational nicety, it is why neural networks run on graphics hardware: GPUs were built to do
-enormous matrix multiplications for rendering, and a neural network is mostly the same
-operation.</p>
+<p>You'll see this written as a matrix multiplication, because that's what it is. Stack the
+weights into a grid, and computing the whole layer at once is one multiply. This is why neural
+networks run on graphics hardware. GPUs were built to do large matrix multiplications for
+rendering, and a neural network is mostly the same operation.</p>
 
 <h3>Why more layers rather than one enormous one</h3>
-<p>A result called the <b>universal approximation theorem</b> says a single hidden layer, given
-enough neurons, can approximate essentially any continuous function you like. So why go deep at
-all?</p>
-<p>Because "enough neurons" can mean an absurd number. Depth lets a network build ideas in
-stages, and stages compose. In a network that recognizes faces, the early layers respond to
-edges, the middle layers to combinations of edges that look like an eye or a nose, and the
-later layers to arrangements of those. Each layer reuses what the last one found. A single wide
-layer has to discover every whole face pattern separately, from scratch.</p>
-<p>That is the practical argument for depth: <b>reuse</b>. It is the same reason you write
+<p>The <b>universal approximation theorem</b> says a single hidden layer, given enough neurons,
+can approximate essentially any continuous function. But "enough neurons" can mean an absurd
+number. Depth lets a network build ideas in stages, and stages compose. In a network that
+recognizes faces, the early layers respond to edges. The middle layers respond to combinations of
+edges that look like an eye or a nose, and the later layers to arrangements of those. Each
+layer reuses what the last one found. A single wide layer has to discover every whole face
+pattern separately, from scratch.</p>
+<p>That's the practical argument for depth: <b>reuse</b>. It's the same reason you write
 functions rather than one enormous block of code.</p>
 
-<h3>What you are actually choosing when you design a network</h3>
+<h3>What you choose when you design a network</h3>
 <p>How many layers, how many neurons in each, and what function sits at the end of each neuron.
 Those choices are called the <b>architecture</b>. Everything else, all the weights, gets found
 by training. Most of this stream from here is about which architectures suit which data, and
 why the obvious dense stack is the wrong shape for an image.</p>
 <h3>A whole layer, in one line of algebra</h3>
 <p>One neuron was <code>a = w<sup>T</sup>x + b</code>. A layer of <code>M</code> neurons is
-<code>M</code> of those, and stacking the weight vectors as rows of a matrix
-<code>W</code> of shape <code>M &times; D</code> gives the entire layer at once:</p>
+<code>M</code> of those. Stacking the weight vectors as rows of a matrix <code>W</code> of
+shape <code>M &times; D</code> gives the entire layer at once:</p>
 <div class="mathblock">a = Wx + b        (a is M&times;1, W is M&times;D, x is D&times;1, b is M&times;1)
 
 z = h(a)          (h applied elementwise)</div>
 <p>Now compose. For a network with layers indexed by <code>(1), (2), ...</code>, with
 <code>z<sup>(0)</sup> = x</code>:</p>
 <div class="mathblock">z<sup>(l)</sup> = h<sup>(l)</sup>( W<sup>(l)</sup> z<sup>(l-1)</sup> + b<sup>(l)</sup> )</div>
-<p>That single recurrence is the entire forward pass of a feed-forward network, and it is worth
-memorizing because everything later is a modification of it. A two-layer network written out in
-full is:</p>
+<p>That single recurrence is the entire <b>forward pass</b> of a feed-forward network. The
+forward pass is the computation that carries an input through the layers to an output, and
+feed-forward means values only ever move from input toward output. Memorize it;
+everything later is a modification of it. A two-layer network written out in full is:</p>
 <div class="mathblock">y(x, w) = h<sup>(2)</sup>( W<sup>(2)</sup> h<sup>(1)</sup>( W<sup>(1)</sup>x + b<sup>(1)</sup> ) + b<sup>(2)</sup> )</div>
 <div class="worked"><b>Counting the parameters.</b> Inputs 784, hidden 100, outputs 10.
 <code>W<sup>(1)</sup></code> is 100&times;784 = 78,400 weights, plus 100 biases.
@@ -599,12 +598,11 @@ parameters. Every one of them is found by training, and the count matters: it is
 many numbers the network could use to memorize your data.</div>
 <div class="hardidea">🧠 <b>Why depth is not free, formally.</b> The universal approximation
 theorem (Cybenko 1989, Hornik 1991) says a single hidden layer with enough units approximates
-any continuous function on a compact set to any accuracy. It is an existence result and it says
+any continuous function on a compact set to any accuracy. It's an existence result. It says
 nothing about <i>how many</i> units, or whether training can find them. There are functions
 that a network of depth <code>k</code> represents with a polynomial number of units, but which
-require an exponential number at depth <code>k-1</code>. Depth is not about what is possible.
-It is about what is affordable.</div>
-`,
+require an exponential number at depth <code>k-1</code>. Depth is about what is affordable,
+not what is possible.</div>`,
  docs:[['A visual, click-through introduction to layers','https://playground.tensorflow.org/']],
  exs:[{title:'Collapse a stack of linear layers into one matrix',
    lang:'python',
@@ -717,65 +715,68 @@ print(W_eq.shape, W_deep.shape, np.max(np.abs(z2 - z_eq)))
 {id:'nn4',
  title:'Activation functions: why a network needs a kink to learn anything',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The one nonlinear step, and why removing it collapses everything</span>
 <p>Every neuron ends with a small function applied to its weighted sum. It looks like a detail.
-It is the reason a deep network is worth building at all, and the fastest way to see that is to
+It's the reason a deep network is worth building at all, and the fastest way to see that is to
 take it away.</p></div>
 
 <h3>What happens with no activation function</h3>
 <p>Suppose each layer only does the weighted sum, with nothing after it. Layer one multiplies
 your inputs by some numbers and adds them. Layer two multiplies those results by more numbers
-and adds them. But a weighted sum of weighted sums is itself just a weighted sum.</p>
-<p>You can prove this with school algebra. If layer one computes <code>3x + 2</code> and layer
-two computes <code>5(that) - 1</code>, the whole thing is <code>15x + 9</code>. One line. A
-hundred stacked layers with no activation function collapse into a single line, and you are
-back to a perceptron that cannot do XOR.</p>
+and adds them. But a weighted sum of weighted sums is itself a weighted sum.</p>
+<p>School algebra proves it. If layer one computes <code>3x + 2</code> and layer two computes
+<code>5(that) - 1</code>, the whole thing is <code>15x + 9</code>. One line. A hundred
+stacked layers with no activation function collapse into a single line. You're back to a
+perceptron that can't do <b>XOR</b> (exclusive or, true when exactly one input is true: the
+four-point problem no single straight line can split).</p>
 <p><b>The activation function is what stops the collapse.</b> Put any bend in the middle and
 the layers stop folding into each other.</p>
 
-<h3>The ones you will actually meet</h3>
+<h3>The ones you'll meet</h3>
 <p><b>Sigmoid</b> squashes any number into the range 0 to 1, along a smooth S shape. Big
 negative numbers go near 0, big positive ones near 1, and zero maps to 0.5. It was the default
-for years because it is smooth and looks like a soft version of the perceptron's step. Its
+for years because it's smooth and looks like a soft version of the perceptron's step. Its
 problem shows up in a few lessons: at both ends the curve is almost flat, which starves
 learning.</p>
-<p><b>Tanh</b> is the same S shape but running from -1 to 1 rather than 0 to 1. Being centered
-on zero helps training, so it beat sigmoid for a while, but it has the same flat ends.</p>
-<p><b>ReLU</b> is the one that took over, and it is almost embarrassingly simple:</p>
+<p><b>Tanh</b> is the same S shape but running from -1 to 1. Being centered on zero helps
+training, so it beat sigmoid for a while, but it has the same flat ends.</p>
+<p><b>ReLU</b> is the one that took over, and it's almost embarrassingly simple:</p>
 <pre><code>ReLU(x) = x if x > 0, otherwise 0</code></pre>
-<p>Negative goes to zero, positive passes straight through. That is the whole function. It has
-one bend at the origin, which is all the nonlinearity you need, and for positive values it does
-not flatten out, so learning keeps moving. It is also almost free to compute, which matters when
-you are doing it a trillion times.</p>
+<p>Negative goes to zero, positive passes straight through. It has one bend at the origin,
+which is all the nonlinearity you need. For positive values it doesn't flatten out, so learning
+keeps moving. It's also almost free to compute, which matters when you're doing it a trillion
+times.</p>
 
 <h3>Why the simplest one won</h3>
-<p>This is a good example of how the field actually moves. ReLU is not more mathematically
-elegant than sigmoid, it is cruder. It won because it trains faster, it does not flatten at the
-positive end, and it costs almost nothing to compute. Deep networks became practical partly
-because of this one change.</p>
-<p>ReLU has a failure of its own, called <b>dying ReLU</b>: a neuron whose output is negative
-for every input in your data outputs zero forever and never recovers, because the flat part has
+<p>ReLU is cruder than sigmoid, and it won anyway: faster training, no flattening at the
+positive end, almost no compute. Deep networks became practical partly because of this one
+change.</p>
+<p>ReLU has a failure of its own, called <b>dying ReLU</b>. A neuron whose output is negative
+for every input in your data outputs zero forever and never recovers. The flat part has
 no slope to learn from. Variants like <b>Leaky ReLU</b> fix this by letting negatives through
 scaled down instead of zeroed, so there is always a little slope.</p>
 
 <h3>Choosing one</h3>
 <p>Use ReLU in hidden layers unless you have a specific reason not to. At the output layer the
-choice is decided by the question, not by preference: nothing at all for predicting a number,
-sigmoid for a single yes or no, and <b>softmax</b> for choosing one of several classes, which
-turns a row of scores into probabilities that add to 1.</p>
+question decides: nothing at all for predicting a number, sigmoid for a single yes or no, and
+<b>softmax</b> for choosing one of several classes. Softmax turns a row of scores into
+probabilities that add to 1.</p>
 <h3>The collapse, proved</h3>
-<p>The claim was that stacked linear layers collapse to one. Set every
-<code>h</code> to the identity and compose two layers:</p>
+<p>Set every <code>h</code> to the identity and compose two layers:</p>
 <div class="mathblock">z<sup>(2)</sup> = W<sup>(2)</sup>( W<sup>(1)</sup>x + b<sup>(1)</sup> ) + b<sup>(2)</sup>
         = (W<sup>(2)</sup>W<sup>(1)</sup>)x + (W<sup>(2)</sup>b<sup>(1)</sup> + b<sup>(2)</sup>)
         = W&#771;x + b&#771;</div>
 <p>The product of two matrices is a matrix, and the rest is a vector. So the two-layer network
-is exactly a one-layer network with <code>W&#771; = W<sup>(2)</sup>W<sup>(1)</sup></code>.
-Induction extends this to any depth. No amount of stacking escapes the linear family.</p>
+is a one-layer network with <code>W&#771; = W<sup>(2)</sup>W<sup>(1)</sup></code>. Induction
+extends this to any depth. No amount of stacking escapes the linear family.</p>
 
 <h3>The functions, and their derivatives</h3>
-<p>Backpropagation needs <code>h'</code>, so each activation is only usable if you can
-differentiate it. These are the ones worth knowing cold:</p>
+<p><b>Backpropagation</b>, the procedure that computes how the loss changes with every weight by
+working backward from the output, needs <code>h'</code>. So each activation is only usable if
+you can differentiate it. Know these cold:</p>
 <div class="mathblock">&sigma;(a) = 1 / (1 + e<sup>-a</sup>)          &sigma;'(a) = &sigma;(a)(1 - &sigma;(a))
 
 tanh(a) = (e<sup>a</sup> - e<sup>-a</sup>)/(e<sup>a</sup> + e<sup>-a</sup>)   tanh'(a) = 1 - tanh<sup>2</sup>(a)
@@ -793,20 +794,19 @@ nothing once you have the output.</div>
 <code>&sigma;(1-&sigma;)</code>. It peaks at <code>&sigma; = 0.5</code>, giving
 <code>0.25</code>. So <b>the sigmoid derivative never exceeds one quarter</b>. Backpropagation
 multiplies one of these per layer, so through ten sigmoid layers the gradient is scaled by at
-most <code>0.25<sup>10</sup> &asymp; 10<sup>-6</sup></code>, and that is the best case. This
-single number is why deep sigmoid networks would not train, and why ReLU, whose derivative is
+most <code>0.25<sup>10</sup> &asymp; 10<sup>-6</sup></code>, and that's the best case. This
+single number is why deep sigmoid networks wouldn't train, and why ReLU, whose derivative is
 exactly 1 on the positive side, changed what was buildable.</div>
 
 <h3>Softmax, since every classifier ends with it</h3>
 <div class="mathblock">softmax(a)<sub>k</sub> = e<sup>a<sub>k</sub></sup> / &Sigma;<sub>j</sub> e<sup>a<sub>j</sub></sup></div>
-<p>Exponentiate every score to force positivity, then divide by the total so they sum to 1. The
-outputs are non-negative and sum to one, which is what lets you read them as probabilities.</p>
+<p>Exponentiate every score to force positivity, then divide by the total so they sum to 1.
+Non-negative and summing to one is what lets you read them as probabilities.</p>
 <div class="worked"><b>Worked.</b> Scores <code>[2.0, 1.0, 0.1]</code>. Exponentials are
 <code>7.39, 2.72, 1.11</code>, summing to <code>11.22</code>. Dividing gives
 <code>[0.659, 0.242, 0.099]</code>. In practice you subtract the largest score from all of them
 first, since <code>e<sup>1000</sup></code> overflows. The result is unchanged because the shared
-factor cancels top and bottom.</div>
-`,
+factor cancels top and bottom.</div>`,
  docs:[['A gallery of activation functions with their shapes','https://mlu-explain.github.io/']],
  exs:[{title:'Remove the kink and watch XOR become unsolvable',
    lang:'python',
@@ -918,77 +918,75 @@ print(out_id.ravel())
 {id:'nn5',
  title:'How a network learns: backpropagation without the calculus fear',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 The answer to the question that stalled the field for seventeen years</span>
-<p>The problem from the XOR lesson was credit assignment: nobody tells a hidden neuron what it
-should have said. Backpropagation is the answer, and the idea underneath it is something you
-already do without thinking. If you have followed the calculus stream you have all the
-machinery. If you have not, the plain English version below is genuinely enough.</p></div>
+<p>The problem from the XOR lesson was credit assignment. Nobody tells a hidden neuron what it
+should have said. Backpropagation is the answer. If you've followed the calculus stream you have all the
+machinery. If you haven't, the plain English version below is enough.</p></div>
 
 <h3>The idea, in a sentence you already believe</h3>
-<p>If the final answer was too high, then anything that pushed it upward is partly to blame,
-and how much blame depends on how strongly it pushed. Assign blame backward from the output,
+<p>If the final answer was too high, whatever pushed it upward shares the blame, in
+proportion to how strongly it pushed. Assign blame backward from the output,
 layer by layer, until every weight in the network has a share.</p>
-<p>Think about a dinner that came out too salty. You do not need to taste every ingredient
-separately. You work backward: the sauce was too salty, the sauce was salty because the stock
-was salty, the stock was salty because of how much you added. Blame flows backward along the
-path that produced the result, and it splits according to how much each step contributed.</p>
+<p>A dinner came out too salty. You don't taste every ingredient separately. You work
+backward: the sauce was too salty because the stock was salty, and the stock was salty
+because of how much you added. Blame flows backward along the path that produced the result
+and splits according to how much each step contributed.</p>
 
 <h3>Doing it properly, in four steps</h3>
 <p><b>1. Forward pass.</b> Push an example through the network and get a prediction. Keep every
-intermediate value, you will need them.</p>
+intermediate value. You'll need them.</p>
 <p><b>2. Measure the loss.</b> Compare the prediction to the truth with one number, the loss
 from the orientation lesson.</p>
 <p><b>3. Backward pass.</b> Starting at the output, work out how much a small change in each
 weight would have changed the loss. This is the <b>gradient</b>: for every weight, a number
 saying "nudging you up by a little changes the loss by about this much, in this direction."</p>
 <p><b>4. Update.</b> Move every weight a small step in the direction that reduces the loss.
-That is the next lesson.</p>
+That's the next lesson.</p>
 
-<h3>Why it is called back propagation</h3>
-<p>Because of how step 3 is computed. To know how a weight in layer one affected the loss, you
-need to know how it affected layer two, which affected layer three, and so on to the output.
-Calculus has a rule for exactly this situation, the <b>chain rule</b>, which says that when
-effects are linked in a chain you multiply the individual sensitivities together.</p>
-<p>The insight that made it practical is that you can compute this from the output end
-backward, reusing the work. Each layer receives from the layer above it a summary of "how much
-the loss cares about your output," combines it with its own local derivative, and passes a
-similar summary down. One pass backward gives you the gradient for every weight in the
-network, at roughly the cost of one pass forward. Without that reuse, training a large network
-would be hopeless.</p>
+<h3>Why it's called back propagation</h3>
+<p>To know how a weight in layer one affected the loss, you need to know how it affected
+layer two. Layer two affected layer three, and so on to the output. Calculus has a rule for this,
+the <b>chain rule</b>: when effects are linked in a chain you multiply the individual
+sensitivities together.</p>
+<p>What made it practical is computing this from the output end backward, reusing the work.
+From the layer above, each layer receives a "how much the loss cares about your output"
+summary. It combines that with its own local derivative and passes a similar summary down. One
+pass backward gives you the gradient for every weight in the network, at roughly the cost of
+one pass forward.</p>
 
-<h3>Some history worth knowing</h3>
+<h3>Some history</h3>
 <p>The pieces existed earlier, in control theory and in a 1970 master's thesis by Seppo
 Linnainmaa, and Paul Werbos proposed applying them to networks in 1974. The paper that made the
-field notice was Rumelhart, Hinton and Williams in 1986. They did not invent the chain rule.
+field notice was Rumelhart, Hinton and Williams in 1986. They didn't invent the chain rule.
 They showed it worked, on real problems, and that hidden layers learned useful intermediate
 features on their own.</p>
-<p>That is the part worth sitting with. Nobody tells the middle layers what to detect. Give the
-network a goal and a way to assign blame, and useful intermediate representations appear as a
-side effect of reducing the loss.</p>
+<p>Nobody tells the middle layers what to detect. Give the network a goal
+and a way to assign blame, and useful intermediate representations appear as a side effect of
+reducing the loss.</p>
 <h3>Backpropagation, derived</h3>
-<p>Everything above was intuition. Here is the derivation, following the standard treatment.
-Take one training example, with loss <code>E</code>. Define for every unit <code>j</code> the
-quantity Bishop calls the <b>error</b>:</p>
+<p>Take one training example, with loss <code>E</code>. Define for every unit <code>j</code>
+the quantity Bishop calls the <b>error</b>:</p>
 <div class="mathblock">&delta;<sub>j</sub> &equiv; &part;E / &part;a<sub>j</sub></div>
-<p>That is the sensitivity of the loss to that unit's <i>pre-activation</i>. It is the whole
-trick: once you have <code>&delta;</code> for a unit, the derivative for every weight feeding
+<p>That's the sensitivity of the loss to that unit's <i>pre-activation</i>. Once you have <code>&delta;</code> for a unit, the derivative for every weight feeding
 into it is immediate. Because <code>a<sub>j</sub> = &Sigma;<sub>i</sub> w<sub>ji</sub>z<sub>i</sub></code>,
 the chain rule gives:</p>
 <div class="mathblock">&part;E/&part;w<sub>ji</sub> = (&part;E/&part;a<sub>j</sub>)(&part;a<sub>j</sub>/&part;w<sub>ji</sub>) = &delta;<sub>j</sub> z<sub>i</sub></div>
-<p>Read that in English: <b>the gradient for a weight is the error at its destination times the
-activation at its source.</b> Two numbers you already have. That is the entire payoff.</p>
+<p><b>A weight's gradient is the error at its destination times the activation at its
+source.</b> Two numbers you already have.</p>
 <p>Now the recursion. For an output unit with a squared-error loss and identity output
 activation, <code>&delta;<sub>k</sub> = y<sub>k</sub> - t<sub>k</sub></code>, the prediction
-minus the target. For a hidden unit <code>j</code>, its pre-activation affects the loss only
-through every unit <code>k</code> it feeds, so sum over those paths:</p>
+minus the target. A hidden unit <code>j</code> affects the loss only through every unit
+<code>k</code> it feeds. So sum over those paths:</p>
 <div class="mathblock">&delta;<sub>j</sub> = &Sigma;<sub>k</sub> (&part;E/&part;a<sub>k</sub>)(&part;a<sub>k</sub>/&part;a<sub>j</sub>)
    = h'(a<sub>j</sub>) &Sigma;<sub>k</sub> w<sub>kj</sub> &delta;<sub>k</sub></div>
-<p>There is the algorithm. The errors of the layer above, weighted by the connections leading to
+<p>The errors of the layer above, weighted by the connections leading to
 them, scaled by the local derivative of this unit's activation. In matrix form:</p>
 <div class="mathblock">&delta;<sup>(l)</sup> = ( W<sup>(l+1)T</sup> &delta;<sup>(l+1)</sup> ) &odot; h'(a<sup>(l)</sup>)</div>
 <p>where <code>&odot;</code> is elementwise multiplication. Compare it to the forward pass,
 <code>a<sup>(l)</sup> = W<sup>(l)</sup>z<sup>(l-1)</sup> + b<sup>(l)</sup></code>. Forward you
-multiply by <code>W</code>; backward you multiply by <code>W<sup>T</sup></code>. The backward
+multiply by <code>W</code>. Backward you multiply by <code>W<sup>T</sup></code>. The backward
 pass is the forward pass run through the transpose.</p>
 <div class="worked"><b>The full procedure, four steps.</b> (1) Forward, storing every
 <code>a</code> and <code>z</code>. (2) At the output, <code>&delta; = y - t</code>. (3) For
@@ -997,13 +995,11 @@ each layer going backward, apply the recursion. (4) Read off
 one forward and one backward pass, so <b>O(W)</b> in the number of weights. Estimating the same
 gradients numerically, by perturbing each weight and re-running, would cost <b>O(W&sup2;)</b>.
 For 79,510 weights that is the difference between one run and eighty thousand.</div>
-<div class="hardidea">🧠 <b>Where the vanishing gradient lives, precisely.</b> Look at the
-recursion again: every step backward multiplies by <code>W<sup>T</sup></code> and by
-<code>h'</code>. Over <code>L</code> layers you accumulate a product of <code>L</code> such
-factors. If those factors are typically below 1, the gradient decays geometrically and the
-early layers barely move. If they are above 1, it explodes. The recursion is not just how
-training works, it is why deep training is fragile.</div>
-`,
+<div class="hardidea">🧠 <b>Where the vanishing gradient lives, precisely.</b> Every step
+backward multiplies by <code>W<sup>T</sup></code> and by <code>h'</code>. Over <code>L</code>
+layers you accumulate a product of <code>L</code> such factors. If those factors are typically
+below 1, the gradient decays geometrically and the early layers barely move. If they are above
+1, it explodes. The recursion is how training works, and it's why deep training is fragile.</div>`,
  docs:[['Rumelhart, Hinton & Williams 1986','https://www.nature.com/articles/323533a0'],['3Blue1Brown, backpropagation visually','https://www.3blue1brown.com/topics/neural-networks']],
  exs:[{title:'Check a backward pass against a numeric gradient',
    lang:'python',
@@ -1138,66 +1134,70 @@ print(gW1.shape, max_diff, rel, evals_numeric, loss_before, loss_after)
 {id:'nn6',
  title:'Gradient descent: rolling downhill in the dark',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What the network does with the blame once it has been assigned</span>
 <p>Backpropagation tells you which direction each weight should move. Gradient descent is the
-policy for actually moving them, and nearly every practical problem in training is a problem
-with this step.</p></div>
+policy for moving them, and nearly every practical problem in training is a problem with
+this step.</p></div>
 
 <h3>The picture to keep</h3>
 <p>Imagine the loss as a landscape. Every possible setting of the weights is a location, and
 the height at that location is how wrong the network is there. Training means walking downhill.
-The catch is that you cannot see the landscape. You are standing in fog, and all you can feel
-is the slope directly under your feet. That is precisely what the gradient gives you.</p>
+The catch is that you can't see the landscape. You're standing in fog, and all you can feel
+is the slope under your feet. That's what the gradient gives you.</p>
 <p>So the rule is: feel the slope, take a step downhill, feel again, repeat.</p>
 <pre><code>new weight = old weight - (learning rate × gradient)</code></pre>
 <p>Compare that to the perceptron rule from lesson two. Same shape. The perceptron rule was a
 special case of this idea, seventeen years before anyone could apply it to a stack of layers.</p>
 
 <h3>The learning rate, and why it ruins so many runs</h3>
-<p>The <b>learning rate</b> is how big a step you take. It is the single setting most likely to
-be the reason your training is not working.</p>
+<p>The <b>learning rate</b> is how big a step you take. It's the single setting most likely to
+be the reason your training isn't working.</p>
 <p>Too small, and you creep. Training that should take an hour takes a week, and you may stall
-somewhere unhelpful. Too large, and you leap past the bottom of the valley and land higher up
+somewhere unhelpful. Too large, and you leap past the bottom of the valley, land higher up
 the other side, then overcorrect again. The loss goes up instead of down, sometimes to
 infinity. When someone says their loss "exploded," this is usually why.</p>
-<p>In practice people start around 0.001 for common optimizers and reduce it as training goes
-on, taking big strides early and small careful ones near the end.</p>
+<p>In practice people start around 0.001 for common <b>optimizers</b>, the update rules that turn
+a gradient into a step. Then they reduce it as training goes on: big strides early, small careful
+ones near the end.</p>
 
 <h3>Why nobody uses the whole dataset at once</h3>
 <p>Strictly, the gradient should be computed over every training example. With a million
-examples that is one step per full pass, which is unbearably slow.</p>
+examples that's one step per full pass, which is unbearably slow.</p>
 <p>So instead you take a <b>batch</b>, maybe 32 or 256 examples, compute the gradient on those,
-and step. That is <b>stochastic gradient descent</b>. The direction is noisier, because a small
-sample is an imperfect estimate of the whole. This turns out to help: the noise can shake you
-out of a shallow dip that is not the real bottom.</p>
+and step. That's <b>stochastic gradient descent</b>. The direction is noisier, because a small
+sample is an imperfect estimate of the whole. The noise turns out to help: it can shake you
+out of a shallow dip that isn't the real bottom.</p>
 <p>One pass through all your data is an <b>epoch</b>. Training runs for many epochs, reshuffling
 between them.</p>
 
-<h3>The optimizers you will see named</h3>
-<p><b>SGD with momentum</b> keeps a running memory of recent steps, so consistent downhill
-directions build up speed and jittery ones cancel out. Like a ball rolling rather than a hiker
+<h3>The optimizers you'll see named</h3>
+<p><b>SGD with momentum</b> (SGD is short for stochastic gradient descent, the batch method
+above) keeps a running memory of recent steps. So consistent downhill
+directions build up speed and jittery ones cancel out. A ball rolling rather than a hiker
 stepping.</p>
 <p><b>Adam</b> is the common default. It keeps a separate, automatically adjusted step size for
-every individual weight, based on how that weight's gradient has behaved recently. Weights with
-consistently small gradients get larger steps, and vice versa. It is not magic and it does not
-always beat well-tuned SGD, but it works acceptably without much tuning, which is why it is
-everywhere.</p>
+every weight, based on how that weight's gradient has behaved recently. Weights with
+consistently small gradients get larger steps, and vice versa. It doesn't always beat
+well-tuned SGD, but it works acceptably without much tuning, which is why it's everywhere.</p>
 
 <h3>What about getting stuck</h3>
-<p>The classic worry is landing in a <b>local minimum</b>, a dip that is not the lowest point.
-In the very high dimensional spaces real networks live in, this turns out to be much less of a
-problem than expected. With millions of weights, a point that is a minimum in every single
-direction at once is vanishingly rare. What you actually meet are <b>saddle points</b>, downhill
-in some directions and uphill in others, and momentum handles those reasonably well.</p>
+<p>The classic worry is landing in a <b>local minimum</b>, a dip that isn't the lowest point.
+In the very high dimensional spaces real networks live in, this is much less of a problem than
+expected. With millions of weights, a point that is a minimum in every direction at once is
+vanishingly rare. What you meet instead are <b>saddle points</b>, downhill in some directions
+and uphill in others, and momentum handles those reasonably well.</p>
 <h3>The update rule, and why that direction</h3>
-<p>A first-order Taylor expansion of the loss around the current weights says that for a small
+<p>Take a first-order Taylor expansion of the loss around the current weights. For a small
 step <code>&Delta;w</code>:</p>
 <div class="mathblock">E(w + &Delta;w) &asymp; E(w) + &nabla;E(w)<sup>T</sup> &Delta;w</div>
 <p>To make the loss fall as fast as possible for a step of fixed length, choose
-<code>&Delta;w</code> pointing opposite to the gradient, because
+<code>&Delta;w</code> pointing opposite to the gradient. That's because
 <code>&nabla;E<sup>T</sup>&Delta;w</code> is most negative when the two vectors are
-antiparallel. That is the entire justification, and it is also the warning: it is a
-<b>local, first-order</b> argument, valid only for small steps. Take too large a step and the
+antiparallel. That's the entire justification, and also the warning: it's a <b>local,
+first-order</b> argument, valid only for small steps. Take too large a step and the
 approximation stops holding, which is what a diverging loss looks like.</p>
 <div class="mathblock">w<sup>(&tau;+1)</sup> = w<sup>(&tau;)</sup> - &eta; &nabla;E(w<sup>(&tau;)</sup>)</div>
 
@@ -1208,7 +1208,7 @@ Adam:  m &larr; &beta;<sub>1</sub>m + (1-&beta;<sub>1</sub>)g
        v &larr; &beta;<sub>2</sub>v + (1-&beta;<sub>2</sub>)g&sup2;
        m&#770; = m/(1-&beta;<sub>1</sub><sup>t</sup>) ,  v&#770; = v/(1-&beta;<sub>2</sub><sup>t</sup>)
        w &larr; w - &eta; m&#770; / (&radic;v&#770; + &epsilon;)</div>
-<p>In words: <code>m</code> is a running average of the gradient, so it smooths the direction.
+<p><code>m</code> is a running average of the gradient, so it smooths the direction.
 <code>v</code> is a running average of the gradient <i>squared</i>, so it measures how large
 that weight's gradients have been. Dividing by <code>&radic;v&#770;</code> gives each weight its
 own step size, large where gradients have been small and small where they have been large. The
@@ -1226,10 +1226,8 @@ shallow along, the steepest direction points across the valley rather than down 
 descent zig-zags. The second-order information lives in the <b>Hessian</b>, the matrix of second
 derivatives, and stepping with it (Newton's method) would fix this. For a network with
 <code>W</code> weights the Hessian has <code>W&sup2;</code> entries, so for a million weights it
-is a trillion numbers. That is why the field uses cheap approximations, and momentum and Adam
-are both crude ways of buying a little curvature information without ever forming the
-matrix.</div>
-`,
+is a trillion numbers. That's why the field uses cheap approximations. Momentum and Adam are
+both crude ways of buying a little curvature information without ever forming the matrix.</div>`,
  docs:[['An interactive look at optimizers on the same landscape','https://distill.pub/2017/momentum/']],
  exs:[{title:'Roll downhill at three learning rates and watch one explode',
    lang:'python',
@@ -1321,86 +1319,89 @@ print(w_small, w_big, h_big[0], h_big[-1])
 {id:'nn7',
  title:'Overfitting, and the tricks that stop it',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 A network that scores perfectly on your data and fails in the world</span>
-<p>A neural network with enough weights can memorize its training set exactly, including the
+<p>A neural network with enough weights can memorize its training set exactly. That includes the
 noise and the mistakes in it. This is the central practical danger of the whole field, and
 every technique in this lesson exists to fight it.</p></div>
 
 <h3>Memorizing versus learning</h3>
 <p>Give a large network a thousand photos labeled cat or dog and enough training time, and it
-can reach 100 percent accuracy by effectively storing them. Show it a new photo and it may be
-useless. It learned <i>those pictures</i>, not what a cat looks like.</p>
+can reach 100 percent accuracy by storing them. Show it a new photo and it may be useless. It
+learned <i>those pictures</i>, not what a cat looks like.</p>
 <p>You detect this by holding data back. Split your data into a <b>training set</b> the network
 learns from and a <b>validation set</b> it never sees during training. Then watch both losses.
 While both fall, learning is happening. When training loss keeps falling and validation loss
-starts rising, memorization has started. That crossing point is the thing to watch, and it is
-the single most useful graph in machine learning.</p>
+starts rising, memorization has started. That is <b>overfitting</b>: the model memorizes the
+training data and does worse on new data. The crossing point is the single most useful graph
+in machine learning.</p>
 
 <h3>The fixes, roughly in order of effectiveness</h3>
-<p><b>More data.</b> Unglamorous and almost always the strongest option. Memorizing ten
-thousand examples is much harder than memorizing one hundred, so the network is pushed toward
-finding an actual pattern.</p>
-<p><b>Data augmentation.</b> When you cannot get more data, make more from what you have. Flip
+<p><b>More data.</b> Almost always the strongest option. Memorizing ten thousand examples is
+much harder than memorizing one hundred, so the network is pushed toward finding a pattern.</p>
+<p><b>Data augmentation.</b> When you can't get more data, make more from what you have. Flip
 the image, rotate it slightly, crop it, adjust the brightness. A cat rotated five degrees is
 still a cat, and the network sees a fresh example. This is standard practice for images and it
-works remarkably well.</p>
-<p><b>Early stopping.</b> Watch the validation loss and stop training at the moment it turns
+works well.</p>
+<p><b>Early stopping.</b> Watch the validation loss and stop training the moment it turns
 upward. Free, obvious, and effective.</p>
 <p><b>Dropout.</b> During training, randomly switch off a fraction of the neurons on each pass,
-often half of them. It sounds like sabotage. It works because the network cannot rely on any
+often half of them. It sounds like sabotage. It works because the network can't rely on any
 one neuron always being present, so it has to spread the representation across many, and
 spread-out representations generalize better. At prediction time everything is switched back
 on.</p>
 <p><b>Weight regularization.</b> Add a penalty to the loss for large weights, so the optimizer
-prefers small ones unless large ones genuinely help. Small weights mean a smoother, less
-contorted function, and smooth functions are less able to bend around individual noisy points.</p>
-<p><b>A smaller network.</b> Fewer weights means less capacity to memorize. Worth trying, and
-usually the last resort, since the modern instinct is a large model held in check by the
-techniques above.</p>
+prefers small ones unless large ones help. Small weights mean a smoother, less contorted
+function, and smooth functions are less able to bend around individual noisy points.</p>
+<p><b>A smaller network.</b> Fewer weights means less capacity to memorize. Usually the last
+resort, since the modern instinct is a large model held in check by the techniques above.</p>
 
 <h3>The opposite problem, briefly</h3>
 <p><b>Underfitting</b> is when the model is too simple to capture the pattern, and both losses
 stay high. The fix is the reverse: a bigger network, more training, fewer restrictions. The
-useful diagnostic is that overfitting shows a <i>gap</i> between the two losses, while
-underfitting shows both of them stuck.</p>
+diagnostic is that overfitting shows a <i>gap</i> between the two losses, while underfitting
+shows both of them stuck.</p>
 
 <h3>The habit to build</h3>
-<p>Never judge a model by its training accuracy. It is the score on an exam the model wrote for
-itself. The only number worth reporting is performance on data the model has never seen, and if
-you have tuned your choices against the validation set many times, you need a third untouched
-<b>test set</b> to keep yourself honest.</p>
+<p>Never judge a model by its training accuracy. It's the score on an exam the model wrote for
+itself. Report performance on data the model has never seen. If you've tuned your choices
+against the validation set many times, you need a third untouched <b>test set</b> to keep
+yourself honest.</p>
 <h3>Regularization, as an addition to the loss</h3>
 <p>"Penalize large weights" has a precise form. Add a term proportional to the squared length of
 the weight vector:</p>
 <div class="mathblock">E&#771;(w) = E(w) + (&lambda;/2) w<sup>T</sup>w</div>
-<p>Differentiate and the effect on the update is immediate:</p>
+<p>Differentiate, and the effect on the update is immediate.</p>
 <div class="mathblock">&nabla;E&#771; = &nabla;E + &lambda;w
 
 w &larr; w - &eta;(&nabla;E + &lambda;w) = (1 - &eta;&lambda;)w - &eta;&nabla;E</div>
 <p>Every step multiplies the weights by <code>(1 - &eta;&lambda;)</code>, slightly less than 1,
 before the gradient step. The weights shrink toward zero on their own and only stay large when
 the data keeps pushing them back. This is why <code>L2</code> regularization is also called
-<b>weight decay</b>, and now the name is not a coincidence, it is the algebra.</p>
-<div class="demystify"><b>L1 versus L2.</b> Using <code>&lambda;&Sigma;|w<sub>i</sub>|</code>
+<b>weight decay</b>. The name is the algebra.</p>
+<div class="demystify"><b>L1 versus L2.</b> The names are two ways to measure the size of the
+weight vector. <b>L1</b> is the sum of the absolute values, <b>L2</b> is the square root of the sum
+of squares. Using <code>&lambda;&Sigma;|w<sub>i</sub>|</code>
 instead gives a gradient of <code>&lambda; &middot; sign(w)</code>, a constant pull toward zero
 regardless of size. Constant pull drives small weights to exactly zero, so L1 produces
 <b>sparse</b> models where many weights vanish entirely. L2's pull is proportional to the
 weight, so it shrinks large weights hard and small ones barely, and nothing reaches exactly
 zero.</div>
 <div class="hardidea">🧠 <b>What regularization means probabilistically.</b> Minimizing
-<code>E + (&lambda;/2)w<sup>T</sup>w</code> is exactly maximizing the posterior
-<code>p(w|D) &prop; p(D|w)p(w)</code> under a zero-mean Gaussian prior on the weights, with
-<code>&lambda;</code> set by the prior's variance. The penalty is not a hack bolted onto the
-loss. It is a prior belief that weights are probably small, stated in the language of
-optimization. L1 is the same statement with a Laplace prior, whose sharp peak at zero is what
-produces sparsity.</div>
+<code>E + (&lambda;/2)w<sup>T</sup>w</code> is exactly maximizing the <b>posterior</b>
+<code>p(w|D) &prop; p(D|w)p(w)</code> under a zero-mean Gaussian <b>prior</b>, with
+<code>&lambda;</code> set by the prior's variance. The posterior is what you believe about the
+weights after seeing the data, and the prior is what you believed about them before. The penalty is a prior belief that weights
+are probably small, stated in the language of optimization. L1 is the same statement with a
+Laplace prior, whose sharp peak at zero is what produces sparsity.</div>
 <div class="worked"><b>Dropout, and why halving matters.</b> With dropout probability
 <code>p</code>, each unit is kept with probability <code>1-p</code> during training, so a
 unit's expected contribution is <code>(1-p)</code> times its full value. At test time nothing is
 dropped, so outputs would be too large by <code>1/(1-p)</code>. Implementations fix this by
 scaling activations up by <code>1/(1-p)</code> during training, called <b>inverted
-dropout</b>, so that test time needs no adjustment at all.</div>
-`,
+dropout</b>, so that test time needs no adjustment at all.</div>`,
  docs:[['Dropout, the original paper','https://jmlr.org/papers/v15/srivastava14a.html']],
  exs:[{title:'Train past the point of usefulness, then add weight decay',
    lang:'python',
@@ -1536,84 +1537,88 @@ print(acc_train_reg, acc_test_reg, gap_reg)
 {id:'nndebug',
  title:'When the network will not learn: an order to check things in',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The loss is flat, and you have no idea why</span>
-<p>You have the whole machine now: a forward pass, backpropagation, gradient descent, activation
+<p>You have the whole machine: a forward pass, backpropagation, gradient descent, activation
 functions, and the tricks that stop overfitting. What nobody writes down is what to do when you
-assemble all of it and the loss sits there. The failure is almost never exotic, and it is almost
+assemble all of it and the loss sits there. The failure is almost never exotic, and almost
 never in the mathematics. This lesson is an order to check things in, cheapest and most
-informative first, and every item on it is something you have already met in this stream.</p></div>
+informative first.</p></div>
 
 <h3>1. Is the loss at step zero the number it has to be?</h3>
 <p>Before any training, a classifier that has learned nothing should spread its probability evenly
-over the classes. Substitute that into cross-entropy from the probability stream and the starting
-loss is forced:</p>
+over the classes. Substitute that into <b>cross-entropy</b> from the probability stream, the
+usual classifier loss. Cross-entropy is minus the log of the probability the model gave the true
+class. The starting loss is then forced:</p>
 <div class="mathblock">uniform over K classes  &rarr;  loss = &minus;log(1/K) = log K
 
 K = 2   &rarr;  log 2  = 0.693
 K = 10  &rarr;  log 10 = 2.303
 K = 1000 &rarr; log 1000 = 6.908</div>
-<p>This is a free assertion that catches an enormous number of bugs in one line. If a ten-class
-model starts at 2.3, the labels line up with the inputs, the output layer has the right width and
-the loss is being applied to the right thing. If it starts at 7, something is wrong before
-training even begins: usually the labels are shifted or shuffled, the final layer has the wrong
-number of outputs, or a softmax is being applied twice. No amount of tuning fixes any of those,
-and no amount of training will tell you which one it is.</p>
+<p>This free assertion catches a large number of bugs in one line. If a ten-class model starts
+at 2.3, three things are right. The labels line up with the inputs, the output layer has the
+right width and the loss is being applied to the right thing. If it starts at 7, something is wrong before training
+begins. Usually the labels are shifted or shuffled, the final layer has the wrong number of
+outputs, or a <b>softmax</b> is being applied twice. Softmax is the last step that turns the
+output scores into probabilities summing to one. No amount of tuning fixes any of those, and no
+amount of training will tell you which one it is.</p>
 
 <h3>2. Can it overfit eight examples?</h3>
-<p>Take a single tiny batch, turn off every regularizer, and train on that batch alone for a few
-hundred steps. A correctly wired network <b>must</b> drive the loss to nearly zero, because it is
-allowed to memorize, and the overfitting lesson established that memorizing is the easy thing for
-a network to do. If it cannot memorize eight examples, no dataset is going to work.</p>
-<p>This is the single most informative test in this lesson, because of how cleanly it splits the
-problem. Loss goes to zero on one batch but not on the full set: the wiring is fine and you have
-an optimization or a capacity or a data problem. Loss will not go to zero even on one batch: the
-wiring is broken, and there is no point looking at the dataset at all.</p>
+<p>Take a single tiny <b>batch</b>, the slice of data used for one update. Turn off every
+regularizer (each penalty that keeps the model simple), and train on that batch alone for a few
+hundred steps. A correctly wired network <b>must</b> drive the loss to nearly zero, because it's
+allowed to memorize. The overfitting lesson established that memorizing is the easy thing
+for a network to do. If it can't memorize eight examples, no dataset is going to work.</p>
+<p>This test splits the problem cleanly. Loss goes to zero on one batch but not on the full
+set: the wiring is fine and you have an optimization, capacity or data problem. Loss won't go
+to zero even on one batch: the wiring is broken, and there's no point looking at the
+dataset.</p>
 
 <h3>3. The learning rate, which is the usual answer</h3>
-<p>The gradient-descent lesson said it plainly and it is worth repeating here as a diagnosis. Loss
-that climbs, oscillates violently, or turns to NaN within a few dozen steps means the rate is too
-large: you are stepping past the valley and landing higher up the far side. Loss that falls
-smoothly and far too slowly means it is too small. Sweep it by factors of ten, from
-10<sup>&minus;1</sup> down to 10<sup>&minus;5</sup>, and take the largest one that does not
-misbehave. Ten minutes of sweeping regularly beats a day of architecture changes.</p>
+<p>Loss that climbs, oscillates violently, or turns to NaN within a few dozen steps means the
+rate is too large. You're stepping past the valley and landing higher up the far side. Loss
+that falls smoothly and far too slowly means it's too small. Sweep it by factors of ten, from
+10<sup>&minus;1</sup> down to 10<sup>&minus;5</sup>, and take the largest one that doesn't
+misbehave. Ten minutes of sweeping beats a day of architecture changes.</p>
 
 <h3>4. The inputs, and the activations after them</h3>
 <p>Unscaled inputs are the quiet version of a learning rate that is too large. A feature in the
 thousands produces gradients in the thousands for the weights it touches, while a feature in the
-tenths produces tiny ones, and one learning rate has to serve both. The preprocessing lesson
-covers the fix; the symptom here is a run that either diverges or stalls at a loss well above what
-the same setup reaches on standardized inputs. The exercise measures exactly that gap.</p>
-<p>Then look at what the activations do, because the activation lesson already told you both
-failure modes. <b>Dead ReLUs</b>: if a large share of a layer's outputs are exactly zero for every
-example in the batch, those units have no slope and will never come back. Lower the learning rate
-that killed them, or use a leaky variant. <b>Saturated sigmoids or tanh</b>: if the pre-activations
-sit far from zero, the derivative is near zero, and the vanishing-gradient arithmetic applies from
-the very first layer rather than after ten of them.</p>
+tenths produces tiny ones. One learning rate has to serve both. The preprocessing lesson
+covers the fix. The symptom here is a run that either diverges or stalls at a loss well above
+what the same setup reaches on standardized inputs. The exercise measures that gap.</p>
+<p>Then look at what the activations do. The activation lesson gave you both failure modes.
+<b>Dead ReLUs</b>: if a large share of a layer's outputs are exactly zero for every example in
+the batch, those units have no slope and will never come back. Lower the learning rate that
+killed them, or use a leaky variant. <b>Saturated sigmoids or tanh</b>: if the pre-activations
+sit far from zero, the derivative is near zero. The vanishing-gradient arithmetic then applies
+from the very first layer rather than after ten of them.</p>
 
 <h3>5. Check the data last, and check it properly</h3>
-<p>Print the actual inputs and labels the model receives, after every transformation, and look at
+<p>Print the inputs and labels the model receives, after every transformation, and look at
 them. Shuffling the inputs without shuffling the labels alongside them produces a model that
 learns nothing and reports no error. A label column read as a string, or off by one, does the
-same. This check is last only because it is the tedious one; it is first in how often it turns out
-to be the answer.</p>
+same. This check is last only because it's the tedious one. It's first in how often it turns
+out to be the answer.</p>
 
 <div class="hardidea">🧠 <b>The one test that tells you whether learning is possible at all.</b>
 Train the identical setup on <i>shuffled labels</i>. A network with enough capacity will still
 drive the training loss to near zero, because it can memorize noise, and its validation
-performance will sit exactly at chance. Now compare: if your real labels do not train
-appreciably better than random ones, the model is not failing to learn, it is learning that there
-is nothing in your features to learn. That is a data problem wearing a modeling problem's
-clothes, and no architecture change will touch it.</div>
+performance will sit at chance. Now compare. If your real labels don't train appreciably
+better than random ones, the model is learning that there is nothing in your features to
+learn. That's a data problem wearing a modeling problem's clothes, and no architecture change
+will touch it.</div>
 
-<div class="demystify">Demystify "it is not converging". The phrase covers four different
-situations that need four different responses, and naming which one you have is most of the work.
-The loss is <b>NaN</b>: numerical blow-up, so lower the rate and check for a log of zero or a
+<div class="demystify">Demystify "it is not converging". The phrase covers four situations
+that need four different responses, and naming which one you have is most of the work. The
+loss is <b>NaN</b>: numerical blow-up, so lower the rate and check for a log of zero or a
 division by a count that can be zero. The loss is <b>flat from step one</b>: no gradient is
 reaching the weights, so check the wiring and the step-zero loss. The loss <b>falls then
 plateaus high</b>: underfitting, so the model or the features are too weak. The loss
-<b>oscillates</b>: the rate is too large for the batch size. Four symptoms, four different
-lessons, and only one of them is about the architecture.</div>
-`,
+<b>oscillates</b>: the rate is too large for the batch size. Only one of the four is about the
+architecture.</div>`,
  docs:[['A recipe for training neural networks (Karpathy)','https://karpathy.github.io/2019/04/25/recipe/']],
  exs:[{title:'Run the three diagnostics on one tiny network',
    lang:'python',
@@ -1770,10 +1775,13 @@ print("inputs x20, final loss:", round(unscaled_final, 4))
 {id:'nn8',
  title:'Convolution in plain English: sliding a stencil across a picture',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The word that scares people off, defined before any symbol</span>
 <p>"Convolutional" sounds like it belongs in a physics paper. The operation is something you
 could do by hand with a piece of card. This lesson defines it in plain English, then in
-arithmetic, then in the notation you will meet in papers, in that order.</p></div>
+arithmetic, then in the notation you'll meet in papers.</p></div>
 
 <h3>The plain English version</h3>
 <p>Cut a small square hole in a piece of card, say three by three. Lay it over the top-left
@@ -1781,35 +1789,34 @@ corner of a photograph so it exposes nine pixels. Multiply each exposed pixel by
 have chosen for that position, add up the nine results, and write that single number down.
 Now slide the card one pixel to the right and do it again. Keep going along the row, then down
 to the next row, until you have covered the whole image.</p>
-<p>You have just performed a convolution. The card with its nine chosen numbers is called a
-<b>kernel</b> or a <b>filter</b>. The grid of numbers you wrote down is called a <b>feature
-map</b>. That is the entire operation, and everything else is detail.</p>
+<p>That's a convolution. The card with its nine chosen numbers is a <b>kernel</b> or a
+<b>filter</b>. The grid of numbers you wrote down is a <b>feature map</b>.</p>
 
 <h3>Why sliding the same card everywhere is the point</h3>
-<p>The same nine numbers are used at every position. This is <b>weight sharing</b>, and it
-carries two consequences that matter enormously.</p>
-<p>First, it is a statement about images: <b>a pattern is a pattern wherever it appears</b>. An
+<p>The same nine numbers are used at every position. This is <b>weight sharing</b>, and it has
+two consequences.</p>
+<p>First, it's a statement about images: <b>a pattern is a pattern wherever it appears</b>. An
 edge in the top-left corner and an identical edge in the bottom-right are the same thing, so
-they should be detected by the same nine numbers. A dense layer has no idea about this and has
-to learn each corner of the image separately.</p>
-<p>Second, it is a huge saving. Nine numbers cover an entire image of any size, where a dense
-layer connecting a 200 by 200 image to a 200 by 200 output would need 1.6 billion weights.</p>
+they should be detected by the same nine numbers. A <b>dense</b> layer, where every neuron looks at
+every input, has no idea about this and has to learn each corner of the image separately.</p>
+<p>Second, it's a huge saving. Nine numbers cover an image of any size. A dense layer
+connecting a 200 by 200 image to a 200 by 200 output would need 1.6 billion weights.</p>
 
-<h3>What the numbers on the card actually do</h3>
+<h3>What the numbers on the card do</h3>
 <p>Choose the nine numbers well and the operation detects something specific.</p>
 <pre><code>-1  0  1        1  1  1        0 -1  0
 -1  0  1        0  0  0       -1  5 -1
 -1  0  1       -1 -1 -1        0 -1  0
 vertical edges  horizontal      sharpen</code></pre>
-<p>Take the first one. Where the image is flat, the pixels on the left and right are similar,
-so <code>-1</code> times one side plus <code>+1</code> times the other cancels out and you get
+<p>Take the first one. Where the image is flat, the pixels on the left and right are similar.
+So <code>-1</code> times one side plus <code>+1</code> times the other cancels out and you get
 roughly zero. Where there is a vertical edge, dark on the left and bright on the right, the
-sum is large. So this card lights up precisely where vertical edges are, and stays dark
-elsewhere.</p>
+sum is large. So this card lights up where vertical edges are, and stays dark elsewhere.</p>
 <p>Before neural networks, people designed these numbers by hand. The Sobel operator above is
 from 1968. <b>The insight of a convolutional network is to stop designing them and let
-backpropagation find them</b>, because a kernel is just nine weights, and weights are what
-training finds.</p>
+backpropagation find them</b>, because a kernel is nine weights, and weights are what training
+finds. <b>Backpropagation</b> is the procedure that works out how much each weight should change
+to reduce the error, working backward from the output.</p>
 
 <h3>The arithmetic, one window at a time</h3>
 <div class="worked"><b>Worked, fully.</b> Take a patch and the vertical-edge kernel above:
@@ -1826,26 +1833,26 @@ correctly.</div>
 
 <h3>The formula, now that it means something</h3>
 <div class="mathblock">S(i,j) = &Sigma;<sub>m</sub> &Sigma;<sub>n</sub> I(i+m, j+n) &middot; K(m,n)</div>
-<p>Read it back: for output position <code>(i,j)</code>, run <code>m</code> and <code>n</code>
-over the kernel's little grid, multiply the image pixel at the offset position by the kernel
-value there, and add everything up. That is the sliding card, written down.</p>
+<p>For output position <code>(i,j)</code>, run <code>m</code> and <code>n</code> over the
+kernel's little grid. Multiply the image pixel at the offset position by the kernel value
+there, and add everything up.</p>
 <div class="demystify"><b>The pedantic footnote every textbook makes.</b> True mathematical
-convolution flips the kernel first, <code>I(i-m, j-n)</code>. What neural networks actually
-compute is <b>cross-correlation</b>, without the flip. Nobody minds, because the kernel values
-are learned, so the network simply learns the flipped version if that is what it needs. Every
-library calls it convolution. Now you know why a mathematician might raise an eyebrow.</div>
+convolution flips the kernel first, <code>I(i-m, j-n)</code>. What neural networks compute is
+<b>cross-correlation</b>, without the flip. Nobody minds, because the kernel values are
+learned, so the network learns the flipped version if that's what it needs. Every library
+calls it convolution.</div>
 
-<h3>The three settings you will always have to choose</h3>
+<h3>The three settings you'll always have to choose</h3>
 <p><b>Stride</b> is how far the card jumps each time. Stride 1 moves one pixel and overlaps
 heavily. Stride 2 skips every other position and halves the output size.</p>
-<p><b>Padding</b> deals with the edges. A three by three card cannot be centered on a corner
-pixel, so without padding the output is smaller than the input, and corner pixels get looked at
+<p><b>Padding</b> deals with the edges. A three by three card can't be centered on a corner
+pixel. So without padding the output is smaller than the input, and corner pixels get looked at
 less often than middle ones. Adding a border of zeros, called <b>same</b> padding, keeps the
 output the same size.</p>
 <p><b>Channels.</b> A color image is three stacked grids, red, green and blue. So the kernel is
-not three by three, it is three by three by three, and it sums across all of them to produce one
-output number. A layer usually learns many kernels at once, say 64, producing 64 feature maps
-stacked into the next layer's channels.</p>
+three by three by three, and it sums across all of them to produce one output number. A layer
+usually learns many kernels at once, say 64, producing 64 feature maps stacked into the next
+layer's channels.</p>
 <div class="mathblock">params in a conv layer = (k<sub>h</sub> &times; k<sub>w</sub> &times; C<sub>in</sub> + 1) &times; C<sub>out</sub>
 
 output size = floor( (W - k + 2p) / s ) + 1</div>
@@ -1853,8 +1860,7 @@ output size = floor( (W - k + 2p) / s ) + 1</div>
 channels: <code>(3&times;3&times;3 + 1) &times; 64 = 1,792</code> parameters, and that number is
 the same whether the image is 32 pixels wide or 4,000. A dense layer on a 224&times;224&times;3
 image with 64 outputs of the same size would need over 480 billion. That ratio is why
-convolution exists.</div>
-`,
+convolution exists.</div>`,
  docs:[['A visual guide to convolution arithmetic','https://github.com/vdumoulin/conv_arithmetic']],
  exs:[{title:'Slide an edge kernel across a bright square',
    lang:'python',
@@ -1947,14 +1953,16 @@ print(np.abs(flat).max())
 {id:'nn9',
  title:'CNNs: why images broke ordinary networks, and what fixed it',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 Three problems with dense layers, and the three answers</span>
-<p>Convolution is the main answer, but it is not the only one. A convolutional network is
-convolution plus pooling plus depth, arranged so that simple detectors in early layers become
+<p>Convolution is the main answer, but not the only one. A convolutional network, a
+<b>CNN</b> (convolutional neural network), is convolution plus pooling plus depth, arranged so that simple detectors in early layers become
 complicated ones later.</p></div>
 
-<h3>What actually goes wrong with a dense layer on an image</h3>
+<h3>What goes wrong with a dense layer on an image</h3>
 <p><b>Parameter count.</b> A 224 by 224 color image is 150,528 numbers. One dense hidden layer
-of 1,000 units needs 150 million weights, in the first layer alone. That is a model that will
+of 1,000 units needs 150 million weights, in the first layer alone. That's a model that will
 memorize your training set and nothing else.</p>
 <p><b>No notion of nearby.</b> Flattening an image into a row destroys the fact that two pixels
 were adjacent. A dense layer sees an unordered list of numbers, and would behave identically if
@@ -1966,10 +1974,10 @@ about a cat in the bottom-right. Those go through entirely different weights.</p
 <h3>Pooling, the second idea</h3>
 <p>After a convolution you often <b>pool</b>: take each little region of the feature map, say
 two by two, and keep only the largest value. This shrinks the map by half in each direction and
-discards precisely where within that small region the feature was.</p>
+discards where within that small region the feature was.</p>
 <p>That discarding is the point. Once you know there is an edge somewhere in this neighborhood,
-its exact pixel is rarely what matters, and forgetting it buys you <b>tolerance to small
-shifts</b>. It also cuts the amount of computation for every layer that follows.</p>
+its exact pixel rarely matters, and forgetting it buys you <b>tolerance to small shifts</b>. It
+also cuts the computation for every layer that follows.</p>
 <div class="worked"><b>Max pooling, worked.</b> The 2&times;2 patch
 <code>[[1, 9], [4, 3]]</code> pools to <code>9</code>. The gradient during backpropagation flows
 only to the position that produced the 9, since the other three had no effect on the output. The
@@ -1993,21 +2001,22 @@ single large ones: the same reach, fewer parameters, and an extra nonlinearity i
 Early layers become edge and color-blob detectors, closely resembling the hand-designed filters
 of the 1970s and the receptive fields Hubel and Wiesel recorded in cat visual cortex in 1959.
 Middle layers respond to corners, textures and repeated motifs. Later layers respond to object
-parts, an eye, a wheel, a doorknob. Nobody specified any of this. It emerges from minimizing
+parts: an eye, a wheel, a doorknob. Nobody specified any of this. It emerges from minimizing
 classification error.</p>
 
-<h3>A short history worth knowing</h3>
+<h3>A short history</h3>
 <p>Yann LeCun's <b>LeNet-5</b> read handwritten digits on checks in 1998, and it already has the
 modern shape. The field then largely ignored it for over a decade, because there was neither
 the data nor the hardware. In 2012 <b>AlexNet</b> won ImageNet by an enormous margin, using the
-same ideas plus ReLU, dropout, and two GPUs. The architecture was not new. What was new was
+same ideas plus ReLU (the activation that passes positive values through and zeroes negative
+ones), dropout (switching random neurons off during training so none is relied on), and two
+GPUs. The architecture wasn't new. What was new was
 1.2 million labeled images and hardware fast enough to use them.</p>
-<div class="hardidea">🧠 <b>The lesson people take the wrong way.</b> It is tempting to conclude
+<div class="hardidea">🧠 <b>The lesson people take the wrong way.</b> It's tempting to conclude
 that scale is all that matters. The more precise reading is that AlexNet worked because its
 <i>architecture encoded a true fact about images</i>, and scale let that fact be exploited. A
-dense network with the same data and hardware did not win. The prior mattered, and then the
-scale mattered.</div>
-`,
+dense network with the same data and hardware didn't win. The <b>prior</b>, the assumption built
+into the model before it saw any data, mattered, and then the scale mattered.</div>`,
  docs:[['LeCun et al., LeNet-5 (1998)','http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf'],['AlexNet (2012)','https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks']],
  exs:[{title:'Pool a feature map and measure shift tolerance',
    lang:'python',
@@ -2097,19 +2106,24 @@ print(pooled.shape, small, raw_diff, pooled_diff, conv_params, dense_params / co
 {id:'nn10',
  title:'Sequences and memory: recurrent networks',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What to do when the input has no fixed length</span>
 <p>Convolution assumed a grid. Now consider a sentence, a stock price, or an audio clip. The
 input is a sequence, its length varies, and the order carries the meaning. A dense layer needs
-a fixed number of inputs, so it cannot even accept this. Recurrence is the first answer the
+a fixed number of inputs, so it can't even accept this. Recurrence is the first answer the
 field found.</p></div>
 
 <h3>The idea in plain English</h3>
 <p>Read the sequence one item at a time, and keep a notepad. At each step, look at the current
-item and at what is on the notepad, produce an output, and update the notepad. The notepad is
+item and at what's on the notepad, produce an output, and update the notepad. The notepad is
 the only thing carried forward, so it has to hold everything from the past that still matters.</p>
-<p>That notepad is called the <b>hidden state</b>. The network is the same at every step, the
-same weights applied over and over, which is why it can handle a sequence of any length. It is
-weight sharing again, but across time rather than across space.</p>
+<p>That notepad is the <b>hidden state</b>. The network is the same at every step, the same
+weights applied over and over, which is why it can handle a sequence of any length. Weight
+sharing again, across time rather than space. A network built this way is an <b>RNN</b>
+(recurrent neural network). It feeds its own previous output back in as part of the next
+input, which is what suits it to sequences.</p>
 
 <h3>Written down</h3>
 <div class="mathblock">h<sub>t</sub> = tanh( W<sub>hh</sub> h<sub>t-1</sub> + W<sub>xh</sub> x<sub>t</sub> + b<sub>h</sub> )
@@ -2127,33 +2141,32 @@ any image position.</div>
 
 <h3>Training it: unrolling</h3>
 <p>To train, you <b>unroll</b> the loop. A 20-step sequence becomes a 20-layer feed-forward
-network, where every layer happens to share the same weights, and then you run ordinary
-backpropagation over it. This is called <b>backpropagation through time</b>. The gradients for
-the shared matrix are summed across all the steps where it was used.</p>
+network where every layer shares the same weights, and you run ordinary backpropagation over
+it. This is <b>backpropagation through time</b>. The gradients for the shared matrix are
+summed across all the steps where it was used.</p>
 <div class="mathblock">&part;E/&part;W<sub>hh</sub> = &Sigma;<sub>t=1..T</sub> &part;E<sub>t</sub>/&part;W<sub>hh</sub></div>
 
 <h3>The problem, which is now predictable</h3>
-<p>You already have everything needed to see what goes wrong. Propagating gradient from step
-<code>T</code> back to step <code>t</code> means passing through <code>T - t</code> applications
-of the same recursion, so the chain rule accumulates a product:</p>
+<p>Propagating gradient from step <code>T</code> back to step <code>t</code> means passing
+through <code>T - t</code> applications of the same recursion. So the chain rule accumulates a
+product:</p>
 <div class="mathblock">&part;h<sub>T</sub>/&part;h<sub>t</sub> = &Pi;<sub>k=t+1..T</sub> W<sub>hh</sub><sup>T</sup> diag( tanh'(a<sub>k</sub>) )</div>
 <p>The same matrix, multiplied by itself, over and over. Whether that product survives is
 governed by the largest singular value of <code>W<sub>hh</sub></code>, call it
 <code>&lambda;</code>. If <code>&lambda; &lt; 1</code> the product shrinks geometrically toward
-zero. If <code>&lambda; &gt; 1</code> it grows without bound. There is no comfortable middle,
+zero. If <code>&lambda; &gt; 1</code> it grows without bound. There's no comfortable middle,
 because a number other than exactly 1 raised to a large power goes to 0 or to infinity.</p>
 <div class="hardidea">🧠 <b>Put numbers on it.</b> Suppose the per-step factor is 0.9, which
 sounds harmless. Over 50 steps: <code>0.9<sup>50</sup> &asymp; 0.005</code>. The gradient
 reaching the start of the sequence is two hundred times smaller than the one at the end, so the
-early words barely train. Now suppose it is 1.1: <code>1.1<sup>50</sup> &asymp; 117</code>, and
-one bad batch produces an update large enough to destroy the model. Recall that
-<code>tanh'</code> is at most 1 and usually much less, so the shrinking case is the normal one.
-<b>A plain RNN cannot reliably learn dependencies more than about ten steps apart.</b></div>
+early words barely train. Now suppose it's 1.1: <code>1.1<sup>50</sup> &asymp; 117</code>, and
+one bad batch produces an update large enough to destroy the model. <code>tanh'</code> is at
+most 1 and usually much less, so the shrinking case is the normal one. <b>A plain RNN cannot
+reliably learn dependencies more than about ten steps apart.</b></div>
 <p>Exploding gradients have a blunt fix that works: <b>gradient clipping</b>, which rescales the
 gradient whenever its norm exceeds a threshold. Vanishing gradients have no such fix, because
-you cannot amplify information that is already gone. That required a change to the
-architecture, which is the next lesson.</p>
-`,
+you can't amplify information that is already gone. That required a change to the
+architecture, which is the next lesson.</p>`,
  docs:[['Karpathy, the unreasonable effectiveness of RNNs','https://karpathy.github.io/2015/05/21/rnn-effectiveness/']],
  exs:[{title:'Unroll a recurrent network by hand',
    lang:'python',
@@ -2249,18 +2262,22 @@ print(states, h_final, h_reversed, len(states_long), sensitivity)
 {id:'nn11',
  title:'Why RNNs forget, and how gates fixed it',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 If the problem is a repeated multiplication, remove the multiplication</span>
-<p>The last lesson ended with a diagnosis: gradient dies because it is multiplied by the same
-matrix at every step. The LSTM, published by Hochreiter and Schmidhuber in 1997, fixes it by
-building a path through time where the gradient is <b>added to</b> rather than multiplied.</p></div>
+<p>The last lesson ended with a diagnosis: gradient dies because it's multiplied by the same
+matrix at every step. The <b>LSTM</b> (long short-term memory), published by Hochreiter and
+Schmidhuber in 1997, fixes it by building a path through time where the gradient is <b>added
+to</b> rather than multiplied. It is a recurrent network with gates that decide what to remember
+and what to forget.</p></div>
 
 <h3>The idea in plain English</h3>
-<p>Keep two things instead of one. A <b>cell state</b>, which is a conveyor belt running the
-length of the sequence and which the network mostly leaves alone, and a <b>hidden state</b>,
-which is the working output at each step.</p>
-<p>Then add three small controllers, called <b>gates</b>, each of which is a tiny neural network
-producing a number between 0 and 1 for every position on the belt. Zero means block completely,
-one means let through completely.</p>
+<p>Keep two things instead of one. A <b>cell state</b>, a conveyor belt running the length of
+the sequence that the network mostly leaves alone, and a <b>hidden state</b>, the working
+output at each step.</p>
+<p>Then add three small controllers, called <b>gates</b>. Each is a tiny neural network
+producing a number between 0 and 1 for every position on the belt. Zero means block
+completely, one means let through completely.</p>
 <p><b>The forget gate</b> decides what to wipe off the belt. <b>The input gate</b> decides what
 new information to place on it. <b>The output gate</b> decides how much of the belt to expose as
 this step's answer. Every one of those decisions is learned, and depends on what the network is
@@ -2275,8 +2292,8 @@ C&#771;<sub>t</sub> = tanh( W<sub>C</sub>[h<sub>t-1</sub>, x<sub>t</sub>] + b<su
 
 C<sub>t</sub> = f<sub>t</sub> &odot; C<sub>t-1</sub> + i<sub>t</sub> &odot; C&#771;<sub>t</sub>    the belt
 h<sub>t</sub> = o<sub>t</sub> &odot; tanh( C<sub>t</sub> )</div>
-<p>Sigmoid is used for the gates precisely because it outputs between 0 and 1, which is what a
-valve needs. <code>&odot;</code> is elementwise, so each position on the belt is gated
+<p>Sigmoid is used for the gates because it outputs between 0 and 1, which is what a valve
+needs. <code>&odot;</code> is elementwise, so each position on the belt is gated
 independently.</p>
 
 <h3>The line that does the work</h3>
@@ -2284,15 +2301,15 @@ independently.</p>
 <div class="mathblock">C<sub>t</sub> = f<sub>t</sub> &odot; C<sub>t-1</sub> + i<sub>t</sub> &odot; C&#771;<sub>t</sub>
 
 &part;C<sub>t</sub>/&part;C<sub>t-1</sub> = f<sub>t</sub></div>
-<p>Compare that with the RNN, where the equivalent derivative was
-<code>W<sub>hh</sub><sup>T</sup>diag(tanh')</code>. Here it is just the forget gate. If the
-network learns <code>f<sub>t</sub> &asymp; 1</code> for some position, the gradient passes
-through that step essentially unchanged, and it can do so for hundreds of steps. The path from
+<p>In the <b>RNN</b> (recurrent neural network) of the last lesson the equivalent derivative was
+<code>W<sub>hh</sub><sup>T</sup>diag(tanh')</code>. Here it's the forget gate. If the network
+learns <code>f<sub>t</sub> &asymp; 1</code> for some position, the gradient passes through
+that step essentially unchanged, and it can do so for hundreds of steps. The path from
 <code>C<sub>1</sub></code> to <code>C<sub>T</sub></code> is a sum with a near-identity
 connection, not a product of matrices.</p>
 <div class="hardidea">🧠 <b>The generalizable idea, which matters more than the LSTM.</b> The
 fix was to create a route through the network that is close to the identity, so gradient
-survives it. That same idea reappears as <b>residual connections</b> in ResNet, where a layer
+survives it. The same idea reappears as <b>residual connections</b> in ResNet, where a layer
 computes <code>y = F(x) + x</code> rather than <code>y = F(x)</code>. The derivative of that
 addition is 1, so gradient always has an unobstructed path back. Skip connections are what let
 networks go from about 20 layers to over 100. LSTM gates and residual connections are the same
@@ -2306,8 +2323,8 @@ learn otherwise.</div>
 <h3>GRU, in one paragraph</h3>
 <p>The <b>gated recurrent unit</b> (2014) merges the forget and input gates into one update
 gate, and drops the separate cell state. Fewer parameters, faster, and in practice usually
-comparable. Which one is better depends on the problem, and the answer from the literature is that the difference is small.</p>
-`,
+comparable. Which one is better depends on the problem, and the literature says the difference
+is small.</p>`,
  docs:[['Hochreiter & Schmidhuber, Long Short-Term Memory (1997)','https://www.bioinf.jku.at/publications/older/2604.pdf'],['Olah, Understanding LSTM Networks','https://colah.github.io/posts/2015-08-Understanding-LSTMs/']],
  exs:[{title:'Multiply thirty derivatives together, then open a gate',
    lang:'python',
@@ -2413,42 +2430,49 @@ print(grad_rnn, grad_gate, grad_gate_zero, grad_gate / grad_rnn)
 {id:'nn12',
  title:'Attention: the idea that replaced memory',
  body:`
+
+
+
+
 <div class="ground"><span class="gTag">🎯 Stop summarizing the past, and look it up instead</span>
-<p>Both the RNN and the LSTM force everything from the past through one fixed-size state. For a
-long document that is a bottleneck no amount of gating removes. Attention throws the bottleneck
+<p>Both the <b>RNN</b> (recurrent neural network, which feeds its own previous output back
+in) and the <b>LSTM</b> (its gated cousin, which learns what to remember and what to forget)
+force everything from the past through one fixed-size state. For a
+long document that's a bottleneck no amount of gating removes. Attention throws the bottleneck
 out: keep every past position available, and at each step decide which ones to read.</p></div>
 
 <h3>The plain English version</h3>
-<p>You are translating a sentence and about to produce the next word. Rather than relying on a
-summary of the sentence, you glance back at the original and focus on the two or three words
-that matter for the word you are about to write. Different output word, different words to look
+<p>You're translating a sentence and about to produce the next word. Rather than relying on a
+summary of the sentence, you glance back at the original. You focus on the two or three words
+that matter for the word you're about to write. Different output word, different words to look
 at.</p>
-<p>That is attention. For each position, compute a score against every other position saying how
-relevant it is, turn those scores into weights that sum to one, and take a weighted average of
-what is stored there. Nothing is summarized away, and everything stays reachable.</p>
+<p>That's attention. For each position, compute a score against every other position saying how
+relevant it is. Turn those scores into weights that sum to one, and take a weighted average of
+what's stored there. Nothing is summarized away.</p>
 
 <h3>Queries, keys and values</h3>
-<p>The vocabulary is borrowed from databases and it is a good analogy. A <b>query</b> is what
-this position is looking for. A <b>key</b> is what each position advertises about itself. A
-<b>value</b> is what you actually get back if you attend to it. Match the query against every
-key to get scores, then take a weighted blend of the values.</p>
-<p>Unlike a database, the match is soft: you do not retrieve one row, you retrieve a mixture
+<p>The vocabulary is borrowed from databases. A <b>query</b> is what this position is looking
+for. A <b>key</b> is what each position advertises about itself. A <b>value</b> is what you get
+back if you attend to it. Match the query against every key to get scores, then take a weighted
+blend of the values.</p>
+<p>Unlike a database, the match is soft: you don't retrieve one row, you retrieve a mixture
 weighted by relevance. Each of <code>Q</code>, <code>K</code> and <code>V</code> is produced by
 multiplying the inputs by a learned matrix, so the network learns what to advertise and what to
 look for.</p>
 <div class="mathblock">Attention(Q, K, V) = softmax( QK<sup>T</sup> / &radic;d<sub>k</sub> ) V</div>
-<p>Read it in pieces. <code>QK<sup>T</sup></code> is every query dotted with every key, giving a
-grid of relevance scores. Dividing by <code>&radic;d<sub>k</sub></code> keeps them from growing
-with dimension. Softmax turns each row into weights summing to 1. Multiplying by <code>V</code>
-takes the weighted average.</p>
+<p><code>QK<sup>T</sup></code> is every query dotted with every key, giving a grid of relevance
+scores. Dividing by <code>&radic;d<sub>k</sub></code> keeps them from growing with dimension.
+Softmax turns each row into weights summing to 1. Multiplying by <code>V</code> takes the
+weighted average.</p>
 <div class="hardidea">🧠 <b>Why divide by the square root of the dimension.</b> If the entries of
 <code>q</code> and <code>k</code> are independent with mean 0 and variance 1, then
-<code>q&middot;k</code> is a sum of <code>d<sub>k</sub></code> such products, so it has variance
+<code>q&middot;k</code> is a sum of <code>d<sub>k</sub></code> such products. So it has variance
 <code>d<sub>k</sub></code> and typical size <code>&radic;d<sub>k</sub></code>. With
-<code>d<sub>k</sub> = 64</code> the scores are typically around 8, and after exponentiating,
-softmax becomes nearly one-hot. A nearly one-hot softmax has almost no gradient, so learning
+<code>d<sub>k</sub> = 64</code> the scores are typically around 8. After exponentiating,
+softmax becomes nearly one-hot, meaning all the weight lands on one position and none on the
+rest. A nearly one-hot softmax has almost no gradient, so learning
 stalls. Dividing by <code>&radic;d<sub>k</sub></code> restores unit variance and keeps the
-softmax in a range where it can still learn. It is one symbol, and without it training does not
+softmax in a range where it can still learn. One symbol, and without it training doesn't
 work.</div>
 <div class="worked"><b>Worked, three positions.</b> Suppose one query gives raw scores
 <code>[4.0, 1.0, 0.5]</code> against three keys, with <code>d<sub>k</sub> = 4</code> so we
@@ -2458,21 +2482,20 @@ divide by 2: <code>[2.0, 0.5, 0.25]</code>. Exponentiate: <code>[7.39, 1.65, 1.2
 with a little of the others mixed in.</div>
 
 <h3>Self-attention, and multiple heads</h3>
-<p>When the queries, keys and values all come from the same sequence, it is called
-<b>self-attention</b>: every word looks at every other word in its own sentence. That is how a
+<p>When the queries, keys and values all come from the same sequence, it's called
+<b>self-attention</b>. Every word looks at every other word in its own sentence. That's how a
 model resolves what "it" refers to, by letting the position holding "it" attend strongly to the
 noun it stands for.</p>
 <p><b>Multi-head attention</b> runs several of these in parallel with different learned
 projections, then concatenates the results. One head may track grammatical subject, another
 nearby modifiers, another long-range reference. Averaging everything into one attention pattern
-would blur those apart.</p>
+would blur those together.</p>
 
 <h3>What it costs</h3>
 <p>Every position attends to every position, so the score grid is <code>n &times; n</code> for a
 sequence of length <code>n</code>. Compute and memory grow as <b>O(n&sup2;)</b>. Doubling the
 context length quadruples the cost. This is the central engineering constraint of modern
-language models, and a large research literature exists purely to soften it.</p>
-`,
+language models, and a large research literature exists purely to soften it.</p>`,
  docs:[['Vaswani et al., Attention Is All You Need (2017)','https://arxiv.org/abs/1706.03762'],['The Illustrated Transformer','https://jalammar.github.io/illustrated-transformer/']],
  exs:[{title:'Implement scaled dot product attention',
    lang:'python',
@@ -2579,21 +2602,25 @@ print(scores, weights, out, max_w_unscaled, max_w_scaled)
 {id:'nn13',
  title:'Transformers: what actually happens inside one',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Attention, plus the three unglamorous parts that make it trainable</span>
 <p>The 2017 paper was titled "Attention Is All You Need," which is catchy and slightly
 misleading. Attention is the new part. A transformer is attention plus positional information,
-plus a feed-forward network, plus normalization and residuals, and it does not work without
+plus a feed-forward network, plus normalization and residuals, and it doesn't work without
 them.</p></div>
 
 <h3>Why attention alone is not enough</h3>
-<p>Attention is <b>permutation invariant</b>. It computes a weighted average, and averages do
-not care about order. Shuffle the words of a sentence and pure self-attention produces exactly
-the same set of outputs, just reordered. For language that is fatal, since "the dog bit the man"
-and "the man bit the dog" contain identical words.</p>
+<p>Attention is <b>permutation invariant</b>. It computes a weighted average, and averages don't
+care about order. Shuffle the words of a sentence and pure self-attention produces the same
+set of outputs, reordered. For language that's fatal. "The dog bit the man" and "the man bit
+the dog" contain identical words.</p>
 <p>So position has to be injected explicitly. <b>Positional encodings</b> add a
-position-dependent vector to each input embedding. The original paper used fixed sine and cosine
+position-dependent vector to each input <b>embedding</b>, the learned vector that stands for a
+word, placed so that similar words sit close together. The original paper used fixed sine and cosine
 waves of different frequencies, chosen so that relative offsets correspond to a linear
-transformation; modern models often learn the encodings instead, or use rotary encodings which
+transformation. Modern models often learn the encodings instead, or use rotary encodings, which
 apply a rotation whose angle depends on position.</p>
 <div class="mathblock">PE(pos, 2i)   = sin( pos / 10000<sup>2i/d</sup> )
 PE(pos, 2i+1) = cos( pos / 10000<sup>2i/d</sup> )</div>
@@ -2604,15 +2631,15 @@ x &larr; x + FeedForward( LayerNorm(x) )
 
 where FeedForward(x) = W<sub>2</sub> &middot; ReLU( W<sub>1</sub>x + b<sub>1</sub> ) + b<sub>2</sub></div>
 <p>Two sublayers, each wrapped in a residual connection and a normalization. Stack this block
-<code>N</code> times, 6 in the original paper, 96 or more in large modern models.</p>
-<p><b>The residuals</b> are the same identity-path idea from the LSTM lesson, and they are what
-allow the stack to be deep at all. <b>Layer normalization</b> rescales each position's vector to
-zero mean and unit variance, which keeps activations in a workable range as depth grows.</p>
+<code>N</code> times: 6 in the original paper, 96 or more in large modern models.</p>
+<p><b>The residuals</b> are the identity-path idea from the LSTM lesson, and they're what allow
+the stack to be deep at all. <b>Layer normalization</b> rescales each position's vector to zero
+mean and unit variance, which keeps activations in a workable range as depth grows.</p>
 <p><b>The feed-forward network</b> is easy to overlook and is where most of the parameters live.
-It is applied to each position independently, and it is usually four times wider than the model
-dimension. Attention moves information between positions; the feed-forward layer does the
-processing at each one. Both are needed, and roughly two thirds of a transformer's parameters
-sit in these layers rather than in attention.</p>
+It's applied to each position independently, and is usually four times wider than the model
+dimension. Attention moves information between positions. The feed-forward layer does the
+processing at each one. Roughly two thirds of a transformer's parameters sit in these layers
+rather than in attention.</p>
 <div class="worked"><b>Where the parameters actually go.</b> With
 <code>d = 512</code> and a feed-forward width of 2048, one block holds about
 <code>4d&sup2; = 1.05M</code> parameters in attention (the Q, K, V and output projections) and
@@ -2621,16 +2648,16 @@ block is the part nobody puts in the diagram.</div>
 
 <h3>Masking, and why it makes a language model</h3>
 <p>To use a transformer for generation, you prevent each position from attending to positions
-after it, by setting those scores to negative infinity before the softmax so their weights become
-zero. This is <b>causal masking</b>. Now predicting the next token cannot cheat by looking at
-it, and the model can be trained on any text at all, with the text itself supplying the labels.</p>
-<div class="hardidea">🧠 <b>Why this architecture took over, in one sentence.</b> An RNN must
-process step 1 before step 2, so training cannot be parallelized along the sequence. A
+after it. You set those scores to negative infinity before the softmax, the step that turns
+scores into weights summing to one, so their weights become
+zero. This is <b>causal masking</b>. Now predicting the next <b>token</b> (a word, or a piece of
+one) can't cheat by looking at it. The model can be trained on any text at all, with the text itself supplying the labels.</p>
+<div class="hardidea">🧠 <b>Why this architecture took over, in one sentence.</b> An <b>RNN</b> (recurrent neural network, which feeds each output back in as the next input) must
+process step 1 before step 2, so training can't be parallelized along the sequence. A
 transformer computes all positions simultaneously, because attention is a single matrix
-multiplication over the whole sequence. That turned sequence modeling into exactly the operation
-GPUs are fastest at, and made it economic to train on far more text. The architecture did not
-just work better, it removed the reason you could not spend more compute.</div>
-`,
+multiplication over the whole sequence. That turned sequence modeling into the operation GPUs
+are fastest at, and made it economic to train on far more text. The architecture removed the
+reason you couldn't spend more compute.</div>`,
  docs:[['Attention Is All You Need (2017)','https://arxiv.org/abs/1706.03762'],['The Annotated Transformer, line by line in code','https://nlp.seas.harvard.edu/annotated-transformer/']],
  exs:[{title:'Show attention cannot see order, then give it one',
    lang:'python',
@@ -2745,66 +2772,69 @@ print(np.round(w_causal, 4))
 {id:'nn14',
  title:'What neural networks still cannot do',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What the rest of the stream cannot do</span>
 <p>Every technique here works, and none of them makes the limitations below go away. Knowing
-what a network cannot do is what separates using one well from being surprised by it in
+what a network can't do is what separates using one well from being surprised by it in
 production.</p></div>
 
 <h3>They interpolate confidently and extrapolate badly</h3>
 <p>A network learns a function that fits the region its training data covered. Ask about a point
 inside that region and it does well. Ask about a point outside it and the answer is arbitrary,
 because nothing constrained the function there.</p>
-<p>The dangerous part is that <b>nothing in the output says which case you are in</b>. A
+<p>The dangerous part is that <b>nothing in the output says which case you're in</b>. A
 classifier trained on daytime photographs will return a confident answer for a night-time one.
-Softmax always produces a probability, and that probability is not a measure of whether the
+<b>Softmax</b>, the final layer that turns a classifier's scores into probabilities summing to
+one, always produces a probability. That probability isn't a measure of whether the
 input resembled anything in training.</p>
 
 <h3>They are not calibrated, and they are easy to fool</h3>
-<p>Modern networks are systematically <b>overconfident</b>: a set of predictions made at 99
+<p>Modern networks are systematically <b>overconfident</b>. A set of predictions made at 99
 percent confidence is typically right rather less than 99 percent of the time. Techniques like
-temperature scaling help and do not fully fix it.</p>
+temperature scaling help and don't fully fix it.</p>
 <p>Worse, <b>adversarial examples</b> exist. Take an image the network classifies correctly, add
 a carefully chosen perturbation too small for a person to see, and the classification flips to
-something arbitrary with high confidence. This is not a bug in one model, it is a property of
-high-dimensional decision boundaries learned this way, and a decade of work has not eliminated
+something arbitrary with high confidence. This is a property of high-dimensional decision
+boundaries learned this way, not a bug in one model, and a decade of work hasn't eliminated
 it.</p>
 
 <h3>Correlation is what they learn, and shortcuts are what they take</h3>
 <p>A network minimizes loss. If a shortcut predicts the label, it will use the shortcut, and it
 has no way to prefer the causal explanation. Classifiers have been found keying on hospital
 watermarks rather than pathology, on background texture rather than the animal, on scanner
-artifacts rather than tissue. Each of those achieved excellent validation accuracy, because the
-shortcut was present in the validation set too.</p>
+artifacts rather than tissue. Each of those achieved excellent <b>validation</b> accuracy, the
+score on data held back from training, because the shortcut was present in the validation set
+too.</p>
 <div class="hardidea">🧠 <b>Why your validation set will not catch this.</b> The validation split
 is drawn from the same collection process as the training data, so any bias in that process
-appears in both. Shortcut learning is invisible to the metric you are watching, by construction.
-Catching it needs a distribution shift, data from another hospital, another camera, another
-year, and that is expensive, which is why so many published models fail on deployment.</div>
+appears in both. Shortcut learning is invisible to the metric you're watching, by construction.
+Catching it needs a distribution shift: data from another hospital, another camera, another
+year. That's expensive, which is why so many published models fail on deployment.</div>
 
 <h3>Data hunger, and what it costs</h3>
 <p>People generalize from a handful of examples. Networks generally need many thousands per
 class. Transfer learning softens this by starting from a model trained on something large, but
-the requirement has not gone away, it has been paid once by somebody else.</p>
+the requirement hasn't gone away. It has been paid once by somebody else.</p>
 
 <h3>They cannot tell you why</h3>
 <p>A model with a hundred million weights has no explanation to give. Interpretability methods
-exist, saliency maps, probing classifiers, attention visualization, and they give hints rather
+exist (saliency maps, probing classifiers, attention visualization), and they give hints rather
 than accounts. Several are unreliable enough that a saliency map can look sensible for a model
 that is provably keying on something else. In domains where a decision must be justified, this
-is not a research inconvenience, it is a reason not to use one.</p>
+is a reason not to use one.</p>
 
 <h3>How to use one anyway</h3>
-<p>Know the region your training data covers, and treat anything outside it as unanswered rather
-than answered. Test on data collected differently from your training data, not just held out
-from it. Treat confidence scores as scores and not as probabilities unless you have calibrated
-them. And keep asking what a shortcut would look like if the model had found one, because the
-metric will not raise its hand.</p>
+<p>Know the region your training data covers, and treat anything outside it as unanswered.
+Test on data collected differently from your training data, not only held out from it. Treat
+confidence scores as scores and not as probabilities unless you've calibrated them. And keep
+asking what a shortcut would look like if the model had found one, because the metric won't
+raise its hand.</p>
 <div class="demystify"><b>Where this leaves you.</b> Everything in this stream is a way of
-building a function that fits data, and the field's remarkable results come from doing that at
-scale with the right architectural priors. That is a genuinely powerful thing, and it is
-narrower than the language around it suggests. Holding both of those at once is the useful
-position.</div>
-`,
+building a function that fits data, and the field's results come from doing that at scale with
+the right architectural priors. That's a powerful thing, and it's narrower than the language
+around it suggests. Hold both of those at once.</div>`,
  docs:[['Geirhos et al., Shortcut Learning in Deep Neural Networks','https://arxiv.org/abs/2004.07780'],['Guo et al., On Calibration of Modern Neural Networks','https://arxiv.org/abs/1706.04599']],
  exs:[{title:'Fit a network inside its range, then ask it a question outside',
    lang:'python',

@@ -2,10 +2,12 @@ STREAMS.push({icon:'🤖',track:'ML & AI Track',title:'Classic Machine Learning:
 {id:'mlwhat',
  title:'What machine learning actually is: the fit → predict → evaluate loop',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>You met the words in Orientation; now we make them real. <b>Machine learning is learning a
+<p>You met the words in Orientation. Now we make them real. <b>Machine learning is learning a
 function from examples.</b> Instead of you writing rules ("if the email says FREE MONEY, it is
-spam"), you show the computer many labeled examples and it <i>finds the rule itself</i> by
+spam"), you show the computer many labeled examples. It <i>finds the rule itself</i> by
 tuning knobs to reduce error. Every classic model, regression, classification, trees, is a
 variation on one loop: <b>fit, predict, evaluate.</b></p></div>
 
@@ -13,31 +15,30 @@ variation on one loop: <b>fit, predict, evaluate.</b></p></div>
 <p><b>fit</b> (a.k.a. train): show the model the <i>training data</i>, features
 <code>X</code> and their true labels <code>y</code>, and let it tune its knobs to match.
 <b>predict</b>: give the trained model new features and it outputs its guess. <b>evaluate</b>:
-measure how wrong those guesses are (the error/loss), ideally on data it has <i>never seen</i>,
-so you know it will work in the real world, not just memorize.</p>
+measure how wrong those guesses are (the error/loss), ideally on data it has <i>never seen</i>.
+That tells you whether it will work in the real world or has just memorized.</p>
 <div class="codeSample">model.fit(X_train, y_train)     # learn from labeled examples
 preds = model.predict(X_test)   # guess on new data
 error = mse(preds, y_test)      # how wrong were the guesses?</div>
-<p>That <code>fit/predict</code> shape is the exact scikit-learn interface you met, and it is
-the same whether the model is a line, a tree, or a neural network. Learn the loop once, use it
-everywhere.</p>
+<p>That <code>fit/predict</code> shape is the scikit-learn interface you met. It's the same
+whether the model is a line, a tree, or a neural network.</p>
 
-<h3>Weights: the knobs, grounded (as promised)</h3>
+<h3>Weights: the knobs, grounded</h3>
 <p>A model is a function with adjustable numbers called <b>weights</b> (or parameters). For a
 straight-line model <code>prediction = w · feature + b</code>, the weight <code>w</code> is
-<b>how much that feature counts</b> toward the prediction, and <code>b</code> (the <b>bias</b>
+<b>how much that feature counts</b> toward the prediction. <code>b</code> (the <b>bias</b>
 or intercept) is the baseline. Reading a weight: its <b>sign</b> says whether more of the
 feature pushes the prediction up or down, its <b>size</b> says how strongly. "+18k per bedroom,
-−900 per year of age", those numbers <i>are</i> the weights. Training is nothing but searching
-for the weights that make the error small. ("Weight," "parameter," and "coefficient" are three
-words for the same thing, <code>model.coef_</code> in scikit-learn.)</p>
+−900 per year of age", those numbers <i>are</i> the weights. Training is a search for the
+weights that make the error small. "Weight," "parameter," and "coefficient" are three
+words for the same thing, <code>model.coef_</code> in scikit-learn.</p>
 
 <h3>Regression vs classification</h3>
-<p>Two flavors cover most of classic ML: <b>regression</b> predicts a <i>number</i> (house
-price, temperature), the demystified name just means "predict a continuous value"; and
-<b>classification</b> predicts a <i>category</i> (spam / not-spam, cat / dog). Same fit/predict
-loop; different kind of answer, and a different way to measure error (squared error for numbers,
-accuracy for categories). You will build one of each in this stream.</p>
+<p>Two flavors cover most of classic ML. <b>Regression</b> predicts a <i>number</i> (house
+price, temperature); the name just means "predict a continuous value".
+<b>Classification</b> predicts a <i>category</i> (spam / not-spam, cat / dog). Same fit/predict
+loop, different kind of answer, and a different way to measure error: squared error for numbers,
+accuracy for categories. You'll build one of each in this stream.</p>
 
 <div class="demystify"><b>Demystify "a model":</b> not a mind, not magic, a <b>function with
 tunable numbers</b>, plus a procedure for tuning them to fit data. When you hear "we trained a
@@ -125,25 +126,30 @@ print(preds, mse, base_pred, base_mse, beats_baseline)
 {id:'mllinreg',
  title:'Linear regression: teaching a line to fit data (gradient descent from scratch)',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p><b>Linear regression</b> is the "hello world" of ML: fit the best straight line through your
-data, then use it to predict. It is where <i>all</i> the foundations finally click together:
-the line is a dot product (linear algebra), the error is MSE (probability/loss), and finding
-the best weights is gradient descent (calculus). You are about to train a real model with
+data, then use it to predict. It's where the foundations click together.
+The line is a dot product (linear algebra). The error is <b>MSE</b> (mean squared error, from
+the probability and loss lessons: average the squared misses, so big misses are punished hard).
+Finding the best weights is gradient descent (calculus). You're about to train a real model with
 nothing but what you already know.</p></div>
 
 <h3>The model, the loss, the learning</h3>
 <p><b>Model:</b> <code>prediction = w · x + b</code>, a line with two knobs, the slope
 <code>w</code> and intercept <code>b</code>. <b>Loss:</b> the mean squared error, how wrong the
-line is on average. <b>Learning:</b> gradient descent, nudge <code>w</code> and <code>b</code>
+line is on average. <b>Learning:</b> gradient descent. Nudge <code>w</code> and <code>b</code>
 downhill on the loss until it stops improving. The gradients (the slopes of the MSE with
-respect to each knob) are, by the calculus you did:</p>
+respect to each knob) come straight from the calculus you did.</p>
 <div class="mathblock">error_i = (w·xᵢ + b) − yᵢ            (how wrong on example i)
 
 ∂Loss/∂w = (2/n) · Σ errorᵢ · xᵢ      (nudge for the slope)
 ∂Loss/∂b = (2/n) · Σ errorᵢ           (nudge for the intercept)</div>
-<p>Then the update is the gradient-descent step you already wrote: <code>w -= lr · ∂Loss/∂w</code>
-and <code>b -= lr · ∂Loss/∂b</code>. Repeat, and the line walks toward the data.</p>
+<p>The update is the gradient-descent step you already wrote: <code>w -= lr · ∂Loss/∂w</code>
+and <code>b -= lr · ∂Loss/∂b</code>. Here <b>lr</b> is the learning rate, how big each step
+is. Repeat, and the line walks toward the data.</p>
 
 <div class="worked"><b>✍️ One step by hand.</b> Data <code>x=[1,2], y=[3,5]</code>, start
 <code>w=0, b=0</code>, so both predictions are 0 and errors are <code>[0−3, 0−5] = [−3, −5]</code>.
@@ -153,10 +159,10 @@ With <code>lr = 0.1</code>: <code>w ← 0 − 0.1·(−13) = 1.3</code>, <code>b
 Both knobs moved up (the line was too low). Repeat a few hundred times and it converges to the
 best-fit line.</div>
 
-<div class="demystify"><b>Demystify "regression":</b> the confusing name is Galton's historical
-accident ("regression to the mean"), today it simply means <b>predict a number</b>. And the
-sklearn one-liner <code>LinearRegression().fit(X, y)</code> does exactly the training loop you
-are about to write (via the closed-form normal equations from the linear-algebra stream); the
+<div class="demystify"><b>Demystify "regression":</b> the name is Galton's historical
+accident ("regression to the mean"). Today it means <b>predict a number</b>. The
+sklearn one-liner <code>LinearRegression().fit(X, y)</code> does the training you
+are about to write, via the closed-form normal equations from the linear-algebra stream. The
 from-scratch version is how you <i>understand</i> what that one line does.</div>`,
  docs:[['scikit-learn (LinearRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html']],
  quiz:{title:'Quick check',questions:[
@@ -241,20 +247,23 @@ print(round(w, 3), round(b, 3), round(pred_5, 3), round(final_mse, 6))
 {id:'mlclass',
  title:'Classification with logistic regression: turning a score into a decision',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>Now predict a <b>category</b>, not a number: is this email spam? <b>Logistic regression</b>
-takes the same linear score <code>w·x + b</code> as before, then squashes it through the
-<b>sigmoid</b> into a probability between 0 and 1, "0.93 spam", and decides by a threshold
-(usually 0.5). It is the workhorse first classifier, and the direct ancestor of a neural
+takes the same linear score <code>w·x + b</code> as before and squashes it through the
+<b>sigmoid</b> into a probability between 0 and 1, "0.93 spam". Then it decides by a threshold
+(usually 0.5). It's the workhorse first classifier, and the direct ancestor of a neural
 network's output layer.</p></div>
 
 <h3>Score → probability → decision</h3>
-<p><b>Step 1, score:</b> <code>z = w·x + b</code>, exactly the linear model. <b>Step 2,
-probability:</b> <code>p = sigmoid(z) = 1 / (1 + e^(−z))</code>, the S-curve (from the
-functions lesson) maps any score into (0, 1). A big positive score → near 1; big negative →
-near 0; zero → exactly 0.5. <b>Step 3, decision:</b> predict class 1 (spam) if
-<code>p ≥ 0.5</code>, else class 0. Because sigmoid(0) = 0.5, the decision flips exactly where
-the score <code>z</code> crosses 0, that line is the <b>decision boundary</b>.</p>
+<p><b>Step 1, score:</b> <code>z = w·x + b</code>, the linear model. <b>Step 2,
+probability:</b> <code>p = sigmoid(z) = 1 / (1 + e^(−z))</code>. The S-curve from the
+functions lesson maps any score into (0, 1). A big positive score → near 1; big negative →
+near 0; zero → 0.5. <b>Step 3, decision:</b> predict class 1 (spam) if
+<code>p ≥ 0.5</code>, else class 0. Because sigmoid(0) = 0.5, the decision flips where
+the score <code>z</code> crosses 0. That line is the <b>decision boundary</b>.</p>
 
 <div class="worked"><b>✍️ Worked by hand.</b> One feature: number of spammy words. Weights
 <code>w = 1, b = −3</code>, so <code>z = x − 3</code>. An email with 5 spammy words:
@@ -263,11 +272,12 @@ p = 1 / (1 + e^(−2)) = 1 / (1 + 0.135) ≈ 0.88   →  p ≥ 0.5, predict SPAM
 An email with 1 spammy word: <code>z = −2</code>, <code>p ≈ 0.12</code> → predict NOT spam. The
 boundary sits at <code>x = 3</code> (where <code>z = 0, p = 0.5</code>).</div>
 
-<div class="demystify"><b>Demystify "logistic regression":</b> the name lies twice over, it
-does <b>classification</b>, not regression, and there is nothing scary about it: it is linear
-regression's score passed through the sigmoid to become a probability. Why not just use a line
-for 0/1 labels? Because a line gives −4 or 7.2, nonsense as a probability; the sigmoid keeps the answer between 0 and 1. (And its loss is cross-entropy, not MSE, the log-loss you
-met in the logarithms stream.)</div>`,
+<div class="demystify"><b>Demystify "logistic regression":</b> the name lies. It
+does <b>classification</b>, not regression, and it is linear
+regression's score passed through the sigmoid to become a probability. A plain line
+for 0/1 labels gives −4 or 7.2, nonsense as a probability. The sigmoid keeps the answer between 0 and 1. Its loss is cross-entropy, not <b>MSE</b> (mean squared error, the average squared miss).
+That's the log-loss you met in the logarithms stream. It charges the model for how little
+probability it gave the true class.</div>`,
  docs:[['scikit-learn (LogisticRegression)','https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html']],
  quiz:{title:'Quick check',questions:[
    {q:'Logistic regression turns the linear score w·x + b into a class by:',
@@ -343,25 +353,28 @@ print([round(p, 3) for p in probs], preds, accuracy)
 {id:'mlparadigms',
  title:'Supervised, unsupervised, and the rest of the map',
  body:`
+
+
+
+
 <div class="ground"><span class="gTag">🎯 The first question to ask about any ML problem</span>
-<p>Before choosing an algorithm, work out which kind of problem you have. Almost every mistake in
-applied machine learning starts with getting this wrong, usually by assuming labels exist when
-they do not, or by treating a labeling exercise as a modeling one.</p></div>
+<p>Before choosing an algorithm, work out which kind of problem you have. Most mistakes in
+applied machine learning start here: assuming labels exist when
+they don't, or treating a labeling exercise as a modeling one.</p></div>
 
 <h3>The distinction, in one line</h3>
-<p><b>Supervised learning has an answer key. Unsupervised learning does not.</b> That is the
-entire difference, and everything else follows from it.</p>
+<p><b>Supervised learning has an answer key. Unsupervised learning does not.</b> Everything else follows from that.</p>
 <div class="mathblock">supervised:    data is (x, y) pairs        learn  f: x &rarr; y
 unsupervised:  data is x alone            learn  structure in p(x)</div>
 
 <h3>Supervised learning</h3>
-<p>You have inputs and the correct outputs, and you want a function mapping one to the other.
+<p>You have inputs and correct outputs, and you want a function mapping one to the other.
 Two flavors, distinguished only by what <code>y</code> is.</p>
-<p><b>Regression</b> predicts a number: a price, a temperature, a duration. Error is naturally
-measured as a distance, so squared error is the default, which (as the probability stream shows)
+<p><b>Regression</b> predicts a number: a price, a temperature, a duration. Error is
+a distance, so squared error is the default, which (as the probability stream shows)
 is a Gaussian noise assumption.</p>
 <p><b>Classification</b> predicts a category: spam or not, which of ten digits. Error is
-naturally measured by probability assigned to the truth, so cross-entropy is the default.</p>
+the probability assigned to the truth, so cross-entropy is the default.</p>
 <div class="worked"><b>The test that settles it.</b> Ask whether the numbers you are predicting
 have meaningful arithmetic. Predicting house price: 300k is halfway between 200k and 400k, so
 regression. Predicting which of three doctors saw a patient, coded 1, 2, 3: doctor 2 is not
@@ -369,44 +382,46 @@ halfway between doctors 1 and 3, so classification. Coding categories as integer
 regression on them is a common and quiet error.</div>
 
 <h3>Unsupervised learning</h3>
-<p>No labels. You are asking what structure exists in the data itself, which means there is no
-single right answer and no accuracy to report. That is the hard part, not the algorithms.</p>
-<p><b>Clustering</b> groups similar points: k-means, Gaussian mixtures, hierarchical,
-DBSCAN. <b>Dimensionality reduction</b> finds a smaller set of coordinates that keeps most of
-the information: PCA, t-SNE, UMAP, autoencoders. <b>Density estimation</b> models
-<code>p(x)</code> itself, which gives you anomaly detection for free, since an anomaly is a point
+<p>No labels. You're asking what structure exists in the data itself, so there is no
+single right answer and no accuracy to report. That's the hard part, not the algorithms.</p>
+<p><b>Clustering</b> groups similar points: k-means, Gaussian mixtures, hierarchical, and
+<b>DBSCAN</b> (density-based clustering). DBSCAN grows clusters from dense neighborhoods and labels the rest as
+noise. That's why it finds odd shapes and doesn't need the number of clusters up front.
+<b>Dimensionality reduction</b> finds a smaller set of coordinates that keeps most of
+the information: <b>PCA</b> (principal component analysis), t-SNE, UMAP, autoencoders. PCA finds
+the directions along which the data varies most and keeps only those, so many columns become a few. <b>Density estimation</b> models
+<code>p(x)</code> itself, which gives you anomaly detection for free: an anomaly is a point
 in a low-density region. <b>Association</b> finds items that co-occur.</p>
 <div class="hardidea">🧠 <b>Why unsupervised results are so easy to over-trust.</b> Run k-means
-with k=4 on data with no cluster structure whatsoever and it returns four clusters, confidently,
-with tidy boundaries. The algorithm has no way to report that there was nothing there. Every
-clustering method partitions whatever you hand it. Validating unsupervised output requires
+with k=4 on data with no cluster structure and it returns four clusters, confidently,
+with tidy boundaries. The algorithm can't report that there was nothing there. Every
+clustering method partitions whatever you hand it. Validation needs
 something outside the algorithm: a downstream task it should improve, a stability check across
-resamples, or a human who knows the domain. A silhouette score is a description of the partition,
-not evidence that the partition is real.</div>
+resamples, or a human who knows the domain. A silhouette score (a number for how much closer each point sits to its own cluster than to
+the next one) describes the partition.
+It isn't evidence that the partition is real.</div>
 
-<h3>The middle ground, which is where most real work sits</h3>
-<p><b>Semi-supervised</b>: a few labeled examples and many unlabeled ones. This is the ordinary
+<h3>The middle ground, where most real work sits</h3>
+<p><b>Semi-supervised</b>: a few labeled examples and many unlabeled ones. The ordinary
 situation, because collecting <code>x</code> is cheap and labeling it is not.</p>
-<p><b>Self-supervised</b>: invent labels from the data. Hide a word and predict it; mask a patch
-of an image and reconstruct it; take two crops of the same photo and require their
+<p><b>Self-supervised</b>: invent labels from the data. Hide a word and predict it. Mask a patch
+of an image and reconstruct it. Take two crops of the same photo and require their
 representations to agree. Formally supervised, since there is a target, but it costs no
-annotation, and it is how essentially every large modern model is pre-trained. This is the single
-most consequential idea on this page.</p>
+annotation, and it's how nearly every large modern model is pre-trained.</p>
 <p><b>Reinforcement learning</b>: no answer key, only a reward that arrives later, often long
 after the actions that earned it. Different enough to be its own field.</p>
 
 <h3>Choosing, and the order to do it in</h3>
 <p>Start from the question, not the method. Do you have labels? If yes and you want a number,
 regression; a category, classification. If no, ask whether you want groups, fewer dimensions, or
-a notion of "unusual", and pick accordingly. If you have a few labels and lots of raw data, look
-for a pre-trained model before you consider training anything from scratch, because
-self-supervised pre-training has already paid for most of what you need.</p>
+a notion of "unusual". With a few labels and lots of raw data, look
+for a pre-trained model before training from scratch. Self-supervised
+pre-training has already paid for most of what you need.</p>
 <div class="demystify"><b>A framing that saves time.</b> Supervised learning is interpolation
 inside a labeled region. Unsupervised learning is a description of a dataset. Neither is a claim
 about cause. If your question is "what will happen if we change X", no algorithm on this page
-answers it, and reaching for one is how organizations end up confidently acting on a
-correlation.</div>
-`,
+answers it. Reaching for one is how organizations end up acting on a
+correlation.</div>`,
  exs:[{title:'Run one dataset through both paradigms',
    lang:'python',
    packages:['scikit-learn','numpy'],
@@ -517,57 +532,61 @@ print("adjusted Rand index:", round(ari, 3))
 {id:'mlsmall',
  title:'Working with small datasets, and how to know if a model is any good',
  body:`
-<div class="ground"><span class="gTag">🎯 The situation most people are actually in</span>
-<p>Papers use a million examples. Most real problems have a few hundred rows and no budget for
-more. Small data is not a lesser version of the same task, it changes which methods are
-appropriate and how you are allowed to measure success.</p></div>
 
-<h3>Why small data is specifically a variance problem</h3>
+
+<div class="ground"><span class="gTag">🎯 The situation most people are in</span>
+<p>Papers use a million examples. Most real problems have a few hundred rows and no budget for
+more. Small data changes which methods fit and how you're allowed to measure success.</p></div>
+
+<h3>Why small data is a variance problem</h3>
 <p>From the bias-variance lesson: expected error is
-<code>bias&sup2; + variance + noise</code>. With few rows the fitted model swings substantially
-depending on which rows you happened to get, so <b>variance dominates</b>. That single fact
-determines the entire strategy: with small data you should be willing to accept extra bias to buy
-a reduction in variance.</p>
-<p>It also explains something people find counterintuitive: on a few hundred rows of tabular
-data, logistic regression or gradient-boosted trees routinely beat a neural network. The network
+<code>bias&sup2; + variance + noise</code>. <b>Bias</b> is error from a model too simple to
+fit the pattern; <b>variance</b> is error from a model so flexible it fits the noise. With few
+rows the fitted model swings
+depending on which rows you happened to get, so <b>variance dominates</b>. That sets the
+strategy: accept extra bias to buy a reduction in variance.</p>
+<p>It also explains a counterintuitive result. On a few hundred rows of tabular
+data, logistic regression or gradient-boosted trees often beat a neural network. The network
 has lower bias and far higher variance, and at that sample size the trade goes the wrong way.</p>
 
-<h3>What actually works, in order of effect</h3>
+<h3>What works, in order of effect</h3>
 <p><b>Transfer learning.</b> Start from a model trained on something large and related, and
 fine-tune. Somebody else paid the variance cost on millions of examples. For images, text and
-audio this is now the default and it is not close.</p>
+audio this is the default.</p>
 <p><b>Data augmentation.</b> Manufacture new examples from the ones you have, using
 transformations that preserve the label. Flips, crops and color shifts for images; synonym
-replacement and back-translation for text; time shifts and noise for audio. Every augmentation is
-you telling the model an invariance you know about, which is information the data did not
+replacement and back-translation for text; time shifts and noise for audio. Every augmentation
+tells the model an invariance you know about, information the data didn't
 contain.</p>
-<p><b>Simpler models and stronger regularization.</b> Deliberately accept bias. This is the
+<p><b>Simpler models and stronger regularization.</b> Regularization is a penalty added to
+the loss so the model stays simple. Deliberately accept bias. That's the
 correct move, not a compromise.</p>
-<p><b>Feature engineering.</b> Out of fashion and highly effective when <code>n</code> is small.
-A feature encoding domain knowledge is information you did not have to learn, and learning is
-exactly what you cannot afford.</p>
-<p><b>Ensembling.</b> Average several models. Averaging reduces variance almost by construction,
-which is why bagging exists.</p>
+<p><b>Feature engineering.</b> Out of fashion and effective when <code>n</code> is small.
+A feature encoding domain knowledge is information you didn't have to learn, and learning is
+what you can't afford.</p>
+<p><b>Ensembling.</b> Average several models. Averaging reduces variance almost by construction.
+That is why bagging exists: fit the same model on many random resamples of the rows and
+average the results.</p>
 <p><b>An informative prior.</b> The Bayesian version of all of the above, and the most explicit:
-you are stating what you believed before the data arrived, and small data is precisely when that
+you state what you believed before the data arrived. With small data that
 belief still matters.</p>
 <p><b>Collecting more data.</b> Worth pricing. Error falls as
-<code>1/&radic;n</code>, so going from 100 to 400 rows halves your error. That is often cheaper
+<code>1/&radic;n</code>, so going from 100 to 400 rows halves your error. That's often cheaper
 than a month of modeling.</p>
 
-<h3>Measuring performance when you cannot spare a test set</h3>
-<p>With 200 rows, holding back 40 leaves you both a worse model and a noisy estimate.
+<h3>Measuring performance when you can't spare a test set</h3>
+<p>With 200 rows, holding back 40 leaves you a worse model and a noisy estimate.
 <b>K-fold cross-validation</b> solves this: split into <code>k</code> folds, train on
 <code>k-1</code> and evaluate on the held-out one, rotate, and average.</p>
 <div class="mathblock">CV error = (1/k) &Sigma;<sub>i=1..k</sub> error on fold i</div>
-<p>Every row is used for evaluation exactly once and for training <code>k-1</code> times. With
-<code>k = n</code> this is <b>leave-one-out</b>, nearly unbiased and high variance and expensive.
+<p>Every row is used for evaluation once and for training <code>k-1</code> times. With
+<code>k = n</code> this is <b>leave-one-out</b>: nearly unbiased, high variance, expensive.
 <code>k = 5</code> or <code>10</code> is the usual compromise.</p>
 <div class="hardidea">🧠 <b>The mistake that invalidates the whole estimate.</b> Any step that
 looks at the labels must happen <b>inside</b> the fold, not before it. Selecting features by
 correlation with the target on the full dataset, then cross-validating, leaks the test folds into
-the selection and produces optimistic numbers that will not survive deployment. The same applies
-to scaling, imputation and target encoding. If it learned anything from <code>y</code>, it goes
+the selection. The numbers come out optimistic and won't survive deployment. The same applies
+to scaling, imputation (filling in missing values) and target encoding. If it learned anything from <code>y</code>, it goes
 in the pipeline, and the pipeline goes inside the loop.</div>
 <div class="worked"><b>Stratify when classes are imbalanced.</b> With 200 rows and 20 positives,
 a random 5-fold split can easily give one fold with 1 positive and another with 7. Stratified
@@ -577,12 +596,10 @@ means nothing. Report precision, recall and the confusion matrix.</div>
 
 <h3>The habit that matters most</h3>
 <p>With small data, the difference between a good result and a self-deception is usually not the
-model. It is whether you tuned repeatedly against the same split until something scored well. Do
-that twenty times and you have fitted the validation set with your own choices. Keep a final set
-you look at once, and if you cannot afford one, at least count how many decisions you made
-against your cross-validation score and treat the last number with a proportionate amount of
-suspicion.</p>
-`,
+model. It's whether you tuned repeatedly against the same split until something scored well. Do
+that twenty times and you've fitted the validation set with your own choices. Keep a final set
+you look at once. If you can't afford one, count the decisions you made
+against your cross-validation score and distrust the last number in proportion.</p>`,
  exs:[{title:'Score a model on 40 rows without fooling yourself',
    lang:'python',
    packages:['scikit-learn','numpy'],
@@ -719,24 +736,23 @@ print("imbalanced: accuracy", round(acc_imb, 3), "majority baseline", round(majo
 {id:'mlmetrics',
  title:'Beyond accuracy: precision, recall, F1, and what each one cannot see',
  body:`
-<div class="ground"><span class="gTag">🎯 The number everyone reports, and the one most likely to mislead</span>
-<p>The small-data lesson ended with an instruction and no explanation: stop reporting accuracy,
-report precision, recall and the confusion matrix. Here is the explanation. Accuracy is one
-summary of a classifier, it is the crudest one available, and on any problem where one class is
-rarer than the other it can be excellent while the model is useless. Every metric in this lesson
-is built from the same four numbers, and each one is blind to something specific. Knowing what
-each is blind to is the whole skill.</p></div>
 
-<h3>The confusion matrix: four counts, and everything comes from them</h3>
+<div class="ground"><span class="gTag">🎯 The number everyone reports, and the one most likely to mislead</span>
+<p>The small-data lesson told you to stop reporting accuracy and
+report precision, recall and the confusion matrix. Here is why. Accuracy is the
+crudest summary of a classifier. On any problem where one class is
+rarer than the other it can be excellent while the model is useless. Every metric here
+is built from the same four numbers, and each is blind to something specific.</p></div>
+
+<h3>The confusion matrix: four counts</h3>
 <p>Fix a threshold, make a prediction for every example, and compare it to the truth. There are
-exactly four possible outcomes, and counting them gives you the <b>confusion matrix</b>:</p>
+four possible outcomes. Counting them gives you the <b>confusion matrix</b>:</p>
 <div class="mathblock">                    predicted positive   predicted negative
 actually positive        TP                   FN   (a miss)
 actually negative        FP  (a false alarm)  TN</div>
 <p><b>TP</b> and <b>TN</b> are the two ways to be right. <b>FP</b> is a false alarm: you flagged
-something that was fine. <b>FN</b> is a miss: something real slipped through. Those two mistakes
-are not interchangeable, and almost every argument about which metric to use is really an argument
-about which of them costs more.</p>
+something that was fine. <b>FN</b> is a miss: something real slipped through. Most arguments
+about which metric to use are arguments about which of those two mistakes costs more.</p>
 
 <div class="worked">✍️ <b>Worked, a spam filter.</b> 1,000 emails, of which 50 are spam. The
 filter flags 40 emails, and 30 of those really are spam.
@@ -751,57 +767,53 @@ A 97% accuracy sounds excellent. Now compute the accuracy of a filter that flags
 letting 20 of the 50 spam emails through. Accuracy hid all of that, because 95% of the answer was
 decided by the majority class before the model said anything.</div>
 
-<h3>Precision and recall, and the exact thing each cannot see</h3>
+<h3>Precision and recall, and what each can't see</h3>
 <p><b>Precision = TP / (TP + FP)</b>: of the things you flagged, what share were real? It answers
-"can I trust an alert?" It is blind to what you missed: a filter that flags one email
+"can I trust an alert?" It's blind to what you missed. A filter that flags one email
 and gets it right has precision 1.0 and is worthless.</p>
 <p><b>Recall = TP / (TP + FN)</b>, also called sensitivity or the true positive rate: of the
-things that were real, what share did you catch? It answers "am I missing anything?" It is blind
-to false alarms: a filter that flags every email has recall 1.0 and is also worthless.</p>
-<p>Each metric ignores exactly one of the two mistakes, which is why quoting one of them alone is
-the oldest trick in the book. Notice too that neither uses TN at all. In the worked example the
-940 correctly-ignored emails, 94% of the dataset, contribute nothing to either number. That is
+things that were real, what share did you catch? It answers "am I missing anything?" It's blind
+to false alarms. A filter that flags every email has recall 1.0 and is also worthless.</p>
+<p>Quoting one of them alone is the oldest trick in the book. Neither uses TN. In the worked example the
+940 correctly-ignored emails, 94% of the dataset, contribute nothing to either number. That's
 deliberate: on a rare-event problem the true negatives are the part you were never in doubt
 about.</p>
 
 <h3>F1: one number, when you must have one</h3>
 <div class="mathblock">F1 = 2 &middot; (precision &middot; recall) / (precision + recall)</div>
-<p>F1 is the harmonic mean of the two, which is a mean that punishes imbalance: 0.75 and 0.60 give
+<p>F1 is the harmonic mean of the two, a mean that punishes imbalance. 0.75 and 0.60 give
 F1 = 2(0.45)/1.35 = <b>0.667</b>, but precision 1.0 with recall 0.02 gives F1 = 0.039, not the
-0.51 an ordinary average would report. Score one metric at 1.0 by wrecking the other and F1 does
-not reward you. Its blind spot is that it treats a false alarm and a miss as equally
-expensive, which they almost never are. When they are not, say so with weights (F&beta;) or report
-both numbers and let the reader do the arithmetic.</p>
+0.51 an ordinary average would report. Its blind spot: it treats a false alarm and a miss as equally
+expensive, which they almost never are. When they aren't, say so with weights (F&beta;) or report
+both numbers.</p>
 
 <h3>The threshold is your decision, not the model's</h3>
-<p>A classifier outputs a probability. The 0.5 cut that turns it into a decision is a convention,
-and moving it walks you along a trade: lower the threshold and recall rises while precision falls,
-because you flag more of everything. The model is unchanged. This is why quoting precision and
-recall without the threshold is meaningless, and why a request for "better recall" is usually
-answered by moving a number rather than by training anything.</p>
+<p>A classifier outputs a probability. The 0.5 cut that turns it into a decision is a convention.
+Lower the threshold and recall rises while precision falls,
+because you flag more of everything. The model is unchanged. So precision and
+recall without the threshold are meaningless, and "better recall" is usually
+delivered by moving a number, not by training anything.</p>
 
 <h3>ROC and AUC: the threshold-free summary, and its blind spot</h3>
 <p>Sweep the threshold from high to low, plot the true positive rate against the false positive
 rate <code>FP/(FP+TN)</code>, and you have the <b>ROC curve</b>. The area under it, <b>ROC
-AUC</b>, has an exact reading worth memorizing: it is the probability that a randomly chosen
+AUC</b>, is the probability that a randomly chosen
 positive is scored above a randomly chosen negative. So 0.5 is coin-flipping and 1.0 is a perfect
-ranking, and the number does not depend on any threshold at all.</p>
+ranking, and the number doesn't depend on any threshold.</p>
 <div class="hardidea">🧠 <b>What AUC is blind to: how rare the positives are.</b> The false
-positive rate divides by the number of negatives, so a huge negative class quietly absorbs a huge
+positive rate divides by the number of negatives, so a huge negative class absorbs a huge
 number of false alarms. Take 1,000 negatives and 10 positives. A threshold catching 8 of the 10
 positives at a 5% false positive rate looks superb on a ROC curve. Count the alerts: 8 true and
-0.05 &times; 1000 = 50 false, so precision is 8/58 = <b>0.14</b>. Fifty of the fifty-eight alerts are false,
-and the ROC curve never mentioned it. On heavily imbalanced problems report the
-precision-recall curve and its average precision instead, because both of its axes divide by
+0.05 &times; 1000 = 50 false, so precision is 8/58 = <b>0.14</b>. The ROC curve never mentioned it. On heavily imbalanced problems report the
+precision-recall curve and its average precision instead. Both of its axes divide by
 quantities that shrink when you make mistakes.</div>
 
 <div class="demystify">Demystify the vocabulary. Medicine, statistics and machine learning
 each named these independently, so the same four counts arrive under several names.
 <b>Sensitivity = recall = true positive rate</b>. <b>Specificity = TN/(TN+FP)</b>, the recall of
 the negative class. <b>Positive predictive value = precision</b>. <b>Type I error</b> is a false
-positive and <b>Type II error</b> is a false negative. Nothing new is being said; go back to the
-four counts and read off whichever ratio the paper means.</div>
-`,
+positive and <b>Type II error</b> is a false negative. Go back to the
+four counts and read off whichever ratio the paper means.</div>`,
  docs:[['scikit-learn: classification metrics','https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics']],
  exs:[{title:'Build every metric from the four counts, then AUC from its definition',
    lang:'python',
@@ -918,48 +930,52 @@ print("auc", round(auc, 4))
 {id:'mlzoo',
  title:'The classifier zoo: six ways to draw a boundary',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Every classifier is a different bet about what boundaries look like</span>
-<p>You have met logistic regression. There are half a dozen other families in common use, and
-they differ in one respect that matters more than any other: <b>what shape of decision boundary
-they are willing to draw</b>. Choose by matching that shape to your problem, not by reputation.</p></div>
+<p>You have met logistic regression. Half a dozen other families are in common use. They differ most in <b>what shape of decision boundary
+they're willing to draw</b>. Choose by shape, not reputation.</p></div>
 
 <h3>1. k-nearest neighbors: no model at all</h3>
-<p>To classify a new point, find the <code>k</code> closest training points and take a vote. That
-is the entire algorithm. There is no training phase, which is why it is called
+<p>To classify a new point with <b>k-NN</b> (k-nearest neighbors), find the <code>k</code> closest
+training points and take a vote. There is no training phase, so it's called
 <b>lazy</b>: the training set <i>is</i> the model.</p>
 <div class="mathblock">y&#770;(x) = majority vote over the k nearest x<sub>i</sub>, by some distance d(x, x<sub>i</sub>)</div>
-<p><code>k</code> controls the bias-variance trade directly. <code>k = 1</code> gives a boundary
-that wraps around every single point, which is maximum variance and zero bias. Large
-<code>k</code> smooths the boundary toward the majority class, which is the opposite.</p>
-<div class="demystify"><b>k-NN is not k-means, and the names cause real confusion.</b> k-NN is
+<p><code>k</code> is a bias-variance dial. <b>Bias</b> is error from a model too simple to fit
+the pattern; <b>variance</b> is error from a model so flexible it fits the noise. <code>k = 1</code>
+wraps a boundary
+around every single point: maximum variance, zero bias. Large
+<code>k</code> smooths the boundary toward the majority class.</p>
+<div class="demystify"><b>k-NN is not k-means.</b> k-NN is
 <b>supervised</b> classification, where <code>k</code> is how many neighbors vote. k-means is
 <b>unsupervised</b> clustering, where <code>k</code> is how many clusters exist. They share a
 letter and nothing else.</div>
 <div class="hardidea">🧠 <b>Why k-NN collapses in high dimensions.</b> In <code>d</code>
 dimensions, the volume of a unit ball shrinks toward zero as <code>d</code> grows, so almost all
-of a cube's volume sits in its corners. The practical consequence is that the distance to your
-nearest neighbor and the distance to your farthest become nearly equal, so "nearest" stops
+of a cube's volume sits in its corners. The distance to your
+nearest neighbor and to your farthest become nearly equal, so "nearest" stops
 meaning anything. This is the <b>curse of dimensionality</b>, and it hits every distance-based
 method. Beyond about 20 informative dimensions, k-NN needs dimensionality reduction first, or a
-different method entirely.</div>
-<p>Also note that distance is unit-dependent, so a feature measured in dollars will dominate one
-measured in years. <b>Always scale features before any distance-based method.</b> This is the
-most common way k-NN silently fails.</p>
+different method.</div>
+<p>Distance is unit-dependent, so a feature measured in dollars dominates one
+measured in years. <b>Always scale features before any distance-based method.</b> Skipping it is the
+most common k-NN failure.</p>
 
 <h3>2. Naive Bayes: assume independence and apply Bayes</h3>
 <div class="mathblock">p(y=c | x) &prop; p(y=c) &Pi;<sub>d</sub> p(x<sub>d</sub> | y=c)</div>
 <p>The product is the "naive" part: it assumes features are conditionally independent given the
-class. That is almost always false. In text, "New" and "York" are anything but independent.</p>
-<p>It works anyway, and there is a reason. Classification only needs the <b>argmax</b> to be
-right, not the probabilities. Dependence between features distorts the magnitudes badly while
-often leaving the ordering intact. So naive Bayes is frequently a good classifier and almost
-always a poorly calibrated probability estimator, and you should not use its outputs as
-confidences.</p>
+class. That's almost always false. In text, "New" and "York" are anything but independent.</p>
+<p>It works anyway. Classification only needs the <b>argmax</b> (which class scores highest) to be
+right, not the probabilities. Dependence between features distorts the magnitudes while
+often leaving the ordering intact. So naive Bayes is often a good classifier and almost
+always a poorly <b>calibrated</b> one: when it says 0.9, it is not right nine times in ten.
+Don't use its outputs as confidences.</p>
 <p>Fast, needs little data, and still a sensible baseline for text.</p>
 
 <h3>3. Decision trees: axis-aligned splits</h3>
-<p>Repeatedly ask a question of one feature, split, recurse. The boundary is a staircase of
-axis-aligned cuts. Trees choose each split by maximizing purity, most commonly with Gini
+<p>Ask a question of one feature, split, recurse. The boundary is a staircase of
+axis-aligned cuts. Each split maximizes purity, most commonly with Gini
 impurity or entropy:</p>
 <div class="mathblock">Gini(S) = 1 - &Sigma;<sub>c</sub> p<sub>c</sub>&sup2;         Entropy(S) = -&Sigma;<sub>c</sub> p<sub>c</sub> log p<sub>c</sub>
 
@@ -969,43 +985,43 @@ gain = impurity(parent) - &Sigma;<sub>children</sub> (n<sub>child</sub>/n<sub>pa
 children with Gini 0 and 0.5, weighted: <code>(30/50)(0) + (20/50)(0.5) = 0.20</code>. Gain is
 <code>0.12</code>, so the split is worth making.</div>
 <p>Trees need no scaling, handle mixed feature types, and are readable. Left unrestricted they
-also memorize the training set perfectly, which is maximum variance. Alone they are rarely the
-right answer; in an ensemble they are often the best one.</p>
+memorize the training set: maximum variance. Alone they're rarely the
+right answer. In an <b>ensemble</b>, several models combined, often the best one.</p>
 
 <h3>4 and 5. Random forests and gradient boosting: two ways to use many trees</h3>
-<p>The two differ in what they are fixing, and it maps exactly onto the bias-variance
-decomposition.</p>
-<p><b>Random forest</b> grows many deep trees, each on a bootstrap resample and each considering
-only a random subset of features per split, then averages them. Deep trees are low bias and high
-variance; averaging many decorrelated ones cuts the variance. The random feature subset exists
-purely to decorrelate them, since averaging near-identical trees would achieve nothing.</p>
+<p>The two fix different halves of the bias-variance decomposition.</p>
+<p><b>Random forest</b> grows many deep trees and averages them. Each tree is fitted on a
+<b>bootstrap</b> resample (a random sample of the rows, drawn with repeats allowed), and each
+considers only a random subset of features per split. Deep trees are low bias and high
+variance. Averaging many decorrelated ones cuts the variance. The random feature subset exists
+to decorrelate them; averaging near-identical trees would achieve nothing.</p>
 <p><b>Gradient boosting</b> grows shallow trees <b>in sequence</b>, each fitted to the residual
-errors of everything before it. Shallow trees are high bias and low variance; adding them one at
+errors of everything before it. Shallow trees are high bias and low variance. Adding them one at
 a time drives the bias down.</p>
 <div class="mathblock">F<sub>m</sub>(x) = F<sub>m-1</sub>(x) + &nu; h<sub>m</sub>(x), h<sub>m</sub> fitted to the negative gradient of the loss</div>
-<p>The <code>&nu;</code> is a learning rate, usually 0.01 to 0.1, and shrinking it while adding
-more trees is what keeps boosting from overfitting. Note the shape of that update: it is gradient
-descent, but stepping in the space of functions rather than the space of parameters.</p>
-<p>Forests parallelize and are hard to misuse. Boosting usually wins on tabular data and needs
-tuning. On small-to-medium tabular problems, gradient boosting is still the method to beat, and
-neural networks usually do not.</p>
+<p><code>&nu;</code> is a learning rate, how big each step is, usually 0.01 to 0.1. Shrinking it
+while adding more trees keeps boosting from <b>overfitting</b>, memorizing the training data and
+doing worse on new data. The update is gradient
+descent in the space of functions rather than parameters.</p>
+<p>Forests parallelize and are hard to misuse. Boosting needs tuning, and on small-to-medium
+tabular problems it is still the method to beat. Neural networks usually don't.</p>
 
 <h3>6. Support vector machines: the widest possible gap</h3>
 <p>Among all boundaries that separate the classes, choose the one with the largest <b>margin</b>,
 the widest empty corridor between the two sides. Only the points on the edge of that corridor
-matter, and they are the <b>support vectors</b>.</p>
+matter: the <b>support vectors</b>.</p>
 <div class="mathblock">minimize  &frac12;||w||&sup2; + C&Sigma;&xi;<sub>i</sub>   subject to   t<sub>i</sub>(w<sup>T</sup>x<sub>i</sub>+b) &ge; 1 - &xi;<sub>i</sub>, &xi;<sub>i</sub> &ge; 0</div>
 <p>The <code>&xi;</code> are slack variables allowing some violations, and <code>C</code> sets how
 much you tolerate. Small <code>C</code> means a wide margin and more mistakes allowed.</p>
 <div class="hardidea">🧠 <b>The kernel trick, in one paragraph.</b> Solve the dual form and the
-data appears only as inner products <code>x<sub>i</sub><sup>T</sup>x<sub>j</sub></code>. So
-replace every inner product with a function <code>K(x<sub>i</sub>, x<sub>j</sub>)</code> that
-equals the inner product in some higher-dimensional space, and you get a boundary that is linear
-there and curved here, <b>without ever computing the coordinates in that space</b>. The RBF
-kernel <code>K = exp(-&gamma;||x<sub>i</sub>-x<sub>j</sub>||&sup2;)</code> corresponds to an
-infinite-dimensional space. You never construct it, you only ever evaluate the kernel. That is
-the trick, and it is one of the most elegant ideas in the field.</div>
-<p>SVMs were dominant before deep learning and remain strong when <code>n</code> is small and
+data appears only as inner products <code>x<sub>i</sub><sup>T</sup>x<sub>j</sub></code>.
+Replace every inner product with a function <code>K(x<sub>i</sub>, x<sub>j</sub>)</code> that
+equals the inner product in some higher-dimensional space. You get a boundary that is linear
+there and curved here, <b>without ever computing the coordinates in that space</b>. The <b>RBF</b>
+(radial basis function) kernel, which scores two points by how close they are,
+<code>K = exp(-&gamma;||x<sub>i</sub>-x<sub>j</sub>||&sup2;)</code>, corresponds to an
+infinite-dimensional space. You never construct it. You only evaluate the kernel.</div>
+<p><b>SVMs</b> (support vector machines) were dominant before deep learning and remain strong when <code>n</code> is small and
 <code>d</code> is large, text being the classic case. They scale badly past a few tens of
 thousands of rows.</p>
 
@@ -1017,8 +1033,7 @@ small n, large d         &rarr; SVM
 images, audio, language  &rarr; a pre-trained neural network, not this list
 need to explain it       &rarr; a shallow tree or logistic regression</div>
 <p>Start with logistic regression. It gives you a baseline in minutes and tells you whether the
-problem is easy. A great deal of effort is spent beating a linear model that was never tried.</p>
-`,
+problem is easy. Much effort goes into beating a linear model that was never tried.</p>`,
  exs:[{title:'Fit six classifiers on a boundary no line can draw',
    lang:'python',
    packages:['scikit-learn','numpy'],
@@ -1147,55 +1162,57 @@ print("worst curved model:", round(worst_curved, 3), "best overall:", best_name)
 {id:'mlline',
  title:'Linear means straight: measure the boundary yourself',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 A straight boundary is a promise about shape, not about effort</span>
 <p>Logistic regression is called a <b>linear</b> model. That word says nothing about how hard it
-works, how much data it needs, or how well it is tuned. It says one thing: <b>the line it draws
-between the classes is straight</b>. This lesson makes that line visible and measures it, so the
-limitation stops being a slogan you repeat and becomes something you have checked.</p></div>
+works, how much data it needs, or how well it's tuned. It says one thing: <b>the line it draws
+between the classes is straight</b>. This lesson makes that line visible and measures it.</p></div>
 
-<h3>Where the boundary actually is</h3>
-<p>A linear model scores a point by weighting each feature and adding a constant:</p>
+<h3>Where the boundary is</h3>
+<p>A linear model scores a point by weighting each feature and adding a constant. In two
+features, that score is:</p>
 <div class="mathblock">s(x) = w<sub>1</sub>x<sub>1</sub> + w<sub>2</sub>x<sub>2</sub> + b</div>
 <p>Everything after that is a squashing function that turns the score into a probability. The
-predicted class flips exactly where the score changes sign, so the <b>decision boundary</b> is the
+predicted class flips where the score changes sign. So the <b>decision boundary</b> is the
 set of points whose score is zero:</p>
 <div class="mathblock">w<sub>1</sub>x<sub>1</sub> + w<sub>2</sub>x<sub>2</sub> + b = 0</div>
-<p>Solve that for x<sub>2</sub> and you are looking at the line equation from school:</p>
+<p>Solve for x<sub>2</sub> and it's the line equation from school:</p>
 <div class="mathblock">x<sub>2</sub> = &minus;(w<sub>1</sub> / w<sub>2</sub>) x<sub>1</sub> &minus; b / w<sub>2</sub></div>
-<p>Slope <code>-w1/w2</code>, intercept <code>-b/w2</code>. Not roughly a line. A line, with a slope
-you can predict from the fitted weights before you draw anything. In three features it is a flat
-plane; in more, a flat hyperplane. Flat is the whole story.</p>
+<p>Slope <code>-w1/w2</code>, intercept <code>-b/w2</code>. A line, with a slope
+you can predict from the fitted weights before drawing anything. In three features it's a flat
+plane; in more, a flat hyperplane.</p>
 
 <h3>What you will see</h3>
 <p>The exercise lays a 100 by 100 grid over the plane and asks the model to classify every grid
-point. Picture the plane painted in two colors, one per class. Then walk each column of the grid
+point. Picture the plane painted in two colors, one per class. Walk each column of the grid
 from top to bottom and note where the color flips. Those flip points are the boundary, sampled
 100 times. For logistic regression they fall on one straight line, and the slope fitted through
 them matches <code>-w1/w2</code> to the resolution of the grid. For a decision tree on the same
-data they trace a staircase, and the best straight line through that staircase recovers only
-part of it. Both facts come out as numbers, which is the point: you are not eyeballing a plot,
-you are testing a claim.</p>
+data they trace a staircase, and the best straight line through it recovers only
+part of it. Both facts come out as numbers. You're testing a claim, not eyeballing a plot.</p>
 
 <div class="demystify"><b>"Linear" describes the boundary, not the features.</b> Feed a linear
 model x<sub>1</sub><sup>2</sup> or x<sub>1</sub>x<sub>2</sub> as extra columns and the boundary
-curves in the original two dimensions, because it is straight in the bigger space you built. The
-model did not change; the coordinates did. That is the idea behind polynomial features and,
-taken to its limit, the kernel trick you met in the classifier zoo.</div>
+curves in the original two dimensions. That's because it's straight in the bigger space you built. The
+model didn't change; the coordinates did. That's the idea behind polynomial features and,
+taken to its limit, the kernel trick from the classifier zoo.</div>
 
 <div class="hardidea">🧠 <b>Why a tree's boundary is a staircase.</b> Every split in a tree asks
 one question of the form "is feature <i>j</i> above threshold <i>t</i>?" Each answer cuts the
 plane with a line parallel to an axis. Stack enough of those cuts and you can box in almost any
 region, but every edge of every box stays parallel to an axis. A tree can approximate a diagonal
-line only by climbing it in steps, which is why a straight-line stand-in fits the tree's boundary
-imperfectly, and why deeper trees make the steps smaller without ever making them disappear.</div>
+line only by climbing it in steps. So a straight-line stand-in fits the tree's boundary
+imperfectly, and deeper trees make the steps smaller without making them disappear.</div>
 
 <h3>Why this matters more than the accuracy number</h3>
-<p>When a linear model scores badly on a ring or a pair of crescents, the temptation is to tune:
-more iterations, a different regularization strength, a different solver. None of it helps,
-because the failure is geometric. The data needs a curve and the model can only draw a line.
+<p>When a linear model scores badly on a ring or a pair of crescents, the temptation is to tune.
+More iterations, a different <b>regularization</b> strength (the size of the penalty that keeps
+the weights small so the model stays simple), a different solver. None of it helps.
+The failure is geometric: the data needs a curve and the model can only draw a line.
 Knowing the boundary's shape tells you <i>which</i> lever to reach for: change the features, or
-change the model family. Tuning the same straight line harder is the one move that cannot work.</p>
-`,
+change the model family.</p>`,
  exs:[
   {title:'Show that a linear boundary really is a line',
    lang:'python',
@@ -1332,76 +1349,82 @@ print("a straight line reproduces this much of the tree:", round(tree_line_agree
 {id:'mlcluster',
  title:'Cluster analysis: four methods and the question none of them answer',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Grouping without an answer key, and why that is harder than it sounds</span>
-<p>Clustering has no accuracy to report, because there is nothing to be accurate against. That
-makes the choice of method, and the validation of the result, far more consequential than in
+<p>Clustering has no accuracy to report, because there is nothing to be accurate against. So the
+choice of method, and the validation of the result, matter far more than in
 supervised work.</p></div>
 
 <h3>1. k-means: round clusters, hard assignment</h3>
 <p>Pick <code>k</code> centers. Assign every point to its nearest. Move each center to the mean
 of its points. Repeat. It minimizes</p>
 <div class="mathblock">J = &Sigma;<sub>n</sub> &Sigma;<sub>k</sub> r<sub>nk</sub> ||x<sub>n</sub> - &mu;<sub>k</sub>||&sup2;, r<sub>nk</sub> &isin; {0,1}</div>
-<p>The two steps are coordinate descent on that objective: fixing centers and optimizing
-assignments gives "nearest center", and fixing assignments and optimizing centers gives "the
-mean". Each step lowers <code>J</code>, so it converges, and only to a local optimum, so use
+<p>The two steps are coordinate descent on that objective: fix centers and optimize
+assignments (nearest center), then fix assignments and optimize centers (the
+mean). Each step lowers <code>J</code>, so it converges, but only to a local optimum. Use
 <code>k-means++</code> initialization and several restarts.</p>
 <p>Because the objective is squared Euclidean distance to a center, <b>k-means can only find
-round clusters of roughly equal size</b>. Give it two elongated parallel bands and it will cut
-them across the middle rather than along their length. That is not a bug, it is the objective.</p>
+round clusters of roughly equal size</b>. Give it two elongated parallel bands and it cuts
+them across the middle rather than along their length. That's the objective, not a bug.</p>
 
 <h3>2. Gaussian mixtures: elliptical clusters, soft assignment</h3>
-<p>Covered in depth in the probability stream. A GMM replaces "nearest center" with "posterior
-probability of each component", and replaces the shared spherical shape with a learned
+<p>Covered in the probability stream. A <b>GMM</b> (Gaussian mixture model) says the data came
+from a few overlapping bell curves and works out which point belongs to which. It replaces
+"nearest center" with "posterior probability of each component" (how likely each bell curve is
+to have produced the point). It also replaces the shared spherical shape with a learned
 <code>&Sigma;<sub>k</sub></code> per component. That buys you elongated, tilted clusters of
 different sizes, and fractional membership for ambiguous points.</p>
 <div class="mathblock">k-means  =  GMM with  &Sigma;<sub>k</sub> = &sigma;&sup2;I (shared), equal &pi;<sub>k</sub>, hard responsibilities</div>
-<p>Fitted by EM. Costs more, needs more data per cluster because there are more parameters, and
-can collapse onto a single point if the covariances are not regularized.</p>
+<p>Fitted by <b>EM</b> (expectation-maximization): guess which component each point belongs to,
+refit the components to those guesses, repeat. Costs more, needs more data per cluster because there are more parameters, and
+can collapse onto a single point if the covariances aren't regularized.</p>
 
 <h3>3. Hierarchical clustering: no k required</h3>
 <p>Start with every point as its own cluster, repeatedly merge the two closest, and record the
 order. The result is a <b>dendrogram</b>, a tree you can cut at any height to get any number of
-clusters. You do not have to choose <code>k</code> in advance, which is its main appeal.</p>
-<p>The "closest" needs defining, and the choice changes the result substantially. <b>Single
+clusters. Not having to choose <code>k</code> in advance is its main appeal.</p>
+<p>"Closest" needs defining, and the choice changes the result. <b>Single
 linkage</b> uses the closest pair of points, which chains clusters together along thin bridges.
 <b>Complete linkage</b> uses the farthest pair and produces compact clusters. <b>Ward linkage</b>
 merges whichever pair increases total within-cluster variance least, and behaves most like
-k-means. Cost is <code>O(n&sup2;)</code> or worse, so it is for thousands of points, not
+k-means. Cost is <code>O(n&sup2;)</code> or worse, so it's for thousands of points, not
 millions.</p>
 
 <h3>4. DBSCAN: density, arbitrary shapes, and an outlier category</h3>
 <p>Define a neighborhood radius <code>&epsilon;</code> and a minimum count
 <code>minPts</code>. A point with at least <code>minPts</code> neighbors within
-<code>&epsilon;</code> is a <b>core point</b>; core points that are close together form a cluster;
-points near a cluster but not core join its edge; anything else is labeled <b>noise</b>.</p>
-<p>Three properties follow, and they are exactly what k-means lacks. It finds clusters of
-<b>arbitrary shape</b>, including crescents and rings. It does not need <code>k</code>. And it
-explicitly labels outliers rather than forcing them into a cluster. The cost is that it struggles
+<code>&epsilon;</code> is a <b>core point</b>. Core points that are close together form a cluster.
+Points near a cluster but not core join its edge. Anything else is labeled <b>noise</b>.</p>
+<p>Three properties follow, all of which k-means lacks. It finds clusters of
+<b>arbitrary shape</b>, including crescents and rings. It doesn't need <code>k</code>. And it
+labels outliers rather than forcing them into a cluster. The cost: it struggles
 when clusters have very different densities, since one <code>&epsilon;</code> has to suit all of
 them.</p>
 
 <h3>Choosing k, and why every method for it is a heuristic</h3>
 <p><b>The elbow method</b> plots within-cluster sum of squares against <code>k</code> and looks
-for the bend. It always decreases, so there is no optimum to find, only a judgement call about
+for the bend. It always decreases, so there is no optimum, only a judgment call about
 where the returns diminish.</p>
 <p><b>Silhouette score</b> compares each point's average distance to its own cluster against its
 distance to the nearest other cluster:</p>
 <div class="mathblock">s(i) = (b(i) - a(i)) / max(a(i), b(i)), s &isin; [-1, 1]</div>
-<p><b>BIC or AIC</b> apply to GMMs, since a GMM has a likelihood, and penalize parameter count.
-This is the closest thing to a principled answer available.</p>
-<div class="hardidea">🧠 <b>Where validation actually stands.</b> Every internal measure above
+<p><b>BIC or AIC</b> apply to GMMs, which have a likelihood. That's how probable the data
+is under the fitted model. They reward fit while penalizing parameter count.
+That's the closest thing to a principled answer.</p>
+<div class="hardidea">🧠 <b>Where validation stands.</b> Every internal measure above
 scores how well the partition matches the assumptions of the method that produced it. Silhouette
 rewards compact round clusters, so it will prefer k-means output on data with elongated groups,
 even when the elongated grouping is the true one. No internal score can tell you whether the
 clusters correspond to anything real. Only three things can: a downstream task that improves, a
 stability check showing the same structure across resamples, or a domain expert recognizing the
-groups. If none of those is available, report the clustering as a description of the dataset and
-not as a discovery.</div>
+groups. If none of those is available, report the clustering as a description of the dataset,
+not a discovery.</div>
 <div class="worked"><b>Before any of this, scale your features.</b> All four methods rest on
 distance. On unscaled data with income in the tens of thousands and age in the tens, every
 distance is essentially the income difference and the clustering is a one-dimensional split on
-income wearing a disguise.</div>
-`,
+income wearing a disguise.</div>`,
  exs:[{title:'Watch inertia fail to choose k',
    lang:'python',
    packages:['scikit-learn','numpy'],
@@ -1504,60 +1527,61 @@ print("k by inertia:", k_by_inertia, " k by silhouette:", k_by_silhouette)
 {id:'mlmoons',
  title:'Two crescents: when nearest-center clustering is the wrong tool',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 k-means does not fail on the crescents because it is badly tuned</span>
 <p>k-means has one rule: every point belongs to the nearest center. That rule decides which shapes
-it can find, and two interleaved crescents are the cleanest way to watch it break. On the identical
-points, DBSCAN recovers the crescents almost perfectly, and nobody tells it there are two. The
-difference is not skill or settings. It is what each method means by "a cluster".</p></div>
+it can find, and two interleaved crescents are the cleanest way to watch it break. On the same
+points, <b>DBSCAN</b> (a method that grows clusters from dense neighborhoods and labels the rest
+as noise) recovers the crescents almost perfectly. Nobody tells it there are two. The
+difference is what each method means by "a cluster".</p></div>
 
 <h3>What "nearest center" commits you to</h3>
 <p>Once the centers are placed, each cluster is the region of the plane closer to its own center
-than to any other:</p>
+than to any other. In symbols:</p>
 <div class="mathblock">C<sub>k</sub> = { x : ||x &minus; &mu;<sub>k</sub>|| &le; ||x &minus; &mu;<sub>j</sub>|| for every j }</div>
 <p>Regions built that way have straight edges and no dents. Whatever the data looks like, k-means
 carves the plane into blobs with flat sides. A crescent is a curved ribbon that wraps around the
-other crescent, so no blob can hold one without also taking a bite out of its neighbor. That is
-why the k-means clusters here cut <i>across</i> the moons rather than along them, and why even the
-cleaner cluster is about a quarter made of the wrong crescent. Nothing about more iterations or a
-better starting point changes it. The shape is not available.</p>
+other crescent, so no blob can hold one without taking a bite out of its neighbor. So
+the k-means clusters cut <i>across</i> the moons rather than along them, and even the
+cleaner cluster is about a quarter made of the wrong crescent. More iterations or a
+better starting point won't change it. The shape isn't available.</p>
 
 <h3>What density does instead</h3>
 <p>DBSCAN never asks where a center is. It asks a local question at every point: are there at least
 <code>min_samples</code> other points within a radius <code>eps</code>? Points that pass are
-<b>core points</b>, and a cluster is whatever you can reach by hopping from core point to core point
-without ever hopping farther than <code>eps</code>. A crescent is a chain of nearby points, so the
+<b>core points</b>, and a cluster is whatever you can reach by hopping from core point to core point,
+never farther than <code>eps</code> per hop. A crescent is a chain of nearby points, so the
 hops follow it around the curve. The gap between the two crescents is wider than <code>eps</code>,
 so the hops never cross it. Two clusters fall out, and the number two was never an input.</p>
 
 <h3>What you will see</h3>
 <p>Picture the same two hundred points drawn twice. In the k-means picture, a straight cut divides
 the plane and each half contains the tip of one crescent and the body of the other. In the DBSCAN
-picture, each crescent is one color from end to end, and a single point sits in a third color,
-unassigned. The exercise turns both pictures into a score, the <b>adjusted Rand index</b>, which
-compares a clustering to the true groups: about 0.23 for k-means, about 0.99 for DBSCAN, on the
-same points with the same random seed.</p>
+picture, each crescent is one color end to end, and a single point sits in a third color,
+unassigned. The exercise scores both with the <b>adjusted Rand index</b>, which
+compares a clustering to the true groups. The scores: about 0.23 for k-means, about 0.99 for
+DBSCAN, on the same points with the same random seed.</p>
 
 <div class="demystify"><b>The unassigned point is not a mistake.</b> DBSCAN labels a point noise
-when it has too few neighbors to be a core point and is not within reach of one. That is the method
-declining to guess. k-means has no way to say "I do not know", so it forces every point somewhere,
-including the ones it has no business placing. A clustering method that can abstain is telling you
-something about your data that a method that cannot abstain will hide.</div>
+when it has too few neighbors to be a core point and isn't within reach of one. That's the method
+declining to guess. k-means can't say "I don't know", so it forces every point somewhere,
+including the ones it has no business placing. A method that can abstain tells you
+something a method that can't will hide.</div>
 
 <div class="hardidea">🧠 <b>Reading the adjusted Rand index.</b> The Rand index counts pairs of
 points and asks whether each pair is treated the same way by both clusterings: together in both, or
 apart in both. The <i>adjusted</i> version subtracts what a random clustering would score by luck,
-so 0 means no better than chance and 1 means identical partitions. It ignores label names, which
-is what you want: cluster "0" in one method and cluster "1" in the other may be the same crescent,
-and the index does not care. It also means a single noise point barely moves the score.</div>
+so 0 means no better than chance and 1 means identical partitions. It ignores label names:
+cluster "0" in one method and cluster "1" in the other may be the same crescent,
+and the index doesn't care. A single noise point barely moves the score.</div>
 
 <h3>Choosing between them</h3>
 <p>Neither method is better. k-means wants round, similar-sized blobs and scales to millions of
-points; DBSCAN wants clusters denser than the space between them and handles any shape at any
-count, but it has no answer for clusters of very different densities, and it needs
-<code>eps</code> chosen in the units of your features. The question to ask before either one is the
-same question from the clustering lesson: what does "a group" mean in this data? The crescents are
-a case where the answer is "a connected ribbon", and only one of the two methods can hear that.</p>
-`,
+points. DBSCAN wants clusters denser than the space between them and handles any shape at any
+count. But it has no answer for clusters of very different densities, and it needs
+<code>eps</code> chosen in the units of your features. Ask the clustering lesson's question first: what does "a group" mean in this data? For the crescents the answer is "a connected ribbon", and only one of the two methods can hear that.</p>`,
  exs:[
   {title:'Break k-means on two crescents',
    lang:'python',
@@ -1658,11 +1682,13 @@ print("purity of the cleanest k-means cluster:", round(worst_purity, 3))
 {id:'mlreg',
  title:'Regression beyond the straight line',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 Same loop, seven different bets about the shape of the answer</span>
 <p>Linear regression fits a straight line by minimizing squared error. Every variant below changes
-exactly one of three things: the <b>shape</b> it is allowed to fit, the <b>penalty</b> applied to
-the coefficients, or the <b>loss</b> used to measure being wrong. Knowing which of the three has
-been changed is how you keep them straight.</p></div>
+one of three things: the <b>shape</b> it's allowed to fit, the <b>penalty</b> on
+the coefficients, or the <b>loss</b> that measures being wrong. Track which of the three changed.</p></div>
 
 <h3>The starting point</h3>
 <div class="mathblock">y&#770; = w<sup>T</sup>x + b, minimize  &Sigma;<sub>n</sub>(y<sub>n</sub> - y&#770;<sub>n</sub>)&sup2;
@@ -1670,21 +1696,23 @@ been changed is how you keep them straight.</p></div>
 closed form:  w = (X<sup>T</sup>X)<sup>-1</sup>X<sup>T</sup>y</div>
 <p>That closed form, the <b>normal equations</b>, exists because squared error is quadratic in
 <code>w</code>, so setting the derivative to zero gives a linear system. Almost nothing else in
-machine learning has this luxury, which is why linear regression is the one model you can solve
-exactly rather than iterate toward.</p>
+machine learning can be solved exactly rather than iterated toward.</p>
 <div class="demystify"><b>When the closed form fails.</b> If two features are perfectly
-correlated, <code>X<sup>T</sup>X</code> is singular and cannot be inverted, so there is no unique
-answer. Near-collinearity is worse in practice than exact collinearity, because the inverse
-exists but is enormous, giving wild coefficients that flip sign with a small change in the data.
-Ridge regression fixes exactly this, and the fix falls out of its algebra below.</div>
+correlated, <code>X<sup>T</sup>X</code> is singular and can't be inverted, so there is no unique
+answer. Near-collinearity is worse in practice. The inverse
+exists but is huge, giving wild coefficients that flip sign with a small change in the data.
+Ridge regression fixes this, as its algebra below shows.</div>
 
 <h3>1. Polynomial regression: change the shape, keep the machinery</h3>
 <p>Add <code>x&sup2;, x&sup3;</code> and so on as extra features, then fit a linear model to
-them. The curve is nonlinear in <code>x</code> and still <b>linear in the parameters</b>, which
-is what "linear model" actually means, and why all the same mathematics applies.</p>
-<p>Degree is a bias-variance dial. Degree 1 underfits a curve; degree 15 on 20 points will pass
-through nearly all of them and oscillate violently between them. This is the standard
-demonstration of overfitting and it is worth plotting once yourself.</p>
+them. The curve is nonlinear in <code>x</code> and still <b>linear in the parameters</b>. That's
+what "linear model" means, and why the same mathematics applies.</p>
+<p>Degree is a bias-variance dial: <b>bias</b> is error from a model too simple to fit the
+pattern, <b>variance</b> is error from a model so flexible it fits the noise. Degree 1 underfits a
+curve. Degree 15 on 20 points passes
+through nearly all of them and oscillates violently between them. The standard
+demonstration of <b>overfitting</b>: memorizing the training points and doing worse on new
+ones.</p>
 
 <h3>2, 3 and 4. Ridge, lasso and elastic net: change the penalty</h3>
 <div class="mathblock">ridge (L2):  &Sigma;(y-y&#770;)&sup2; + &lambda;&Sigma;w<sub>j</sub>&sup2;        w = (X<sup>T</sup>X + &lambda;I)<sup>-1</sup>X<sup>T</sup>y
@@ -1692,20 +1720,23 @@ demonstration of overfitting and it is worth plotting once yourself.</p>
 lasso (L1):  &Sigma;(y-y&#770;)&sup2; + &lambda;&Sigma;|w<sub>j</sub>|      no closed form
 
 elastic net: &Sigma;(y-y&#770;)&sup2; + &lambda;<sub>1</sub>&Sigma;|w<sub>j</sub>| + &lambda;<sub>2</sub>&Sigma;w<sub>j</sub><sup>2</sup></div>
-<p>Look at the ridge solution: the penalty adds <code>&lambda;I</code> to
+<p>The penalties are the two standard ways to measure the size of the weight vector.
+<b>L2</b> is the sum of squares, <b>L1</b> the sum of absolute values. Adding either to the loss
+is <b>regularization</b>, a penalty that keeps the model simple so it overfits less. Look at the
+ridge solution. The penalty adds <code>&lambda;I</code> to
 <code>X<sup>T</sup>X</code> before inverting, which lifts every eigenvalue by
 <code>&lambda;</code> and makes a near-singular matrix invertible. The regularization and the
 numerical fix are the same act.</p>
 <div class="hardidea">🧠 <b>Why lasso zeroes coefficients and ridge does not.</b> Picture the
 constraint region. L2 is a circle, L1 is a diamond with corners on the axes. The optimum sits
-where the elliptical contours of the squared-error loss first touch that region, and a diamond's
-corners stick out, so contact very often happens exactly at a corner, where one coordinate is
+where the elliptical contours of the squared-error loss first touch that region. A diamond's
+corners stick out, so contact often happens at a corner, where one coordinate is
 zero. A circle has no corners, so contact almost never lands on an axis. The gradient view says
 the same: L1's pull toward zero is a constant <code>&lambda;&middot;sign(w)</code> regardless of
-size, so it can drive a small weight all the way to zero, while L2's pull is proportional and
+size, so it can drive a small weight all the way to zero. L2's pull is proportional and
 fades as the weight shrinks.</div>
-<p>So lasso does feature selection and ridge does not. Elastic net is for correlated groups of
-features, where lasso arbitrarily keeps one and discards the rest, while elastic net keeps or
+<p>So lasso does feature selection, dropping columns outright, and ridge doesn't. Elastic net is for correlated groups of
+features, where lasso arbitrarily keeps one and discards the rest. Elastic net keeps or
 drops them together.</p>
 <div class="worked"><b>Choosing λ.</b> Cross-validation, always, and never on the training error,
 which is monotonic in λ and will always pick zero. Standardize the features first: the penalty
@@ -1713,38 +1744,38 @@ sums coefficients, and a coefficient's size depends on its feature's units, so w
 you are penalizing the choice of unit rather than the coefficient.</div>
 
 <h3>5. Logistic regression, which is classification wearing the name</h3>
-<p>It appears here only to place it. It fits <code>p = &sigma;(w<sup>T</sup>x + b)</code> and
-minimizes cross-entropy, not squared error. It is a member of the same family, the
-<b>generalized linear models</b>, where a linear predictor is passed through a link function
+<p>It fits <code>p = &sigma;(w<sup>T</sup>x + b)</code> and
+minimizes cross-entropy, not squared error. It belongs to the same family, the
+<b>generalized linear models</b>: a linear predictor passed through a link function
 chosen to match the type of the target.</p>
 
 <h3>6. Poisson and other GLMs: change the loss to match the target</h3>
-<p>Predicting counts with ordinary least squares is a common error. Counts cannot be negative,
-their variance grows with their mean, and squared error assumes Gaussian noise with constant
-variance. Poisson regression assumes what is actually true of counts:</p>
+<p>Predicting counts with ordinary least squares is a common error. Counts can't be negative,
+their variance grows with their mean, and squared error assumes Gaussian (bell-curve) noise with constant
+variance. Poisson regression assumes what is true of counts:</p>
 <div class="mathblock">log &lambda; = w<sup>T</sup>x        loss = &Sigma;( &lambda;<sub>n</sub> - y<sub>n</sub> log &lambda;<sub>n</sub> )</div>
-<p>The log link guarantees a positive prediction, and the loss is the negative Poisson
-log-likelihood. Same idea, different assumption: gamma regression for positive skewed continuous
+<p>The log link guarantees a positive prediction. The loss is the negative Poisson
+log-likelihood, so minimizing it makes the observed counts most probable. Same idea, different assumption: gamma regression for positive skewed continuous
 outcomes, binomial for proportions.</p>
 
 <h3>7. Quantile and robust regression: change what "wrong" means</h3>
-<p>Squared error assumes Gaussian noise, so a single extreme outlier can dominate the fit,
-because the penalty grows with the square of the error. Two alternatives:</p>
+<p>Squared error assumes Gaussian noise, and the penalty grows with the square of the error. So a
+single extreme outlier can dominate the fit. Two alternatives:</p>
 <div class="mathblock">absolute error (L1):  &Sigma;|y - y&#770;|          fits the median, Laplace noise
 Huber:                squared for small errors, linear beyond a threshold &delta;
 quantile (pinball):   asymmetric, fits the &tau;-th quantile rather than a center</div>
 <p>Quantile regression is the one people underuse. Fitting the 10th and 90th percentiles gives
-you a prediction <b>interval</b> rather than a point, which is often what a decision actually
-needs. Predicting that delivery takes four days is less useful than predicting it takes between
-two and nine.</p>
+you a prediction <b>interval</b> rather than a point, which is often what a decision
+needs. "Delivery takes four days" is less useful than "between
+two and nine".</p>
 
 <h3>8. Tree-based and kernel regression: abandon the linear form</h3>
-<p>Random forest and gradient boosting regressors predict a number at each leaf, and produce a
+<p>Random forest and gradient boosting regressors predict a number at each leaf, giving a
 piecewise-constant surface. They handle interactions and nonlinearity with no feature engineering
-and cannot extrapolate at all: outside the range of the training data they return the nearest
-leaf's constant, forever. <b>Support vector regression</b> fits a tube of width
-<code>&epsilon;</code> and penalizes only points outside it, and with a kernel gives smooth
-nonlinear fits.</p>
+and can't extrapolate at all. Outside the training range they return the nearest
+leaf's constant. <b>Support vector regression</b> fits a tube of width
+<code>&epsilon;</code> and penalizes only points outside it. With a kernel (a function scoring how close two points are, so a linear method can draw
+curves) it gives smooth nonlinear fits.</p>
 
 <h3>How to choose</h3>
 <div class="mathblock">continuous target, few features    &rarr; linear, then ridge
@@ -1756,9 +1787,8 @@ you need an interval, not a number &rarr; quantile regression
 tabular with interactions          &rarr; gradient boosting
 need to extrapolate beyond the data &rarr; a linear model, and only a linear model</div>
 <p>That last line is the one people forget. Trees are usually the strongest tabular method and
-they are structurally incapable of predicting outside the range they were trained on. If your
-problem requires extrapolation, no amount of boosting will help.</p>
-`,
+they can't predict outside the range they were trained on. If your
+problem needs extrapolation, no amount of boosting will help.</p>`,
  exs:[{title:'Overfit a degree-15 polynomial, then penalize it',
    lang:'python',
    packages:['scikit-learn','numpy'],
@@ -1864,26 +1894,30 @@ print("sum of squared coefficients:", round(plain_size, 1), "vs", round(ridge_si
 {id:'mlprep',
  title:'Feature scaling and encoding, and the leak that hides inside them',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The step before the model, which decides how well the model can do</span>
-<p>Three lessons so far have told you to scale your features and moved on: the classifier zoo
-said distance-based methods fail silently without it, the clustering lesson said an unscaled
-distance is mostly the biggest column, and the regression lesson said a penalty on unscaled
-coefficients penalizes your choice of units. This lesson is the one that says what scaling
-actually is, which models need it, how to encode a column that is not a number, and the rule that
-keeps all of it honest.</p></div>
+<p>Three lessons have told you to scale your features. The classifier zoo: distance-based methods
+fail silently without it. The clustering lesson: an unscaled distance is mostly the biggest
+column. The regression lesson: a penalty on unscaled coefficients penalizes your units. This
+lesson says what scaling is, which models need it, how to encode a column that isn't a number,
+and the rule that keeps it honest.</p></div>
 
 <h3>Why scale at all</h3>
 <p>Put income in dollars next to age in years. Income runs to five figures and age to two, so any
-squared distance between two people is essentially the income difference with a rounding error
+squared distance between two people is the income difference with a rounding error
 attached. Nothing about the data said income matters five hundred times more. The units did.</p>
-<p>Three families of model are affected, for three different reasons. <b>Distance-based</b>
-methods (k-NN, k-means, SVMs with an RBF kernel) compare features through a norm, so the biggest
-column wins. <b>Gradient-based</b> methods take one learning rate for every weight, and a
+<p>Three families of model are affected. <b>Distance-based</b>
+methods (k-NN, k-means, SVMs with an <b>RBF</b> kernel, which scores two points by how close they
+are) compare features through a norm, a measure of length. So the biggest column wins.
+<b>Gradient-based</b> methods take one learning rate (the size of each update step) for every
+weight. A
 feature a thousand times larger produces gradients a thousand times larger, so no single rate
-can be right for both. <b>Penalized</b> models (ridge, lasso)
+suits both. <b>Penalized</b> models (ridge, lasso)
 sum coefficients, and a coefficient's size depends on its feature's units. <b>Trees are the
 exception</b>: a split asks "is this feature above a threshold?", and rescaling the feature
-rescales the threshold with it, so the tree is unchanged. That is one of the reasons
+rescales the threshold with it. That's one reason
 gradient boosting is so easy to run on messy tabular data.</p>
 
 <h3>The three scalers, on the same column</h3>
@@ -1899,50 +1933,51 @@ gives mean 0 and spread 1 and leaves the outlier visible at 1.9. Robust scaling 
 IQR, which the outlier barely moves, so the four ordinary values keep their spacing and the
 outlier is reported honestly at 3.5. The choice is not cosmetic: it decides how much of the
 model's attention one weird row gets.</div>
-<p>The defaults worth remembering: <b>standardization</b> unless you have a reason,
-<b>min-max</b> when a bounded range is required (image pixels, some neural network inputs),
-<b>robust</b> when the column has outliers you do not want to delete. And when a column is skewed
-over orders of magnitude, income again, take a log first: the logarithms stream showed that a log
-turns a multiplicative spread into an additive one, which is exactly what these scalers assume.</p>
+<p>The defaults: <b>standardization</b> unless you have a reason,
+<b>min-max</b> when a bounded range is required (image pixels, some neural network inputs).
+Use <b>robust</b> when the column has outliers you don't want to delete. When a column is skewed
+over orders of magnitude, income again, take a log first. As the logarithms stream showed, a log
+turns a multiplicative spread into an additive one, which is what these scalers assume.</p>
 
 <h3>Columns that are not numbers</h3>
 <p><b>One-hot encoding</b> turns a category into one 0/1 column per value: red, green, blue
 becomes three columns with a single 1 in each row. Use it whenever the categories have no
-order. <b>Ordinal encoding</b> maps them to 0, 1, 2 instead, and is correct only when they really
-are ordered (small, medium, large), because the model will happily conclude that medium is halfway
-between small and large. Coding unordered categories as integers is the same quiet mistake the
+order. <b>Ordinal encoding</b> maps them to 0, 1, 2 instead. It's correct only when they really
+are ordered (small, medium, large), because the model will conclude that medium is halfway
+between small and large. Coding unordered categories as integers is the mistake the
 paradigms lesson flagged with the three doctors.</p>
-<p>One-hot has a trap the linear algebra stream already explained. Encode <code>k</code>
+<p>One-hot has a trap the linear algebra stream explained. Encode <code>k</code>
 categories as <code>k</code> columns and include an intercept, and those columns sum to the
-all-ones column: perfectly collinear, XᵀX singular, no unique solution. That is the
-<b>dummy variable trap</b>, and the fix is to drop one category and let it be absorbed into the
-intercept. Regularized models and trees do not care; a plain normal-equations solve does.</p>
+all-ones column: perfectly collinear, XᵀX singular, no unique solution. That's the
+<b>dummy variable trap</b>. The fix is to drop one category and let the
+intercept absorb it. Regularized models (those with a penalty keeping the weights small) and trees don't care; a
+plain normal-equations solve does.</p>
 <p><b>Missing values</b> need a decision too. Dropping rows is fine when few and biased when
-many. Imputing with the column mean or median is the usual default. Whatever you choose, add a
-<code>was_missing</code> indicator column, because the fact that a value was absent is often
+many. Imputing, filling the gap with the column mean or median, is the usual default. Whatever you choose, add a
+<code>was_missing</code> indicator column. That a value was absent is often
 itself informative, and imputing without it throws that signal away.</p>
 
 <h3>The rule that keeps all of it honest</h3>
-<p>Every one of these steps <i>learns</i> something from data: a mean, a standard deviation, a
+<p>Every step above <i>learns</i> something from data: a mean, a standard deviation, a
 min and max, a median, a set of categories. Learn it from the training rows only, then
 apply it unchanged to validation and test. Fit the scaler on everything and your test rows have
-contributed their mean to the numbers your model trained on, which is <b>data leakage</b>: the
-score goes up, the deployed model does not.</p>
-<div class="hardidea">🧠 <b>How large is the leak, and why it survives review.</b> It is usually
+leaked their mean into training. That is <b>data leakage</b>: the
+score goes up, the deployed model doesn't.</p>
+<div class="hardidea">🧠 <b>How large is the leak, and why it survives review.</b> It's usually
 small enough to look like a good day. A model scoring 0.86 honestly might score 0.88 with a leaked
-scaler, which is exactly the size of improvement a team celebrates and ships. Nothing crashes,
+scaler, the size of improvement a team celebrates and ships. Nothing crashes,
 no warning is printed, and the gap only appears in production, where there is no test set to
-borrow statistics from. This is why the tool exists: put every learned step in a
-<code>Pipeline</code> and hand the pipeline to cross-validation, so the fitting happens inside
-each fold by construction rather than by your remembering.</div>
+borrow statistics from. So put every learned step in a
+<code>Pipeline</code> and hand the pipeline to cross-validation (fitting on part of the data
+and scoring on the rest, several ways round). Fitting then happens inside each fold by
+construction.</div>
 
 <div class="demystify">Demystify "normalize" versus "standardize". The words are used
-inconsistently across fields and libraries, which is why they cause so much confusion.
-<b>Standardize</b> almost always means the z-score, subtract the mean and divide by the standard
+inconsistently across fields and libraries.
+<b>Standardize</b> almost always means the z-score: subtract the mean and divide by the standard
 deviation. <b>Normalize</b> sometimes means min-max to [0, 1] and sometimes means scaling each
-<i>row</i> to unit length, which is a different operation on a different axis. When you read
-either word, check which formula is meant rather than which name was used.</div>
-`,
+<i>row</i> to unit length, a different operation on a different axis. Check which formula is
+meant, not which name was used.</div>`,
  docs:[['scikit-learn: preprocessing data','https://scikit-learn.org/stable/modules/preprocessing.html']],
  exs:[{title:'Scale the right way, then measure the leak',
    lang:'python',
@@ -2051,33 +2086,34 @@ print("same split after scaling:", same_split)
 {id:'mltune',
  title:'Hyperparameter search: grid, random, and the score you are not allowed to trust',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 The knobs training does not turn</span>
 <p>Every model in this stream has two kinds of number. The <b>parameters</b> are what fitting
 finds: the coefficients of a regression, the thresholds in a tree. The <b>hyperparameters</b> are
-what you chose before fitting started: <code>k</code> in k-NN, the depth of a tree, ridge's
-<code>&lambda;</code>, the learning rate, the number of components in a mixture. Training cannot
-touch them, because they are the settings training runs under. The scikit-learn lesson gave you
-the tell: fitted parameters get a trailing underscore, <code>coef_</code>; hyperparameters are the
-plain arguments you passed to the constructor. Choosing them is a search, and this lesson is
-about running that search without lying to yourself about the result.</p></div>
+what you chose before fitting started. Examples: <code>k</code> in k-NN, the depth of a tree, ridge's
+<code>&lambda;</code>, the learning rate (how big each training step is), the number of
+components in a mixture. Training can't
+touch them, because they're the settings training runs under. The scikit-learn tell: fitted
+parameters get a trailing underscore, <code>coef_</code>; hyperparameters are the
+plain constructor arguments. Choosing them is a search. The point is to run it without lying to yourself about the result.</p></div>
 
 <h3>Grid search, and the arithmetic that stops it</h3>
-<p>List the values you want to try for each hyperparameter, try every combination, keep the best.
-It is exhaustive within the grid and completely predictable, which is its appeal. The cost is a
+<p>List the values to try for each hyperparameter, try every combination, keep the best.
+Exhaustive and predictable. The cost is a
 product, not a sum:</p>
 <div class="mathblock">fits = (values per hyperparameter, multiplied together) &times; folds
 
 4 depths &times; 5 learning rates &times; 3 subsample rates = 60 configurations
 60 &times; 5-fold cross-validation                          = 300 fits
 300 fits &times; 20 seconds each                            = 100 minutes</div>
-<p>Add one more hyperparameter with three values and it is five hours. That multiplication is why
-grid search stops being usable at about three hyperparameters, and it is the whole reason the
-alternatives exist.</p>
+<p>Add one more hyperparameter with three values and it's five hours. So grid search stops being usable at about three hyperparameters.</p>
 
 <h3>Why random search usually beats it on the same budget</h3>
-<p>Here is the observation that changed common practice, from Bergstra and Bengio in 2012. In
+<p>Bergstra and Bengio's 2012 observation changed common practice. In
 almost every real problem, a couple of hyperparameters matter a great deal and the rest barely
-matter at all. You do not know in advance which ones.</p>
+matter. You don't know in advance which ones.</p>
 <div class="worked">✍️ <b>Worked, 25 fits spent two ways.</b> Two hyperparameters, one that
 matters and one that does not. A 5 &times; 5 grid spends 25 fits and tries exactly <b>5 distinct
 values</b> of each axis, because every value is repeated five times as the other axis moves.
@@ -2085,47 +2121,48 @@ Twenty-five independent random draws spend the same 25 fits and try <b>25 distin
 each axis. On the axis that matters, random search sampled five times as finely for the same
 money. The exercise runs both and compares the best score each finds.</div>
 <p>The same point in one line of probability. Suppose the top 5% of the important axis is where
-you need to land. Each independent draw misses it with probability 0.95, so
+you need to land. Each independent draw misses it with probability 0.95. So
 <code>n</code> draws all miss with probability 0.95<sup>n</sup>:</p>
 <div class="mathblock">P(at least one of 60 draws lands in the best 5%) = 1 &minus; 0.95&#8310;&#8304; = 1 &minus; 0.046 = 0.954</div>
-<p>Sixty random configurations give you better than a 95% chance of finding the best 5% of
-<i>every</i> hyperparameter you sampled, however many there are, because the argument does not
-mention the dimension. A grid gets exponentially worse as dimensions are added; random search does
-not notice them.</p>
+<p>Sixty random configurations give a better than 95% chance of finding the best 5% of
+<i>every</i> hyperparameter you sampled. That holds however many there are. The argument never
+mentions the dimension. A grid gets exponentially worse as dimensions are added. Random search doesn't
+notice.</p>
 
 <h3>Sample on the scale the hyperparameter lives on</h3>
 <p>A learning rate is not uniform over [0.00001, 0.1]. Draw uniformly from that range and 99.9% of
 your draws land above 0.0001, so you have searched one decade and ignored three. Rates,
-regularization strengths and anything else spanning orders of magnitude should be sampled
-<b>log-uniformly</b>: draw the exponent uniformly and raise 10 to it, which puts equal effort in
-every decade. This is the logarithms stream cashing out as a practical decision, and it is the
-single most common mistake in a first search.</p>
-<p>Two refinements worth naming. <b>Successive halving</b> (and Hyperband, which wraps it) starts
+regularization strengths (the size of the penalty that keeps a model simple) and anything else
+spanning orders of magnitude should be sampled
+<b>log-uniformly</b>. Draw the exponent uniformly and raise 10 to it, which puts equal effort in
+every decade. This is the logarithms stream cashing out as a practical decision, and the
+most common mistake in a first search.</p>
+<p>Two refinements. <b>Successive halving</b> (and Hyperband, which wraps it) starts
 many configurations with a small budget, throws away the worst half, and doubles the budget of the
-survivors, so most of the compute goes to candidates that already look good. <b>Bayesian
+survivors. So most of the compute goes to candidates that already look good. <b>Bayesian
 optimization</b> fits a cheap model of "score as a function of hyperparameters", usually a
-Gaussian process from the probability stream, and picks the next point to try by balancing a high
-predicted score against high uncertainty. That is a trade between exploring where you are
-uncertain and exploiting where you already score well, and the reinforcement learning stream
-later gives it a lesson of its own.</p>
+Gaussian process from the probability stream. It picks the next point by balancing a high
+predicted score against high uncertainty. That's a trade between exploring where you're
+uncertain and exploiting where you already score well. The reinforcement learning stream
+gives it a lesson of its own.</p>
 
 <div class="hardidea">🧠 <b>The best cross-validation score is biased upward, and by a knowable
-amount.</b> You evaluated 200 configurations, each with noise in its estimate, and then reported
-the maximum. The maximum of many noisy numbers sits above the truth in expectation, and the more
-configurations you try the further above it sits. The same overestimation turns up later in the
-reinforcement learning stream, where Q-learning takes a max over noisy value estimates. The consequence is concrete: the winning
-configuration's cross-validation score is not an estimate of how it will perform, it is an
+amount.</b> Cross-validation fits each configuration on part of the data and scores it on the
+rest, several ways round, so every score is a noisy estimate. You evaluated 200 configurations
+and reported the maximum. The maximum of many noisy numbers sits above the truth in expectation, and the more
+configurations you try the further above it sits. The same overestimation turns up in the
+reinforcement learning stream, where Q-learning takes a max over noisy value estimates. The winning
+configuration's cross-validation score is an
 estimate plus a selection bonus. Two fixes, both standard. Keep a final test set that no search
 ever touched and report its score once. Or use <b>nested cross-validation</b>, an inner loop that
 selects and an outer loop that scores, so the selection happens inside the thing being
 measured.</div>
 
 <div class="demystify">Demystify "tuning". It sounds like an adjustment to a trained model.
-It is not: every configuration is a <i>separate model, trained from scratch</i>. A search over
+Every configuration is a <i>separate model, trained from scratch</i>. A search over
 200 configurations with 5-fold cross-validation trains a thousand models and keeps the settings of
-one. That is why the cost is measured in fits, why early stopping and successive halving matter so
-much, and why "we tuned it" is a claim about compute rather than about cleverness.</div>
-`,
+one. That's why the cost is measured in fits, and why early stopping (quitting a fit once the validation score stops improving) and successive
+halving matter so much. It's also why "we tuned it" is a claim about compute rather than cleverness.</div>`,
  docs:[['scikit-learn: tuning the hyper-parameters of an estimator','https://scikit-learn.org/stable/modules/grid_search.html']],
  exs:[{title:'Spend the same budget two ways, and price the search',
    lang:'python',

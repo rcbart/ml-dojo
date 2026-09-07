@@ -2,37 +2,41 @@ STREAMS.push({icon:'✍️',track:'Foundations Track',title:'Math Notation & Fun
 {id:'mf1',
  title:'Reading math notation: Sigma and Pi are just loops',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 Why this unlocks everything</span>
-<p>ML formulas look intimidating only because of their <b>symbols</b>, and every one of those
-symbols is something you already do in code. This lesson is a decoder ring: once you see that
-<b>Sigma is a for-loop that adds</b>, textbook and paper formulas stop being a wall and become
-readable. You will translate real ML notation into code you already write.</p></div>
+<p>ML formulas look intimidating because of their <b>symbols</b>, and every one of those
+symbols is something you already do in code. This lesson is a decoder ring. Once you see that
+<b>Sigma is a for-loop that adds</b>, textbook and paper formulas stop being a wall. You'll translate real ML notation into code you already write.</p></div>
 
 <h3>Function notation and subscripts</h3>
-<p><b><code>f(x)</code></b>, "f of x", is just a machine: put <code>x</code> in, get
-<code>f(x)</code> out (you have been writing these as Python functions). <b>Subscripts</b>
-like <code>x&#8321;, x&#8322;, &#8230;, x&#8345;</code> are just the items of a list -
-<code>x&#7522;</code> is "the i-th x," i.e. <code>x[i]</code> (math counts from 1, Python from
-0, the only catch). <code>n</code> almost always means "how many," i.e. <code>len(x)</code>.</p>
+<p><b><code>f(x)</code></b>, "f of x", is a machine: put <code>x</code> in, get
+<code>f(x)</code> out. You've been writing these as Python functions. <b>Subscripts</b>
+like <code>x&#8321;, x&#8322;, &#8230;, x&#8345;</code> are the items of a list.
+<code>x&#7522;</code> is "the i-th x," i.e. <code>x[i]</code>. The only catch: math counts from 1, Python from
+0. <code>n</code> almost always means "how many," i.e. <code>len(x)</code>.</p>
 
-<h3>Sigma (&Sigma;): summation: is a for-loop that adds</h3>
+<h3>Sigma (&Sigma;): summation is a for-loop that adds</h3>
 <div class="codeSample">The notation:   &Sigma;&#7522;&#8332;&#8321;&#8319;  x&#7522;      "sum x&#7522; for i from 1 to n"
 
 In Python:      total = 0
                 for xi in x:
                     total += xi
                 # ... which is just:  sum(x)</div>
-<p>That is the whole secret. The big &Sigma; says "add these up as i walks through the range."
+<p>The big &Sigma; says "add these up as i walks through the range."
 The mean is <code>(1/n) &Sigma; x&#7522;</code> = <code>sum(x)/len(x)</code>. The dot product is
-<code>&Sigma; a&#7522;b&#7522;</code>. The MSE from the Orientation lesson is
-<code>(1/n) &Sigma;(pred&#7522; &minus; actual&#7522;)&sup2;</code>. Same three formulas you have
-already computed, now you can read them in their native dress.</p>
+<code>&Sigma; a&#7522;b&#7522;</code>. The <b>MSE</b> (mean squared error, the average of the
+squared misses) from the Orientation lesson is
+<code>(1/n) &Sigma;(pred&#7522; &minus; actual&#7522;)&sup2;</code>. You've
+already computed all three. Now you can read them in their native dress.</p>
 
 <h3>Pi (&Pi;), argmax, and a few more</h3>
 <p><b>&Pi;</b> (capital pi) is Sigma's twin for <b>multiplication</b>, a for-loop that
-multiplies (the likelihood from the logs stream: <code>&Pi; p&#7522;</code>). <b>argmax</b> /
-<b>argmin</b> mean "the input that makes this biggest / smallest", note: the <i>location</i>,
-not the value (MLE is <code>argmax</code> over parameters). And a quick phrasebook you will
+multiplies. The <b>likelihood</b> from the logs stream, how probable the data you saw is under a
+given model, is <code>&Pi; p&#7522;</code>. <b>argmax</b> /
+<b>argmin</b> mean "the input that makes this biggest / smallest": the <i>location</i>,
+not the value. <b>MLE</b> (maximum likelihood estimation: pick the parameter values that make
+the data you actually saw the most probable) is <code>argmax</code> over parameters. A quick phrasebook you'll
 meet: <code>&isin;</code> "is in / belongs to," <code>&forall;</code> "for all,"
 <code>&asymp;</code> "approximately equals," <code>&prop;</code> "is proportional to,"
 <code>&nabla;</code> "the gradient (vector of slopes)," bold <b>x</b> "a vector, not a single
@@ -40,7 +44,7 @@ number."</p>
 
 <div class="demystify"><b>The reframe:</b> mathematical notation is <i>compressed code</i>,
 written before computers existed. Every operator is a loop, an index, or a function you
-already use. When a formula looks scary, translate it symbol by symbol into Python, and it
+already use. When a formula looks scary, translate it symbol by symbol into Python. It
 turns out to be five lines you could have written yourself.</div>`,
  docs:[['Summation notation (a gentle guide)','https://www.khanacademy.org/math/ap-calculus-bc/bc-series-new/bc-10-1/a/sigma-notation']],
  quiz:{title:'Quick check',questions:[
@@ -126,45 +130,50 @@ print(total, mean, sum_sq, prod, mse)
 {id:'mf2',
  title:'Functions and the shapes that matter in ML',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Here is a unifying idea: in ML, <b>a model is a function</b>, it takes features in and puts
-a prediction out. Training just searches for the best function. So understanding functions,
+<p>In ML, <b>a model is a function</b>. It takes features in and puts
+a prediction out. Training searches for the best function. So understanding functions,
 what they are, how they combine, and the handful of <b>shapes</b> that recur, is understanding
-the object ML actually manipulates.</p></div>
+the object ML manipulates.</p></div>
 
 <h3>What a function is</h3>
 <p>A <b>function</b> maps each input to exactly one output. Its <b>domain</b> is the allowed
-inputs, its <b>range</b> is the possible outputs. <code>f(x) = 2x + 1</code> is a function;
-so is a trained neural network with a billion parameters. Same idea, wildly different size.</p>
+inputs, its <b>range</b> is the possible outputs. <code>f(x) = 2x + 1</code> is a function.
+So is a trained neural network with a billion parameters. Same idea, different size.</p>
 
-<h3>The shapes you will meet again and again</h3>
-<p><b>Linear</b> <code>f(x) = mx + b</code>, a straight line; the simplest model (linear
+<h3>The shapes you'll meet again and again</h3>
+<p><b>Linear</b> <code>f(x) = mx + b</code>, a straight line, the simplest model (linear
 regression). <b>Quadratic</b> <code>x&sup2;</code>, the parabola, the bowl shape of squared
-error (why gradient descent works). <b>Exponential</b> <code>e&#739;</code>, explosive growth
+error. That bowl is why gradient descent works: the <b>gradient</b> is the direction of steepest increase of
+the loss, and <b>gradient descent</b> keeps stepping the other way, downhill. <b>Exponential</b> <code>e&#739;</code>, explosive growth
 (<code>e &asymp; 2.718</code>; <code>exp</code> is "e to the power," the inverse of the log
 you met). <b>Logarithmic</b>, slow growth, the mirror of exponential (logs stream).
 And the star of ML classification: the <b>sigmoid</b>.</p>
 
 <h3>The sigmoid: turning any number into a probability</h3>
 <div class="codeSample">sigma(x) = 1 / (1 + e^(-x))</div>
-<p>The <b>sigmoid</b> (logistic function) is an <b>S-curve</b> that squashes <i>any</i> real
+<p>The <b>sigmoid</b> (logistic function) is an <b>S-curve</b>. It squashes <i>any</i> real
 number, from minus a million to plus a million, into the range <b>(0, 1)</b>. Feed it a big
-positive number, out comes almost 1; a big negative, almost 0; feed it 0, out comes exactly
-0.5. That is precisely how a model turns a raw score into a <b>probability</b> ("87% spam"),
-which is why the sigmoid is the heart of <b>logistic regression</b> and a classic neural-network
-activation. You will implement it and watch it squash.</p>
+positive number, out comes almost 1. A big negative, almost 0. Feed it 0, out comes exactly
+0.5. That's how a model turns a raw score into a <b>probability</b> ("87% spam").
+It's why the sigmoid is the heart of <b>logistic regression</b>, a model that turns a weighted
+sum of the features into a yes-or-no probability. It's also a classic neural-network
+<b>activation</b>: the function applied after each layer's weighted sum. That's what lets a
+network bend. You'll implement it and watch it squash.</p>
 
 <h3>Composition: functions inside functions</h3>
 <p><b>Composition</b> is feeding one function's output into another: <code>f(g(x))</code>,
-"do g, then f." This is not a footnote: a <b>neural network is a composition of functions</b>,
-layer after layer, each feeding the next. That is exactly why the <b>chain rule</b> (calculus
-stream) is the engine of training, it is the rule for differentiating compositions. Notation
-and functions were the missing vocabulary; now the earlier streams click together.</p>
+"do g, then f." A <b>neural network is a composition of functions</b>.
+Layer after layer, each feeds the next. That's why the <b>chain rule</b> (calculus
+stream) is the engine of training: it's the rule for differentiating compositions.</p>
 
 <div class="demystify"><b>Demystify "nonlinear":</b> a linear function is a straight line
-(or flat plane); <i>nonlinear</i> just means "not a straight line", it can bend. The whole
-power of neural networks comes from composing <i>nonlinear</i> functions (like the sigmoid):
-stack only linear ones and you collapse back to a single straight line, no matter how many
+(or flat plane). <i>Nonlinear</i> means "not a straight line", it can bend. The
+power of neural networks comes from composing <i>nonlinear</i> functions (like the sigmoid).
+Stack only linear ones and you collapse back to a single straight line, no matter how many
 layers.</div>`,
  docs:[['The sigmoid / logistic function','https://en.wikipedia.org/wiki/Logistic_function'],['Function composition (visual intuition)','https://www.mathsisfun.com/sets/functions-composition.html']],
  quiz:{title:'Quick check',questions:[

@@ -2,23 +2,25 @@ STREAMS.push({icon:'📐',track:'Foundations Track',title:'Linear Algebra for ML
 {id:'la1',
  title:'Fundamentals: why matrices? A dataset IS a matrix',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>You already know a vector: an ordered list of numbers. A <b>matrix</b> is the next step up,
-a <b>grid</b> of numbers, rows × columns. And here is the reason ML cares, before any math:
+a <b>grid</b> of numbers, rows × columns. The reason ML (machine learning) cares, before any math:
 <b>a dataset is literally a matrix</b>. Each <b>row</b> is one example (one house, one patient),
 each <b>column</b> is one feature (size, age, price). Three houses described by two numbers
-each = a 3×2 matrix. That's not an analogy, it is how your data actually sits in memory.</p></div>
+each = a 3×2 matrix. That's how your data sits in memory.</p></div>
 
 <h3>Why bother with a special object for grids?</h3>
-<p>Because ML constantly does <i>the same operation to every row at once</i>, score every
+<p>ML constantly does <i>the same operation to every row at once</i>: score every
 house, predict every patient. Written with loops that's slow and verbose. Written as one
-matrix operation it's one line, and it runs on hardware built for exactly this (this is
-what GPUs are actually for). You'll feel the difference in the exercise: the loop way, then
+matrix operation it's one line, and it runs on hardware built for this (it's
+what GPUs are for). You'll feel the difference in the exercise: the loop way, then
 the one-line way, same answer.</p>
 
 <h3>Matrix arithmetic, from zero</h3>
 <p><b>Adding</b> two matrices of the same shape: add matching cells. <b>Scaling</b> a matrix by
-a number: multiply every cell. Both are exactly what you'd guess. In NumPy:</p>
+a number: multiply every cell. Both are what you'd guess. In NumPy:</p>
 <div class="codeSample">import numpy as np
 A = np.array([[1, 2],
               [3, 4]])
@@ -27,14 +29,14 @@ A + A        # [[2, 4], [6, 8]]     - cell by cell
 A.shape      # (2, 2)               - rows, columns</div>
 <p><code>.shape</code> tells you the dimensions, <code>(rows, columns)</code>. A dataset of
 150 examples with 4 features has shape <code>(150, 4)</code>. When an error says "shapes don't
-match," it's telling you the grids can't line up, the most common bug in all of ML code.</p>
+match," the grids can't line up. That's the most common bug in all of ML code.</p>
 
-<div class="demystify"><b>Demystify:</b> a matrix isn't just a table, it can also act as a
+<div class="demystify"><b>Demystify:</b> a matrix is a table, and it can also act as a
 <b>machine that transforms vectors</b>: feed a vector in, get a new vector out (rotate it,
-stretch it, project it). Both pictures are true, and ML uses both: data-as-matrix (this lesson)
+stretch it, project it). ML uses both pictures: data-as-matrix (this lesson)
 and matrix-as-transformation (next lesson, where multiplication makes that precise).</div>
 
-<div class="notebox"><b>📐 Notation decoder, linear algebra symbols</b> (you will meet these
+<div class="notebox"><b>📐 Notation decoder, linear algebra symbols</b> (you'll meet these
 across this stream; refer back anytime):
 <table>
 <tr><td>v  or  <b>v</b></td><td>a <b>vector</b>, a list of numbers (often shown in bold or with a little arrow)</td></tr>
@@ -130,60 +132,65 @@ print(shape, col_means)
 {id:'la1b',
  title:'Fundamentals: the basic operations, adding, scaling, and multiplying',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Before the star operation (matrix multiplication, next lesson), we need the everyday
-arithmetic of vectors and matrices, adding them, scaling them, and the <i>two different</i>
-ways to multiply. These are the moves you will use in every line of ML code, and one of them
+<p>Before matrix multiplication (next lesson), we need the everyday
+arithmetic of vectors and matrices: adding them, scaling them, and the <i>two different</i>
+ways to multiply. You'll use these in every line of ML code, and one of them
 is the single most common NumPy mistake, so we pin it down now.</p></div>
 
 <h3>Adding vectors: combine, entry by entry</h3>
 <div class="codeSample">[1, 2, 3] + [4, 5, 6] = [5, 7, 9]      # add matching entries</div>
-<p>Vector addition lines the two up and adds each pair. Geometrically it is "do this movement,
-then that one" (tip to tail). In ML you add vectors constantly, combining feature
+<p>Vector addition lines the two up and adds each pair. Geometrically it's "do this movement,
+then that one" (tip to tail). In ML you add vectors constantly: combining feature
 contributions, or nudging a point of weights. The rule: <b>same length required</b>.</p>
 
 <h3>Scaling: multiply every entry by a number</h3>
 <div class="codeSample">3 * [1, 2, 3] = [3, 6, 9]              # a scalar stretches the whole vector
 -1 * [1, 2, 3] = [-1, -2, -3]         # negative flips its direction</div>
 <p>Multiplying a vector (or matrix) by a single number, a <b>scalar</b>, stretches or shrinks
-it, and flips it if the number is negative. You already met this in disguise:
+it. A negative number flips it. You've met this in disguise:
 <code>x = x - lr * gradient</code> from gradient descent <i>scales the gradient by the learning
-rate</i>. Adding + scaling together is a <b>linear combination</b>, the operation the whole
+rate</i>. The <b>gradient</b> is the direction of steepest increase of the loss, so stepping
+the other way reduces it, and the <b>learning rate</b> is how big each step is. Adding plus scaling is a <b>linear combination</b>, the operation the whole
 subject is named after.</p>
 
-<h3>The two multiplications: do not confuse them</h3>
+<h3>The two multiplications: don't confuse them</h3>
 <p>Vectors have <i>two</i> different "multiplications," and mixing them up is the classic bug:</p>
 <div class="codeSample">Element-wise (Hadamard):  [1, 2, 3] * [4, 5, 6] = [4, 10, 18]   # multiply matching entries
 Dot product:              [1, 2, 3] · [4, 5, 6] = 4+10+18 = 32   # ...then ADD → one number</div>
-<p><b>Element-wise</b> multiply keeps a vector (each entry times its partner);
-<b>dot product</b> goes one step further and sums, collapsing to a single number. In NumPy the
+<p><b>Element-wise</b> multiply keeps a vector (each entry times its partner).
+<b>Dot product</b> goes one step further and sums, collapsing to a single number. In NumPy the
 distinction is a single character: <code>a * b</code> is <b>element-wise</b>, while
 <code>a @ b</code> (or <code>np.dot</code>) is the <b>dot product</b>. Reaching for
-<code>*</code> when you meant <code>@</code> is the number-one NumPy mistake, now you will
-never make it silently.</p>
+<code>*</code> when you meant <code>@</code> is the number-one NumPy mistake.</p>
 
 <h3>Matrices: same rules, one grid up</h3>
 <p><b>Adding matrices</b> of the same shape: add matching cells. <b>Scaling a matrix</b>:
 multiply every cell. <b>Element-wise</b> <code>A * B</code> multiplies matching cells (same
-shape), and is a completely different operation from the matrix multiplication
-<code>A @ B</code> you meet next lesson. Same words, one dimension higher.</p>
+shape), and is a different operation from the matrix multiplication
+<code>A @ B</code> you meet next lesson.</p>
 
 <h3>The transpose: flip a matrix over its diagonal</h3>
 <div class="codeSample">A  = [[1, 2, 3], Aᵀ = [[1, 4],
       [4, 5, 6]]                [2, 5],
    (2 rows, 3 cols)             [3, 6]]   (3 rows, 2 cols)</div>
 <p>The <b>transpose</b> <code>Aᵀ</code> (in NumPy, <code>A.T</code>) turns rows into columns and
-columns into rows, row <code>i</code> becomes column <code>i</code>. A <code>2×3</code> becomes
-a <code>3×2</code>. It looks like bookkeeping, but it is everywhere in ML: it is how you line
+columns into rows: row <code>i</code> becomes column <code>i</code>. A <code>2×3</code> becomes
+a <code>3×2</code>. It looks like bookkeeping, but it's everywhere in ML. It's how you line
 shapes up so a multiplication is legal (the <code>Xᵀ</code> in the regression formula
-<code>(XᵀX)⁻¹Xᵀy</code> is a transpose), and <code>XᵀX</code>, a matrix times its own
-transpose, is how the covariance and normal-equation matrices are built. Transpose twice and
-you are back where you started: <code>(Aᵀ)ᵀ = A</code>.</p>
+<code>(XᵀX)⁻¹Xᵀy</code> is a transpose). And <code>XᵀX</code>, a matrix times its own
+transpose, is how the covariance and normal-equation matrices are built. The <b>covariance
+matrix</b> records how each pair of features moves together. The normal equations solve a
+regression in one step. Transpose twice and
+you're back where you started: <code>(Aᵀ)ᵀ = A</code>.</p>
 
 <div class="demystify"><b>Demystify the star:</b> in NumPy, <code>*</code> <b>always</b> means
-element-wise (entry times matching entry), and <code>@</code> means "the real matrix/dot
-multiply." Math notation writes plain juxtaposition <code>AB</code> for the matrix product, so
-people expect <code>A * B</code> to do that, it does not. When your shapes are right but the
+element-wise (entry times matching entry). <code>@</code> means "the real matrix/dot
+multiply." Math notation writes <code>AB</code> for the matrix product, so
+people expect <code>A * B</code> to do that. It doesn't. When your shapes are right but the
 numbers are wrong, check whether you wanted <code>*</code> or <code>@</code>.</div>`,
  docs:[['NumPy (array operations)','https://numpy.org/doc/stable/user/absolute_beginners.html#basic-array-operations']],
  quiz:{title:'Quick check',questions:[
@@ -301,18 +308,20 @@ print(a @ b)   # 5        - dot product (multiply then sum)</div>
 {id:'la2',
  title:'Fundamentals: matrix multiplication, every prediction at once (and the identity)',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Here is the operation that runs essentially all of ML. Suppose each house's price is
+<p>This is the operation that runs nearly all of ML. Suppose each house's price is
 predicted as <code>50·size + (−2)·age</code>. For ONE house that's a dot product:
-<code>[size, age] · [50, −2]</code>. <b>Matrix multiplication is just doing that dot product
+<code>[size, age] · [50, −2]</code>. <b>Matrix multiplication is doing that dot product
 for every row at once</b>: multiply the data matrix by the weight vector, get all predictions
-in one shot. A model "scoring a dataset" IS this multiplication, nothing more.</p></div>
+in one shot. A model "scoring a dataset" IS this multiplication.</p></div>
 
 <h3>The rule, plainly</h3>
-<p><code>C = A @ B</code> (NumPy's multiply symbol): each output cell is the <b>dot product of a
-row of A with a column of B</b>. Specifically, the cell in <b>row i, column j</b> of the answer
+<p>Take <code>C = A @ B</code> (NumPy's multiply symbol). The cell in <b>row i, column j</b> of the answer
 is the dot product of <b>row i of A</b> with <b>column j of B</b>. That's the whole rule. It
-also explains the shape law: the row length of A must equal the column length of B, you can't
+also explains the shape law. The row length of A must equal the column length of B, because you can't
 dot two lists of different lengths.</p>
 
 <div class="worked"><b>✍️ Worked by hand, multiply a matrix by a vector.</b> Take our three
@@ -350,12 +359,12 @@ Notice <b>order matters</b>: <code>A @ B</code> is generally <i>not</i> <code>B 
 
 <h3>The identity matrix: the "do nothing" machine</h3>
 <p>The <b>identity matrix</b> <code>I</code> has <b>1s down the diagonal and 0s everywhere
-else</b> (<code>np.eye(n)</code>). The 2×2 and 3×3 identities look like:</p>
+else</b> (<code>np.eye(n)</code>). The 2×2 and 3×3 identities:</p>
 <div class="mathblock">I₂ = | 1  0 |        I₃ = | 1  0  0 |
      | 0  1 |             | 0  1  0 |
                           | 0  0  1 |</div>
-<p>Multiplying by it changes nothing, <code>I @ v = v</code>, and here is <i>why</i>, worked
-out, so it is not just a claim:</p>
+<p>Multiplying by it changes nothing, <code>I @ v = v</code>. Here's <i>why</i>, worked
+out:</p>
 <div class="worked"><b>✍️ Worked by hand, why I does nothing.</b> Multiply I₂ by the vector
 <code>v = [7, 3]</code>. Each output entry is a row of I dotted with v:
 <div class="mathblock">Row 1: [1, 0]·[7, 3] = (1)(7) + (0)(3) = 7 + 0 = 7
@@ -365,15 +374,16 @@ I @ [7, 3] = [7, 3]   ← unchanged</div>
 The single <code>1</code> in each row "selects" exactly one entry of <code>v</code> and the
 <code>0</code>s erase the rest, so every entry passes through untouched. That is the whole
 trick.</div>
-<p>It is the <b>number 1 of the matrix world</b>, and that is exactly why it matters: it is the
-reference point for "undoing" a transformation (the <i>inverse</i> is defined by
-<code>A @ A⁻¹ = I</code>, apply, then un-apply, and you have done nothing), and it shows up
+<p>It's the <b>number 1 of the matrix world</b>, and that's why it matters. It's the
+reference point for "undoing" a transformation: the <i>inverse</i> is defined by
+<code>A @ A⁻¹ = I</code>, apply, then un-apply, and you've done nothing. It also shows up
 inside ridge regression (<code>XᵀX + λI</code>), the regularization trick you'll meet in the
-ML track.</p>
+ML track. <b>Regularization</b> is a penalty added to the loss so the model stays simple and
+does not just memorize the training data.</p>
 
 <div class="demystify"><b>Demystify:</b> "matrix multiplication" sounds like arbitrary rules to
-memorize. It isn't, it's <i>batched dot products</i>, and a dot product is "multiply matching
-entries and add." One idea, reused at scale. If you can dot two vectors, you already know the
+memorize. It's <i>batched dot products</i>, and a dot product is "multiply matching
+entries and add." If you can dot two vectors, you already know the
 whole operation.</div>`,
  docs:[['NumPy (matmul (@))','https://numpy.org/doc/stable/reference/generated/numpy.matmul.html']],
  quiz:{title:'Quick check',questions:[
@@ -446,38 +456,38 @@ print(preds, unchanged, first_by_hand)
 {id:'latf',
  title:'Fundamentals: a matrix is a transformation of space',
  body:`
-<div class="ground"><span class="gTag">🎯 The idea that unlocks the rest</span>
-<p>So far a matrix has been a grid of numbers and a batch of dot products. Here is the deeper
-picture that makes eigenvectors, determinants, and inverses finally make sense: <b>a matrix is
-a machine that moves points around, it transforms space.</b> But first we owe you an answer to a question you should be asking: <i>what is "space"?</i></p></div>
 
-<h3>First: what do we even mean by "space"?</h3>
-<p>Not outer space, no vacuum, no stars. In math, a <b>space</b> is simply <b>the collection of
-every possible point of a given size.</b> Picture an endless sheet of graph paper: every
+
+<div class="ground"><span class="gTag">🎯 The idea that unlocks the rest</span>
+<p>So far a matrix has been a grid of numbers and a batch of dot products. The deeper
+picture: <b>a matrix is
+a machine that moves points around. It transforms space.</b> But first: <i>what is "space"?</i></p></div>
+
+<h3>First: what do we mean by "space"?</h3>
+<p>Not outer space. In math, a <b>space</b> is <b>the collection of
+every possible point of a given size.</b> Picture an endless sheet of graph paper. Every
 location on it is a pair of numbers <code>[x, y]</code>, and the whole sheet, all possible
-pairs, is what we call <b>2-D space</b>. A vector like <code>[3, 4]</code> is just <i>one
+pairs, is <b>2-D space</b>. A vector like <code>[3, 4]</code> is <i>one
 location</i> in it. Add a third number and you get <b>3-D space</b>: every possible
-<code>[x, y, z]</code>, like every location in the room you're sitting in.</p>
+<code>[x, y, z]</code>, every location in the room you're in.</p>
 <p>The idea keeps going even when you can't picture it. <b>n-dimensional space</b> is every
-possible list of <code>n</code> numbers. You cannot visualize 300-D, but it is the same
-concept: the set of all 300-number vectors. This matters directly for ML: a dataset of houses,
-each described by 5 features, <b>lives in 5-dimensional space</b>, each house is one point in
-it, and the whole dataset is a cloud of points floating in that space. "Space" is just the
-coordinate playground your data lives in; the word is borrowed because the 2-D and 3-D versions
-happen to look like the physical space we know.</p>
+possible list of <code>n</code> numbers. You can't visualize 300-D, but it's the same
+concept: the set of all 300-number vectors. A dataset of houses,
+each described by 5 features, <b>lives in 5-dimensional space</b>. Each house is one point in
+it, and the whole dataset is a cloud of points in that space.</p>
 
 <h3>How a matrix "operates on space"</h3>
-<p>You already know <code>A @ v</code> takes a vector <code>v</code> and produces a new vector.
-Now think of <code>v</code> as a <b>point</b> in the plane. The matrix takes that point and
+<p><code>A @ v</code> takes a vector <code>v</code> and produces a new vector.
+Think of <code>v</code> as a <b>point</b> in the plane. The matrix takes that point and
 <b>moves it somewhere else</b>. Do this to <i>every</i> point at once and the entire plane gets
-picked up and reshaped, stretched, rotated, sheared, or flipped. That reshaping is what "a
-matrix transforms space" means, literally: feed a point in, get its new location out.</p>
+picked up and reshaped: stretched, rotated, sheared, or flipped. That reshaping is what "a
+matrix transforms space" means.</p>
 
 <h3>The one trick to see what a matrix does: follow the arrows</h3>
-<p>You don't have to move infinitely many points, just watch the two basis vectors
-<code>[1, 0]</code> (one step right) and <code>[0, 1]</code> (one step up). Here is the beautiful
-fact: <b>the columns of the matrix are exactly where those two arrows land.</b> Column 1 is
-where <code>[1,0]</code> goes; column 2 is where <code>[0,1]</code> goes. Know that, and you
+<p>Watch the two <b>basis vectors</b>, the unit steps every other vector in the plane is built
+from: <code>[1, 0]</code> (one step right) and <code>[0, 1]</code> (one step up).
+<b>The columns of the matrix are where those two arrows land.</b> Column 1 is
+where <code>[1,0]</code> goes. Column 2 is where <code>[0,1]</code> goes. Know that, and you
 know the whole transformation.</p>
 <div class="worked"><b>✍️ Worked, a stretch.</b> Take <code>A = [[2, 0], [0, 3]]</code>. Send
 the basis arrows through it:
@@ -496,21 +506,20 @@ S @ [0, 1] = [1, 1]     (the up-arrow tips over to the right)</div>
 Vertical lines slant; the square becomes a parallelogram. Different matrices reshape space in
 different ways, stretch, shear, rotate (e.g. <code>[[0,−1],[1,0]]</code> rotates 90°), or flip.</div>
 
-<h3>Now the payoff: and it connects the next three lessons</h3>
-<p>Once you see a matrix as a reshaping of space, three things that sounded abstract become
-concrete: the <b>determinant</b> (next lesson) is simply <i>how much the transformation grows or
-shrinks area</i>; if a matrix squashes 2-D space onto a line, area goes to zero, that is a
+<h3>The payoff: it connects the next three lessons</h3>
+<p>With a matrix as a reshaping of space, three abstract things become
+concrete. The <b>determinant</b> (next lesson) is <i>how much the transformation grows or
+shrinks area</i>. If a matrix squashes 2-D space onto a line, area goes to zero: a
 determinant of 0. The <b>inverse</b> is the transformation that <i>reverses</i> the reshaping
-and puts every point back; if space was flattened onto a line, information is destroyed and no
+and puts every point back. If space was flattened onto a line, information is destroyed and no
 reversal exists (no inverse). And <b>eigenvectors</b> are the special directions the
-transformation does not rotate, only stretches. All three are just questions about "what did
-this reshaping do to space."</p>
+transformation doesn't rotate, only stretches.</p>
 
-<div class="demystify"><b>Demystify "linear transformation":</b> that phrase just means "a
+<div class="demystify"><b>Demystify "linear transformation":</b> the phrase means "a
 matrix's action on space." <i>Linear</i> means the reshaping keeps grid lines straight and
-evenly spaced and leaves the origin fixed, no bending. That is precisely why matrices can only
-stretch, rotate, shear, and flip (never curve), and why stacking matrix layers in a neural
-network needs a nonlinearity between them to bend space at all (calculus/functions stream).</div>`,
+evenly spaced and leaves the origin fixed, no bending. That's why matrices can only
+stretch, rotate, shear, and flip, never curve. It's also why matrix layers in a neural
+network need a nonlinearity between them to bend space at all (calculus/functions stream).</div>`,
  docs:[['3Blue1Brown (linear transformations & matrices)','https://www.3blue1brown.com/lessons/linear-transformations']],
  quiz:{title:'Quick check',questions:[
    {q:'What does it mean that "a matrix transforms space"?',
@@ -604,15 +613,16 @@ print(Ae1, Ae2, cols_match, corner, sheared)
 {id:'la3',
  title:'Fundamentals: norms, distance & similarity, how ML measures "close"',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>Half of machine learning is some version of one question: <i>"how similar are these two
 things?"</i> Recommend a movie = find users <b>close</b> to you. Classify an email = is it
 <b>closer</b> to spam or to ham? Detect fraud = is this transaction <b>far</b> from normal?
-Since every thing is a vector, we need to measure closeness between vectors, and this lesson
-is the complete toolkit for that.</p></div>
+Every thing is a vector, so we measure closeness between vectors.</p></div>
 
 <h3>Norm: how long is a vector?</h3>
-<p>The <b>L2 norm</b> <code>‖v‖</code> is the arrow's length: Pythagoras generalized:
+<p>The <b>L2 norm</b> <code>‖v‖</code> is the arrow's length, Pythagoras generalized:
 <code>√(v₁² + v₂² + …)</code>, in NumPy <code>np.linalg.norm(v)</code>. Its sibling the
 <b>L1 norm</b> adds absolute values instead (<code>|v₁| + |v₂| + …</code>), the
 "city-block" length.</p>
@@ -620,28 +630,26 @@ is the complete toolkit for that.</p></div>
 <div class="mathblock">L2 norm:  ‖v‖ = √(3² + 4²) = √(9 + 16) = √25 = 5
 L1 norm:  |3| + |4| = 7</div>
 Same vector, two rulers, two lengths.</div>
-<p><b>Why ML cares, in plain English:</b> a norm is how a model measures "how big" something is,
-<i>how big is this error?</i> and <i>how big are these weights?</i> Penalizing large weights
-(so the model stays simple) is just penalizing their norm, that is exactly what L2 and L1
-<b>regularization</b> do, and it is the same L2-vs-L1 pair you met as MSE vs MAE.</p>
+<p><b>Why ML cares:</b> a norm is how a model measures "how big" an error or a set of weights is. Penalizing large weights
+(so the model stays simple) is penalizing their norm. That's what L2 and L1
+<b>regularization</b> do: a penalty added to the loss so the model stays simple instead of memorizing the
+training data. It's the same L2-vs-L1 pair you met as <b>MSE</b> vs <b>MAE</b> (mean squared error and mean
+absolute error: average the squared misses, or average the plain misses).</p>
 
 <h3>Distance: how far apart are two points?</h3>
-<p>The distance between vectors <code>a</code> and <code>b</code> is just the norm of their
-<b>difference</b>: <code>‖a − b‖</code>, subtract to get the gap vector, then measure its
-length.</p>
+<p>The distance between vectors <code>a</code> and <code>b</code> is the norm of their
+<b>difference</b>: <code>‖a − b‖</code>.</p>
 <div class="worked"><b>✍️ Worked by hand.</b> Distance from <code>a = [1, 2]</code> to
 <code>b = [4, 6]</code>:
 <div class="mathblock">a − b = [1−4, 2−6] = [−3, −4]
 ‖a − b‖ = √((−3)² + (−4)²) = √(9 + 16) = √25 = 5</div></div>
-<p><b>Why ML cares, in plain English:</b> "similar things are close, weird things are far."
+<p><b>Why ML cares:</b> similar things are close, weird things are far.
 A <b>k-nearest-neighbors</b> classifier labels a new point by the labels of the closest points
-to it; <b>anomaly/fraud detection</b> flags points that sit far from the normal crowd. Both are
-just this subtract-then-measure step.</p>
+to it. <b>Anomaly/fraud detection</b> flags points that sit far from the normal crowd.</p>
 
 <h3>Cosine similarity: same direction, ignoring size</h3>
-<p>First, recall the <b>dot product</b> (from the NumPy and basic-operations lessons): line two
-vectors up, multiply matching entries, and add them into a <i>single number</i>, it is large
-when the two point the same way and zero when they are at right angles. Cosine similarity takes
+<p>Recall the <b>dot product</b>: multiply matching entries and add. The <i>single number</i> is large
+when two vectors point the same way and zero at right angles. Cosine similarity takes
 that number and <b>divides out both lengths</b>, so only <i>direction</i> is left:</p>
 <div class="mathblock">cosine similarity(a, b) = (a · b) / (‖a‖ · ‖b‖)     ranges from −1 to 1</div>
 <div class="worked"><b>✍️ Worked by hand.</b> Take <code>a = [1, 2]</code> and
@@ -651,17 +659,19 @@ norms: ‖a‖ = √(1+4) = √5 , ‖b‖ = √(4+16) = √20
 cosine = 10 / (√5 · √20) = 10 / √100 = 10 / 10 = 1.0</div>
 A cosine of <b>1.0</b> means "identical direction", correct, since b is just 2×a. If b were
 <code>[−2, −4]</code> (opposite way) it would be −1; at right angles, 0.</div>
-<p><b>Why ML cares, in plain English:</b> often <i>direction means the meaning, and size is just
+<p><b>Why ML cares:</b> often <i>direction is the meaning, and size is
 loudness.</i> Two users have the same <b>taste</b> if their rating vectors point the same way,
-even if one rates far more movies, cosine ignores the volume and compares the taste. The same
-idea powers <b>semantic search</b> and <b>RAG</b>: a sentence's meaning is stored as a vector
-(an "embedding"), and two texts are judged similar in meaning when their vectors point the same
-way. Cosine similarity is the single most common "how alike are these?" measure in modern ML.</p>
+even if one rates far more movies. The same
+idea powers <b>semantic search</b> (searching by meaning rather than by exact words) and
+<b>RAG</b> (retrieval-augmented generation: a language model looks up relevant documents
+first, then answers using them). A sentence's meaning is stored as a vector
+(an "embedding": a learned vector placed so that similar meanings sit close). Two texts are judged similar in meaning when their vectors point the same
+way. Cosine similarity is the most common "how alike are these?" measure in modern ML.</p>
 
-<div class="demystify"><b>Demystify "norm":</b> an ordinary word made scary. A norm is a
-<i>ruler</i>, a rule for assigning a length. L2 is the ruler of straight-line distance;
-L1 is the ruler of a taxi driving a street grid. Different rulers, different behavior (L2
-punishes big coordinates harder, squares again!), and choosing the ruler is a modeling
+<div class="demystify"><b>Demystify "norm":</b> a norm is a
+<i>ruler</i>, a rule for assigning a length. L2 is the ruler of straight-line distance.
+L1 is the ruler of a taxi driving a street grid. L2
+punishes big coordinates harder (squares again!). Choosing the ruler is a modeling
 decision, not a formality.</div>`,
  docs:[['NumPy (linalg.norm)','https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html']],
  quiz:{title:'Quick check',questions:[
@@ -766,13 +776,14 @@ print(dist_bob, dist_carol, cos_bob, closest)
 {id:'ladet',
  title:'Fundamentals: the determinant, one number that says how a matrix warps space',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Now that you have seen a matrix <b>reshape space</b> (the last lesson, stretch, shear,
-rotate, flip), the <b>determinant</b> measures one specific thing about that reshaping: <b>how
-much it grows or shrinks area (in 2D) or volume (in 3D)</b>. It is a single number squeezed out
-of a <i>square</i> matrix, and that one number quietly powers a lot, it tells you whether the
-transformation can be <i>reversed</i> (inverted, the next lessons), whether your features are
-redundant, and how probabilities rescale when you change variables. We build it from a worked
+<p>You've seen a matrix <b>reshape space</b> (last lesson: stretch, shear,
+rotate, flip). The <b>determinant</b> measures one thing about that reshaping: <b>how
+much it grows or shrinks area (in 2D) or volume (in 3D)</b>. It's a single number squeezed out
+of a <i>square</i> matrix. We build it from a worked
 example, not a formula dump.</p></div>
 
 <h3>Computing it: the 2×2 case, by hand</h3>
@@ -791,9 +802,9 @@ So <code>det(A) = 10</code>. Now a second one, <code>S = [[2, 4], [1, 2]]</code>
 determinant is the fingerprint of that.</div>
 
 <h3>What the number MEANS: area scaling</h3>
-<p>Picture the unit square (corners at the origin, area 1). Feed its corners through a matrix
+<p>Feed the unit square (area 1) through a matrix
 and it becomes a parallelogram. <b>The determinant is the area of that parallelogram</b>,
-i.e. the factor by which the matrix scales <i>every</i> area.</p>
+the factor by which the matrix scales <i>every</i> area.</p>
 <div class="worked"><b>✍️ Worked, the stretch matrix.</b> <code>D = [[3, 0], [0, 2]]</code>
 stretches x by 3 and y by 2.
 <div class="mathblock">det | 3  0 | = (3)(2) − (0)(0) = 6
@@ -805,25 +816,27 @@ dimension is lost, and (next lesson) that is precisely why the matrix has no inv
 <b>negative</b> determinant means the transformation also <i>flips</i> orientation (a mirror
 image), and its size is still the area factor.</div>
 
-<h3>Where it is used in the real world (and in ML)</h3>
-<p>Beyond a school exercise, the determinant earns its keep: (1) <b>Can it be reversed?</b>,
-<code>det ≠ 0</code> means the transformation preserves area (no dimension crushed), so it can be
-<i>undone</i>; <code>det = 0</code> means it flattened space and cannot be reversed. "Can be
-undone" has a name, <b>invertible</b>, which the next two lessons build in full. This is the
-single most common use of the determinant.
-(2) <b>Detecting redundant features</b>, a near-zero determinant of <code>XᵀX</code> warns
-that features are collinear and a regression will be unstable. (3) <b>Area / volume</b>, the
+<h3>Where it's used (and in ML)</h3>
+<p>(1) <b>Can it be reversed?</b>
+<code>det ≠ 0</code> means no dimension was crushed, so the transformation can be
+<i>undone</i>. <code>det = 0</code> means it flattened space and can't be reversed. "Can be
+undone" has a name, <b>invertible</b> (next two lessons). This is the
+most common use of the determinant.
+(2) <b>Detecting redundant features.</b> A near-zero determinant of <code>XᵀX</code> warns
+that features are <b>collinear</b> and a regression will be unstable. Collinear means one is close
+to a scaled copy of another, so it adds no new information. (3) <b>Area / volume.</b> The
 determinant of the vectors' matrix gives the area (2D) or volume (3D) they span, used in
-graphics and geometry. (4) <b>Change of variables</b>, when you transform a probability
+graphics and geometry. (4) <b>Change of variables.</b> When you transform a probability
 distribution, densities rescale by the determinant of the transformation (the "Jacobian
-determinant"); this is the engine behind change-of-variables in statistics and
-<b>normalizing flows</b> in modern generative ML. One number, all of these jobs.</p>
+determinant"). This is the engine behind change-of-variables in statistics and
+<b>normalizing flows</b> in generative ML (models that produce new data, such as images, rather
+than labeling existing data).</p>
 
-<div class="demystify"><b>Demystify "determinant":</b> the name comes from its original job,
-it <i>determines</i> whether a system of equations has a unique solution (yes ⟺ det ≠ 0). Do
-not memorize the bigger-matrix formulas; understand the meaning (area/volume scaling; zero =
+<div class="demystify"><b>Demystify "determinant":</b> the name comes from its original job.
+It <i>determines</i> whether a system of equations has a unique solution (yes ⟺ det ≠ 0). Don't
+memorize the bigger-matrix formulas. Understand the meaning (area/volume scaling; zero =
 collapsed = non-invertible) and let <code>np.linalg.det</code> crunch the arithmetic. For 3×3
-and up it is more work by hand, but the <i>meaning</i> is identical, a volume-scaling factor.</div>`,
+and up it's more work by hand, but the <i>meaning</i> is the same.</div>`,
  docs:[['Determinant (the geometric meaning (3Blue1Brown))','https://www.3blue1brown.com/lessons/determinant'],['np.linalg.det','https://numpy.org/doc/stable/reference/generated/numpy.linalg.det.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The determinant of [[3, 1], [2, 4]] is:',
@@ -897,15 +910,16 @@ print(det_A, det_S, det_D)
 {id:'la4',
  title:'Fundamentals: the inverse, undoing a matrix, and solving for a model exactly',
  body:`
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>You know matrices <i>transform</i> vectors. The <b>inverse</b> matrix <code>A⁻¹</code>
+<p>Matrices <i>transform</i> vectors. The <b>inverse</b> matrix <code>A⁻¹</code>
 <b>undoes</b> the transformation: <code>A⁻¹ @ (A @ v) = v</code>, and
-<code>A @ A⁻¹ = I</code>, apply, un-apply, back where you started (that is exactly what the
-identity from lesson 2 was <i>for</i>). Why ML cares: "find the weights that fit the data" is
+<code>A @ A⁻¹ = I</code>. Apply, un-apply, back where you started. That's what the
+identity from lesson 2 was <i>for</i>. Why ML cares: "find the weights that fit the data" is
 often literally "un-apply the data matrix", solving equations at scale.</p></div>
 
 <h3>Computing a 2×2 inverse, by hand</h3>
-<p>There is a clean formula for the 2×2 case: <b>swap the diagonal, negate the off-diagonal,
+<p>The 2×2 case has a clean formula: <b>swap the diagonal, negate the off-diagonal,
 and divide by the determinant.</b></p>
 <div class="mathblock">A = | a  b |     ⟹     A⁻¹ = (1 / det) · |  d  −b |
     | c  d |                              | −c   a |     where det = ad − bc</div>
@@ -930,22 +944,22 @@ behind "singular = no inverse."</div>
 <h3>Solving many equations at once</h3>
 <p>Suppose predictions work like <code>A @ w = b</code>: known data <code>A</code>, observed
 outcomes <code>b</code>, unknown weights <code>w</code>. School algebra would grind through
-substitution. Linear algebra says: <code>w = A⁻¹ @ b</code>, one line, any number of
-equations. In practice you call <code>np.linalg.solve(A, b)</code> (faster and more accurate
-than computing the inverse explicitly, a real practitioner habit worth having from day 1).</p>
+substitution. Linear algebra says <code>w = A⁻¹ @ b</code>, one line, any number of
+equations. In practice you call <code>np.linalg.solve(A, b)</code>. It's faster and more accurate
+than computing the inverse explicitly, a practitioner habit to have from day 1.</p>
 
 <h3>When you CANNOT undo: singular matrices</h3>
-<p>Some matrices destroy information, like multiplying by zero, there is no way back. A
+<p>Some matrices destroy information, like multiplying by zero. There's no way back. A
 matrix whose rows/columns repeat information (one column is twice another) is <b>singular</b>:
-no inverse exists. Its <b>determinant</b> is 0, the number that flags it. In ML this is not
-exotic: put the same feature into your dataset twice (height in cm AND in meters) and the
-math of exact fitting breaks in precisely this way. "Singular matrix" errors in real libraries
+no inverse exists. Its <b>determinant</b> is 0, the number that flags it. In ML this isn't
+exotic. Put the same feature into your dataset twice (height in cm AND in meters) and the
+math of exact fitting breaks in this way. "Singular matrix" errors in real libraries
 are usually <i>redundant features</i> talking to you.</p>
 
-<div class="demystify"><b>Demystify "determinant":</b> geometrically it is the <i>volume
+<div class="demystify"><b>Demystify "determinant":</b> geometrically it's the <i>volume
 scaling factor</i> of the transformation, how much the matrix stretches space. Determinant 0
-means space gets squashed flat (a dimension is lost), and information squashed flat cannot be
-un-squashed. That is the whole reason det = 0 ⇔ no inverse.</div>`,
+means space gets squashed flat (a dimension is lost), and information squashed flat can't be
+un-squashed. That's the reason det = 0 ⇔ no inverse.</div>`,
  docs:[['NumPy (linalg.solve)','https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html']],
  quiz:{title:'Quick check',questions:[
    {q:'The defining property of the inverse A⁻¹ is:',
@@ -1035,39 +1049,43 @@ print(d, w, det_S)
 {id:'la8',
  title:'Fundamentals: span, basis & independence, what your features can (and cannot) express',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
-<p>Three ideas that sound abstract but answer a very practical ML question: <i>"what can my
-model actually reach with these features?"</i> A linear model's predictions are always a
+<p><i>"What can my model reach with these features?"</i> Span, independence and basis sound
+abstract, but they answer that practical ML question. A linear model's predictions are always a
 <b>combination</b> of its feature directions, some amount of this one plus some amount of
 that one. The set of everything reachable that way is the <b>span</b>. If the true answer
-lies outside the span of your features, no amount of training will get there. That is why
+lies outside the span of your features, no amount of training will get there. That's why
 "add a better feature" often beats "train harder."</p></div>
 
 <h3>Linear combinations and span</h3>
 <p>A <b>linear combination</b> of vectors is scaled copies added together:
 <code>c₁·b₁ + c₂·b₂</code>. The <b>span</b> of a set of vectors is everything you can build
-that way. Two useful pictures: <code>[1,0]</code> and <code>[0,1]</code> span the whole 2D
-plane (any point = so much right + so much up); a single vector spans only the line through
+that way. <code>[1,0]</code> and <code>[0,1]</code> span the whole 2D
+plane (any point = so much right + so much up). A single vector spans only the line through
 it.</p>
 
 <h3>Independence: does a new feature add anything?</h3>
-<p>Vectors are <b>linearly independent</b> when none of them can be built from the others,
-each genuinely adds a new direction. <code>[1,2]</code> and <code>[2,4]</code> are
-<i>dependent</i>: the second is just twice the first, adds nothing, and their span is still
-one line. Sound familiar? That is precisely the duplicated-feature disease from the inverse
-lesson (height in cm and in meters), and precisely what <b>rank</b> counts: rank = the number
+<p>Vectors are <b>linearly independent</b> when none of them can be built from the others.
+Each adds a new direction. <code>[1,2]</code> and <code>[2,4]</code> are
+<i>dependent</i>: the second is twice the first, adds nothing, and their span is still
+one line. That's the duplicated-feature disease from the inverse
+lesson (height in cm and in meters). It's what <b>rank</b> counts: rank = the number
 of independent directions = the true dimension of the span.</p>
 
 <h3>Basis: the minimal description</h3>
-<p>A <b>basis</b> is an independent set that spans the space, no redundancy, nothing missing;
-every point has exactly one recipe in terms of it. Finding the coefficients of that recipe is
-a <code>solve</code>, the same tool as last lesson. And a preview with teeth: <b>PCA</b>
-(two lessons ahead) is nothing but choosing a <i>better basis</i> for your data, axes along
-the real variation instead of the arbitrary original columns.</p>
+<p>A <b>basis</b> is an independent set that spans the space: no redundancy, nothing missing.
+Every point has exactly one recipe in terms of it. Finding the coefficients of that recipe is
+a <code>solve</code>, the same tool as last lesson. A preview: <b>PCA</b>
+(principal component analysis, two lessons ahead) is choosing a <i>better basis</i> for your
+data. The new axes run along the real variation instead of the arbitrary original columns. That
+way many columns become a few without losing much.</p>
 
-<div class="demystify"><b>Demystify "span/basis/rank":</b> three words, one question each.
+<div class="demystify"><b>Demystify "span/basis/rank":</b> one question each.
 Span: <i>what is reachable?</i> Independence: <i>does this direction add anything new?</i>
-Basis: <i>what is the minimal set that reaches everything?</i> Rank: <i>how many genuinely
+Basis: <i>what is the minimal set that reaches everything?</i> Rank: <i>how many
 different directions are in here?</i> All four are bookkeeping about expressiveness, which
 is why they matter to models.</div>`,
  docs:[['3Blue1Brown (span and basis)','https://www.3blue1brown.com/lessons/span']],
@@ -1158,55 +1176,58 @@ print(c1, c2, rebuilt, rank_D, rank_B)
 {id:'la9',
  title:'Fundamentals: when is a matrix invertible? (and why ML cares)',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>You met the inverse (the matrix that undoes a transformation) and saw that some matrices
-have none. Now we answer the real question precisely: <b>when does a matrix have an inverse,
-and when does it not?</b> This is not abstract trivia, the single most common numerical
-failure in classic ML (a regression that blows up or refuses to fit) is <i>exactly</i> a
-matrix that should be invertible but is not, and knowing why lets you fix it.</p></div>
+have none. Now the real question: <b>when does a matrix have an inverse,
+and when does it not?</b> The most common numerical
+failure in classic ML (a regression that blows up or refuses to fit) is a
+matrix that should be invertible but isn't. Knowing why lets you fix it.</p></div>
 
 <h3>The one condition, wearing five outfits</h3>
-<p>For a <b>square</b> matrix, these statements are all the <i>same fact</i>, if one is true,
-all are; if one fails, all fail:</p>
+<p>For a <b>square</b> matrix, these statements are all the <i>same fact</i>. If one is true,
+all are. If one fails, all fail:</p>
 <div class="codeSample">A is invertible
   ⟺  det(A) ≠ 0                      (the determinant is non-zero)
   ⟺  A has full rank                 (rank = number of rows)
   ⟺  A's columns are independent     (none is a combination of the others)
   ⟺  A x = b has exactly one solution for every b
   ⟺  the transformation loses no information (it can be undone)</div>
-<p>They connect through the ideas you already built: independent columns (last lesson) means
-full rank; full rank means the transformation does not squash any dimension flat; not squashing
-means a non-zero determinant (recall det = the volume-scaling factor); and losing no volume
-means you can reverse it. One truth, five equivalent tests.</p>
+<p>They connect through the ideas you already built. Independent columns (last lesson) means
+full rank. Full rank means the transformation doesn't squash any dimension flat. Not squashing
+means a non-zero determinant (det = the volume-scaling factor). And losing no volume
+means you can reverse it.</p>
 
 <h3>When it FAILS: singular matrices</h3>
 <p>A matrix with <b>no</b> inverse is called <b>singular</b>. It happens exactly when the
-columns are <i>dependent</i>, one carries no new information (it is a combination of the
-others). Then <code>det = 0</code>, the rank is deficient, the transformation collapses space
-onto a lower dimension, and there is no way back (like trying to un-multiply by zero). And a
-blunt fact often missed: <b>only square matrices can have a (true) inverse at all</b>, a
-tall data matrix <code>X</code> (more rows than columns) is never invertible, which is
-precisely why regression cannot just "invert X."</p>
+columns are <i>dependent</i>: one carries no new information, being a combination of the
+others. Then <code>det = 0</code>, the rank is deficient, the transformation collapses space
+onto a lower dimension, and there's no way back (like trying to un-multiply by zero). A
+blunt fact often missed: <b>only square matrices can have a (true) inverse at all</b>. A
+tall data matrix <code>X</code> (more rows than columns) is never invertible. That's
+why regression can't just invert <code>X</code>.</p>
 
 <h3>Why ML cares: the collinear-features trap</h3>
-<p>Linear regression's normal equations are <code>w = (XᵀX)⁻¹ Xᵀy</code>: they invert the
+<p>Linear regression's <b>normal equations</b> are the formula that fits a straight-line model in
+one step: <code>w = (XᵀX)⁻¹ Xᵀy</code>. They invert the
 square matrix <code>XᵀX</code>. That inverse exists <b>only if the columns of X are
-independent</b>, and they are <i>not</i> when two features carry the same information:
-"price in dollars" and "price in euros" (one is 1.1× the other), or a one-hot encoding that
+independent</b>. They're <i>not</i> when two features carry the same information.
+Two examples. "Price in dollars" and "price in euros" (one is 1.1× the other). Or a <b>one-hot encoding</b> (one 0-or-1 column per category) that
 includes every category plus an all-ones column. Then <code>XᵀX</code> is singular, the inverse
-does not exist, and a naive solver either crashes or returns garbage. The fixes are exactly the
+doesn't exist, and a naive solver either crashes or returns garbage. The fixes are the
 tools ML reaches for:</p>
 <p>• <b>Drop</b> the redundant feature (the cleanest fix). • Use the <b>pseudoinverse</b>
-(<code>np.linalg.pinv</code>), which returns a sensible answer even when the true inverse does
-not exist. • Add <b>regularization</b>: ridge regression solves
-<code>(XᵀX + λI)⁻¹Xᵀy</code>, and that little <code>+ λI</code> nudge <b>guarantees</b> the
-matrix is invertible (it restores full rank), which is a big part of <i>why</i> regularization
-makes models numerically stable, not just statistically humble.</p>
+(<code>np.linalg.pinv</code>), which returns a sensible answer even when the true inverse doesn't exist. • Add <b>regularization</b>, a penalty on the loss that keeps the model simple. Ridge regression solves
+<code>(XᵀX + λI)⁻¹Xᵀy</code>, and that <code>+ λI</code> nudge <b>guarantees</b> the
+matrix is invertible (it restores full rank). That's a big part of <i>why</i> regularization
+makes models numerically stable, not only statistically humble.</p>
 
-<div class="demystify"><b>Demystify "singular":</b> it does not mean "single", in old
+<div class="demystify"><b>Demystify "singular":</b> it doesn't mean "single". In old
 mathematical usage it means <i>special / degenerate</i>, a matrix that has collapsed onto
-itself. "Non-singular" and "invertible" are the same word; "singular" and "not invertible" are
-the same word. When a library throws <code>LinAlgError: singular matrix</code>, it is telling
+itself. "Non-singular" and "invertible" are the same word. "Singular" and "not invertible" are
+the same word. When a library throws <code>LinAlgError: singular matrix</code>, it's telling
 you: your columns are secretly redundant, go find the duplicated information.</div>`,
  docs:[['Invertible matrix (the equivalent conditions)','https://textbooks.math.gatech.edu/ila/invertible-matrix-theorem.html'],['np.linalg.pinv (pseudoinverse)','https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html']],
  quiz:{title:'Quick check',questions:[
@@ -1315,32 +1336,35 @@ print(det_A, det_S, A_invertible, S_invertible, det_ridge)
 {id:'la5',
  title:'Fundamentals: least squares, when no exact answer exists (the geometry of regression)',
  body:`
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>Last lesson had a perfect world: as many equations as unknowns, one exact answer. Real data
-is never like that, 1,000 noisy houses, 2 knobs. <code>X @ w = y</code> has <b>no exact
-solution</b>: no line passes through every point. <b>Least squares</b> is the principled
+is never like that: 1,000 noisy houses, 2 knobs. <code>X @ w = y</code> has <b>no exact
+solution</b>. No line passes through every point. <b>Least squares</b> is the principled
 compromise: find the <code>w</code> whose predictions are <i>as close as possible</i> to
-<code>y</code>, minimizing the squared error (the MSE story, now in matrix form). This IS
-linear regression; you are about to fit your first real model with pure linear algebra.</p></div>
+<code>y</code>, minimizing the squared error (the <b>MSE</b> story, mean squared error, the average of the
+squared misses, now in matrix form). This IS
+linear regression. You're about to fit your first real model with pure linear algebra.</p></div>
 
 <h3>The transpose, and the one formula</h3>
 <p>The <b>transpose</b> <code>Xᵀ</code> (in NumPy, <code>X.T</code>) flips rows and columns,
 bookkeeping that lets shapes line up. With it, the least-squares answer is one line, the
 <b>normal equations</b>: <code>w = (XᵀX)⁻¹ Xᵀ y</code>. You already own every piece:
-transpose, matrix multiply, inverse. Assembled, they fit a regression model in closed form,
-no iteration, no library, no magic.</p>
+transpose, matrix multiply, inverse. Assembled, they fit a regression model in <b>closed form</b>: one formula, evaluated once.
+No iteration, no library, no magic.</p>
 
 <h3>The geometry: a shadow</h3>
 <p>Why "as close as possible" has a clean answer: the predictions <code>X @ w</code> can only
-ever live in the "reachable set" your features span. Least squares <b>projects</b> the true
+live in the "reachable set" your features span. Least squares <b>projects</b> the true
 <code>y</code> onto that set, like a shadow cast onto a wall: the closest reachable point.
-The tell-tale signature: the leftover error (the <b>residual</b>) is <i>perpendicular</i> to
+The signature: the leftover error (the <b>residual</b>) is <i>perpendicular</i> to
 the features, <code>Xᵀ(y − Xw) = 0</code>. Your exercise verifies that orthogonality on real
-numbers; when you see it print ≈0, you are watching the geometry of regression work.</p>
+numbers. When you see it print ≈0, you're watching the geometry of regression work.</p>
 
 <div class="demystify"><b>Demystify "normal equations":</b> nothing to do with the normal
-distribution here, "normal" is the geometry word for <i>perpendicular</i>. The equations
-literally say "make the residual perpendicular to the features." A name that finally makes
+distribution here. "Normal" is the geometry word for <i>perpendicular</i>. The equations
+literally say "make the residual perpendicular to the features." The name makes
 sense once someone tells you which meaning of normal is intended.</div>`,
  docs:[['Least squares, the geometric picture (3Blue1Brown-style)','https://textbooks.math.gatech.edu/ila/least-squares.html']],
  quiz:{title:'Quick check',questions:[
@@ -1434,29 +1458,34 @@ print(slope, intercept, ortho, pred_5)
 {id:'la6',
  title:'Advanced: eigenvectors & eigenvalues, the directions a matrix cannot turn',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does, the grad-school question, answered first</span>
-<p><i>"What the hell are eigenvectors actually used for?"</i> Answer before any math: they find
-the <b>natural directions</b> of a dataset or a system. <b>PCA</b>, the workhorse of
-dimensionality reduction, is eigenvectors of the data's covariance matrix: the directions
-your data varies most. Google's original <b>PageRank</b> is an eigenvector of the web's link
+<p><i>"What the hell are eigenvectors actually used for?"</i> Here's the answer before any math. Eigenvectors find
+the <b>natural directions</b> of a dataset or a system. <b>PCA</b> (principal component
+analysis), the workhorse of dimensionality reduction, finds the directions along which the
+data varies most and keeps only those. That way many columns become a few without losing much.
+It is eigenvectors of the data's covariance matrix (the table of how each pair of features
+moves together): the directions your data varies most. Google's original <b>PageRank</b> is an eigenvector of the web's link
 matrix. Face recognition's classic "eigenfaces," vibration modes of bridges, stable states of
-Markov chains, all the same object. It is one of the most <i>used</i> ideas in applied math;
-it is just rarely <i>explained</i>.</p></div>
+Markov chains: all the same object. It's one of the most <i>used</i> ideas in applied math,
+and rarely <i>explained</i>.</p></div>
 
 <h3>The idea, geometrically</h3>
 <p>A matrix transforms vectors, usually rotating AND stretching them. But almost every matrix
-has a few special directions it <b>cannot turn</b>: vectors it only <i>stretches</i>. Those are
-the <b>eigenvectors</b>, and the stretch factor of each is its <b>eigenvalue</b> λ. Think of a
+has a few special directions it <b>can't turn</b>: vectors it only <i>stretches</i>. Those are
+the <b>eigenvectors</b>, and the stretch factor of each is its <b>eigenvalue</b> λ. Picture a
 spinning globe: every point moves, except the axis. The axis is the eigenvector of the
-rotation. The precise statement is one line: <code>A @ v = λ · v</code>, transforming
-<code>v</code> is the same as just scaling it.</p>
+rotation. The statement is one line: <code>A @ v = λ · v</code>. Transforming
+<code>v</code> is the same as scaling it.</p>
 
 <h3>Why data has natural directions</h3>
-<p>Take height-and-weight data: the cloud of points stretches along the "bigger people"
-diagonal, that diagonal is the data's main axis. Package the spread of the data into its
+<p>Take height-and-weight data. The cloud of points stretches along the "bigger people"
+diagonal, and that diagonal is the data's main axis. Package the spread of the data into its
 <b>covariance matrix</b> (variances on the diagonal, co-movement off it) and that matrix's
-top eigenvector <i>is</i> that main axis; its eigenvalue says how much of the variation lives
-there. That is PCA, whole and entire: eigenvectors of the covariance = the axes of maximum
+top eigenvector <i>is</i> that main axis. Its eigenvalue says how much of the variation lives
+there. That's PCA, whole and entire: eigenvectors of the covariance = the axes of maximum
 variance. In the exercise you compute it and watch the [1,1] diagonal fall out.</p>
 
 <div class="demystify"><b>Demystify "eigen":</b> German for <i>own / characteristic</i>. An
@@ -1464,10 +1493,10 @@ eigenvector is a matrix's "own direction", the direction that characterizes it. 
 just a 19th-century naming convention that nobody translates for you.</div>
 
 <div class="hardidea">🧠 <b>Hard idea, made simple:</b> why should "directions that only
-stretch" matter? Because along them, a complicated transformation acts like simple
+stretch" matter? Along them, a complicated transformation acts like simple
 multiplication. Decompose anything into eigen-directions and hard problems (repeat a
 transformation 1,000×, find where a system settles, compress 300 dimensions to 2) become
-one-number-per-direction problems. That is the trick, the whole trick.</div>`,
+one-number-per-direction problems.</div>`,
  docs:[['3Blue1Brown (eigenvectors & eigenvalues)','https://www.3blue1brown.com/lessons/eigenvalues'],['PCA explained visually','https://setosa.io/ev/principal-component-analysis/']],
  quiz:{title:'Quick check',questions:[
    {q:'v is an eigenvector of A with eigenvalue λ means:',
@@ -1544,42 +1573,49 @@ print(big, small, Cv, check)
 {id:'la7',
  title:'Advanced: outer product, rank & SVD, the hidden structure inside a matrix',
  body:`
+
+
+
 <div class="ground"><span class="gTag">🎯 What it does</span>
 <p>Netflix has ~200M users × thousands of titles, a gigantic ratings matrix. Storing and
-learning it cell-by-cell is hopeless. The rescue is that such matrices are secretly
+learning it cell by cell is hopeless. The rescue is that such matrices are secretly
 <b>simple</b>: mostly explainable by a few underlying "taste" directions. This lesson is the
-toolkit for finding hidden simplicity, the <b>outer product</b> (building a big matrix from
-two small vectors), <b>rank</b> (how much independent information a matrix really contains),
-and <b>SVD</b> (the algorithm that uncovers it). It powers recommenders, compression,
-denoising, LSA in NLP, and it is where the "low-rank" in modern LLM fine-tuning
-(<b>LoRA</b> = <i>Low-Rank Adaptation</i>) comes from.</p></div>
+toolkit for finding hidden simplicity. The <b>outer product</b> builds a big matrix from
+two small vectors. <b>Rank</b> measures how much independent information a matrix contains.
+<b>SVD</b> is the algorithm that uncovers it. It powers recommenders, compression,
+denoising, and <b>LSA</b> (latent semantic analysis: finding the hidden topics in a pile of
+documents) in <b>NLP</b> (natural language processing: computers working with human text).
+It's also where the "low-rank" in modern <b>LLM</b> fine-tuning comes from (an LLM is a large
+language model, the kind behind chat assistants; <b>LoRA</b> = <i>Low-Rank Adaptation</i>).</p></div>
 
 <h3>The outer product: a matrix from two vectors</h3>
 <p>The dot product collapses two vectors into one number. Its mirror twin the <b>outer
 product</b> expands them into a whole matrix: <code>np.outer(u, v)</code> has every
-<code>uᵢ·vⱼ</code>. Grounding: if users have a "sci-fi taste" score <code>u</code> and movies
+<code>uᵢ·vⱼ</code>. If users have a "sci-fi taste" score <code>u</code> and movies
 a "sci-fi amount" score <code>v</code>, then <code>outer(u, v)</code> is the entire predicted
 ratings table from that ONE shared factor. One pair of small vectors → one full matrix.</p>
 
 <h3>Rank: how many factors are really in there?</h3>
-<p>The <b>rank</b> of a matrix is how many independent directions it actually contains, how
+<p>The <b>rank</b> of a matrix is how many independent directions it contains, how
 many outer products you'd need to build it. A matrix built from one factor has rank 1, no
-matter how big it looks. (Recognize this? The singular matrix of lesson 4 was "rank-deficient",
-duplicated information IS low rank. Same idea, now with its proper name.)</p>
+matter how big it looks. The singular matrix of lesson 4 was "rank-deficient":
+duplicated information IS low rank. Same idea, now with its proper name.</p>
 
 <h3>SVD: the universal factor-finder</h3>
 <p>The <b>Singular Value Decomposition</b> takes ANY matrix and rewrites it as a sum of
-rank-1 pieces, sorted by importance: strongest factor first, each with a strength (its
-<b>singular value</b>). Keep the top few pieces, drop the rest, you have compressed the
-matrix while keeping most of its meaning. That is low-rank approximation: the mathematical
-heart of recommenders and PCA (SVD and eigendecomposition are close cousins: SVD is the
-version that works on <i>any</i> rectangular matrix, data included).</p>
+rank-1 pieces, sorted by importance. Strongest factor first, each with a strength (its
+<b>singular value</b>). Keep the top few pieces, drop the rest, and you've compressed the
+matrix while keeping most of its meaning. That's low-rank approximation, the mathematical
+heart of recommenders and <b>PCA</b> (principal component analysis, last lesson: keep only the
+directions the data varies most along). SVD and eigendecomposition (taking a matrix apart
+into its eigenvectors) are close cousins. SVD is the
+version that works on <i>any</i> rectangular matrix, data included.</p>
 
 <div class="demystify"><b>Demystify "SVD":</b> "singular value decomposition" sounds like
-three unrelated scary words. Reading: <i>decomposition</i> = take apart; into rank-1
-building blocks; each block's importance is its <i>singular value</i> (nothing to do with
-singular-no-inverse, an unlucky name collision, flagged so it never confuses you). Take any
-matrix apart into its ranked ingredients: that is the whole thing.</div>`,
+three unrelated scary words. <i>Decomposition</i> = take apart, into rank-1
+building blocks. Each block's importance is its <i>singular value</i>. That has nothing to do with
+singular-no-inverse, an unlucky name collision, flagged so it never confuses you. Take any
+matrix apart into its ranked ingredients.</div>`,
  docs:[['NumPy (linalg.svd)','https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html'],['LoRA: Low-Rank Adaptation (the paper)','https://arxiv.org/abs/2106.09685']],
  quiz:{title:'Quick check',questions:[
    {q:'The outer product of a length-3 vector and a length-2 vector is:',
