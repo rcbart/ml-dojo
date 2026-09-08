@@ -50,7 +50,7 @@ data</i>. A single value like <code>90</code> is one number. A flat <b>list</b> 
 lists</b>, a grid, is <b>two-dimensional</b>: rows and columns. Two indices reach an item:</p>
 <div class="codeSample">grid = [[1, 2, 3],
         [4, 5, 6]]
-grid[1][2]       # 6  - row 1, column 2
+grid[1][2]       # 6  - row 1, column 2 (the SECOND row, THIRD column: counting starts at 0)
 len(grid)        # 2  - number of rows
 len(grid[0])     # 3  - number of columns</div>
 <div class="demystify"><b>Demystify "dimension":</b> A table of data with <b>n rows and m
@@ -94,7 +94,7 @@ no libraries, to prove the ideas stuck.</p>`,
    <li>makes a list <code>scores = [80, 90, 100]</code>,</li>
    <li>computes their <b>average</b> into <code>avg</code> using <code>sum()</code> and <code>len()</code> (it should be <code>90.0</code>),</li>
    <li>makes the 2-D grid <code>grid = [[1, 2, 3], [4, 5, 6]]</code>,</li>
-   <li>sets <code>rows</code> to the number of rows and <code>cols</code> to the number of columns (its two <b>dimensions</b>),</li>
+   <li>sets <code>rows</code> to the number of rows in <code>grid</code> and <code>cols</code> to its number of columns (the grid's two <b>dimensions</b>),</li>
    </ol>
    then prints them. Reminder: <code>len(grid)</code> is the row count; <code>len(grid[0])</code> is the column count.`,
    starter:`# Pure Python, no imports needed.
