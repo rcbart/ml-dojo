@@ -367,9 +367,10 @@ function renderNav(){
     const links=s.lessons.map((l,li)=>{
       const done=store.lesson(l.id).done;
       const active=(si===cur.si&&li===cur.li);
-      return `<div class="lessonLink${active?' active':''}" onclick="openLesson(${si},${li})">${done?'✅':'○'} ${esc(l.title)}</div>`;
+      return `<div class="lessonLink${active?' active':''}" onclick="openLesson(${si},${li})">${done?'✅':'○'} ${li+1}. ${esc(l.title)}</div>`;
     }).join('');
-    return `${divider}<div class="streamHd">${ico(s.icon)} ${esc(s.title)}</div>${links}`;
+    const doneN=s.lessons.filter(l=>store.lesson(l.id).done).length;
+    return `${divider}<div class="streamHd">${ico(s.icon)} ${esc(s.title)}<span class="pct" title="${doneN} of ${s.lessons.length} lessons done">${doneN}/${s.lessons.length}</span></div>${links}`;
   }).join('');
 }
 
