@@ -370,7 +370,12 @@ function renderNav(){
       return `<div class="lessonLink${active?' active':''}" onclick="openLesson(${si},${li})">${done?'✅':'○'} ${li+1}. ${esc(l.title)}</div>`;
     }).join('');
     const doneN=s.lessons.filter(l=>store.lesson(l.id).done).length;
-    return `${divider}<div class="streamHd">${ico(s.icon)} ${esc(s.title)}<span class="pct" title="${doneN} of ${s.lessons.length} lessons done">${doneN}/${s.lessons.length}</span></div>${links}`;
+    // Collapsible streams, same behavior as the shared engine (Dev, Identity,
+    // JS): every stream starts collapsed except the one the learner is in, and
+    // a click on the header toggles it. Ray Bohartz asked for this on 8 Sep.
+    // The lessons box is the header's next sibling, so the toggle needs no ids.
+    const open=(si===cur.si)?' open':'';
+    return `${divider}<div class="streamHd" onclick="this.nextElementSibling.classList.toggle('open')" title="Show or hide the lessons in this stream">${ico(s.icon)} ${esc(s.title)}<span class="pct" title="${doneN} of ${s.lessons.length} lessons done">${doneN}/${s.lessons.length}</span></div><div class="lessons${open}">${links}</div>`;
   }).join('');
 }
 
